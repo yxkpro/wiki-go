@@ -1,0 +1,200 @@
+/**
+ * Markdown Extensions CSS
+ * Styles for custom markdown extensions
+ */
+
+/* Highlighted text */
+mark {
+    background-color: #ffff66;
+    padding: 0.1em 0.2em;
+    border-radius: 2px;
+}
+
+/* Dark theme support for highlighted text */
+:root[data-theme="dark"] mark {
+    background-color: #665500;
+    color: #ffffff;
+}
+
+/* Collapsible sections */
+.markdown-details {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0.5em;
+    margin: 1em 0;
+}
+
+.markdown-details summary {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0.5em;
+    user-select: none;
+}
+
+.markdown-details summary:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.details-content {
+    padding: 0.5em;
+    border-top: 1px solid #eee;
+    margin-top: 0.5em;
+}
+
+/* Video embeds */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    margin: 1.5em 0;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.rtl, .rtl * {
+    direction: rtl;
+    unicode-bidi: isolate;
+    text-align: right;
+}
+
+.ltr, .ltr * {
+    direction: ltr;
+    unicode-bidi: isolate;
+    text-align: left;
+}
+
+/* Print styles */
+@media print {
+    /* Collapsible sections */
+    .markdown-details {
+        display: block !important;
+        border: 1px solid #ddd !important;
+    }
+
+    .markdown-details summary {
+        display: none !important;
+    }
+
+    .markdown-details .details-content {
+        display: block !important;
+        border-top: none !important;
+        padding-top: 0 !important;
+    }
+
+    details.markdown-details {
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    details.markdown-details > * {
+        display: block !important;
+    }
+
+    /* Video embeds */
+    .video-container {
+        display: none !important;
+    }
+
+    .local-video-player {
+        display: none !important;
+    }
+
+    .video-print-placeholder {
+        display: block !important;
+        border: 1px solid #ddd;
+        padding: 1em;
+        margin: 1em 0;
+        background-color: #f9f9f9;
+    }
+
+    .wiki-toc {
+        background-color: #f8f8f8 !important;
+        border: 1px solid #ddd !important;
+        break-inside: avoid;
+    }
+
+    .toc-title {
+        color: black !important;
+        border-bottom-color: #ddd !important;
+    }
+
+    .toc-list a {
+        color: black !important;
+    }
+}
+
+@media screen {
+    .video-print-placeholder {
+        display: none;
+    }
+}
+
+/* Add TOC styles */
+.wiki-toc, .table-of-contents {
+    max-width: 900px !important;
+}
+
+.wiki-toc {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background-color: var(--hover-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.toc-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.toc-list {
+    margin: 0;
+    padding-left: 1rem;
+    list-style-type: none;
+}
+
+.toc-list ul {
+    list-style-type: none;
+    padding-left: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.toc-list li {
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.toc-list a {
+    text-decoration: none;
+    color: var(--text-color);
+    display: inline-block;
+    transition: color 0.2s;
+}
+
+.toc-list a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.toc-empty {
+    font-style: italic;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Dark theme adjustments */
+:root[data-theme="dark"] .wiki-toc {
+    background-color: var(--code-bg);
+}

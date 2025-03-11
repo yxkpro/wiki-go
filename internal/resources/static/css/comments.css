@@ -1,0 +1,143 @@
+/* Comments Styling */
+
+.comments-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.comments-section h3 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+/* Comment Form */
+.comment-form {
+    margin-bottom: 1.5rem;
+}
+
+.comment-form textarea {
+    min-height: 100px;
+    padding: 10px;
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    resize: vertical;
+}
+
+.comment-form .form-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.comment-form .form-help {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-size: 0.8rem;
+    color: var(--breadcrumb-color);
+}
+
+/* Login Prompt */
+.login-prompt {
+    padding: 1rem;
+    background-color: var(--hover-bg);
+    border-radius: 4px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.login-prompt a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-prompt a:hover {
+    text-decoration: underline;
+}
+
+/* Comments List */
+.comments-list {
+    margin-top: 1rem;
+}
+
+.no-comments {
+    font-style: italic;
+    color: var(--breadcrumb-color);
+    text-align: center;
+    padding: 1rem;
+}
+
+.comment {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-color);
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+}
+
+.comment-author {
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-right: 0.8rem;
+}
+
+.comment-date {
+    color: var(--breadcrumb-color);
+    flex-grow: 1;
+}
+
+.delete-comment {
+    background: none;
+    border: none;
+    color: var(--danger-color);
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.85rem;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.delete-comment:hover {
+    opacity: 1;
+}
+
+.comment-content {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.comment-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .comments-section {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+    }
+
+    .comment {
+        padding: 0.8rem;
+    }
+
+    .comment-header {
+        flex-wrap: wrap;
+    }
+
+    .comment-date {
+        width: 100%;
+        margin-top: 0.3rem;
+    }
+}

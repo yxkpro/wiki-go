@@ -1,0 +1,47 @@
+{{define "comments"}}
+<!-- Comments section -->
+{{if .CommentsAllowed}}
+  <div class="comments-section">
+    <h3>{{t "comments.title"}}</h3>
+
+    <!-- Comment form for authenticated users -->
+    {{if .IsAuthenticated}}
+      <form id="comment-form" class="comment-form">
+        <div class="form-group">
+          <textarea name="content" placeholder="{{t "comments.write_placeholder"}}" required></textarea>
+          <small class="form-help">{{t "comments.markdown_supported"}}</small>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="dialog-button primary">{{t "comments.post_button"}}</button>
+        </div>
+      </form>
+    {{else}}
+      <p class="login-prompt">{{t "comments.login_required"}}</p>
+    {{end}}
+
+    <!-- Comments list -->
+    <div class="comments-list">
+      {{if .Comments}}
+        {{range .Comments}}
+          <div class="comment" data-id="{{.ID}}">
+            <div class="comment-header">
+              <span class="comment-author">{{.Author}}</span>
+              <span class="comment-date">{{.FormattedTime}}</span>
+              {{if $.IsAdmin}}
+                <button class="delete-comment" data-id="{{.ID}}" title="{{t "comments.delete_title"}}">
+                  <i class="fa fa-trash"></i>
+                </button>
+              {{end}}
+            </div>
+            <div class="comment-content markdown-body">
+              {{.RenderedHTML}}
+            </div>
+          </div>
+        {{end}}
+      {{else}}
+        <p class="no-comments">{{t "comments.no_comments"}}</p>
+      {{end}}
+    </div>
+  </div>
+{{end}}
+{{end}}

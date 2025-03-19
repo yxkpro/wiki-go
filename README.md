@@ -1,5 +1,7 @@
 # LeoMoon Wiki-Go
 
+![Desktop](screenshots/desktop.png)
+
 LeoMoon Wiki-Go is a modern, feature-rich, databaseless flat-file wiki platform built with Go. It provides a clean, intuitive interface for creating and managing knowledge bases, documentation, and collaborative content without requiring any external database.
 
 ## Important Configuration Note with Non-SSL Setups

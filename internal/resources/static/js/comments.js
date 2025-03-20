@@ -143,13 +143,13 @@ document.addEventListener('DOMContentLoaded', function() {
                             if (response.ok) {
                                 console.log('Delete successful, removing comment from page');
                                 // Remove the comment from the page
-                                const comment = document.querySelector(`.comment[data-id="${commentId}"]`);
+                                const comment = document.querySelector(`.user-comment[data-id="${commentId}"]`);
                                 if (comment) {
                                     comment.remove();
 
                                     // If there are no more comments, show the "no comments" message
                                     const commentsList = document.querySelector('.comments-list');
-                                    if (commentsList && !commentsList.querySelector('.comment')) {
+                                    if (commentsList && !commentsList.querySelector('.user-comment')) {
                                         const noComments = document.createElement('p');
                                         noComments.className = 'no-comments';
                                         noComments.textContent = window.i18n ? window.i18n.t('comments.no_comments') : 'No comments yet.';
@@ -195,13 +195,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                     .then(response => {
                         if (response.ok) {
-                            const comment = document.querySelector(`.comment[data-id="${commentId}"]`);
+                            const comment = document.querySelector(`.user-comment[data-id="${commentId}"]`);
                             if (comment) {
                                 comment.remove();
 
                                 // Check if there are any comments left
                                 const commentsList = document.querySelector('.comments-list');
-                                if (commentsList && !commentsList.querySelector('.comment')) {
+                                if (commentsList && !commentsList.querySelector('.user-comment')) {
                                     const noComments = document.createElement('p');
                                     noComments.className = 'no-comments';
                                     noComments.textContent = window.i18n ? window.i18n.t('comments.no_comments') : 'No comments yet.';

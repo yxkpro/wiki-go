@@ -34,7 +34,7 @@ If you're running LeoMoon Wiki-Go without SSL/HTTPS and experiencing login issue
 
 ### Content Management
 - **Markdown Support**: Write content using Markdown syntax for rich formatting
-- **File Attachments**: Upload and manage images and documents (supports jpg, jpeg, png, gif, txt, zip, pdf, docx, mp4)
+- **File Attachments**: Upload and manage images and documents (supports jpg, jpeg, png, gif, svg, txt, zip, pdf, docx, xlsx, pptx, mp4)
 - **Hierarchical Organization**: Organize content in nested directories
 - **Version History**: Track changes with full revision history and restore previous versions
 - **Document Management**: Create, edit, and delete documents with a user-friendly interface
@@ -444,7 +444,7 @@ Force RTL text.
 LeoMoon Wiki-Go supports special shortcodes for dynamic content:
 
 **Statistics Shortcode**:
-` + "```markdown" + `
+` + "```" + `
 :::stats count=*:::
 
 :::stats recent=5:::

@@ -1,135 +1,104 @@
 package goldext
 
 import (
+	"fmt"
 	"strings"
+	"sync"
 )
 
-// MermaidPreprocessor transforms mermaid code blocks into HTML divs
-// and avoids processing nested mermaid blocks inside other code blocks
+// Store extracted Mermaid blocks until after Goldmark processing
+var (
+	mermaidBlocks     = make(map[string]string)
+	mermaidBlockCount = 0
+	mermaidMutex      sync.Mutex
+)
+
+// MermaidPreprocessor extracts mermaid blocks and replaces them with placeholders
+// that Goldmark won't process. The blocks will be restored after Goldmark rendering.
 func MermaidPreprocessor(markdown string, _ string) string {
-	// We'll break this into smaller, more manageable steps
+	mermaidMutex.Lock()
+	defer mermaidMutex.Unlock()
 
-	// 1. First, let's extract all standalone mermaid blocks (not inside other code blocks)
-	// We'll replace them with unique placeholders
+	// Reset the storage on each new document
+	mermaidBlocks = make(map[string]string)
+	mermaidBlockCount = 0
 
+	// Process line by line to safely extract mermaid blocks
 	lines := strings.Split(markdown, "\n")
-	processedLines := make([]string, len(lines))
-	copy(processedLines, lines)
+	var result []string
 
-	// Maps to store replacements
-	replacements := make(map[int]string) // Line index -> replacement HTML
-	linesToRemove := make(map[int]bool)  // Lines to be removed
+	inMermaidBacktick := false
+	inMermaidTilde := false
+	mermaidContent := []string{}
 
-	// State tracking
-	backtickStack := 0           // Track nesting of ``` blocks
-	tildeStack := 0              // Track nesting of ~~~ blocks
-	inMermaidBlock := false      // Are we in a mermaid block?
-	mermaidStart := -1           // Start line of current mermaid block
-	mermaidContent := []string{} // Content of current mermaid block
-	mermaidBlockType := ""       // Type of block: "backtick" or "tilde"
-
-	// Scan through all lines
-	for i, line := range lines {
+	for i := 0; i < len(lines); i++ {
+		line := lines[i]
 		trimmed := strings.TrimSpace(line)
 
-		// Check for code block markers
-		if strings.HasPrefix(trimmed, "```") {
-			if backtickStack == 0 {
-				// Opening a backtick block
-				backtickStack++
-
-				// Check if it's a mermaid block and we're not inside any other block
-				if tildeStack == 0 && strings.Contains(trimmed, "mermaid") {
-					inMermaidBlock = true
-					mermaidStart = i
-					mermaidContent = []string{}
-					mermaidBlockType = "backtick"
-					// Mark this line for removal
-					linesToRemove[i] = true
-				}
-			} else {
-				// Closing a backtick block
-				backtickStack--
-
-				// If we're closing a mermaid block
-				if inMermaidBlock && mermaidBlockType == "backtick" && backtickStack == 0 && tildeStack == 0 {
-					// Create replacement HTML
-					replacement := "<div class=\"mermaid\">\n" + strings.Join(mermaidContent, "\n") + "\n</div>"
-					replacements[mermaidStart] = replacement
-
-					// Mark this line for removal
-					linesToRemove[i] = true
-
-					// Reset state
-					inMermaidBlock = false
-					mermaidStart = -1
-					mermaidContent = []string{}
-					mermaidBlockType = ""
-				}
-			}
-		} else if strings.HasPrefix(trimmed, "~~~") {
-			if tildeStack == 0 {
-				// Opening a tilde block
-				tildeStack++
-
-				// Check if it's a mermaid block and we're not inside any other block
-				if backtickStack == 0 && strings.Contains(trimmed, "mermaid") {
-					inMermaidBlock = true
-					mermaidStart = i
-					mermaidContent = []string{}
-					mermaidBlockType = "tilde"
-					// Mark this line for removal
-					linesToRemove[i] = true
-				}
-			} else {
-				// Closing a tilde block
-				tildeStack--
-
-				// If we're closing a mermaid block
-				if inMermaidBlock && mermaidBlockType == "tilde" && tildeStack == 0 && backtickStack == 0 {
-					// Create replacement HTML
-					replacement := "<div class=\"mermaid\">\n" + strings.Join(mermaidContent, "\n") + "\n</div>"
-					replacements[mermaidStart] = replacement
-
-					// Mark this line for removal
-					linesToRemove[i] = true
-
-					// Reset state
-					inMermaidBlock = false
-					mermaidStart = -1
-					mermaidContent = []string{}
-					mermaidBlockType = ""
-				}
-			}
-		} else if inMermaidBlock && ((mermaidBlockType == "backtick" && backtickStack > 0 && tildeStack == 0) ||
-			(mermaidBlockType == "tilde" && tildeStack > 0 && backtickStack == 0)) {
-			// We're inside a mermaid block, collect the content
-			mermaidContent = append(mermaidContent, line)
-			// Mark this line for removal
-			linesToRemove[i] = true
+		// Detect start/end of mermaid blocks
+		if trimmed == "```mermaid" {
+			inMermaidBacktick = true
+			mermaidContent = []string{}
+			continue
+		} else if trimmed == "```" && inMermaidBacktick {
+			inMermaidBacktick = false
+			// Generate a placeholder that Goldmark won't touch
+			blockID := fmt.Sprintf("MERMAID_BLOCK_%d", mermaidBlockCount)
+			mermaidBlockCount++
+			// Store the actual mermaid div
+			mermaidDiv := "<div class=\"mermaid\">" + strings.Join(mermaidContent, "\n") + "</div>"
+			mermaidBlocks[blockID] = mermaidDiv
+			// Add placeholder to output - this will pass through Goldmark untouched
+			result = append(result, "<!-- "+blockID+" -->")
+			continue
+		} else if trimmed == "~~~mermaid" {
+			inMermaidTilde = true
+			mermaidContent = []string{}
+			continue
+		} else if trimmed == "~~~" && inMermaidTilde {
+			inMermaidTilde = false
+			// Generate a placeholder that Goldmark won't touch
+			blockID := fmt.Sprintf("MERMAID_BLOCK_%d", mermaidBlockCount)
+			mermaidBlockCount++
+			// Store the actual mermaid div
+			mermaidDiv := "<div class=\"mermaid\">" + strings.Join(mermaidContent, "\n") + "</div>"
+			mermaidBlocks[blockID] = mermaidDiv
+			// Add placeholder to output - this will pass through Goldmark untouched
+			result = append(result, "<!-- "+blockID+" -->")
+			continue
 		}
-	}
 
-	// Handle unclosed mermaid blocks at end of document
-	if inMermaidBlock && mermaidStart >= 0 {
-		// Create replacement HTML for unclosed mermaid block
-		replacement := "<div class=\"mermaid\">\n" + strings.Join(mermaidContent, "\n") + "\n</div>"
-		replacements[mermaidStart] = replacement
-	}
-
-	// Process the lines, applying replacements and removing marked lines
-	result := []string{}
-
-	for i, line := range processedLines {
-		if replacement, ok := replacements[i]; ok {
-			// This line has a replacement
-			result = append(result, replacement)
-		} else if !linesToRemove[i] {
-			// This line should not be removed
+		// Collect content or pass unchanged
+		if inMermaidBacktick || inMermaidTilde {
+			mermaidContent = append(mermaidContent, line)
+		} else {
 			result = append(result, line)
 		}
-		// Lines marked for removal are skipped
+	}
+
+	// Handle any unclosed blocks (rare, but possible)
+	if inMermaidBacktick || inMermaidTilde {
+		blockID := fmt.Sprintf("MERMAID_BLOCK_%d", mermaidBlockCount)
+		mermaidBlockCount++
+		mermaidDiv := "<div class=\"mermaid\">" + strings.Join(mermaidContent, "\n") + "</div>"
+		mermaidBlocks[blockID] = mermaidDiv
+		result = append(result, "<!-- "+blockID+" -->")
 	}
 
 	return strings.Join(result, "\n")
+}
+
+// RestoreMermaidBlocks replaces placeholders with actual mermaid diagrams
+// This must be called after Goldmark processing
+func RestoreMermaidBlocks(html string) string {
+	mermaidMutex.Lock()
+	defer mermaidMutex.Unlock()
+
+	result := html
+	for id, block := range mermaidBlocks {
+		placeholder := fmt.Sprintf("<!-- %s -->", id)
+		result = strings.Replace(result, placeholder, block, 1)
+	}
+
+	return result
 }

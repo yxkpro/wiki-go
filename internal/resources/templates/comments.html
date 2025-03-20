@@ -9,9 +9,9 @@
       <form id="comment-form" class="comment-form">
         <div class="form-group">
           <textarea name="content" placeholder="{{t "comments.write_placeholder"}}" required></textarea>
-          <small class="form-help">{{t "comments.markdown_supported"}}</small>
         </div>
         <div class="form-actions">
+          <small class="form-help">{{t "comments.markdown_supported"}}</small>
           <button type="submit" class="dialog-button primary">{{t "comments.post_button"}}</button>
         </div>
       </form>
@@ -23,7 +23,7 @@
     <div class="comments-list">
       {{if .Comments}}
         {{range .Comments}}
-          <div class="comment" data-id="{{.ID}}">
+          <div class="user-comment" data-id="{{.ID}}">
             <div class="comment-header">
               <span class="comment-author">{{.Author}}</span>
               <span class="comment-date">{{.FormattedTime}}</span>

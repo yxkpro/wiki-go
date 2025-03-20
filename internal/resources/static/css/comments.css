@@ -20,7 +20,7 @@
 .comment-form textarea {
     min-height: 100px;
     padding: 10px;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     background-color: var(--bg-color);
@@ -30,14 +30,19 @@
 
 .comment-form .form-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.25rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .comment-form .form-help {
-    display: block;
-    margin-bottom: 0.8rem;
+    display: inline-block;
+    margin-bottom: 0;
     font-size: 0.8rem;
     color: var(--breadcrumb-color);
+    flex: 1;
 }
 
 /* Login Prompt */
@@ -71,7 +76,7 @@
     padding: 1rem;
 }
 
-.comment {
+.user-comment {
     padding: 1rem;
     margin-bottom: 1rem;
     border: 1px solid var(--border-color);
@@ -128,7 +133,7 @@
         padding-top: 1rem;
     }
 
-    .comment {
+    .user-comment {
         padding: 0.8rem;
     }
 
@@ -140,4 +145,32 @@
         width: 100%;
         margin-top: 0.3rem;
     }
+
+    /* Responsive comment form */
+    .comment-form .form-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .comment-form .form-help {
+        margin-bottom: 0;
+        font-size: 0.75rem;
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .comment-form button[type="submit"] {
+        padding: 0.5rem 1rem;
+        margin-left: auto;
+    }
+}
+
+/* Style the submit button consistently */
+.comment-form button[type="submit"] {
+    margin-left: auto;
+    padding: 0.5rem 1rem;
+    min-width: 120px;
 }

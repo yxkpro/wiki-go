@@ -26,10 +26,11 @@ func init() {
 	// Clear any previously registered preprocessors to ensure consistent ordering
 	RegisteredPreprocessors = nil
 
-	// Step 1: Register preprocessors that handle code blocks first
-	// This ensures blocks like mermaid, rtl/ltr, and videos are processed first
+	// Step 1: Process Mermaid FIRST, before any other processors can touch the content
+	RegisterPreprocessor(MermaidPreprocessor) // Process mermaid diagrams first
+
+	// Step 2: Register preprocessors that handle code blocks
 	RegisterPreprocessor(LinkPreprocessor)      // Process links and images
-	RegisterPreprocessor(MermaidPreprocessor)   // Process mermaid diagrams first
 	RegisterPreprocessor(DirectionPreprocessor) // Process RTL/LTR blocks
 	RegisterPreprocessor(MP4Preprocessor)       // Process MP4 video blocks
 	RegisterPreprocessor(YouTubePreprocessor)   // Process YouTube video blocks

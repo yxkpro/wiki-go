@@ -2375,63 +2375,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Initialize Mermaid diagrams in the preview content
-            if (typeof mermaid !== 'undefined') {
+            if (typeof mermaid !== 'undefined' && window.MermaidHandler) {
                 try {
-                    console.log('Initializing Mermaid diagrams in preview content');
-
-                    // Get current theme
-                    const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
-
-                    // Initialize with proper settings first (same as main view)
-                    mermaid.initialize({
-                        startOnLoad: false,
-                        theme: isDarkMode ? 'dark' : 'default',
-                        securityLevel: 'loose',
-                        flowchart: {
-                            useMaxWidth: true,
-                            htmlLabels: true
-                        }
-                    });
-
-                    // Find all mermaid diagrams in the preview
-                    targetElement.querySelectorAll('.mermaid').forEach(function(el) {
-                        // Store original content
-                        const source = el.textContent;
-
-                        // Generate a unique ID for this diagram
-                        const id = 'mermaid-' + Math.random().toString(36).substring(2, 10);
-
-                        // Clear the element
-                        el.innerHTML = '';
-
-                        try {
-                            // Use the simplest rendering method
-                            mermaid.render(id, source, function(svgCode) {
-                                el.innerHTML = svgCode;
-
-                                // Force text visibility after rendering
-                                setTimeout(() => {
-                                    const svgElement = el.querySelector('svg');
-                                    if (svgElement) {
-                                        // Make sure all text elements are visible
-                                        const textElements = svgElement.querySelectorAll('text');
-                                        textElements.forEach(textEl => {
-                                            textEl.style.visibility = 'visible';
-                                            textEl.style.opacity = '1';
-                                        });
-                                    }
-                                }, 100);
-                            });
-                        } catch (e) {
-                            console.error('Error rendering mermaid diagram:', e);
-                            // Simple fallback - just show the source
-                            el.innerHTML = `<pre>${source}</pre>`;
-                        }
-                    });
-
-                    console.log('Mermaid diagrams initialized in preview');
+                    console.log('Using MermaidHandler for version preview');
+                    // Simply use our centralized handler for version preview
+                    window.MermaidHandler.initVersionPreview(targetElement);
                 } catch (mermaidError) {
-                    console.error('Mermaid initialization error:', mermaidError);
+                    console.error('Mermaid handler error:', mermaidError);
                 }
             }
         } catch (error) {

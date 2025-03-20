@@ -198,3 +198,13 @@ mark {
 :root[data-theme="dark"] .wiki-toc {
     background-color: var(--code-bg);
 }
+
+/* Add styles for Mermaid diagrams */
+.mermaid {
+    margin: 20px 0;
+    overflow: auto;
+    text-align: center;
+    background-color: transparent;
+    border-radius: 4px;
+    padding: 10px 0;
+}

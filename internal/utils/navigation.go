@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"wiki-go/internal/goldext"
 	"wiki-go/internal/types"
 )
 
@@ -32,7 +33,10 @@ func GetDocumentTitle(dirPath string) string {
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 		if strings.HasPrefix(line, "# ") {
-			return strings.TrimPrefix(line, "# ")
+			title := strings.TrimPrefix(line, "# ")
+			// Process emojis in the title
+			title = goldext.EmojiPreprocessor(title, "")
+			return title
 		}
 	}
 

@@ -15,6 +15,7 @@ var (
 	_ = StatsPreprocessor
 	_ = HighlightPreprocessor
 	_ = TypographyPreprocessor
+	_ = EmojiPreprocessor
 	_ = DetailsPreprocessor
 	_ = TaskListPreprocessor
 	_ = TocPreprocessor
@@ -43,6 +44,7 @@ func init() {
 	// Step 3: Register text formatting preprocessors
 	RegisterPreprocessor(HighlightPreprocessor)  // Process highlighting
 	RegisterPreprocessor(TypographyPreprocessor) // Process typography replacements
+	RegisterPreprocessor(EmojiPreprocessor)      // Process emoji shortcodes
 
 	// Step 4: Register these last to avoid interference with other syntax
 	// These preprocessors will skip content inside MathJax blocks ($ and $$)

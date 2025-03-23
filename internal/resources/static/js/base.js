@@ -170,11 +170,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (theme === 'dark') {
             lightIcon.style.display = 'none';
             darkIcon.style.display = 'block';
-            document.getElementById('prism-theme').href = '/static/libs/prism-1.29.0/themes/prism-tomorrow.min.css';
+            document.getElementById('prism-theme').href = '/static/libs/prism-1.30.0/prism-tomorrow.min.css';
         } else {
             lightIcon.style.display = 'block';
             darkIcon.style.display = 'none';
-            document.getElementById('prism-theme').href = '/static/libs/prism-1.29.0/themes/prism.min.css';
+            document.getElementById('prism-theme').href = '/static/libs/prism-1.30.0/prism.min.css';
         }
     }
 

@@ -34,7 +34,8 @@ If you're running LeoMoon Wiki-Go without SSL/HTTPS and experiencing login issue
 
 ### Content Management
 - **Markdown Support**: Write content using Markdown syntax for rich formatting
-- **File Attachments**: Upload and manage images and documents (supports jpg, jpeg, png, gif, svg, txt, zip, pdf, docx, xlsx, pptx, mp4)
+- **Emoji Shortcodes**: Use emoji shortcodes like ` + "`:::smile:::`" + ` in your Markdown content
+- **File Attachments**: Upload and manage images and documents (supports jpg, jpeg, png, gif, svg, txt, log, csv, zip, pdf, docx, xlsx, pptx, mp4)
 - **Hierarchical Organization**: Organize content in nested directories
 - **Version History**: Track changes with full revision history and restore previous versions
 - **Document Management**: Create, edit, and delete documents with a user-friendly interface
@@ -395,6 +396,171 @@ graph TD;
 ` + "```" + `
 
 ## Additional Markdown Features
+
+### Supported Markdown Emojis
+
+| Emoji | Shortcode | Emoji | Shortcode |
+|:-----:| --------- |:-----:| --------- |
+| 😀 | ` + "`:grinning:`" + ` | 😃 | ` + "`:smiley:`" + ` |
+| 😄 | ` + "`:smile:`" + ` | 😁 | ` + "`:grin:`" + ` |
+| 😆 | ` + "`:laughing:`" + ` | 😆 | ` + "`:satisfied:`" + ` |
+| 😅 | ` + "`:sweat_smile:`" + ` | 🤣 | ` + "`:rofl:`" + ` |
+| 😂 | ` + "`:joy:`" + ` | 🙂 | ` + "`:slightly_smiling_face:`" + ` |
+| 🙃 | ` + "`:upside_down_face:`" + ` | 😉 | ` + "`:wink:`" + ` |
+| 😊 | ` + "`:blush:`" + ` | 😇 | ` + "`:innocent:`" + ` |
+| 🥰 | ` + "`:smiling_face_with_three_hearts:`" + ` | 😍 | ` + "`:heart_eyes:`" + ` |
+| 🤩 | ` + "`:star_struck:`" + ` | 😘 | ` + "`:kissing_heart:`" + ` |
+| 😗 | ` + "`:kissing:`" + ` | ☺️ | ` + "`:relaxed:`" + ` |
+| 😚 | ` + "`:kissing_closed_eyes:`" + ` | 😙 | ` + "`:kissing_smiling_eyes:`" + ` |
+| 😋 | ` + "`:yum:`" + ` | 😛 | ` + "`:stuck_out_tongue:`" + ` |
+| 😜 | ` + "`:stuck_out_tongue_winking_eye:`" + ` | 🤪 | ` + "`:zany_face:`" + ` |
+| 😝 | ` + "`:stuck_out_tongue_closed_eyes:`" + ` | 🤑 | ` + "`:money_mouth_face:`" + ` |
+| 🤗 | ` + "`:hugs:`" + ` | 🤭 | ` + "`:hand_over_mouth:`" + ` |
+| 🤫 | ` + "`:shushing_face:`" + ` | 🤔 | ` + "`:thinking:`" + ` |
+| 🤐 | ` + "`:zipper_mouth_face:`" + ` | 🤨 | ` + "`:raised_eyebrow:`" + ` |
+| 😐 | ` + "`:neutral_face:`" + ` | 😑 | ` + "`:expressionless:`" + ` |
+| 😶 | ` + "`:no_mouth:`" + ` | 😏 | ` + "`:smirk:`" + ` |
+| 😒 | ` + "`:unamused:`" + ` | 🙄 | ` + "`:roll_eyes:`" + ` |
+| 😬 | ` + "`:grimacing:`" + ` | 🤥 | ` + "`:lying_face:`" + ` |
+| 😌 | ` + "`:relieved:`" + ` | 😔 | ` + "`:pensive:`" + ` |
+| 😪 | ` + "`:sleepy:`" + ` | 🤤 | ` + "`:drooling_face:`" + ` |
+| 😴 | ` + "`:sleeping:`" + ` | 😷 | ` + "`:mask:`" + ` |
+| 🤒 | ` + "`:face_with_thermometer:`" + ` | 🤕 | ` + "`:face_with_head_bandage:`" + ` |
+| 🤢 | ` + "`:nauseated_face:`" + ` | 🤮 | ` + "`:vomiting_face:`" + ` |
+| 🤧 | ` + "`:sneezing_face:`" + ` | 🥵 | ` + "`:hot_face:`" + ` |
+| 🥶 | ` + "`:cold_face:`" + ` | 🥴 | ` + "`:woozy_face:`" + ` |
+| 😵 | ` + "`:dizzy_face:`" + ` | 🤯 | ` + "`:exploding_head:`" + ` |
+| 🤠 | ` + "`:cowboy_hat_face:`" + ` | 🥳 | ` + "`:partying_face:`" + ` |
+| 😎 | ` + "`:sunglasses:`" + ` | 🤓 | ` + "`:nerd_face:`" + ` |
+| 🧐 | ` + "`:monocle_face:`" + ` | 😕 | ` + "`:confused:`" + ` |
+| 😟 | ` + "`:worried:`" + ` | 🙁 | ` + "`:slightly_frowning_face:`" + ` |
+| ☹️ | ` + "`:frowning_face:`" + ` | 😮 | ` + "`:open_mouth:`" + ` |
+| 😯 | ` + "`:hushed:`" + ` | 😲 | ` + "`:astonished:`" + ` |
+| 😳 | ` + "`:flushed:`" + ` | 🥺 | ` + "`:pleading_face:`" + ` |
+| 😦 | ` + "`:frowning:`" + ` | 😧 | ` + "`:anguished:`" + ` |
+| 😨 | ` + "`:fearful:`" + ` | 😰 | ` + "`:cold_sweat:`" + ` |
+| 😥 | ` + "`:disappointed_relieved:`" + ` | 😢 | ` + "`:cry:`" + ` |
+| 😭 | ` + "`:sob:`" + ` | 😱 | ` + "`:scream:`" + ` |
+| 😖 | ` + "`:confounded:`" + ` | 😣 | ` + "`:persevere:`" + ` |
+| 😞 | ` + "`:disappointed:`" + ` | 😓 | ` + "`:sweat:`" + ` |
+| 😩 | ` + "`:weary:`" + ` | 😫 | ` + "`:tired_face:`" + ` |
+| 🥱 | ` + "`:yawning_face:`" + ` | 😤 | ` + "`:triumph:`" + ` |
+| 😡 | ` + "`:rage:`" + ` | 😡 | ` + "`:pout:`" + ` |
+| 😠 | ` + "`:angry:`" + ` | 🤬 | ` + "`:cursing_face:`" + ` |
+| 😈 | ` + "`:smiling_imp:`" + ` | 👿 | ` + "`:imp:`" + ` |
+| 💀 | ` + "`:skull:`" + ` | ☠️ | ` + "`:skull_and_crossbones:`" + ` |
+| 🤡 | ` + "`:clown_face:`" + ` | 👻 | ` + "`:ghost:`" + ` |
+| 👽 | ` + "`:alien:`" + ` | 💛 | ` + "`:yellow_heart:`" + ` |
+| 💙 | ` + "`:blue_heart:`" + ` | 💜 | ` + "`:purple_heart:`" + ` |
+| ❤️ | ` + "`:heart:`" + ` | 💚 | ` + "`:green_heart:`" + ` |
+| 💔 | ` + "`:broken_heart:`" + ` | 💓 | ` + "`:heartbeat:`" + ` |
+| 💗 | ` + "`:heartpulse:`" + ` | 💕 | ` + "`:two_hearts:`" + ` |
+| 💞 | ` + "`:revolving_hearts:`" + ` | 💘 | ` + "`:cupid:`" + ` |
+| 💖 | ` + "`:sparkling_heart:`" + ` | ✨ | ` + "`:sparkles:`" + ` |
+| ⭐ | ` + "`:star:`" + ` | 🌟 | ` + "`:star2:`" + ` |
+| 💫 | ` + "`:dizzy:`" + ` | 💥 | ` + "`:boom:`" + ` |
+| 💥 | ` + "`:collision:`" + ` | 💢 | ` + "`:anger:`" + ` |
+| ❗ | ` + "`:exclamation:`" + ` | ❓ | ` + "`:question:`" + ` |
+| ❕ | ` + "`:grey_exclamation:`" + ` | ❔ | ` + "`:grey_question:`" + ` |
+| 💤 | ` + "`:zzz:`" + ` | 💨 | ` + "`:dash:`" + ` |
+| 💦 | ` + "`:sweat_drops:`" + ` | 🎶 | ` + "`:notes:`" + ` |
+| 🎵 | ` + "`:musical_note:`" + ` | 🔥 | ` + "`:fire:`" + ` |
+| 💩 | ` + "`:hankey:`" + ` | 💩 | ` + "`:poop:`" + ` |
+| 💩 | ` + "`:shit:`" + ` | 👍 | ` + "`:+1:`" + ` |
+| 👍 | ` + "`:thumbsup:`" + ` | 👎 | ` + "`:-1:`" + ` |
+| 👎 | ` + "`:thumbsdown:`" + ` | 👌 | ` + "`:ok_hand:`" + ` |
+| 👊 | ` + "`:punch:`" + ` | 👊 | ` + "`:facepunch:`" + ` |
+| ✊ | ` + "`:fist:`" + ` | ✌️ | ` + "`:v:`" + ` |
+| 👋 | ` + "`:wave:`" + ` | ✋ | ` + "`:hand:`" + ` |
+| ✋ | ` + "`:raised_hand:`" + ` | 👐 | ` + "`:open_hands:`" + ` |
+| ☝️ | ` + "`:point_up:`" + ` | 👇 | ` + "`:point_down:`" + ` |
+| 👈 | ` + "`:point_left:`" + ` | 👉 | ` + "`:point_right:`" + ` |
+| 🙌 | ` + "`:raised_hands:`" + ` | 🙏 | ` + "`:pray:`" + ` |
+| 👆 | ` + "`:point_up_2:`" + ` | 👏 | ` + "`:clap:`" + ` |
+| 💪 | ` + "`:muscle:`" + ` | 🤘 | ` + "`:metal:`" + ` |
+| 🖕 | ` + "`:fu:`" + ` | 😺 | ` + "`:smiley_cat:`" + ` |
+| 😸 | ` + "`:smile_cat:`" + ` | 😻 | ` + "`:heart_eyes_cat:`" + ` |
+| 😽 | ` + "`:kissing_cat:`" + ` | 😼 | ` + "`:smirk_cat:`" + ` |
+| 🙀 | ` + "`:scream_cat:`" + ` | 😿 | ` + "`:crying_cat_face:`" + ` |
+| 😹 | ` + "`:joy_cat:`" + ` | 😾 | ` + "`:pouting_cat:`" + ` |
+| 👣 | ` + "`:feet:`" + ` | 👄 | ` + "`:lips:`" + ` |
+| 💋 | ` + "`:kiss:`" + ` | 💧 | ` + "`:droplet:`" + ` |
+| 👂 | ` + "`:ear:`" + ` | 👀 | ` + "`:eyes:`" + ` |
+| 👃 | ` + "`:nose:`" + ` | 👅 | ` + "`:tongue:`" + ` |
+| 💌 | ` + "`:love_letter:`" + ` | 👤 | ` + "`:bust_in_silhouette:`" + ` |
+| 👥 | ` + "`:busts_in_silhouette:`" + ` | 💬 | ` + "`:speech_balloon:`" + ` |
+| 💭 | ` + "`:thought_balloon:`" + ` | 🗯️ | ` + "`:anger_right:`" + ` |
+| ☀️ | ` + "`:sunny:`" + ` | ☔ | ` + "`:umbrella:`" + ` |
+| ☁️ | ` + "`:cloud:`" + ` | ❄️ | ` + "`:snowflake:`" + ` |
+| ⛄ | ` + "`:snowman:`" + ` | ⚡ | ` + "`:zap:`" + ` |
+| 🌀 | ` + "`:cyclone:`" + ` | 🌁 | ` + "`:foggy:`" + ` |
+| 🌊 | ` + "`:ocean:`" + ` | 🐱 | ` + "`:cat:`" + ` |
+| 🐶 | ` + "`:dog:`" + ` | 🐭 | ` + "`:mouse:`" + ` |
+| 🐹 | ` + "`:hamster:`" + ` | 🐰 | ` + "`:rabbit:`" + ` |
+| 🐺 | ` + "`:wolf:`" + ` | 🐸 | ` + "`:frog:`" + ` |
+| 🐯 | ` + "`:tiger:`" + ` | 🐨 | ` + "`:koala:`" + ` |
+| 🐻 | ` + "`:bear:`" + ` | 🐷 | ` + "`:pig:`" + ` |
+| 🐽 | ` + "`:pig_nose:`" + ` | 🐮 | ` + "`:cow:`" + ` |
+| 🐗 | ` + "`:boar:`" + ` | 🐵 | ` + "`:monkey_face:`" + ` |
+| 🐒 | ` + "`:monkey:`" + ` | 🐴 | ` + "`:horse:`" + ` |
+| 🐎 | ` + "`:racehorse:`" + ` | 🐫 | ` + "`:camel:`" + ` |
+| 🐑 | ` + "`:sheep:`" + ` | 🐘 | ` + "`:elephant:`" + ` |
+| 🐼 | ` + "`:panda_face:`" + ` | 🐍 | ` + "`:snake:`" + ` |
+| 🐦 | ` + "`:bird:`" + ` | 🐤 | ` + "`:baby_chick:`" + ` |
+| 🐥 | ` + "`:hatched_chick:`" + ` | 🐣 | ` + "`:hatching_chick:`" + ` |
+| 🐔 | ` + "`:chicken:`" + ` | 🐧 | ` + "`:penguin:`" + ` |
+| 🐢 | ` + "`:turtle:`" + ` | 🐛 | ` + "`:bug:`" + ` |
+| 🐝 | ` + "`:honeybee:`" + ` | 🐞 | ` + "`:beetle:`" + ` |
+| 🐌 | ` + "`:snail:`" + ` | 🐙 | ` + "`:octopus:`" + ` |
+| 🐠 | ` + "`:tropical_fish:`" + ` | 🐟 | ` + "`:fish:`" + ` |
+| 🐳 | ` + "`:whale:`" + ` | 🐋 | ` + "`:whale2:`" + ` |
+| 🐬 | ` + "`:dolphin:`" + ` | 🐄 | ` + "`:cow2:`" + ` |
+| 🐏 | ` + "`:ram:`" + ` | 🐀 | ` + "`:rat:`" + ` |
+| 🐃 | ` + "`:water_buffalo:`" + ` | 🐅 | ` + "`:tiger2:`" + ` |
+| 🐇 | ` + "`:rabbit2:`" + ` | 🐉 | ` + "`:dragon:`" + ` |
+| 🐐 | ` + "`:goat:`" + ` | 🐓 | ` + "`:rooster:`" + ` |
+| 🐕 | ` + "`:dog2:`" + ` | 🐖 | ` + "`:pig2:`" + ` |
+| 🐁 | ` + "`:mouse2:`" + ` | 🐂 | ` + "`:ox:`" + ` |
+| 🐲 | ` + "`:dragon_face:`" + ` | 🐡 | ` + "`:blowfish:`" + ` |
+| 🐊 | ` + "`:crocodile:`" + ` | 🐪 | ` + "`:dromedary_camel:`" + ` |
+| 🐆 | ` + "`:leopard:`" + ` | 🐈 | ` + "`:cat2:`" + ` |
+| 🐩 | ` + "`:poodle:`" + ` | 🔨 | ` + "`:hammer:`" + ` |
+| 🪓 | ` + "`:axe:`" + ` | 🛠️ | ` + "`:hammer_and_wrench:`" + ` |
+| 💣 | ` + "`:bomb:`" + ` | 🛡️ | ` + "`:shield:`" + ` |
+| 🔧 | ` + "`:wrench:`" + ` | ⚙️ | ` + "`:gear:`" + ` |
+| 💯 | ` + "`:100:`" + ` | 🔢 | ` + "`:1234:`" + ` |
+| 🎱 | ` + "`:8ball:`" + ` | 🅰️ | ` + "`:a:`" + ` |
+| 🆎 | ` + "`:ab:`" + ` | 🔤 | ` + "`:abc:`" + ` |
+| 🔡 | ` + "`:abcd:`" + ` | 🉑 | ` + "`:accept:`" + ` |
+| 🚡 | ` + "`:aerial_tramway:`" + ` | ✈️ | ` + "`:airplane:`" + ` |
+| ⏰ | ` + "`:alarm_clock:`" + ` | 🚑 | ` + "`:ambulance:`" + ` |
+| ⚓ | ` + "`:anchor:`" + ` | 🍎 | ` + "`:apple:`" + ` |
+| ♒ | ` + "`:aquarius:`" + ` | ♈ | ` + "`:aries:`" + ` |
+| ◀️ | ` + "`:arrow_backward:`" + ` | ⏬ | ` + "`:arrow_double_down:`" + ` |
+| ⏫ | ` + "`:arrow_double_up:`" + ` | ⬇️ | ` + "`:arrow_down:`" + ` |
+| 🔽 | ` + "`:arrow_down_small:`" + ` | ▶️ | ` + "`:arrow_forward:`" + ` |
+| ⤵️ | ` + "`:arrow_heading_down:`" + ` | ⤴️ | ` + "`:arrow_heading_up:`" + ` |
+| ⬅️ | ` + "`:arrow_left:`" + ` | ↙️ | ` + "`:arrow_lower_left:`" + ` |
+| ↘️ | ` + "`:arrow_lower_right:`" + ` | ➡️ | ` + "`:arrow_right:`" + ` |
+| ↪️ | ` + "`:arrow_right_hook:`" + ` | ⬆️ | ` + "`:arrow_up:`" + ` |
+| ↕️ | ` + "`:arrow_up_down:`" + ` | 🔼 | ` + "`:arrow_up_small:`" + ` |
+| ↖️ | ` + "`:arrow_upper_left:`" + ` | ↗️ | ` + "`:arrow_upper_right:`" + ` |
+| 🔃 | ` + "`:arrows_clockwise:`" + ` | 🔄 | ` + "`:arrows_counterclockwise:`" + ` |
+| 🎨 | ` + "`:art:`" + ` | 🚛 | ` + "`:articulated_lorry:`" + ` |
+| ❌ | ` + "`:x:`" + ` | ✔️ | ` + "`:heavy_check_mark:`" + ` |
+| ✖️ | ` + "`:heavy_multiplication_x:`" + ` | ➕ | ` + "`:heavy_plus_sign:`" + ` |
+| ➖ | ` + "`:heavy_minus_sign:`" + ` | ➗ | ` + "`:heavy_division_sign:`" + ` |
+| 💻 | ` + "`:computer:`" + ` | ⌨️ | ` + "`:keyboard:`" + ` |
+| 🖱️ | ` + "`:mouse3:`" + ` | 🖲️ | ` + "`:trackball:`" + ` |
+| 🕹️ | ` + "`:joystick:`" + ` | 🎮 | ` + "`:gamepad:`" + ` |
+| 1️⃣ | ` + "`:one:`" + ` | 2️⃣ | ` + "`:two:`" + ` |
+| 3️⃣ | ` + "`:three:`" + ` | 4️⃣ | ` + "`:four:`" + ` |
+| 5️⃣ | ` + "`:five:`" + ` | 6️⃣ | ` + "`:six:`" + ` |
+| 7️⃣ | ` + "`:seven:`" + ` | 8️⃣ | ` + "`:eight:`" + ` |
+| 9️⃣ | ` + "`:nine:`" + ` | 0️⃣ | ` + "`:zero:`" + ` |
+| #️⃣ | ` + "`:hash:`" + ` | ☑️ | ` + "`:ballot_box_with_check:`" + ` |
+| ✅ | ` + "`:white_check_mark:`" + ` | 🟩 | ` + "`:green_square:`" + ` |
+| 🟦 | ` + "`:blue_square:`" + ` | 🚢 | ` + "`:shipit:`" + ` |
 
 ### Details/Summary (Collapsible Content)
 

@@ -6,7 +6,11 @@ import (
 	"path/filepath"
 	"strings"
 
+	"wiki-go/internal/goldext"
 	"wiki-go/internal/types"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 // NavItem represents a navigation item (directory)
@@ -32,7 +36,10 @@ func GetDocumentTitle(dirPath string) string {
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 		if strings.HasPrefix(line, "# ") {
-			return strings.TrimPrefix(line, "# ")
+			title := strings.TrimPrefix(line, "# ")
+			// Process emojis in the title
+			title = goldext.EmojiPreprocessor(title, "")
+			return title
 		}
 	}
 
@@ -45,13 +52,9 @@ func FormatDirName(name string) string {
 	// Replace dashes with spaces
 	name = strings.ReplaceAll(name, "-", " ")
 
-	// Title case the words
-	words := strings.Fields(name)
-	for i, word := range words {
-		words[i] = strings.Title(word)
-	}
-
-	return strings.Join(words, " ")
+	// Title case the words using cases package
+	titleCaser := cases.Title(language.English)
+	return titleCaser.String(name)
 }
 
 // ToURLPath converts a filesystem path to a URL path

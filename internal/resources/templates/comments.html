@@ -6,7 +6,7 @@
 
     <!-- Comment form for authenticated users -->
     {{if .IsAuthenticated}}
-      <form id="comment-form" class="comment-form">
+      <form id="comment-form" class="comment-form" dir="auto">
         <div class="form-group">
           <textarea name="content" placeholder="{{t "comments.write_placeholder"}}" required></textarea>
         </div>
@@ -33,7 +33,7 @@
                 </button>
               {{end}}
             </div>
-            <div class="comment-content markdown-body">
+            <div class="comment-content markdown-body" dir="auto">
               {{.RenderedHTML}}
             </div>
           </div>

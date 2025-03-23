@@ -932,7 +932,7 @@ tr:nth-child(even) {
 /* Common button styles for toolbar, page actions, and dialog buttons */
 .toolbar-button,
 .dialog-button {
-    display: inline-flex;
+    /* display: inline-flex; */
     align-items: center;
     gap: 6px;
     padding: 6px 12px;

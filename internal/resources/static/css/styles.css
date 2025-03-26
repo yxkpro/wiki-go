@@ -1016,6 +1016,7 @@ tr:nth-child(even) {
     gap: 8px;
     margin-left: auto;
     padding-left: 16px;
+    margin-bottom: 12px; /* Add bottom margin to create space */
 }
 
 .view-toolbar,
@@ -2597,7 +2598,7 @@ body.page-loaded .view-toolbar {
 
     /* Mobile toolbar buttons */
     .toolbar-button {
-        padding: 6px;
+        padding: 5px 10px; /* Slightly smaller padding on mobile */
     }
 
     .toolbar-button .button-text {
@@ -2606,7 +2607,7 @@ body.page-loaded .view-toolbar {
 
     /* Mobile page toolbar */
     .page-toolbar {
-        padding-left: 8px;
+        margin-bottom: 8px; /* Smaller bottom margin on mobile */
     }
 
     /* Mobile search results */

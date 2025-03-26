@@ -6,22 +6,110 @@
 
     .editor-toolbar {
         padding: 0 8px;
-        margin: 8px 0;
+        margin: 4px 0 8px 0;
     }
 
-    .EasyMDEContainer {
+    .editor-layout {
+        margin-top: 0;
+    }
+
+    /* Replace EasyMDEContainer with custom-editor-wrapper */
+    .custom-editor-wrapper {
         border-radius: 0;
     }
 
-    .EasyMDEContainer .CodeMirror {
+    .custom-editor-wrapper .CodeMirror {
         border-radius: 0;
         border-left: none;
         border-right: none;
     }
 
-    .EasyMDEContainer .CodeMirror-code {
-    margin-left: 8px;
+    .custom-editor-wrapper .CodeMirror-code {
+        margin-left: 8px;
     }
+
+    /* Adjust toolbar spacing for mobile */
+    .custom-toolbar {
+        padding: 3px 6px !important;
+        margin-top: 0 !important;
+    }
+}
+
+/* Specific class for sidebar blur state */
+.sidebar-blur {
+    pointer-events: none !important;
+    transition: filter 0.3s ease !important;
+}
+
+/* Ensure the editor is blurred when the sidebar is active in mobile view */
+@media (max-width: 768px) {
+    body.sidebar-active .editor-container,
+    body.sidebar-active .editor-layout,
+    body.sidebar-active .custom-editor-wrapper,
+    body.sidebar-active .CodeMirror {
+        pointer-events: none;
+        transition: filter 0.3s ease;
+    }
+
+    body.sidebar-active .custom-toolbar,
+    body.sidebar-active .editor-statusbar {
+        pointer-events: none;
+        transition: filter 0.3s ease;
+    }
+
+    /* Restore to normal when sidebar is closed */
+    .editor-container,
+    .editor-layout,
+    .custom-editor-wrapper,
+    .CodeMirror,
+    .custom-toolbar,
+    .editor-statusbar {
+        pointer-events: auto;
+        transition: filter 0.3s ease;
+    }
+
+    body.sidebar-active .editor-preview,
+    body.sidebar-active .editor-preview-active {
+        pointer-events: none;
+        transition: filter 0.3s ease;
+    }
+
+    .editor-preview.sidebar-blur,
+    .editor-area.sidebar-blur {
+        pointer-events: none !important;
+        transition: filter 0.3s ease !important;
+    }
+
+    /* Ensure content after overlay is consistent with main app */
+    body.sidebar-active::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 90;
+        backdrop-filter: blur(2px);
+    }
+}
+
+/* Editor structure styles */
+.editor-layout {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 330px);
+    background: var(--bg-color);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    margin-top: 0;
+}
+
+.editor-area {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
 }
 
 /* Editor styles */
@@ -29,7 +117,6 @@
     display: none;
     position: relative;
     background: var(--bg-color);
-    z-index: 100;
     padding: 0;
     margin-bottom: 12px;
 }
@@ -39,7 +126,7 @@
 }
 
 .editor-toolbar {
-    margin: 16px 0 8px 0;
+    margin: 8px 0 12px 0;
     padding: 0 16px;
 }
 
@@ -69,90 +156,111 @@
     opacity: 0.9;
 }
 
-/* EasyMDE theme overrides */
-.EasyMDEContainer {
-    background: var(--bg-color);
+/* Custom editor toolbar styles */
+.custom-toolbar {
+    border-bottom: 1px solid var(--border-color) !important;
+    padding: 4px 8px !important;
+    margin-top: 0 !important;
+    background: var(--bg-color-alt) !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
-.EasyMDEContainer .CodeMirror {
-    color: var(--text-color);
-    background: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-    height: calc(100vh - 350px) !important;
-    max-height: calc(100vh - 350px);
-}
-
-.EasyMDEContainer .CodeMirror-scroll {
-    min-height: 100%;
-}
-
-.editor-toolbar {
-    border: none !important;
-    padding: 0 0 8px 0 !important;
-    background: none !important;
-}
-
-.editor-toolbar button {
+.custom-toolbar button {
     color: var(--text-color) !important;
     border: 1px solid var(--border-color) !important;
     border-radius: 4px !important;
-    margin: 0 4px !important;
+    margin: 0 1px !important;
+    height: 28px;
+    width: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
 }
 
-.editor-toolbar button:hover {
+.custom-toolbar button:hover {
     background: var(--hover-bg) !important;
     border-color: var(--primary-color) !important;
     color: var(--primary-color) !important;
 }
 
-.editor-toolbar.fullscreen {
-    background: var(--bg-color) !important;
+.custom-toolbar i.separator {
+    display: inline-block;
+    width: 0;
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid transparent;
+    color: transparent;
+    text-indent: -10px;
+    margin: 0 4px;
+    height: 28px;
 }
 
-.editor-preview-side {
-    background: var(--bg-color) !important;
+.custom-toolbar button.active {
+    background: var(--bg-color-alt) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+}
+
+/* Preview styles */
+.editor-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-color);
+    padding: 16px;
+    display: none;
+    overflow: auto;
+    font-family: var(--text-font);
+    line-height: 1.6;
+}
+
+.editor-preview-active {
+    display: block;
+}
+
+/* Preview loading indicator */
+.preview-loading {
+    color: var(--text-color-secondary);
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+}
+
+/* Disabled toolbar buttons */
+.custom-toolbar button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+}
+
+.custom-toolbar button.disabled:hover {
+    background: transparent !important;
     border-color: var(--border-color) !important;
-}
-
-.editor-statusbar {
     color: var(--text-color) !important;
-    border-color: var(--border-color) !important;
 }
 
-/* Dark theme overrides for EasyMDE */
-:root[data-theme="dark"] .EasyMDEContainer .CodeMirror {
-    color: #ccc;
-    border-color: #ccc;
-    background-color: #444;
+/* Keep the preview button active even in preview mode */
+.custom-toolbar button.preview-button {
+    opacity: 1 !important;
+    cursor: pointer !important;
 }
 
-:root[data-theme="dark"] .EasyMDEContainer .editor-toolbar > .active,
-:root[data-theme="dark"] .editor-toolbar > button:hover,
-:root[data-theme="dark"] .editor-preview pre,
-:root[data-theme="dark"] .cm-s-easymde .cm-comment {
-    color: #ccc;
-    background-color: #23241F;
+.custom-toolbar button.preview-button:hover {
+    background: var(--hover-bg) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
 }
 
-:root[data-theme="dark"] .editor-toolbar.fullscreen {
-    background: #333;
-}
-
-:root[data-theme="dark"] .EasyMDEContainer .CodeMirror-fullscreen {
-    background: #444;
-    color: #ccc;
-}
-
-:root[data-theme="dark"] .editor-preview {
-    background: #333;
-    color: #ccc;
-}
-
-/* Fix for double-colored code blocks in EasyMDE preview */
-.editor-preview pre code,
-.editor-preview-side pre code {
+/* Fix for double-colored code blocks in preview */
+.editor-preview pre code {
     background: transparent !important;
     color: inherit !important;
     border: none !important;
@@ -161,8 +269,7 @@
 }
 
 /* Ensure proper styling for code blocks in preview */
-.editor-preview pre,
-.editor-preview-side pre {
+.editor-preview pre {
     background-color: #f5f5f5;
     border: 1px solid #ddd;
     border-radius: 3px;
@@ -172,34 +279,560 @@
 }
 
 /* Dark theme for code blocks in preview */
-:root[data-theme="dark"] .editor-preview pre,
-:root[data-theme="dark"] .editor-preview-side pre {
+:root[data-theme="dark"] .editor-preview pre {
     background-color: #23241F;
     border-color: #333;
     color: #ccc;
 }
 
-:root[data-theme="dark"] .editor-toolbar.fullscreen {
+.editor-statusbar {
+    color: var(--text-color) !important;
+    background: var(--bg-color-alt) !important;
+    border-top: 1px solid var(--border-color) !important;
+    padding: 8px 10px;
+    font-size: 12px;
+    text-align: right;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}
+
+.editor-statusbar span {
+    display: inline-block;
+    min-width: 4em;
+    margin-left: 1em;
+}
+
+.editor-statusbar .lines:before {
+    content: 'lines: ';
+}
+
+.editor-statusbar .words:before {
+    content: 'words: ';
+}
+
+.editor-statusbar .cursor:before {
+    content: 'cursor: ';
+}
+
+/* Dark theme overrides for CodeMirror */
+:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror {
+    color: #ccc;
+    border-color: #444;
+    background-color: #333;
+}
+
+:root[data-theme="dark"] .custom-toolbar button.active,
+:root[data-theme="dark"] .custom-toolbar button:hover {
+    color: #ddd !important;
+    background-color: #444 !important;
+}
+
+:root[data-theme="dark"] .preview-loading {
+    color: #aaa;
+}
+
+/* Make sure links stand out in dark mode preview */
+:root[data-theme="dark"] .editor-preview a {
+    color: #6bf;
+}
+
+:root[data-theme="dark"] .editor-preview h1,
+:root[data-theme="dark"] .editor-preview h2,
+:root[data-theme="dark"] .editor-preview h3,
+:root[data-theme="dark"] .editor-preview h4,
+:root[data-theme="dark"] .editor-preview h5,
+:root[data-theme="dark"] .editor-preview h6 {
+    color: #ddd;
+}
+
+/* Table picker styles */
+.table-picker {
+    position: absolute;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 5px;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    width: auto;
+}
+
+.table-picker .cell {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid var(--border-color);
+    margin: 1px;
+    cursor: pointer;
+}
+
+.table-picker .cell.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+:root[data-theme="dark"] .table-picker {
     background: #333;
+    border-color: #444;
+}
+
+:root[data-theme="dark"] .table-picker .cell {
+    border-color: #555;
 }
 
 :root[data-theme="dark"] .CodeMirror-selectedtext {
-    background-color: #d9d9d9 !important;
-    color: #444 !important;
+    background-color: #666 !important;
+    color: #fff !important;
 }
 
 :root[data-theme="dark"] ::selection {
-    background-color: #d9d9d9 !important;
-    color: #444 !important;
+    background-color: #666 !important;
+    color: #fff !important;
 }
 
 :root[data-theme="dark"] ::-moz-selection {
-    background-color: #d9d9d9 !important;
-    color: #444 !important;
+    background-color: #666 !important;
+    color: #fff !important;
 }
 
 /* Fix cursor visibility */
-.EasyMDEContainer .CodeMirror-cursor {
+.custom-editor-wrapper .CodeMirror-cursor {
     border-left: 3px solid var(--text-color) !important;
     margin-left: 0 !important;
+}
+
+/* Adjust cursor height for different header levels */
+.custom-editor-wrapper .CodeMirror-line:has(.cm-header-1) .CodeMirror-cursor {
+    height: 32px !important;
+}
+
+.custom-editor-wrapper .CodeMirror-line:has(.cm-header-2) .CodeMirror-cursor {
+    height: 24px !important;
+}
+
+.custom-editor-wrapper .CodeMirror-line:has(.cm-header-3) .CodeMirror-cursor {
+    height: 20px !important;
+}
+
+.custom-editor-wrapper .CodeMirror-line:has(.cm-header-4) .CodeMirror-cursor {
+    height: 18px !important;
+}
+
+.custom-editor-wrapper .CodeMirror-line:has(.cm-header-5) .CodeMirror-cursor {
+    height: 16px !important;
+}
+
+.custom-editor-wrapper .CodeMirror-line:has(.cm-header-6) .CodeMirror-cursor {
+    height: 14px !important;
+}
+
+/* CodeMirror theme overrides */
+.custom-editor-wrapper {
+    background: var(--bg-color);
+    display: block;
+    height: 100%;
+}
+
+.custom-editor-wrapper .CodeMirror {
+    color: var(--text-color);
+    background: var(--bg-color);
+    height: 100% !important;
+    max-height: none;
+    border: none;
+    font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+.custom-editor-wrapper .CodeMirror-scroll {
+    min-height: 100%;
+}
+
+/* Fix for line numbers and line highlighting in light mode */
+.custom-editor-wrapper .CodeMirror-gutters {
+    background-color: #f7f7f7;
+    border-right: 1px solid #e0e0e0;
+    width: 50px;
+}
+
+.custom-editor-wrapper .CodeMirror-linenumber {
+    color: #999;
+    padding: 0 5px 0 5px;
+}
+
+.custom-editor-wrapper .CodeMirror-activeline-background {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.custom-editor-wrapper .CodeMirror-activeline-gutter {
+    background-color: #f0f0f0;
+}
+
+/* Dark mode specific fixes for line numbers */
+:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror-gutters {
+    background-color: #2a2a2a;
+    border-right: 1px solid #3a3a3a;
+}
+
+:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror-linenumber {
+    color: #777;
+}
+
+:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror-activeline-background {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror-activeline-gutter {
+    background-color: #323232;
+}
+
+/* Mobile-specific fix for active line highlighting */
+@media (max-width: 768px) {
+    .custom-editor-wrapper .CodeMirror-activeline-background {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .custom-editor-wrapper .CodeMirror-activeline-gutter {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    /* Alternative subtle indicator for the active line */
+    .custom-editor-wrapper .CodeMirror-activeline .CodeMirror-linenumber {
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    /* Ensure text is always visible */
+    .custom-editor-wrapper .CodeMirror-line {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Fix for the cursor being visible */
+    .custom-editor-wrapper .CodeMirror-cursor {
+        border-left: 2px solid rgba(0, 0, 0, 0.7) !important;
+    }
+
+    :root[data-theme="dark"] .custom-editor-wrapper .CodeMirror-cursor {
+        border-left: 2px solid rgba(255, 255, 255, 0.7) !important;
+    }
+}
+
+/* Subtle selection colors for light theme */
+.CodeMirror-selected {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Subtle selection colors for dark theme */
+:root[data-theme="dark"] .CodeMirror-selected {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Subtle cursors */
+.custom-editor-wrapper .CodeMirror-cursor {
+    border-left: 2px solid rgba(0, 0, 0, 0.4) !important;
+}
+
+:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror-cursor {
+    border-left: 2px solid rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Ensure proper background for dark mode */
+:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror {
+    background-color: #1e1e1e;
+}
+
+/* Heading styles for CodeMirror editor to match main document styles */
+.custom-editor-wrapper .CodeMirror .cm-header-1 {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    display: inline;
+}
+
+.custom-editor-wrapper .CodeMirror .cm-header-2 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    display: inline;
+}
+
+.custom-editor-wrapper .CodeMirror .cm-header-3 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    display: inline;
+}
+
+.custom-editor-wrapper .CodeMirror .cm-header-4 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.2;
+    display: inline;
+}
+
+.custom-editor-wrapper .CodeMirror .cm-header-5 {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    display: inline;
+}
+
+.custom-editor-wrapper .CodeMirror .cm-header-6 {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    display: inline;
+}
+
+/* Improved spacing for headers to make them stand out in the editor */
+.custom-editor-wrapper .CodeMirror .cm-header {
+    display: inline;
+}
+
+/* Fix for cursor in header lines */
+.custom-editor-wrapper .CodeMirror-line:has(.cm-header) {
+    line-height: normal !important;
+}
+
+/* Mobile responsive heading styles */
+@media (max-width: 768px) {
+    .custom-editor-wrapper .CodeMirror .cm-header-1 {
+        font-size: 24px;
+    }
+
+    .custom-editor-wrapper .CodeMirror .cm-header-2 {
+        font-size: 20px;
+    }
+
+    .custom-editor-wrapper .CodeMirror .cm-header-3 {
+        font-size: 18px;
+    }
+
+    .custom-editor-wrapper .CodeMirror .cm-header-4 {
+        font-size: 16px;
+    }
+
+    .custom-editor-wrapper .CodeMirror .cm-header-5,
+    .custom-editor-wrapper .CodeMirror .cm-header-6 {
+        font-size: 14px;
+    }
+}
+
+/* Dark mode specific styles for headers */
+:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror .cm-header {
+    color: #ddd;
+}
+
+:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror .cm-header-2 {
+    border-bottom-color: #444;
+}
+
+/* Add padding to make headings more distinct */
+.custom-editor-wrapper .CodeMirror .cm-header-1,
+.custom-editor-wrapper .CodeMirror .cm-header-2,
+.custom-editor-wrapper .CodeMirror .cm-header-3 {
+    padding-top: 8px;
+    padding-bottom: 2px;
+}
+
+/* Add spacing after header levels 1-3 */
+.custom-editor-wrapper .CodeMirror .CodeMirror-line .cm-header-1,
+.custom-editor-wrapper .CodeMirror .CodeMirror-line .cm-header-2,
+.custom-editor-wrapper .CodeMirror .CodeMirror-line .cm-header-3 {
+    margin-bottom: 2px;
+    position: relative;
+}
+
+/* Add bottom border effect for h2 headings in the editor */
+.custom-editor-wrapper .CodeMirror .CodeMirror-line .cm-header-2:after {
+    content: '';
+    display: block;
+    height: 1px;
+    background-color: var(--border-color);
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+}
+
+:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror .CodeMirror-line .cm-header-2:after {
+    background-color: #444;
+}
+
+/* Editor preview styles to match document renderer */
+.editor-preview h1 {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.editor-preview h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.25em;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.editor-preview h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+.editor-preview h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+.editor-preview h5 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+.editor-preview h6 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+/* Mobile responsive preview heading styles */
+@media (max-width: 768px) {
+    .editor-preview h1 {
+        font-size: 24px;
+    }
+
+    .editor-preview h2 {
+        font-size: 20px;
+    }
+
+    .editor-preview h3 {
+        font-size: 18px;
+    }
+
+    .editor-preview h4 {
+        font-size: 16px;
+    }
+
+    .editor-preview h5,
+    .editor-preview h6 {
+        font-size: 14px;
+    }
+}
+
+/* Emoji picker styles */
+.emoji-picker {
+    position: absolute;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    max-width: 320px;
+    max-height: 300px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 5px;
+    width: auto;
+}
+
+.emoji-picker .emoji-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    background: transparent;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+.emoji-picker .emoji-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: var(--border-color);
+}
+
+:root[data-theme="dark"] .emoji-picker {
+    background: #333;
+    border-color: #444;
+}
+
+:root[data-theme="dark"] .emoji-picker .emoji-btn:hover {
+    background-color: #444;
+    border-color: #555;
+}
+
+/* Mobile-specific emoji picker styles */
+@media (max-width: 768px) {
+    .emoji-picker {
+        max-width: calc(100vw - 40px);
+        max-height: 250px;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 4px;
+        padding: 8px;
+    }
+
+    .emoji-picker .emoji-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+    }
+}
+
+/* Very small screen styles */
+@media (max-width: 360px) {
+    .emoji-picker {
+        grid-template-columns: repeat(5, 1fr);
+        max-width: calc(100vw - 20px);
+        padding: 6px;
+    }
+
+    .emoji-picker .emoji-btn {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* Mobile-specific table picker styles */
+@media (max-width: 768px) {
+    .table-picker {
+        max-width: calc(100vw - 40px);
+        padding: 8px;
+    }
+
+    .table-picker .cell {
+        width: 18px;
+        height: 18px;
+        margin: 2px;
+    }
+}
+
+/* Very small screen styles for table picker */
+@media (max-width: 360px) {
+    .table-picker {
+        max-width: calc(100vw - 20px);
+        padding: 6px;
+    }
+
+    .table-picker .cell {
+        width: 16px;
+        height: 16px;
+        margin: 1px;
+    }
 }

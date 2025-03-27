@@ -247,9 +247,9 @@ body.has-password-warning .hamburger {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 8px;
+    /* padding: 16px 0; */
+    /* border-bottom: 1px solid var(--border-color); */
+    /* margin-bottom: 8px; */
     text-decoration: none;
     color: var(--text-color);
     font-weight: 600;
@@ -391,11 +391,15 @@ body.has-password-warning .hamburger {
     margin-bottom: 24px;
     padding-bottom: 16px;
     border-bottom: 1px solid var(--border-color);
+    position: relative;
 }
 
 .search-results-title {
     font-size: 20px;
     font-weight: 600;
+    flex: 1;
+    text-align: center;
+    padding: 0 40px;
 }
 
 .search-actions {
@@ -404,8 +408,7 @@ body.has-password-warning .hamburger {
     gap: 8px;
 }
 
-.search-close,
-.return-to-search {
+.search-close {
     padding: 8px;
     background: none;
     border: none;
@@ -413,6 +416,15 @@ body.has-password-warning .hamburger {
     color: var(--text-color);
     border-radius: 4px;
     transition: all 0.2s ease;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+/* For RTL languages, position close button on the left */
+[dir="rtl"] .search-close {
+    right: auto;
+    left: 0;
 }
 
 .search-close svg,
@@ -1345,7 +1357,7 @@ tr:nth-child(even) {
     overflow-y: auto;
 }
 
-.settings-tabs, 
+.settings-tabs,
 .file-upload-tabs {
     display: flex;
     margin-bottom: 20px;
@@ -2555,6 +2567,20 @@ tr:nth-child(even) {
     .search-results {
         left: 0;
         padding: 16px;
+        padding-top: 60px; /* Add padding to account for the fixed header */
+    }
+
+    .search-results-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: var(--bg-color);
+        padding: 16px;
+        z-index: 1001;
+        height: 48px;
+        box-sizing: border-box;
+        margin-bottom: 0;
     }
 
     .search-result-item {

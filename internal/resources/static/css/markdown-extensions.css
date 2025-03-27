@@ -1,8 +1,3 @@
-/**
- * Markdown Extensions CSS
- * Styles for custom markdown extensions
- */
-
 /* Highlighted text */
 mark {
     background-color: #ffff66;
@@ -59,6 +54,7 @@ mark {
     height: 100%;
 }
 
+/* Text direction classes */
 .rtl, .rtl * {
     direction: rtl;
     unicode-bidi: isolate;
@@ -71,83 +67,14 @@ mark {
     text-align: left;
 }
 
-/* Print styles */
-@media print {
-    /* Collapsible sections */
-    .markdown-details {
-        display: block !important;
-        border: 1px solid #ddd !important;
-    }
-
-    .markdown-details summary {
-        display: none !important;
-    }
-
-    .markdown-details .details-content {
-        display: block !important;
-        border-top: none !important;
-        padding-top: 0 !important;
-    }
-
-    details.markdown-details {
-        height: auto !important;
-        overflow: visible !important;
-    }
-
-    details.markdown-details > * {
-        display: block !important;
-    }
-
-    /* Video embeds */
-    .video-container {
-        display: none !important;
-    }
-
-    .local-video-player {
-        display: none !important;
-    }
-
-    .video-print-placeholder {
-        display: block !important;
-        border: 1px solid #ddd;
-        padding: 1em;
-        margin: 1em 0;
-        background-color: #f9f9f9;
-    }
-
-    .wiki-toc {
-        background-color: #f8f8f8 !important;
-        border: 1px solid #ddd !important;
-        break-inside: avoid;
-    }
-
-    .toc-title {
-        color: black !important;
-        border-bottom-color: #ddd !important;
-    }
-
-    .toc-list a {
-        color: black !important;
-    }
-}
-
-@media screen {
-    .video-print-placeholder {
-        display: none;
-    }
-}
-
-/* Add TOC styles */
-.wiki-toc, .table-of-contents {
-    max-width: 900px !important;
-}
-
+/* Table of Contents styles */
 .wiki-toc {
     margin: 1.5rem 0;
     padding: 1rem;
     background-color: var(--hover-bg);
     border: 1px solid var(--border-color);
     border-radius: 4px;
+    max-width: 900px !important;
 }
 
 .toc-title {
@@ -199,7 +126,7 @@ mark {
     background-color: var(--code-bg);
 }
 
-/* Add styles for Mermaid diagrams */
+/* Mermaid diagrams */
 .mermaid {
     margin: 20px 0;
     overflow: auto;
@@ -207,4 +134,69 @@ mark {
     background-color: transparent;
     border-radius: 4px;
     padding: 10px 0;
+}
+
+/* Screen-specific styles */
+@media screen {
+    .video-print-placeholder {
+        display: none;
+    }
+}
+
+/* Print styles */
+@media print {
+    /* Collapsible sections */
+    .markdown-details {
+        display: block !important;
+        border: 1px solid #ddd !important;
+    }
+
+    .markdown-details summary {
+        display: none !important;
+    }
+
+    .markdown-details .details-content {
+        display: block !important;
+        border-top: none !important;
+        padding-top: 0 !important;
+    }
+
+    details.markdown-details {
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    details.markdown-details > * {
+        display: block !important;
+    }
+
+    /* Video embeds */
+    .video-container,
+    .local-video-player {
+        display: none !important;
+    }
+
+    .video-print-placeholder {
+        display: block !important;
+        border: 1px solid #ddd;
+        padding: 1em;
+        margin: 1em 0;
+        background-color: #f9f9f9;
+    }
+
+    /* TOC print styles */
+    .wiki-toc {
+        background-color: #f8f8f8 !important;
+        border: 1px solid #ddd !important;
+        break-inside: avoid;
+    }
+
+    .toc-title {
+        color: black !important;
+        border-bottom-color: #ddd !important;
+    }
+
+    .toc-list a {
+        color: black !important;
+    }
 }

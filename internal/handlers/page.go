@@ -115,21 +115,11 @@ func PageHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config) {
 		// Check if subdirectory has a document.md
 		subDocPath := filepath.Join(fsPath, dirName, "document.md")
 		if _, err := os.Stat(subDocPath); err == nil {
-			// Read the document.md to get its title
-			mdContent, err := os.ReadFile(subDocPath)
-			if err == nil {
-				// Extract first line and remove # prefix for title
-				lines := strings.Split(string(mdContent), "\n")
-				if len(lines) > 0 {
-					title := strings.TrimSpace(lines[0])
-					if strings.HasPrefix(title, "# ") {
-						dirTitle := strings.TrimSpace(strings.TrimPrefix(title, "# "))
-						dirItems = append(dirItems, fmt.Sprintf(`<div class="directory-item is-dir"><a href="%s">%s</a></div>`,
-							urlPath, dirTitle))
-						continue
-					}
-				}
-			}
+			// Use the GetDocumentTitle function which includes emoji processing
+			dirTitle := utils.GetDocumentTitle(filepath.Join(fsPath, dirName))
+			dirItems = append(dirItems, fmt.Sprintf(`<div class="directory-item is-dir"><a href="%s">%s</a></div>`,
+				urlPath, dirTitle))
+			continue
 		}
 
 		// Fallback to formatted directory name if no document.md or no title found

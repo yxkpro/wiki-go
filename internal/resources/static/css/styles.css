@@ -540,6 +540,7 @@ body.has-password-warning .hamburger {
     color: var(--breadcrumb-color);
     font-size: 14px;
     position: relative;
+    padding-bottom: 10px;
 }
 
 .breadcrumbs-container {
@@ -775,7 +776,6 @@ body.has-password-warning .hamburger {
     gap: 8px;
     margin-left: auto;
     padding-left: 16px;
-    margin-bottom: 12px;
 }
 
 .toolbar {
@@ -2131,7 +2131,6 @@ tr:nth-child(even) {
 
 /* Handle tables to prevent overflow */
 .version-content table {
-    display: block;
     width: 100%;
     overflow-x: auto;
     max-width: 100%;
@@ -2358,6 +2357,10 @@ tr:nth-child(even) {
 }
 
 /* ---------- Responsive styles ---------- */
+@media (max-width: 975px) {
+    .toolbar-button .button-text { display: none; }
+}
+
 @media (max-width: 768px) {
     /* Mobile layout */
     body {
@@ -2480,7 +2483,7 @@ tr:nth-child(even) {
         top: 0;
         left: 48px;
         right: 0;
-        padding: 0 12px;
+        padding: 0 10px;
         background: var(--bg-color);
         border-bottom: 1px solid var(--border-color);
         z-index: 90;
@@ -2560,7 +2563,7 @@ tr:nth-child(even) {
 
     /* Mobile page toolbar */
     .page-toolbar {
-        margin-bottom: 8px; /* Smaller bottom margin on mobile */
+        margin-bottom: 0px; /* Smaller bottom margin on mobile */
     }
 
     /* Mobile search results */

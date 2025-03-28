@@ -271,7 +271,7 @@ The commenting system allows users to provide feedback and engage in discussions
 ### Built With
 - **Backend**: Go (Golang)
 - **Frontend**: HTML, CSS, JavaScript
-- **Editor**: [EasyMDE](https://github.com/Ionaru/easy-markdown-editor) for Markdown editing
+- **Editor**: [CodeMirror5](https://github.com/codemirror/codemirror5) for Markdown editing
 - **Syntax Highlighting**: [Prism.js](https://github.com/PrismJS/prism)
 - **Diagrams**: [Mermaid.js](https://github.com/mermaid-js/mermaid)
 - **Math Rendering**: [MathJax](https://github.com/mathjax/MathJax)

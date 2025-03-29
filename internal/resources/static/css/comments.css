@@ -152,3 +152,9 @@
         min-width: 200px;
     }
 }
+
+@media print {
+  .comments-section {
+    display: none !important;
+  }
+}

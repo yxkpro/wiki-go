@@ -2808,9 +2808,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Fetch max upload size when page loads
-    fetchMaxUploadSize();
-
     // Add this code near the beginning of the DOMContentLoaded event handler
     // Check for pending actions from previous login
     function checkPendingActions() {

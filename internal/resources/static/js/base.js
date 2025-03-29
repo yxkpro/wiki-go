@@ -680,11 +680,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Initialize EasyMDE
-    // We'll use the easyMDE instance from the WikiEditor module
-    let easyMDE = null;
-    // No initialization here to avoid conflicts with the custom toolbar
-
     // Function to load the editor
     async function loadEditor() {
         // Use the WikiEditor module from editor.js

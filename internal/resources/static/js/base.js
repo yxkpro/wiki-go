@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
     'use strict';
 
     // Global variables
-    let currentTheme = localStorage.getItem('theme') || 'light';
     let maxFileUploadSizeMB = 20; // Default value, will be updated from settings
     let maxFileUploadSizeBytes = maxFileUploadSizeMB * 1024 * 1024;
 
@@ -141,52 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    const themeToggle = document.querySelector('.theme-toggle');
-    const root = document.documentElement;
-    const lightIcon = document.querySelector('.light-icon');
-    const darkIcon = document.querySelector('.dark-icon');
-
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (savedTheme) {
-        root.setAttribute('data-theme', savedTheme);
-        updateThemeUI(savedTheme);
-    } else if (systemPrefersDark) {
-        root.setAttribute('data-theme', 'dark');
-        updateThemeUI('dark');
-    }
-
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = root.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-        root.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        updateThemeUI(newTheme);
-    });
-
-    function updateThemeUI(theme) {
-        if (theme === 'dark') {
-            lightIcon.style.display = 'none';
-            darkIcon.style.display = 'block';
-            // Use dark theme for syntax highlighting
-            document.getElementById('prism-theme').href = '/static/libs/prism-1.30.0/prism-tomorrow.min.css';
-        } else {
-            lightIcon.style.display = 'block';
-            darkIcon.style.display = 'none';
-            document.getElementById('prism-theme').href = '/static/libs/prism-1.30.0/prism.min.css';
-        }
-    }
-
-    // Apply Prism highlighting on theme change
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (!localStorage.getItem('theme')) {
-            const newTheme = e.matches ? 'dark' : 'light';
-            root.setAttribute('data-theme', newTheme);
-            updateThemeUI(newTheme);
-        }
-    });
+    // Theme management has been moved to theme-manager.js
 
     document.querySelectorAll('pre').forEach(pre => {
         const button = document.createElement('button');
@@ -686,14 +640,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return WikiEditor.loadEditor(mainContent, editorContainer, viewToolbar, editToolbar);
     }
 
-    // Update editor theme when site theme changes
-    const themeSwitchButton = document.querySelector('.theme-toggle');
-    if (themeSwitchButton) {
-        themeSwitchButton.addEventListener('click', function() {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            // The theme is handled by our CSS overrides
-        });
-    }
+    // Editor theme is now handled by theme-manager.js through the themeChanged event
 
     // Save button functionality
     if (saveButton) {

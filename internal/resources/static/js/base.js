@@ -10,8 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Prevent toolbar flashing on page load
     document.body.classList.add('page-loaded');
 
-    // Check if default password is in use
-    checkDefaultPassword();
+    // Authentication functionality has been moved to auth.js
 
     // Dialog functions are now initialized in dialog-system.js
 
@@ -132,26 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const viewToolbar = document.querySelector('.view-toolbar');
     const editToolbar = document.querySelector('.edit-toolbar');
 
-    // Function to check if current user is an admin
-    async function checkIfUserIsAdmin() {
-        try {
-            const response = await fetch('/api/check-auth');
-            if (!response.ok) {
-                return false;
-            }
-
-            const data = await response.json();
-            return data.is_admin === true;
-        } catch (error) {
-            console.error('Error checking admin status:', error);
-            return false;
-        }
-    }
-
-    // Function to show admin-only feature error
-    function showAdminOnlyError() {
-        window.DialogSystem.showMessageDialog("Admin Access Required", "This feature is only available to administrators.");
-    }
+    // Authentication functionality has been moved to auth.js
     
     // Dialog functionality has been moved to dialog-system.js
 
@@ -167,71 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Login Dialog Functionality
-    const loginDialog = document.querySelector('.login-dialog');
-    const closeDialog = document.querySelector('.login-dialog .close-dialog');
-    const loginForm = document.getElementById('loginForm');
-    const errorMessage = document.querySelector('.login-dialog .error-message');
-    const loginUsernameInput = document.getElementById('username');
-    let editCallback = null;
-
-    function showLoginDialog(callback) {
-        loginDialog.classList.add('active');
-        editCallback = callback;
-        errorMessage.style.display = 'none';
-        loginForm.reset();
-        // Focus on username field after dialog is shown
-        setTimeout(() => {
-            loginUsernameInput.focus();
-        }, 100);
-    }
-
-    function hideLoginDialog() {
-        const loginDialog = document.querySelector('.login-dialog');
-        if (loginDialog) {
-            loginDialog.classList.remove('active');
-        }
-    }
-
-    closeDialog.addEventListener('click', hideLoginDialog);
-
-    loginForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        try {
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password })
-            });
-
-            if (response.ok) {
-                hideLoginDialog();
-                if (window.loginCallback) {
-                    // Store loginCallback info in localStorage
-                    localStorage.setItem('pendingAction', 'loginCallback');
-                    window.loginCallback = null; // Clear the callback after use
-                } else if (editCallback) {
-                    // Store edit action in localStorage
-                    localStorage.setItem('pendingAction', 'editPage');
-                }
-
-                // Reload the page to refresh the comments section
-                window.location.reload();
-            } else {
-                errorMessage.textContent = window.i18n ? window.i18n.t('login.error') : 'Invalid username or password';
-                errorMessage.style.display = 'block';
-            }
-        } catch (error) {
-            console.error('Login error:', error);
-            errorMessage.textContent = 'An error occurred. Please try again.';
-            errorMessage.style.display = 'block';
-        }
-    });
+    // Login Dialog Functionality has been moved to auth.js
 
     // New Document functionality
     const newDocButton = document.querySelector('.new-document');
@@ -291,15 +207,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 const authResponse = await fetch('/api/check-auth');
                 if (authResponse.status === 401) {
                     // Show login dialog
-                    showLoginDialog(() => {
+                    window.Auth.showLoginDialog(() => {
                         // After login, check if admin
-                        checkIfUserIsAdmin().then(isAdmin => {
+                        window.Auth.checkIfUserIsAdmin().then(isAdmin => {
                             if (isAdmin) {
                                 showNewDocDialog();
                                 // Update toolbar buttons after login
-                                updateToolbarButtons();
+                                window.Auth.updateToolbarButtons();
                             } else {
-                                showAdminOnlyError();
+                                window.Auth.showAdminOnlyError();
                             }
                         });
                     });
@@ -307,11 +223,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 // User is authenticated, check if admin
-                const isAdmin = await checkIfUserIsAdmin();
+                const isAdmin = await window.Auth.checkIfUserIsAdmin();
                 if (isAdmin) {
                     showNewDocDialog();
                 } else {
-                    showAdminOnlyError();
+                    window.Auth.showAdminOnlyError();
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -403,15 +319,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 const authResponse = await fetch('/api/check-auth');
                 if (authResponse.status === 401) {
                     // Show login dialog
-                    showLoginDialog(() => {
+                    window.Auth.showLoginDialog(() => {
                         // After login, check if admin
-                        checkIfUserIsAdmin().then(isAdmin => {
+                        window.Auth.checkIfUserIsAdmin().then(isAdmin => {
                             if (isAdmin) {
                                 loadEditor();
                                 // Update toolbar buttons after login
-                                updateToolbarButtons();
+                                window.Auth.updateToolbarButtons();
                             } else {
-                                showAdminOnlyError();
+                                window.Auth.showAdminOnlyError();
                             }
                         });
                     });
@@ -419,11 +335,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 // User is authenticated, check if admin
-                const isAdmin = await checkIfUserIsAdmin();
+                const isAdmin = await window.Auth.checkIfUserIsAdmin();
                 if (isAdmin) {
                     loadEditor();
                 } else {
-                    showAdminOnlyError();
+                    window.Auth.showAdminOnlyError();
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -636,15 +552,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 const authResponse = await fetch('/api/check-auth');
                 if (authResponse.status === 401) {
                     // Show login dialog
-                    showLoginDialog(() => {
+                    window.Auth.showLoginDialog(() => {
                         // After login, check if admin
-                        checkIfUserIsAdmin().then(isAdmin => {
+                        window.Auth.checkIfUserIsAdmin().then(isAdmin => {
                             if (isAdmin) {
                                 loadSettings();
                                 // Update toolbar buttons after login
-                                updateToolbarButtons();
+                                window.Auth.updateToolbarButtons();
                             } else {
-                                showAdminOnlyError();
+                                window.Auth.showAdminOnlyError();
                             }
                         });
                     });
@@ -652,7 +568,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 // User is authenticated, check if admin
-                const isAdmin = await checkIfUserIsAdmin();
+                const isAdmin = await window.Auth.checkIfUserIsAdmin();
                 if (isAdmin) {
                     loadSettings();
 
@@ -676,7 +592,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }, 50); // Small delay to ensure dialog is rendered
                 } else {
-                    showAdminOnlyError();
+                    window.Auth.showAdminOnlyError();
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -1563,133 +1479,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Version History functionality has been moved to version-history.js
 
-    // Function to update toolbar buttons based on authentication status
-    async function updateToolbarButtons() {
-        try {
-            // Check authentication status
-            const authResponse = await fetch('/api/check-auth');
+    // Function to update toolbar buttons based on authentication status - moved to auth.js
+    
+    // Call updateToolbarButtons on page load - Auth module does this on initialization
 
-            if (authResponse.status === 401) {
-                // User is not authenticated
-                // Hide all admin-only buttons
-                document.querySelectorAll('.admin-only-button').forEach(btn => {
-                    btn.style.display = 'none';
-                });
-
-                // Show login button, hide logout button
-                document.querySelector('.toolbar-button.auth-button.primary').style.cssText = 'display: inline-flex !important';
-                document.querySelector('.logout-button').style.cssText = 'display: none !important';
-                return;
-            }
-
-            // User is authenticated, check if admin
-            const authData = await authResponse.json();
-            const isAdmin = authData.is_admin === true;
-
-            if (isAdmin) {
-                // Admin user - show all admin buttons
-                document.querySelectorAll('.admin-only-button').forEach(btn => {
-                    btn.style.cssText = 'display: inline-flex !important';
-                });
-
-                // Special case for rename button (only show if not on homepage)
-                const renameBtn = document.querySelector('.rename-document');
-                if (renameBtn && (window.location.pathname === '/' || window.location.pathname === '/homepage')) {
-                    renameBtn.style.cssText = 'display: none !important';
-                }
-
-                // Show logout button, hide login button
-                document.querySelector('.toolbar-button.auth-button.primary').style.cssText = 'display: none !important';
-                document.querySelector('.logout-button').style.cssText = 'display: inline-flex !important';
-            } else {
-                // Regular authenticated user - hide admin buttons
-                document.querySelectorAll('.admin-only-button').forEach(btn => {
-                    btn.style.display = 'none';
-                });
-
-                // Show logout button, hide login button
-                document.querySelector('.toolbar-button.auth-button.primary').style.cssText = 'display: none !important';
-                document.querySelector('.logout-button').style.cssText = 'display: inline-flex !important';
-            }
-        } catch (error) {
-            console.error('Error checking authentication status:', error);
-        }
-    }
-
-    // Call updateToolbarButtons on page load
-    updateToolbarButtons();
-
-    // Add click handler for login button
-    const loginButton = document.querySelector('.toolbar-button.auth-button.primary');
-    if (loginButton) {
-        loginButton.addEventListener('click', function() {
-            // Get the login dialog element
-            const loginDialog = document.querySelector('.login-dialog');
-            if (!loginDialog) {
-                console.error('Login dialog not found');
-                return;
-            }
-
-            // Show the login dialog
-            loginDialog.classList.add('active');
-
-            // Reset form and clear error messages
-            const loginForm = document.getElementById('loginForm');
-            const errorMessage = loginDialog.querySelector('.error-message');
-            if (loginForm) loginForm.reset();
-            if (errorMessage) errorMessage.style.display = 'none';
-
-            // Focus on username field
-            setTimeout(() => {
-                const usernameInput = document.getElementById('username');
-                if (usernameInput) usernameInput.focus();
-            }, 100);
-
-            // Set callback for after successful login
-            window.loginCallback = function() {
-                updateToolbarButtons();
-            };
-        });
-    }
-
-    // Add click handler for logout button
-    const logoutButton = document.querySelector('.logout-button');
-    if (logoutButton) {
-        logoutButton.addEventListener('click', async function() {
-            try {
-                const response = await fetch('/api/logout', {
-                    method: 'POST'
-                });
-
-                if (response.ok) {
-                    // Update toolbar buttons after logout
-                    updateToolbarButtons();
-                } else {
-                    window.DialogSystem.showMessageDialog('Error', 'Failed to logout');
-                }
-            } catch (error) {
-                console.error('Error during logout:', error);
-                window.DialogSystem.showMessageDialog('Error', 'Failed to logout');
-            }
-        });
-    }
-
-    // Add keyboard shortcut for login dialog (Escape to close)
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            const loginDialog = document.querySelector('.login-dialog');
-            if (loginDialog && loginDialog.classList.contains('active')) {
-                hideLoginDialog();
-            }
-        }
-    });
-
-    // Add click handler for login dialog close button
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.login-dialog .close-dialog')) {
-            hideLoginDialog();
-        }
-    });
+    // Login and logout button handlers have been moved to auth.js
 
     // Move Document functionality
     const moveDocButton = document.querySelector('.move-document');
@@ -1725,9 +1519,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Function to show the move dialog
         function showMoveDocDialog() {
             // First check if user is an admin
-            checkIfUserIsAdmin().then(isAdmin => {
+            window.Auth.checkIfUserIsAdmin().then(isAdmin => {
                 if (!isAdmin) {
-                    showAdminOnlyError();
+                    window.Auth.showAdminOnlyError();
                     return;
                 }
 
@@ -1850,26 +1644,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Function to check if the default password is in use
-    async function checkDefaultPassword() {
-        try {
-            const response = await fetch('/api/check-default-password');
-            const data = await response.json();
-
-            const banner = document.getElementById('password-warning-banner');
-            if (!banner) return;
-
-            if (data.defaultPasswordInUse) {
-                banner.style.display = 'block';
-                document.body.classList.add('has-password-warning');
-            } else {
-                banner.style.display = 'none';
-                document.body.classList.remove('has-password-warning');
-            }
-        } catch (error) {
-            console.error('Error checking default password:', error);
-        }
-    }
+    // Function to check if the default password is in use - moved to auth.js
 
     // Function to fetch max upload size from server
     async function fetchMaxUploadSize() {
@@ -1891,28 +1666,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Add this code near the beginning of the DOMContentLoaded event handler
-    // Check for pending actions from previous login
-    function checkPendingActions() {
-        const pendingAction = localStorage.getItem('pendingAction');
-        if (pendingAction) {
-            // Clear the pending action first to prevent loops
-            localStorage.removeItem('pendingAction');
-
-            if (pendingAction === 'editPage') {
-                // Check if the user is an admin then load the editor
-                checkIfUserIsAdmin().then(isAdmin => {
-                    if (isAdmin && editPageButton) {
-                        // Small delay to ensure the page is fully loaded
-                        setTimeout(() => loadEditor(), 100);
-                    }
-                });
-            } else if (pendingAction === 'loginCallback') {
-                updateToolbarButtons();
-            }
-        }
-    }
-
-    // Execute pending actions check after page is fully loaded
-    setTimeout(checkPendingActions, 500);
+    // Check for pending actions from previous login - moved to auth.js
 });

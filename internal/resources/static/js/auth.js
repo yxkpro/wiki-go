@@ -63,6 +63,7 @@
             if (e.key === 'Escape') {
                 if (loginDialog && loginDialog.classList.contains('active')) {
                     hideLoginDialog();
+                    e.preventDefault();
                 }
             }
         });

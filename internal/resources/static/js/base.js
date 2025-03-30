@@ -1261,6 +1261,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (closeFileUploadDialog) {
         closeFileUploadDialog.addEventListener('click', hideFileUploadDialog);
     }
+    
+    // Handle ESC key to close the file upload dialog
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (fileUploadDialog.classList.contains('active')) {
+                hideFileUploadDialog();
+                e.preventDefault();
+            }
+        }
+    });
 
     // Function to load document files - moved to file-utilities.js
 

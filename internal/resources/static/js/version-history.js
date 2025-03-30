@@ -27,7 +27,15 @@
             closeVersionHistoryDialog.addEventListener('click', hideVersionHistoryDialog);
         }
 
-        // Note: ESC key handling is managed in base.js
+        // Add dedicated ESC key handler for version history dialog
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (versionHistoryDialog && versionHistoryDialog.classList.contains('active')) {
+                    hideVersionHistoryDialog();
+                    e.preventDefault();
+                }
+            }
+        });
     });
 
     // Helper function to get current document path

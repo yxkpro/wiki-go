@@ -1517,3 +1517,33 @@ window.addEventListener('resize', () => {
         }
     }
 });
+
+// Add dedicated ESC key handler for exiting edit mode
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        // Only handle if we're in edit mode and no dialogs are open
+        const mainContent = document.querySelector('.content');
+        const editorContainer = document.querySelector('.editor-container');
+        const viewToolbar = document.querySelector('.view-toolbar');
+        const editToolbar = document.querySelector('.edit-toolbar');
+        
+        if (mainContent && mainContent.classList.contains('editing')) {
+            // Check if any dialogs are open - we shouldn't exit edit mode if dialogs are open
+            const hasOpenDialog = 
+                document.querySelector('.version-history-dialog')?.classList.contains('active') ||
+                document.querySelector('.file-upload-dialog')?.classList.contains('active') ||
+                document.querySelector('.login-dialog')?.classList.contains('active') ||
+                document.querySelector('.message-dialog')?.classList.contains('active') ||
+                document.querySelector('.confirmation-dialog')?.classList.contains('active') ||
+                document.querySelector('.user-confirmation-dialog')?.classList.contains('active') ||
+                document.querySelector('.new-document-dialog')?.classList.contains('active') ||
+                document.querySelector('.settings-dialog')?.classList.contains('active') ||
+                document.querySelector('.move-document-dialog')?.classList.contains('active');
+                
+            if (!hasOpenDialog) {
+                exitEditMode(mainContent, editorContainer, viewToolbar, editToolbar);
+                e.preventDefault();
+            }
+        }
+    }
+});

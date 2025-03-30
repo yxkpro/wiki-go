@@ -1,34 +1,4 @@
-// Define global dialog functions before any other code
-window.showConfirmDialog = function(title, message, callback) {
-    // This function will be replaced by the fully initialized version
-    // once the DOM is loaded, but provides a reference in the meantime
-    document.addEventListener('DOMContentLoaded', () => {
-        const userConfirmDialog = document.querySelector('.user-confirmation-dialog');
-        const confirmTitle = document.querySelector('.user-confirmation-dialog .confirm-title');
-        const confirmContent = document.querySelector('.user-confirmation-dialog .confirm-content');
-
-        confirmTitle.textContent = title;
-        confirmContent.textContent = message;
-
-        // Store callback for the buttons to use
-        window.confirmCallback = callback;
-        userConfirmDialog.classList.add('active');
-    });
-};
-
-window.showMessageDialog = function(title, message) {
-    // This function will be replaced by the fully initialized version
-    // once the DOM is loaded, but provides a reference in the meantime
-    document.addEventListener('DOMContentLoaded', () => {
-        const messageDialog = document.querySelector('.message-dialog');
-        const messageTitle = document.querySelector('.message-dialog .message-title');
-        const messageContent = document.querySelector('.message-dialog .message-content');
-
-        messageTitle.textContent = title;
-        messageContent.textContent = message;
-        messageDialog.classList.add('active');
-    });
-};
+// Dialog functionality has been moved to dialog-system.js
 
 document.addEventListener('DOMContentLoaded', function() {
     'use strict';
@@ -43,29 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check if default password is in use
     checkDefaultPassword();
 
-    // Now replace the global functions with proper implementations
-    window.showConfirmDialog = function(title, message, callback) {
-        const userConfirmDialog = document.querySelector('.user-confirmation-dialog');
-        const confirmTitle = document.querySelector('.user-confirmation-dialog .confirm-title');
-        const confirmContent = document.querySelector('.user-confirmation-dialog .confirm-content');
-
-        confirmTitle.textContent = title;
-        confirmContent.textContent = message;
-
-        // Store callback for the buttons to use
-        window.confirmCallback = callback;
-        userConfirmDialog.classList.add('active');
-    };
-
-    window.showMessageDialog = function(title, message) {
-        const messageDialog = document.querySelector('.message-dialog');
-        const messageTitle = document.querySelector('.message-dialog .message-title');
-        const messageContent = document.querySelector('.message-dialog .message-content');
-
-        messageTitle.textContent = title;
-        messageContent.textContent = message;
-        messageDialog.classList.add('active');
-    };
+    // Dialog functions are now initialized in dialog-system.js
 
     const hamburger = document.querySelector('.hamburger');
     const sidebar = document.querySelector('.sidebar');
@@ -273,89 +221,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to show admin-only feature error
     function showAdminOnlyError() {
-        showMessageDialog("Admin Access Required", "This feature is only available to administrators.");
+        window.DialogSystem.showMessageDialog("Admin Access Required", "This feature is only available to administrators.");
     }
-
-    // Message dialog functionality
-    const messageDialog = document.querySelector('.message-dialog');
-    const messageTitle = document.querySelector('.message-dialog .message-title');
-    const messageContent = document.querySelector('.message-dialog .message-content');
-    const messageOkButton = document.querySelector('.message-dialog .message-ok');
-    const closeMessageDialog = messageDialog.querySelector('.close-dialog');
-
-    function showMessageDialog(title, message) {
-        messageTitle.textContent = title;
-        messageContent.textContent = message;
-        messageDialog.classList.add('active');
-    }
-
-    function hideMessageDialog() {
-        messageDialog.classList.remove('active');
-    }
-
-    // Add event listeners for the message dialog
-    if (messageOkButton) {
-        messageOkButton.addEventListener('click', hideMessageDialog);
-    }
-
-    if (closeMessageDialog) {
-        closeMessageDialog.addEventListener('click', hideMessageDialog);
-    }
-
-    // Confirmation dialog functionality
-    const userConfirmDialog = document.querySelector('.user-confirmation-dialog');
-    const confirmTitle = document.querySelector('.user-confirmation-dialog .confirm-title');
-    const confirmContent = document.querySelector('.user-confirmation-dialog .confirm-content');
-    const confirmYesButton = document.querySelector('.user-confirmation-dialog .confirm-yes');
-    const confirmNoButton = document.querySelector('.user-confirmation-dialog .confirm-no');
-    const closeConfirmDialog = userConfirmDialog.querySelector('.close-dialog');
-    let confirmCallback = null;
-
-    function showConfirmDialog(title, message, callback) {
-        confirmTitle.textContent = title;
-        confirmContent.textContent = message;
-        window.confirmCallback = callback; // Set the global callback instead of local variable
-        userConfirmDialog.classList.add('active');
-    }
-
-    function hideConfirmDialog() {
-        userConfirmDialog.classList.remove('active');
-    }
-
-    // Make functions globally accessible
-    window.showConfirmDialog = showConfirmDialog;
-    window.hideConfirmDialog = hideConfirmDialog;
-
-    // Add event listeners for the confirmation dialog
-    if (confirmYesButton) {
-        confirmYesButton.addEventListener('click', function() {
-            hideConfirmDialog();
-            if (window.confirmCallback) {
-                window.confirmCallback(true);
-                window.confirmCallback = null; // Clear callback after use
-            }
-        });
-    }
-
-    if (confirmNoButton) {
-        confirmNoButton.addEventListener('click', function() {
-            hideConfirmDialog();
-            if (window.confirmCallback) {
-                window.confirmCallback(false);
-                window.confirmCallback = null; // Clear callback after use
-            }
-        });
-    }
-
-    if (closeConfirmDialog) {
-        closeConfirmDialog.addEventListener('click', function() {
-            hideConfirmDialog();
-            if (window.confirmCallback) {
-                window.confirmCallback(false);
-                window.confirmCallback = null; // Clear callback after use
-            }
-        });
-    }
+    
+    // Dialog functionality has been moved to dialog-system.js
 
     // Auto-enter edit mode if content is empty
     const markdownContent = document.querySelector('.markdown-content');
@@ -702,9 +571,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const isVersionHistoryDialogOpen = versionHistoryDialog && versionHistoryDialog.classList.contains('active');
             const isFileUploadDialogOpen = fileUploadDialog && fileUploadDialog.classList.contains('active');
             const isLoginDialogOpen = loginDialog && loginDialog.classList.contains('active');
-            const isMessageDialogOpen = messageDialog && messageDialog.classList.contains('active');
+            const isMessageDialogOpen = document.querySelector('.message-dialog')?.classList.contains('active');
             const isDeleteConfirmDialogOpen = confirmationDialog && confirmationDialog.classList.contains('active');
-            const isUserConfirmDialogOpen = userConfirmDialog && userConfirmDialog.classList.contains('active');
+            const isUserConfirmDialogOpen = document.querySelector('.user-confirmation-dialog')?.classList.contains('active');
             const isNewDocDialogOpen = newDocDialog && newDocDialog.classList.contains('active');
             const isSettingsDialogOpen = settingsDialog && settingsDialog.classList.contains('active');
             const isMoveDocDialogOpen = document.querySelector('.move-document-dialog')?.classList.contains('active');
@@ -715,10 +584,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 hideLoginDialog();
             } else if (isMessageDialogOpen) {
                 // Close message dialog first
-                hideMessageDialog();
+                window.DialogSystem.hideMessageDialog();
             } else if (isUserConfirmDialogOpen) {
                 // Close user confirmation dialog
-                hideConfirmDialog();
+                window.DialogSystem.hideConfirmDialog();
             } else if (isVersionHistoryDialogOpen) {
                 // Close version history dialog first
                 window.VersionHistory.hideVersionHistoryDialog();
@@ -1294,7 +1163,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.i18n.t('delete_user.confirm_message').replace('{0}', username) :
             `Are you sure you want to delete user "${username}"? This action cannot be undone.`;
 
-        showConfirmDialog(
+        window.DialogSystem.showConfirmDialog(
             title,
             message,
             async (confirmed) => {
@@ -1320,7 +1189,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     checkDefaultPassword();
                 } catch (error) {
                     console.error('Error deleting user:', error);
-                    showMessageDialog("Delete Failed", error.message || 'Failed to delete user');
+                    window.DialogSystem.showMessageDialog("Delete Failed", error.message || 'Failed to delete user');
                 }
             }
         );
@@ -1535,6 +1404,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function hideFileUploadDialog() {
         fileUploadDialog.classList.remove('active');
     }
+    
+    // Expose function to global scope for use in other modules
+    window.hideFileUploadDialog = hideFileUploadDialog;
 
     // Add event listeners for showing/hiding dialog
     if (uploadFileButton) {
@@ -1656,7 +1528,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Clear form and show success message
                 fileUploadForm.reset();
-                showMessageDialog("Upload Successful", "File has been uploaded successfully.");
+                window.DialogSystem.showMessageDialog("Upload Successful", "File has been uploaded successfully.");
 
                 // Switch to the files tab and refresh the files list
                 const filesTabBtn = Array.from(fileUploadTabButtons).find(btn => btn.getAttribute('data-tab') === 'files-tab');
@@ -1864,11 +1736,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Update toolbar buttons after logout
                     updateToolbarButtons();
                 } else {
-                    showMessageDialog('Error', 'Failed to logout');
+                    window.DialogSystem.showMessageDialog('Error', 'Failed to logout');
                 }
             } catch (error) {
                 console.error('Error during logout:', error);
-                showMessageDialog('Error', 'Failed to logout');
+                window.DialogSystem.showMessageDialog('Error', 'Failed to logout');
             }
         });
     }
@@ -1933,7 +1805,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Don't show for homepage
                 const currentPath = getCurrentDocPath();
                 if (currentPath === '' || currentPath === '/' || currentPath.toLowerCase() === 'homepage') {
-                    showMessageDialog('Cannot Move Homepage', 'The homepage cannot be moved or renamed.');
+                    window.DialogSystem.showMessageDialog('Cannot Move Homepage', 'The homepage cannot be moved or renamed.');
                     return;
                 }
 

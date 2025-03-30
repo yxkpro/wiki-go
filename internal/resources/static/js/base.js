@@ -15,78 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Dialog functions are now initialized in dialog-system.js
 
-    const hamburger = document.querySelector('.hamburger');
-    const sidebar = document.querySelector('.sidebar');
-    const content = document.querySelector('.content');
-    const body = document.body;
-
-    hamburger.addEventListener('click', function(e) {
-        e.stopPropagation();
-        hamburger.classList.toggle('active');
-        sidebar.classList.toggle('active');
-        body.classList.toggle('sidebar-active');
-        content.classList.toggle('sidebar-active');
-    });
-
-    document.addEventListener('click', function(e) {
-        if (sidebar.classList.contains('active') &&
-            !sidebar.contains(e.target) &&
-            !hamburger.contains(e.target)) {
-            hamburger.classList.remove('active');
-            sidebar.classList.remove('active');
-            body.classList.remove('sidebar-active');
-            content.classList.remove('sidebar-active');
-        }
-    });
-
-    sidebar.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function() {
-            if (window.innerWidth <= 768) {
-                hamburger.classList.remove('active');
-                sidebar.classList.remove('active');
-                body.classList.remove('sidebar-active');
-                content.classList.remove('sidebar-active');
-            }
-        });
-    });
-
-    // Touch drag functionality for sidebar on mobile
-    let touchStartX = 0;
-    let touchEndX = 0;
-    const swipeThreshold = 50; // Minimum distance required for a swipe
-    const edgeThreshold = 30; // Distance from edge to detect edge swipe
-
-    // Handle touch start
-    document.addEventListener('touchstart', function(e) {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    // Handle touch end
-    document.addEventListener('touchend', function(e) {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
-
-    // Process the swipe
-    function handleSwipe() {
-        const swipeDistance = touchEndX - touchStartX;
-
-        // Right swipe (open sidebar)
-        if (swipeDistance > swipeThreshold && touchStartX < edgeThreshold && !sidebar.classList.contains('active')) {
-            hamburger.classList.add('active');
-            sidebar.classList.add('active');
-            body.classList.add('sidebar-active');
-            content.classList.add('sidebar-active');
-        }
-
-        // Left swipe (close sidebar)
-        if (swipeDistance < -swipeThreshold && sidebar.classList.contains('active')) {
-            hamburger.classList.remove('active');
-            sidebar.classList.remove('active');
-            body.classList.remove('sidebar-active');
-            content.classList.remove('sidebar-active');
-        }
-    }
+    // Sidebar navigation functionality has been moved to sidebar-navigation.js
 
     // Theme management has been moved to theme-manager.js
 

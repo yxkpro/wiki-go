@@ -99,15 +99,7 @@
             cancelNewDocButton.addEventListener('click', hideNewDocDialog);
         }
         
-        // Add dedicated ESC key handler for new document dialog
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                if (newDocDialog && newDocDialog.classList.contains('active')) {
-                    hideNewDocDialog();
-                    e.preventDefault();
-                }
-            }
-        });
+        // Escape key is now handled by keyboard-shortcuts.js
         
         // Handle new document form submission
         if (newDocForm) {
@@ -195,15 +187,7 @@
             deleteConfirmBtn.addEventListener('click', handleDocumentDeletion);
         }
         
-        // Add dedicated ESC key handler for delete confirmation dialog
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                if (confirmationDialog && confirmationDialog.classList.contains('active')) {
-                    hideConfirmationDialog();
-                    e.preventDefault();
-                }
-            }
-        });
+        // Escape key is now handled by keyboard-shortcuts.js
     });
     
     // Show new document dialog

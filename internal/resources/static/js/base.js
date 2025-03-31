@@ -35,12 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Close dropdown when pressing Escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                actionsMenu.classList.remove('active');
-            }
-        });
+        // Escape key handling is now in keyboard-shortcuts.js
     }
 
     // Edit functionality
@@ -157,73 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Add keyboard shortcuts for edit mode
-    document.addEventListener('keydown', function(e) {
-        // Ctrl+E to enter edit mode
-        if (e.ctrlKey && e.key.toLowerCase() === 'e') {
-            e.preventDefault(); // Prevent default browser behavior
-            if (editPageButton && !mainContent.classList.contains('editing')) {
-                editPageButton.click();
-            }
-        }
-
-        // Ctrl+S to save changes in edit mode
-        if (e.ctrlKey && e.key.toLowerCase() === 's') {
-            e.preventDefault(); // Prevent browser's save dialog
-            if (mainContent.classList.contains('editing')) {
-                saveButton.click();
-            }
-        }
-
-        // Esc to cancel edit mode, close login dialog, or close file upload dialog
-        if (e.key === 'Escape') {
-            // Check for open dialogs
-            const versionHistoryDialog = document.querySelector('.version-history-dialog');
-            const isVersionHistoryDialogOpen = versionHistoryDialog && versionHistoryDialog.classList.contains('active');
-            const isFileUploadDialogOpen = document.querySelector('.file-upload-dialog')?.classList.contains('active');
-            const isLoginDialogOpen = loginDialog && loginDialog.classList.contains('active');
-            const isMessageDialogOpen = document.querySelector('.message-dialog')?.classList.contains('active');
-            const isDeleteConfirmDialogOpen = confirmationDialog && confirmationDialog.classList.contains('active');
-            const isUserConfirmDialogOpen = document.querySelector('.user-confirmation-dialog')?.classList.contains('active');
-            const isNewDocDialogOpen = newDocDialog && newDocDialog.classList.contains('active');
-            const isSettingsDialogOpen = document.querySelector('.settings-dialog')?.classList.contains('active');
-            const isMoveDocDialogOpen = document.querySelector('.move-document-dialog')?.classList.contains('active');
-            const isEditing = mainContent && mainContent.classList.contains('editing');
-
-            if (isLoginDialogOpen) {
-                // Close login dialog first
-                hideLoginDialog();
-            } else if (isMessageDialogOpen) {
-                // Close message dialog first
-                window.DialogSystem.hideMessageDialog();
-            } else if (isUserConfirmDialogOpen) {
-                // Close user confirmation dialog
-                window.DialogSystem.hideConfirmDialog();
-            } else if (isVersionHistoryDialogOpen) {
-                // Close version history dialog first
-                window.VersionHistory.hideVersionHistoryDialog();
-                return; // Exit the event handler completely to prevent exiting edit mode
-            } else if (isFileUploadDialogOpen) {
-                // Close file upload dialog
-                window.FileUpload.hideFileUploadDialog();
-            } else if (isMoveDocDialogOpen) {
-                // Close move document dialog
-                window.MoveDocument.hideMoveDocDialog();
-            } else if (isDeleteConfirmDialogOpen) {
-                // Close delete confirmation dialog
-                window.DocumentManager.hideConfirmationDialog();
-            } else if (isNewDocDialogOpen) {
-                // Close new document dialog
-                window.DocumentManager.hideNewDocDialog();
-            } else if (isSettingsDialogOpen) {
-                // Close settings dialog
-                window.SettingsManager.hideSettingsDialog();
-            } else if (isEditing) {
-                // Close edit mode if no dialogs are open
-                exitEditMode();
-            }
-        }
-    });
+    // Keyboard shortcuts have been moved to keyboard-shortcuts.js
 
     // Document deletion functionality has been moved to document-management.js
 

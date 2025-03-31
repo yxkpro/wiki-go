@@ -58,15 +58,7 @@
             logoutButton.addEventListener('click', handleLogout);
         }
         
-        // Add keyboard shortcut for login dialog (Escape to close)
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                if (loginDialog && loginDialog.classList.contains('active')) {
-                    hideLoginDialog();
-                    e.preventDefault();
-                }
-            }
-        });
+        // Escape key is now handled by keyboard-shortcuts.js
         
         // Add click handler for login dialog close button
         document.addEventListener('click', function(e) {

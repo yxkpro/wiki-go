@@ -99,15 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cancelSettingsButton.addEventListener('click', hideSettingsDialog);
     }
     
-    // Handle ESC key to close the settings dialog - similar to file upload dialog
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            if (settingsDialog.classList.contains('active')) {
-                hideSettingsDialog();
-                e.preventDefault();
-            }
-        }
-    });
+    // Escape key is now handled by keyboard-shortcuts.js
 
     // Handle form submission
     if (settingsForm) {

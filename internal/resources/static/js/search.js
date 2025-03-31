@@ -52,13 +52,7 @@ const WikiSearch = (function() {
             searchBox.value = '';
         });
 
-        // Close search results on ESC key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && searchResults.classList.contains('active')) {
-                searchResults.classList.remove('active');
-                searchBox.value = '';
-            }
-        });
+        // Escape key is now handled by keyboard-shortcuts.js
     }
 
     /**
@@ -144,13 +138,38 @@ const WikiSearch = (function() {
         searchResultsContent.innerHTML = html;
     }
 
+    // Hide search results function for keyboard shortcuts
+    function hideSearchResults() {
+        if (searchResults) {
+            searchResults.classList.remove('active');
+            if (searchBox) {
+                searchBox.value = '';
+            }
+        }
+    }
+
     // Public API
     return {
         init: init,
         // Export additional methods that might be needed by other modules
-        performSearch: performSearch
+        performSearch: performSearch,
+        hideSearchResults: hideSearchResults
     };
 })();
+
+// Create window.Search for compatibility with keyboard-shortcuts.js
+window.Search = {
+    hideSearchResults: function() {
+        const searchResults = document.querySelector('.search-results');
+        const searchBox = document.querySelector('.search-box');
+        if (searchResults) {
+            searchResults.classList.remove('active');
+            if (searchBox) {
+                searchBox.value = '';
+            }
+        }
+    }
+};
 
 // Initialize search when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {

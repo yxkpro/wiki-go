@@ -1331,8 +1331,105 @@ window.WikiEditor = {
     getEditorContent,
     insertIntoEditor,
     insertRawContent,
-    isEditorActive
+    isEditorActive,
+    // Adding functions for edit button and save button functionality
+    initializeEditControls
 };
+
+// Function to initialize edit controls
+function initializeEditControls() {
+    const editPageButton = document.querySelector('.edit-page');
+    const saveButton = document.querySelector('.save-changes');
+    const cancelButton = document.querySelector('.cancel-edit');
+    const mainContent = document.querySelector('.content');
+    const editorContainer = document.querySelector('.editor-container');
+    const viewToolbar = document.querySelector('.view-toolbar');
+    const editToolbar = document.querySelector('.edit-toolbar');
+    const markdownContent = document.querySelector('.markdown-content');
+
+    // Auto-enter edit mode if content is empty
+    if (markdownContent && editPageButton) {
+        const contentText = markdownContent.textContent.trim();
+        const h1Only = markdownContent.children.length === 1 &&
+                      markdownContent.children[0].tagName === 'H1';
+
+        if (h1Only) {
+            editPageButton.click();
+        }
+    }
+
+    // Update edit button functionality
+    if (editPageButton) {
+        editPageButton.addEventListener('click', async function() {
+            try {
+                // Check if user is authenticated
+                const authResponse = await fetch('/api/check-auth');
+                if (authResponse.status === 401) {
+                    // Show login dialog
+                    window.Auth.showLoginDialog(() => {
+                        // After login, check if admin
+                        window.Auth.checkIfUserIsAdmin().then(isAdmin => {
+                            if (isAdmin) {
+                                loadEditor(mainContent, editorContainer, viewToolbar, editToolbar);
+                                // Update toolbar buttons after login
+                                window.Auth.updateToolbarButtons();
+                            } else {
+                                window.Auth.showAdminOnlyError();
+                            }
+                        });
+                    });
+                    return;
+                }
+
+                // User is authenticated, check if admin
+                const isAdmin = await window.Auth.checkIfUserIsAdmin();
+                if (isAdmin) {
+                    loadEditor(mainContent, editorContainer, viewToolbar, editToolbar);
+                } else {
+                    window.Auth.showAdminOnlyError();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to check authentication status');
+            }
+        });
+    }
+
+    // Save button functionality
+    if (saveButton) {
+        saveButton.addEventListener('click', async function() {
+            try {
+                const isHomepage = window.location.pathname === '/';
+                const apiPath = isHomepage ? '/api/save/' : `/api/save${window.location.pathname}`;
+
+                const content = getEditorContent();
+
+                const response = await fetch(apiPath, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    },
+                    body: content
+                });
+
+                if (!response.ok) throw new Error('Failed to save content');
+
+                window.location.reload();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to save changes');
+            }
+        });
+    }
+
+    // Cancel button functionality
+    if (cancelButton) {
+        cancelButton.addEventListener('click', function() {
+            exitEditMode(mainContent, editorContainer, viewToolbar, editToolbar);
+        });
+    }
+}
 
 // Function to apply custom colors based on current theme
 function applyCustomColors() {

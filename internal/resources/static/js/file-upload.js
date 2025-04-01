@@ -8,7 +8,7 @@ function showFileUploadDialog() {
     const fileUploadDialog = document.querySelector('.file-upload-dialog');
     const fileUploadErrorMessage = fileUploadDialog.querySelector('.error-message');
     const fileUploadForm = document.getElementById('fileUploadForm');
-    
+
     fileUploadDialog.classList.add('active');
     fileUploadErrorMessage.style.display = 'none';
     fileUploadForm.reset();
@@ -156,7 +156,6 @@ async function handleFileUpload(e) {
 
         // Clear form and show success message
         fileUploadForm.reset();
-        window.DialogSystem.showMessageDialog("Upload Successful", "File has been uploaded successfully.");
 
         // Switch to the files tab and refresh the files list
         const filesTabBtn = Array.from(document.querySelectorAll('.file-upload-tabs .tab-button')).find(btn => btn.getAttribute('data-tab') === 'files-tab');
@@ -177,9 +176,9 @@ async function handleFileUpload(e) {
 function initFileUpload() {
     const uploadFileButton = document.querySelector('.upload-file');
     const fileUploadDialog = document.querySelector('.file-upload-dialog');
-    
+
     if (!fileUploadDialog) return;
-    
+
     const closeFileUploadDialog = fileUploadDialog.querySelector('.close-dialog');
     const fileUploadForm = document.getElementById('fileUploadForm');
     const fileUploadTabButtons = document.querySelectorAll('.file-upload-tabs .tab-button');
@@ -219,7 +218,7 @@ function initFileUpload() {
     // Handle form submission
     if (fileUploadForm) {
         fileUploadForm.addEventListener('submit', handleFileUpload);
-        
+
         // Reset error message when a new file is selected
         if (fileInput) {
             fileInput.addEventListener('change', function() {

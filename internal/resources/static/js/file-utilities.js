@@ -287,7 +287,6 @@ async function deleteFile(path) {
                     if (response.ok) {
                         // The request was successful even if we couldn't parse the JSON
                         loadDocumentFiles();
-                        window.DialogSystem.showMessageDialog("File Deleted", "The file was successfully deleted.");
                         return;
                     } else {
                         // Response wasn't OK and we couldn't parse the JSON
@@ -301,7 +300,6 @@ async function deleteFile(path) {
 
                 // Reload files list after successful deletion
                 loadDocumentFiles();
-                window.DialogSystem.showMessageDialog("File Deleted", "The file was successfully deleted.");
             } catch (error) {
                 console.error('Error deleting file:', error);
                 window.DialogSystem.showMessageDialog("Delete Failed", `Error: ${error.message || 'Failed to delete file'}. Please check the console for more details.`);
@@ -326,16 +324,6 @@ function handleFileInsertion(url, isImage, name) {
         window.DialogSystem.showMessageDialog("Error", "Cannot insert file - editor interface not available.");
         return;
     }
-
-    // Hide file upload dialog
-    hideFileUploadDialog();
-
-    // Determine message type
-    const isVideo = name.toLowerCase().endsWith('.mp4');
-    let messageType = isImage ? "Image" : (isVideo ? "Video" : "Link");
-
-    // Show success message
-    window.DialogSystem.showMessageDialog("File Inserted", `${messageType} has been inserted into the editor.`);
 }
 
 // Use the global getCurrentDocPath function from utilities.js

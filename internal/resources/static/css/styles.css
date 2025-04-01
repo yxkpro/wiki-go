@@ -416,9 +416,6 @@ body.has-password-warning .hamburger {
     color: var(--text-color);
     border-radius: 4px;
     transition: all 0.2s ease;
-    position: absolute;
-    right: 0;
-    top: 0;
 }
 
 /* For RTL languages, position close button on the left */

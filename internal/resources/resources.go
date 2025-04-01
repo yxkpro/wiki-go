@@ -16,6 +16,9 @@ var templateFiles embed.FS
 //go:embed langs/*.json
 var languageFiles embed.FS
 
+//go:embed static/data/*
+var dataFiles embed.FS
+
 // GetFileSystem returns an http.FileSystem for the embedded static files
 func GetFileSystem() http.FileSystem {
 	fsys, err := fs.Sub(staticFiles, "static")
@@ -39,6 +42,15 @@ func GetTemplatesFS() fs.FS {
 // GetLanguageFS returns an fs.FS for the embedded language files
 func GetLanguageFS() fs.FS {
 	fsys, err := fs.Sub(languageFiles, "langs")
+	if err != nil {
+		panic(err)
+	}
+	return fsys
+}
+
+// GetDataFS returns an fs.FS for the embedded data files
+func GetDataFS() fs.FS {
+	fsys, err := fs.Sub(dataFiles, "static/data")
 	if err != nil {
 		panic(err)
 	}

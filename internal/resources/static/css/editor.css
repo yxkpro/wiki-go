@@ -544,10 +544,22 @@
     max-width: 320px;
     max-height: 300px;
     overflow-y: auto;
+    width: auto;
+}
+
+.emoji-container {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     gap: 5px;
-    width: auto;
+}
+
+.emoji-loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 8px;
+    color: var(--text-color-secondary);
+    font-style: italic;
+    font-size: 0.9em;
 }
 
 .emoji-picker .emoji-btn {
@@ -621,7 +633,7 @@
         padding: 3px 6px !important;
         margin-top: 0 !important;
     }
-    
+
     /* Mobile-specific fix for active line highlighting */
     .custom-editor-wrapper .CodeMirror-activeline-background {
         background: transparent !important;
@@ -653,7 +665,7 @@
     :root[data-theme="dark"] .custom-editor-wrapper .CodeMirror-cursor {
         border-left: 2px solid rgba(255, 255, 255, 0.7) !important;
     }
-    
+
     /* Editor sidebar blur behavior */
     body.sidebar-active .editor-container,
     body.sidebar-active .editor-layout,
@@ -695,7 +707,7 @@
         z-index: 90;
         backdrop-filter: blur(2px);
     }
-    
+
     /* Mobile responsive heading styles */
     .custom-editor-wrapper .CodeMirror .cm-header-1 {
         font-size: 24px;
@@ -717,7 +729,7 @@
     .custom-editor-wrapper .CodeMirror .cm-header-6 {
         font-size: 14px;
     }
-    
+
     /* Mobile responsive preview heading styles */
     .editor-preview h1 {
         font-size: 24px;
@@ -739,14 +751,17 @@
     .editor-preview h6 {
         font-size: 14px;
     }
-    
+
     /* Mobile-specific emoji picker styles */
     .emoji-picker {
         max-width: calc(100vw - 40px);
         max-height: 250px;
+        padding: 8px;
+    }
+    
+    .emoji-container {
         grid-template-columns: repeat(6, 1fr);
         gap: 4px;
-        padding: 8px;
     }
 
     .emoji-picker .emoji-btn {
@@ -754,7 +769,7 @@
         height: 36px;
         font-size: 20px;
     }
-    
+
     /* Mobile-specific table picker styles */
     .table-picker {
         max-width: calc(100vw - 40px);
@@ -771,16 +786,19 @@
 /* Very small screen styles */
 @media (max-width: 360px) {
     .emoji-picker {
-        grid-template-columns: repeat(5, 1fr);
         max-width: calc(100vw - 20px);
         padding: 6px;
+    }
+    
+    .emoji-container {
+        grid-template-columns: repeat(5, 1fr);
     }
 
     .emoji-picker .emoji-btn {
         width: 32px;
         height: 32px;
     }
-    
+
     .table-picker {
         max-width: calc(100vw - 20px);
         padding: 6px;

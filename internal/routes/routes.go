@@ -2,6 +2,7 @@ package routes
 
 import (
 	"fmt"
+	"io/fs"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -226,6 +227,18 @@ func SetupRoutes(cfg *config.Config) {
 
 	// Markdown rendering API
 	mux.HandleFunc("/api/render-markdown", handlers.RenderMarkdownHandler)
+
+	// Emoji data API - serve the emojis.json file
+	mux.HandleFunc("/api/data/emojis", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		dataFS := resources.GetDataFS()
+		data, err := fs.ReadFile(dataFS, "emojis.json")
+		if err != nil {
+			http.Error(w, "Error reading emoji data", http.StatusInternalServerError)
+			return
+		}
+		w.Write(data)
+	})
 
 	// Login page
 	mux.HandleFunc("/login", handlers.LoginPageHandler)

@@ -30,22 +30,7 @@
         // Escape key is now handled by keyboard-shortcuts.js
     });
 
-    // Helper function to get current document path
-    function getCurrentDocPath() {
-        let path = window.location.pathname;
-        
-        // Remove leading slash
-        if (path.startsWith('/')) {
-            path = path.substring(1);
-        }
-        
-        // Handle root/homepage
-        if (path === '') {
-            return '';
-        }
-        
-        return path;
-    }
+    // Use the shared getCurrentDocPath function from utilities.js
 
     // Show version history dialog
     function showVersionHistoryDialog() {

@@ -83,6 +83,17 @@ jobs:
       - name: Build for macOS (arm64)
         run: GOOS=darwin GOARCH=arm64 go build -o build/wiki-go-mac-arm64 .
 
+      - name: Get commits since last tag
+        id: changelog
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^)
+          echo "Previous tag: $PREV_TAG"
+          LOG=$(git log "$PREV_TAG"..HEAD --pretty=format:"- %s")
+          echo "$LOG"
+          echo "CHANGELOG<<EOF" >> $GITHUB_ENV
+          echo "$LOG" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1

@@ -2354,7 +2354,7 @@ tr:nth-child(even) {
 }
 
 /* ---------- Responsive styles ---------- */
-@media (max-width: 975px) {
+@media (max-width: 1080px) {
     .toolbar-button .button-text { display: none; }
 }
 

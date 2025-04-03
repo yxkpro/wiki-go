@@ -1,6 +1,6 @@
 # LeoMoon Wiki-Go
 
-![Desktop](screenshots/desktop.png)
+![Desktop](screenshots/preview.png)
 
 LeoMoon Wiki-Go is a modern, feature-rich, databaseless flat-file wiki platform built with Go. It provides a clean, intuitive interface for creating and managing knowledge bases, documentation, and collaborative content without requiring any external database.
 
@@ -13,6 +13,11 @@ If you're running Wiki-Go without SSL/HTTPS and experiencing login issues, you n
 3. This prevents login from working properly on HTTP-only setups
 
 > **Security Note**: Only use this setting in development or in trusted internal networks. For public-facing wikis, always use HTTPS.
+
+
+## Screenshots
+
+You can look at more screenshots [here](SCREENSHOTS.md).
 
 ## Features
 
@@ -153,7 +158,7 @@ wiki:
     # Default language for the wiki interface (en, es, etc.)
     language: en
 users:
-    - username: leomoon
+    - username: admin
       password: <bcrypt-hashed-password>
       is_admin: true
 ```

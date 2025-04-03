@@ -55,6 +55,12 @@ func CSPMiddleware(next http.Handler) http.Handler {
 		w.Header().Set("X-XSS-Protection", "1; mode=block")
 		w.Header().Set("Referrer-Policy", "strict-origin-when-cross-origin")
 
+		// Add preload header for emojis.json to avoid AJAX loading
+		// This works by telling the browser to preload this resource before it's needed
+		if strings.HasSuffix(r.URL.Path, ".html") || r.URL.Path == "/" || strings.HasSuffix(r.URL.Path, "/") {
+			w.Header().Add("Link", "</api/data/emojis>; rel=preload; as=fetch; crossorigin=anonymous")
+		}
+
 		// Call the next handler
 		next.ServeHTTP(w, r)
 	})

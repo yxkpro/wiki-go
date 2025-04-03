@@ -8,6 +8,56 @@ let emojiPickerElement = null;
 // Emoji data for picker
 let emojiData = [];
 
+// Global emoji cache
+const EmojiCache = {
+    data: null,
+    preloadPromise: null,
+
+    // Get emoji data - returns a promise
+    getData: function() {
+        // If we already have data, return it
+        if (this.data) {
+            return Promise.resolve(this.data);
+        }
+
+        // If we're already loading, return the existing promise
+        if (this.preloadPromise) {
+            return this.preloadPromise;
+        }
+
+        // Start a new load
+        this.preloadPromise = this.fetchEmojiData()
+            .then(data => {
+                this.data = data;
+                return data;
+            })
+            .catch(err => {
+                console.error('Error loading emoji data:', err);
+                // Clear the promise so we can try again
+                this.preloadPromise = null;
+                return [];
+            });
+
+        return this.preloadPromise;
+    },
+
+    // Fetch emoji data from server
+    fetchEmojiData: async function() {
+        try {
+            console.log('Fetching emoji data from server');
+            const response = await fetch('/api/data/emojis');
+            if (!response.ok) {
+                throw new Error('Failed to fetch emoji data');
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching emoji data:', error);
+            return [];
+        }
+    }
+};
+
 // Helper functions for editor toolbar actions
 function addSubscript(cm) {
     var selection = cm.getSelection();
@@ -75,22 +125,6 @@ function insertEmoji(emoji) {
     editor.focus();
 }
 
-// Fetch emoji data from the server
-async function fetchEmojiData() {
-    try {
-        const response = await fetch('/api/data/emojis');
-        if (!response.ok) {
-            console.error('Failed to fetch emoji data');
-            return [];
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching emoji data:', error);
-        return [];
-    }
-}
-
 // Create emoji picker
 function createEmojiPicker() {
     const picker = document.createElement('div');
@@ -100,12 +134,12 @@ function createEmojiPicker() {
     // Create a content container for the emojis
     const emojiContainer = document.createElement('div');
     emojiContainer.className = 'emoji-container';
-    
+
     // Create a loading message
     const loadingMsg = document.createElement('div');
     loadingMsg.className = 'emoji-loading';
     loadingMsg.textContent = 'Loading emojis...';
-    
+
     // Add both to the picker
     picker.appendChild(loadingMsg);
     picker.appendChild(emojiContainer);
@@ -115,27 +149,27 @@ function createEmojiPicker() {
     // Pre-set a minimum width to avoid layout shifts
     picker.style.minWidth = '260px';
 
-    // Load emoji data
-    fetchEmojiData().then(data => {
+    // Load emoji data using our singleton cache
+    EmojiCache.getData().then(data => {
         // Save the data globally
         emojiData = data;
-        
+
         // Show the emoji buttons and hide the loading message
         loadingMsg.style.display = 'none';
-        
+
         // Create buttons for each emoji
         emojiData.forEach(emoji => {
             // Skip if no shortcodes
             if (!emoji.shortcodes || emoji.shortcodes.length === 0) return;
-            
+
             const button = document.createElement('button');
             button.className = 'emoji-btn';
-            
+
             // Get the primary shortcode (first in the array)
             const shortcode = ':' + emoji.shortcodes[0] + ':';
             button.title = shortcode;
             button.textContent = emoji.emoji;
-            
+
             button.addEventListener('click', () => {
                 const emojiObj = {
                     emoji: emoji.emoji,
@@ -154,6 +188,9 @@ function createEmojiPicker() {
 // Function to show emoji picker
 function showEmojiPicker(button) {
     if (!emojiPickerElement) {
+        // Start preloading emoji data if not already loaded
+        EmojiCache.getData();
+        // Create the picker
         emojiPickerElement = createEmojiPicker();
     }
 
@@ -169,7 +206,7 @@ function showEmojiPicker(button) {
 
     // Display the picker with initial position
     emojiPickerElement.style.display = 'block';
-    
+
     // Set a default fixed width and height for initial positioning calculation
     // This prevents layout shifts from causing miscalculations
     const estimatedWidth = viewportWidth < 500 ? 280 : 320;
@@ -1361,10 +1398,10 @@ document.addEventListener('keydown', function(e) {
         const editorContainer = document.querySelector('.editor-container');
         const viewToolbar = document.querySelector('.view-toolbar');
         const editToolbar = document.querySelector('.edit-toolbar');
-        
+
         if (mainContent && mainContent.classList.contains('editing')) {
             // Check if any dialogs are open - we shouldn't exit edit mode if dialogs are open
-            const hasOpenDialog = 
+            const hasOpenDialog =
                 document.querySelector('.version-history-dialog')?.classList.contains('active') ||
                 document.querySelector('.file-upload-dialog')?.classList.contains('active') ||
                 document.querySelector('.login-dialog')?.classList.contains('active') ||
@@ -1374,11 +1411,21 @@ document.addEventListener('keydown', function(e) {
                 document.querySelector('.new-document-dialog')?.classList.contains('active') ||
                 document.querySelector('.settings-dialog')?.classList.contains('active') ||
                 document.querySelector('.move-document-dialog')?.classList.contains('active');
-                
+
             if (!hasOpenDialog) {
                 exitEditMode(mainContent, editorContainer, viewToolbar, editToolbar);
                 e.preventDefault();
             }
         }
     }
+});
+
+// Preload emoji data when the page loads to avoid AJAX delay when editor is opened
+document.addEventListener('DOMContentLoaded', function() {
+    // Preload emoji data in the background - browsers will also preload it via Link header
+    setTimeout(() => {
+        EmojiCache.getData().then(() => {
+            console.log('Emoji data preloaded successfully');
+        });
+    }, 1000); // Delay by 1 second to let page finish loading first
 });

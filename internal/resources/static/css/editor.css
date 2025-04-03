@@ -553,15 +553,6 @@
     gap: 5px;
 }
 
-.emoji-loading {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 8px;
-    color: var(--text-color-secondary);
-    font-style: italic;
-    font-size: 0.9em;
-}
-
 .emoji-picker .emoji-btn {
     display: inline-flex;
     align-items: center;
@@ -758,7 +749,7 @@
         max-height: 250px;
         padding: 8px;
     }
-    
+
     .emoji-container {
         grid-template-columns: repeat(6, 1fr);
         gap: 4px;
@@ -789,7 +780,7 @@
         max-width: calc(100vw - 20px);
         padding: 6px;
     }
-    
+
     .emoji-container {
         grid-template-columns: repeat(5, 1fr);
     }

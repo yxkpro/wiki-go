@@ -588,6 +588,9 @@
     transition: filter 0.3s ease !important;
 }
 
+/* Fix text clipping on the right side in edit mode */
+.CodeMirror pre.CodeMirror-line { padding: 0 10px 0 5px !important;}
+
 /* Mobile responsive styles */
 @media (max-width: 768px) {
     .editor-container {

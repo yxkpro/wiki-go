@@ -12,7 +12,7 @@ RUN go mod download
 COPY . .
 
 ARG VERSION=dev
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags="-s -w" -o wiki-go .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags="-s -w -X 'wiki-go/internal/version.Version=${VERSION}'" -o wiki-go .
 
 # Final stage
 FROM docker.io/library/alpine:3.21

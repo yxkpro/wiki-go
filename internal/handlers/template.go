@@ -13,6 +13,7 @@ import (
 	"wiki-go/internal/resources"
 	"wiki-go/internal/types"
 	"wiki-go/internal/utils"
+	"wiki-go/internal/version"
 )
 
 // renderTemplate renders the base template with the given data
@@ -49,6 +50,9 @@ func getTemplate() (*template.Template, error) {
 		funcMap := template.FuncMap{
 			"formatTime": func(t time.Time, timezone string, format string) string {
 				return utils.FormatTimeInTimezone(t, timezone, format)
+			},
+			"getVersion": func() string {
+				return version.Version
 			},
 			"hasLogo": func(rootDir string) string {
 				// Check for logo.svg

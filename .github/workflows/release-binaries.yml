@@ -64,37 +64,37 @@ jobs:
         run: mkdir -p build
 
       - name: Build for Linux (amd64)
-        run: GOOS=linux GOARCH=amd64 go build -o build/wiki-go-linux-amd64 .
+        run: GOOS=linux GOARCH=amd64 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-linux-amd64 .
 
       - name: Build for Linux (386)
-        run: GOOS=linux GOARCH=386 go build -o build/wiki-go-linux-386 .
+        run: GOOS=linux GOARCH=386 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-linux-386 .
 
       - name: Build for Linux (arm64)
-        run: GOOS=linux GOARCH=arm64 go build -o build/wiki-go-linux-arm64 .
+        run: GOOS=linux GOARCH=arm64 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-linux-arm64 .
 
       - name: Build for Linux ARMv5
-        run: GOOS=linux GOARCH=arm GOARM=5 go build -o build/wiki-go-linux-armv5 .
+        run: GOOS=linux GOARCH=arm GOARM=5 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-linux-armv5 .
 
       - name: Build for Linux ARMv6
-        run: GOOS=linux GOARCH=arm GOARM=6 go build -o build/wiki-go-linux-armv6 .
+        run: GOOS=linux GOARCH=arm GOARM=6 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-linux-armv6 .
 
       - name: Build for Linux ARMv7
-        run: GOOS=linux GOARCH=arm GOARM=7 go build -o build/wiki-go-linux-armv7 .
+        run: GOOS=linux GOARCH=arm GOARM=7 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-linux-armv7 .
 
       - name: Build for Linux (s390x)
-        run: GOOS=linux GOARCH=s390x go build -o build/wiki-go-linux-s390x .
+        run: GOOS=linux GOARCH=s390x go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-linux-s390x .
 
       - name: Build for Windows (amd64)
-        run: GOOS=windows GOARCH=amd64 go build -o build/wiki-go-windows-amd64.exe .
+        run: GOOS=windows GOARCH=amd64 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-windows-amd64.exe .
 
       - name: Build for Windows (arm64)
-        run: GOOS=windows GOARCH=arm64 go build -o build/wiki-go-windows-arm64.exe .
+        run: GOOS=windows GOARCH=arm64 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-windows-arm64.exe .
 
       - name: Build for macOS (amd64)
-        run: GOOS=darwin GOARCH=amd64 go build -o build/wiki-go-mac-amd64 .
+        run: GOOS=darwin GOARCH=amd64 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-mac-amd64 .
 
       - name: Build for macOS (arm64)
-        run: GOOS=darwin GOARCH=arm64 go build -o build/wiki-go-mac-arm64 .
+        run: GOOS=darwin GOARCH=arm64 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-mac-arm64 .
 
       - name: Get commits since last tag
         id: changelog

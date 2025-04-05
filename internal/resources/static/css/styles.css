@@ -2436,6 +2436,13 @@ tr:nth-child(even) {
         border-right: 1px solid var(--border-color);
     }
 
+    /* Override global styles for password warning on mobile */
+    body.has-password-warning .hamburger {
+        height: 48px;
+        top: 40px;
+        left: 0;
+    }
+
     /* Ensure hamburger transforms into X when sidebar is active */
     .hamburger.active {
         z-index: 1002; /* Ensure it stays on top */

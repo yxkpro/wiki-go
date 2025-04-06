@@ -1,8 +1,12 @@
 # LeoMoon Wiki-Go
 
-![Desktop](screenshots/preview.png)
+![docker builds](https://github.com/leomoon-studios/wiki-go/actions/workflows/release-docker.yml/badge.svg)
+![binary builds](https://github.com/leomoon-studios/wiki-go/actions/workflows/release-binaries.yml/badge.svg)
+[![version](https://img.shields.io/github/v/release/leomoon-studios/wiki-go?label=Version)](https://github.com/leomoon-studios/wiki-go/releases)
 
-LeoMoon Wiki-Go is a modern, feature-rich, databaseless flat-file wiki platform built with Go. It provides a clean, intuitive interface for creating and managing knowledge bases, documentation, and collaborative content without requiring any external database.
+A fast, modern, **flat-file wiki** powered by Go.
+
+No database. No bloat. Just Markdown, simplicity, and power.
 
 ## Important Configuration Note with Non-SSL Setups
 
@@ -14,12 +18,19 @@ If you're running Wiki-Go without SSL/HTTPS and experiencing login issues, you n
 
 > **Security Note**: Only use this setting in development or in trusted internal networks. For public-facing wikis, always use HTTPS.
 
-
-## Screenshots
-
-You can look at more screenshots [here](SCREENSHOTS.md).
-
 ## Features
+
+### Features at a Glance
+
+- ✍️ Full Markdown editing with emoji, Mermaid diagrams, and LaTeX math
+- 🔍 Smart full-text search with highlighting and advanced filters
+- 📁 Hierarchical page structure with version history
+- 👥 User management, access control, and private wiki mode
+- 💬 Comments with moderation and markdown support
+- ⚡ Instant setup via Docker or prebuilt binaries
+- 🧩 Custom logos, banners, shortcodes, and more
+
+> Perfect for internal documentation, personal knowledge bases, or team wikis.
 
 ### Content Management
 - **Markdown Support**: Write content using Markdown syntax for rich formatting
@@ -61,9 +72,14 @@ You can look at more screenshots [here](SCREENSHOTS.md).
 - **Print Friendly**: Optimized printing support for documentation
 - **API Access**: RESTful API for programmatic access to wiki content
 
-## Installation
+## Preview
 
-### Using Docker
+![Desktop](screenshots/preview.png)
+More screenshots 👉 [SCREENSHOTS.md](SCREENSHOTS.md)
+
+## Get Started
+
+### Docker (quick test)
 
 ```bash
 # Pull the latest image
@@ -77,7 +93,7 @@ docker run -d \
   leomoonstudios/wiki-go
 ```
 
-### Using Docker Compose
+### Using Docker Compose (recommended)
 
 ```yaml
 services:
@@ -95,22 +111,15 @@ services:
     restart: unless-stopped
 ```
 
-### Using Pre-built Binaries
+### Binary
 
 Download the latest release for your platform from the [GitHub Releases](https://github.com/leomoon-studios/wiki-go/releases) page.
 ```bash
-# Clone the repository
-git clone https://github.com/leomoon-studios/wiki-go.git
-cd wiki-go
-
-# Build the binary
-go build -o wiki-go
-
 # Run the application
 ./wiki-go  # or wiki-go.exe on Windows
 ```
 
-### Building from Source
+### Build from Source
 
 Requirements:
 - Go 1.21 or later
@@ -249,17 +258,17 @@ It's recommended to change these credentials immediately after first login.
 LeoMoon Wiki-Go allows you to organize content in a hierarchical structure:
 
 1. Create directories to group related documents
-2. Use the move/rename feature to reorganize content
+2. Use the move/rename feature to reorganize content when in edit mode
 3. Navigate through your content using the sidebar or breadcrumbs
 
 ### Attaching Files
 
 You can attach files to any document:
 
-1. Navigate to the document
-2. Click the "Files" tab
+1. Navigate to the document and enter edit mode
+2. Click the "Attachments"
 3. Upload files using the upload button
-4. Insert links to files in your document
+4. Use "Files" tab to insert links to files in your document
 
 ### Using Comments
 

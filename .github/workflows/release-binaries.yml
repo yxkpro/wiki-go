@@ -1,4 +1,4 @@
-name: Release Wiki-Go Binaries
+name: Binary Builds
 
 on:
   workflow_dispatch:

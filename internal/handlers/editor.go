@@ -421,6 +421,19 @@ func DeleteDocumentHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	// Also delete the corresponding comments directory
+	commentsPath := filepath.Join(cfg.Wiki.RootDir, "comments", docPath)
+
+	// Check if comments directory exists before attempting to delete
+	if _, err := os.Stat(commentsPath); err == nil {
+		if err := os.RemoveAll(commentsPath); err != nil {
+			log.Printf("Warning: Failed to delete comments directory: %s - %v", commentsPath, err)
+			// Continue execution even if comments deletion fails
+		} else {
+			log.Printf("Deleted comments directory: %s", commentsPath)
+		}
+	}
+
 	// Return success response
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)

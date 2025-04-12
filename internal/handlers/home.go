@@ -13,6 +13,7 @@ import (
 	"wiki-go/internal/i18n"
 	"wiki-go/internal/types"
 	"wiki-go/internal/utils"
+	"wiki-go/internal/auth"
 )
 
 // Default homepage content
@@ -521,6 +522,11 @@ func HomeHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config) {
 		lastModified = time.Now()
 	}
 
+	// Get authentication status
+	session := auth.GetSession(r)
+	isAuthenticated := session != nil
+	isAdmin := isAuthenticated && session.IsAdmin
+
 	// Render the page
 	data := &types.PageData{
 		Navigation:         nav,
@@ -530,6 +536,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config) {
 		LastModified:       lastModified,
 		CurrentDir:         &types.NavItem{Title: "Home", Path: "/", IsDir: true, IsActive: true},
 		AvailableLanguages: i18n.GetAvailableLanguages(),
+		IsAuthenticated:    isAuthenticated,
+		IsAdmin:            isAdmin,
 	}
 
 	renderTemplate(w, data)

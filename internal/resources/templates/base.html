@@ -78,15 +78,15 @@
                 <div class="page-toolbar" dir="auto">
                     <div class="view-toolbar">
                         <!-- Admin-only buttons -->
-                        <button class="toolbar-button admin-only-button new-document" title="{{t "common.new"}}">
+                        <button class="toolbar-button admin-only-button new-document" title="{{t "common.new"}}" {{if .IsAdmin}}style="display: inline-flex !important"{{else}}style="display: none !important"{{end}}>
                             <i class="fa fa-file-text-o"></i>
                             <span class="button-text">{{t "common.new"}}</span>
                         </button>
-                        <button class="toolbar-button admin-only-button edit-page" title="{{t "common.edit"}}">
+                        <button class="toolbar-button admin-only-button edit-page" title="{{t "common.edit"}}" {{if .IsAdmin}}style="display: inline-flex !important"{{else}}style="display: none !important"{{end}}>
                             <i class="fa fa-pencil"></i>
                             <span class="button-text">{{t "common.edit"}}</span>
                         </button>
-                        <button class="toolbar-button admin-only-button settings-button" title="{{t "common.settings"}}">
+                        <button class="toolbar-button admin-only-button settings-button" title="{{t "common.settings"}}" {{if .IsAdmin}}style="display: inline-flex !important"{{else}}style="display: none !important"{{end}}>
                             <i class="fa fa-cog"></i>
                             <span class="button-text">{{t "common.settings"}}</span>
                         </button>
@@ -98,11 +98,11 @@
                         </button>
 
                         <!-- Authentication buttons -->
-                        <button class="toolbar-button auth-button primary" style="display: none;" title="{{t "common.login"}}">
+                        <button class="toolbar-button auth-button primary" {{if .IsAuthenticated}}style="display: none !important"{{else}}style="display: inline-flex !important"{{end}} title="{{t "common.login"}}">
                             <i class="fa fa-user"></i>
                             <span class="button-text">{{t "common.login"}}</span>
                         </button>
-                        <button class="toolbar-button auth-button logout-button" style="display: none;" title="{{t "common.logout"}}">
+                        <button class="toolbar-button auth-button logout-button" {{if .IsAuthenticated}}style="display: inline-flex !important"{{else}}style="display: none !important"{{end}} title="{{t "common.logout"}}">
                             <i class="fa fa-sign-out"></i>
                             <span class="button-text">{{t "common.logout"}}</span>
                         </button>
@@ -125,7 +125,7 @@
                             <span class="button-text">{{t "toolbar.attachments"}}</span>
                         </button>
                         {{if ne .CurrentDir.Path "/"}}
-                        <button class="toolbar-button admin-only-button move-document" title="{{t "common.move"}}">
+                        <button class="toolbar-button admin-only-button move-document" title="{{t "common.move"}}" {{if .IsAdmin}}style="display: inline-flex !important"{{else}}style="display: none !important"{{end}}>
                             <i class="fa fa-arrows"></i>
                             <span class="button-text">{{t "common.move"}}/{{t "common.rename"}}</span>
                         </button>

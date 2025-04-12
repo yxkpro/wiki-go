@@ -815,20 +815,6 @@ body.has-password-warning .hamburger {
     margin-top: auto;
 }
 
-/* Prevent toolbar flashing */
-.view-toolbar, .edit-toolbar {
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-}
-
-body.page-loaded .view-toolbar {
-    opacity: 1;
-}
-
-.content.editing .edit-toolbar {
-    opacity: 1;
-}
-
 /* ---------- Content typography ---------- */
 .content h1 {
     margin-top: 0;

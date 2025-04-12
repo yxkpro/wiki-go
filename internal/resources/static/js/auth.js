@@ -10,7 +10,7 @@
     let errorMessage;
     let loginUsernameInput;
     let editCallback = null;
-    
+
     // Initialize module when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
         // Login Dialog Elements
@@ -19,16 +19,16 @@
         loginForm = document.getElementById('loginForm');
         errorMessage = document.querySelector('.login-dialog .error-message');
         loginUsernameInput = document.getElementById('username');
-        
+
         // Set up event listeners
         if (closeDialog) {
             closeDialog.addEventListener('click', hideLoginDialog);
         }
-        
+
         if (loginForm) {
             loginForm.addEventListener('submit', handleLoginSubmit);
         }
-        
+
         // Add click handler for login button
         const loginButton = document.querySelector('.toolbar-button.auth-button.primary');
         if (loginButton) {
@@ -51,32 +51,29 @@
                 };
             });
         }
-        
+
         // Add click handler for logout button
         const logoutButton = document.querySelector('.logout-button');
         if (logoutButton) {
             logoutButton.addEventListener('click', handleLogout);
         }
-        
+
         // Escape key is now handled by keyboard-shortcuts.js
-        
+
         // Add click handler for login dialog close button
         document.addEventListener('click', function(e) {
             if (e.target.closest('.login-dialog .close-dialog')) {
                 hideLoginDialog();
             }
         });
-        
+
         // Check if default password is in use
         checkDefaultPassword();
-        
-        // Call updateToolbarButtons on page load
-        updateToolbarButtons();
-        
+
         // Check for pending actions from previous login
         setTimeout(checkPendingActions, 500);
     });
-    
+
     // Function to show login dialog
     function showLoginDialog(callback) {
         loginDialog.classList.add('active');
@@ -95,7 +92,7 @@
             loginDialog.classList.remove('active');
         }
     }
-    
+
     // Function to handle login form submission
     async function handleLoginSubmit(e) {
         e.preventDefault();
@@ -134,7 +131,7 @@
             errorMessage.style.display = 'block';
         }
     }
-    
+
     // Function to handle logout
     async function handleLogout() {
         try {
@@ -153,7 +150,7 @@
             window.DialogSystem.showMessageDialog('Error', 'Failed to logout');
         }
     }
-    
+
     // Function to check if current user is an admin
     async function checkIfUserIsAdmin() {
         try {
@@ -174,7 +171,7 @@
     function showAdminOnlyError() {
         window.DialogSystem.showMessageDialog("Admin Access Required", "This feature is only available to administrators.");
     }
-    
+
     // Function to update toolbar buttons based on authentication status
     async function updateToolbarButtons() {
         try {
@@ -227,7 +224,7 @@
             console.error('Error checking authentication status:', error);
         }
     }
-    
+
     // Function to check if the default password is in use
     async function checkDefaultPassword() {
         try {
@@ -248,7 +245,7 @@
             console.error('Error checking default password:', error);
         }
     }
-    
+
     // Function to check for pending actions from previous login
     function checkPendingActions() {
         const pendingAction = localStorage.getItem('pendingAction');
@@ -267,7 +264,7 @@
                                 const editorContainer = document.querySelector('.editor-container');
                                 const viewToolbar = document.querySelector('.view-toolbar');
                                 const editToolbar = document.querySelector('.edit-toolbar');
-                                
+
                                 WikiEditor.loadEditor(mainContent, editorContainer, viewToolbar, editToolbar);
                             }
                         }, 100);

@@ -535,6 +535,7 @@ body.has-password-warning .hamburger {
     font-size: 0.85em;
     color: var(--breadcrumb-color);
     opacity: 0.8;
+    display: none;
 }
 
 /* ---------- Breadcrumbs ---------- */

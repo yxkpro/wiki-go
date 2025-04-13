@@ -70,8 +70,8 @@
         // Check if default password is in use
         checkDefaultPassword();
 
-        // Check for pending actions from previous login
-        setTimeout(checkPendingActions, 500);
+        // Check for pending actions from previous login - remove the delay
+        checkPendingActions();
     });
 
     // Function to show login dialog
@@ -257,17 +257,15 @@
                 // Check if the user is an admin then load the editor
                 checkIfUserIsAdmin().then(isAdmin => {
                     if (isAdmin && document.querySelector('.edit-page')) {
-                        // Small delay to ensure the page is fully loaded
-                        setTimeout(() => {
-                            if (typeof WikiEditor !== 'undefined' && WikiEditor.loadEditor) {
-                                const mainContent = document.querySelector('.content');
-                                const editorContainer = document.querySelector('.editor-container');
-                                const viewToolbar = document.querySelector('.view-toolbar');
-                                const editToolbar = document.querySelector('.edit-toolbar');
+                        // Load editor immediately without delay
+                        if (typeof WikiEditor !== 'undefined' && WikiEditor.loadEditor) {
+                            const mainContent = document.querySelector('.content');
+                            const editorContainer = document.querySelector('.editor-container');
+                            const viewToolbar = document.querySelector('.view-toolbar');
+                            const editToolbar = document.querySelector('.edit-toolbar');
 
-                                WikiEditor.loadEditor(mainContent, editorContainer, viewToolbar, editToolbar);
-                            }
-                        }, 100);
+                            WikiEditor.loadEditor(mainContent, editorContainer, viewToolbar, editToolbar);
+                        }
                     }
                 });
             } else if (pendingAction === 'loginCallback') {

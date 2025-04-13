@@ -994,14 +994,9 @@ async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar
         // Make sure editor is visible (not in preview mode)
         document.querySelector('.CodeMirror').style.display = 'block';
 
-        // Force a refresh
-        setTimeout(() => {
-            if (editor) {
-                editor.refresh();
-                editor.focus();
-                updateStatusbar(statusbar);
-            }
-        }, 0);
+        // Force a refresh with multiple attempts to ensure editor renders properly
+        // This helps with keyboard shortcut entry reliability
+        refreshEditor(statusbar);
 
     } catch (error) {
         console.error('Error:', error);
@@ -1009,15 +1004,41 @@ async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar
     }
 }
 
+// Helper function to ensure editor gets properly refreshed
+function refreshEditor(statusbar) {
+    if (!editor) return;
+
+    // Immediate refresh - apply all refreshes at once
+    editor.refresh();
+    editor.focus();
+    if (statusbar) updateStatusbar(statusbar);
+
+    // Secondary quick refresh to ensure rendering
+    requestAnimationFrame(() => {
+        if (editor) {
+            editor.refresh();
+            editor.focus();
+            if (statusbar) updateStatusbar(statusbar);
+        }
+    });
+}
+
 function exitEditMode(mainContent, editorContainer, viewToolbar, editToolbar) {
-    mainContent.classList.remove('editing');
-    editorContainer.classList.remove('active');
-    viewToolbar.style.display = 'flex';
-    editToolbar.style.display = 'none';
+    // Make sure to update UI state classes first
+    if (mainContent) mainContent.classList.remove('editing');
+    if (editorContainer) editorContainer.classList.remove('active');
+
+    // Update toolbar visibility
+    if (viewToolbar) viewToolbar.style.display = 'flex';
+    if (editToolbar) editToolbar.style.display = 'none';
 
     // Completely destroy the editor instance
     if (editor) {
-        editor.toTextArea();
+        try {
+            editor.toTextArea();
+        } catch(e) {
+            console.warn('Error while destroying editor:', e);
+        }
         editor = null;
     }
 

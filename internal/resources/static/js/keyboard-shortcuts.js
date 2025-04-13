@@ -31,7 +31,16 @@ function handleKeyDown(e) {
     if (e.ctrlKey && e.key.toLowerCase() === 'e') {
         e.preventDefault(); // Prevent default browser behavior
         if (editPageButton && !mainContent.classList.contains('editing')) {
+            // Immediately click the edit button without any delay
             editPageButton.click();
+
+            // Force browser to process this event immediately
+            window.requestAnimationFrame(() => {
+                if (editor && mainContent.classList.contains('editing')) {
+                    editor.refresh();
+                    editor.focus();
+                }
+            });
         }
     }
 
@@ -49,7 +58,7 @@ function handleKeyDown(e) {
     }
 }
 
-// Handle Escape key behavior
+// Handle Escape key for various scenarios
 function handleEscapeKey(e) {
     // Check the state of dialogs and UI
     const versionHistoryDialog = document.querySelector('.version-history-dialog');
@@ -113,13 +122,21 @@ function handleEscapeKey(e) {
         document.querySelector('.page-actions-menu').classList.remove('active');
         e.preventDefault();
     } else if (isEditing) {
-        // Exit edit mode if no dialogs are open
-        exitEditMode();
-        e.preventDefault();
+        // Find and click the cancel button to properly exit edit mode
+        // This ensures all proper event handlers are triggered
+        const cancelButton = document.querySelector('.cancel-edit');
+        if (cancelButton) {
+            e.preventDefault();
+            cancelButton.click();
+        } else {
+            // Fallback to manual exit if cancel button isn't found
+            e.preventDefault();
+            exitEditMode();
+        }
     }
 }
 
-// Exit edit mode
+// Exit edit mode - use the editor's function directly
 function exitEditMode() {
     if (window.WikiEditor && typeof window.WikiEditor.exitEditMode === 'function') {
         window.WikiEditor.exitEditMode(mainContent, editorContainer, viewToolbar, editToolbar);

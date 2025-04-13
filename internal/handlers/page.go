@@ -141,18 +141,19 @@ func PageHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config) {
 	// Check if this is a document (not a directory) by checking if there's content and no trailing slash
 	isDocument := docInfo != nil && content != "" && !strings.HasSuffix(r.URL.Path, "/")
 
-	// Get comments and authentication info for documents only
+	// Get authentication status for ALL pages
 	var commentsList []comments.Comment
 	var commentsAllowed bool = false // Default to false
 	var isAuthenticated bool
 	var isAdmin bool
 
-	if isDocument {
-		// Get authentication status
-		session := auth.GetSession(r)
-		isAuthenticated = session != nil
-		isAdmin = isAuthenticated && session.IsAdmin
+	// Get authentication status - do this for ALL pages
+	session := auth.GetSession(r)
+	isAuthenticated = session != nil
+	isAdmin = isAuthenticated && session.IsAdmin
 
+	// Comments are only available for documents
+	if isDocument {
 		// UNCONDITIONALLY check system-wide setting first
 		if cfg.Wiki.DisableComments {
 			// If comments are disabled system-wide, force commentsAllowed to false

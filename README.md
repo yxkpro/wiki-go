@@ -33,15 +33,6 @@ If you're running Wiki-Go without SSL/HTTPS and experiencing login issues, you n
 
 > Perfect for internal documentation, personal knowledge bases, or team wikis.
 
-
-## Demo Site
-
-You can try out Wiki-Go using the live demo below. The demo site resets **every hour**, and all uploaded or edited content will be wiped automatically.
-
-- 🔗 URL: https://wikigo.leomoon.com
-- 👤 User: `admin`
-- 🔒 Password: `demo123`
-
 ### Content Management
 - **Markdown Support**: Write content using Markdown syntax for rich formatting
 - **Emoji Shortcodes**: Use emoji shortcodes like `:smile:` in your Markdown content
@@ -81,6 +72,14 @@ You can try out Wiki-Go using the live demo below. The demo site resets **every 
 - **Media Embedding**: Embed images, videos, and other media in your documents
 - **Print Friendly**: Optimized printing support for documentation
 - **API Access**: RESTful API for programmatic access to wiki content
+
+## Demo Site
+
+You can try out Wiki-Go using the live demo below. The demo site resets **every hour**, and all uploaded or edited content will be wiped automatically.
+
+- 🔗 URL: https://wikigo.leomoon.com
+- 👤 User: `admin`
+- 🔒 Password: `demo123`
 
 ## Preview
 

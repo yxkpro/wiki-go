@@ -3,6 +3,7 @@
 ![docker builds](https://github.com/leomoon-studios/wiki-go/actions/workflows/release-docker.yml/badge.svg)
 ![binary builds](https://github.com/leomoon-studios/wiki-go/actions/workflows/release-binaries.yml/badge.svg)
 [![version](https://img.shields.io/github/v/release/leomoon-studios/wiki-go?label=Version)](https://github.com/leomoon-studios/wiki-go/releases)
+[![demo](https://img.shields.io/badge/demo-available-brightgreen)](https://wikigo.leomoon.com)
 
 A fast, modern, **flat-file wiki** powered by Go.
 
@@ -31,6 +32,15 @@ If you're running Wiki-Go without SSL/HTTPS and experiencing login issues, you n
 - 🧩 Custom logos, banners, shortcodes, and more
 
 > Perfect for internal documentation, personal knowledge bases, or team wikis.
+
+
+## Demo Site
+
+You can try out Wiki-Go using the live demo below. The demo site resets **every hour**, and all uploaded or edited content will be wiped automatically.
+
+- 🔗 URL: https://wikigo.leomoon.com
+- 👤 User: `admin`
+- 🔒 Password: `demo123`
 
 ### Content Management
 - **Markdown Support**: Write content using Markdown syntax for rich formatting

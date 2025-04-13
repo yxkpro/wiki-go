@@ -142,6 +142,9 @@
             if (response.ok) {
                 // Update toolbar buttons after logout
                 updateToolbarButtons();
+
+                // Reload the page to refresh the comments section
+                window.location.reload();
             } else {
                 window.DialogSystem.showMessageDialog('Error', 'Failed to logout');
             }

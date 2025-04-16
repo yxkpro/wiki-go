@@ -1,27 +1,78 @@
 @media print {
+    /* Reset page setup */
+    @page {
+        margin: 0.5cm;
+        size: auto;
+    }
+
     /* Hide UI elements */
     .toolbar,
     .sidebar,
     .hamburger,
     .breadcrumbs,
     .footer,
-    .copy-button {
+    .copy-button,
+    .file-attachments-section,
+    .editor-container,
+    .comments-section,
+    .comment-form,
+    .comments-list,
+    .search-results,
+    .dialog-container,
+    .login-dialog,
+    .file-upload-dialog,
+    .new-document-dialog,
+    .move-document-dialog,
+    .confirmation-dialog,
+    .message-dialog,
+    .user-confirmation-dialog,
+    .version-history-dialog,
+    .settings-dialog,
+    .password-warning-banner,
+    .page-toolbar {
         display: none !important;
     }
 
-    /* Content layout */
+    /* Fix height issues that cause blank pages */
+    html, body {
+        height: auto !important;
+        min-height: 0 !important;
+        width: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        position: static !important;
+        display: block !important;
+    }
+
+    /* Content layout - remove fixed heights */
     .content {
         margin: 0 !important;
         padding: 12px !important;
         width: 100% !important;
         max-width: none !important;
+        min-height: 0 !important;
+        height: auto !important;
+        position: static !important;
+        display: block !important;
+        overflow: visible !important;
     }
 
+    /* Fix for elements with min-height that can cause blank pages */
+    .markdown-content {
+        min-height: 0 !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    /* Reduce margins to prevent unnecessary page breaks */
     .content > * {
         margin-bottom: 0.5em !important;
+        margin-top: 0.5em !important;
+        overflow: visible !important;
     }
 
-    /* Heading spacing */
+    /* The rest of the print styles */
     .content h1 {
         margin-bottom: 0.75em !important;
     }

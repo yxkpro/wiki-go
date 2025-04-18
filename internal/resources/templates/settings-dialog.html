@@ -9,12 +9,13 @@
         <div class="error-message"></div>
 
         <div class="settings-tabs">
-            <button class="tab-button active" data-tab="wiki-tab">{{t "settings.wiki"}}</button>
+            <button class="tab-button active" data-tab="general-tab">{{t "settings.general"}}</button>
+            <button class="tab-button" data-tab="content-tab">{{t "settings.content"}}</button>
             <button class="tab-button" data-tab="users-tab">{{t "settings.users"}}</button>
         </div>
 
         <div class="tab-content">
-            <div id="wiki-tab" class="tab-pane active">
+            <div id="general-tab" class="tab-pane active">
                 <form class="settings-form" id="wikiSettingsForm">
                     <div class="form-group">
                         <label for="wikiTitle">{{t "settings.wiki_title"}}</label>
@@ -45,6 +46,14 @@
                         </div>
                         <small class="form-help">{{t "settings.language_description"}}</small>
                     </div>
+                    <div class="form-actions">
+                        <button type="submit" class="dialog-button primary">{{t "common.save"}}</button>
+                        <button type="button" class="dialog-button cancel-settings">{{t "common.cancel"}}</button>
+                    </div>
+                </form>
+            </div>
+            <div id="content-tab" class="tab-pane">
+                <form class="settings-form" id="contentSettingsForm">
                     <div class="form-group">
                         <label for="wikiMaxVersions">{{t "settings.document_versions"}}</label>
                         <input type="number" id="wikiMaxVersions" name="wikiMaxVersions" min="0" required>

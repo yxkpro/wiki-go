@@ -38,6 +38,7 @@
   "settings.general": "Yleiset",
   "settings.users": "Käyttäjät",
   "settings.wiki": "Wiki",
+  "settings.content": "Sisältö",
   "settings.language": "Käyttöliittymän kieli",
   "settings.theme": "Teema",
   "settings.save_success": "Asetukset tallennettu onnistuneesti",

@@ -34,10 +34,11 @@
   "toolbar.history": "履歴",
   "toolbar.attachments": "添付ファイル",
 
-  "settings.title": "Wiki設定",
+  "settings.title": "ウィキ設定",
   "settings.general": "一般",
   "settings.users": "ユーザー",
-  "settings.wiki": "Wiki",
+  "settings.wiki": "ウィキ",
+  "settings.content": "コンテンツ",
   "settings.language": "インターフェース言語",
   "settings.theme": "テーマ",
   "settings.save_success": "設定が正常に保存されました",

@@ -34,10 +34,11 @@
   "toolbar.history": "Historial",
   "toolbar.attachments": "Adjuntos",
 
-  "settings.title": "Configuración del Wiki",
+  "settings.title": "Configuración de la Wiki",
   "settings.general": "General",
   "settings.users": "Usuarios",
   "settings.wiki": "Wiki",
+  "settings.content": "Contenido",
   "settings.language": "Idioma de la interfaz",
   "settings.theme": "Tema",
   "settings.save_success": "Configuración guardada con éxito",

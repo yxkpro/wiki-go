@@ -12,8 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const settingsButton = document.querySelector('.settings-button');
     const settingsDialog = document.querySelector('.settings-dialog');
     const closeSettingsDialog = settingsDialog.querySelector('.close-dialog');
-    const cancelSettingsButton = settingsDialog.querySelector('.cancel-settings');
-    const settingsForm = document.getElementById('wikiSettingsForm');
+    const cancelSettingsButtons = settingsDialog.querySelectorAll('.cancel-settings');
+    const generalSettingsForm = document.getElementById('wikiSettingsForm');
+    const contentSettingsForm = document.getElementById('contentSettingsForm');
     const settingsErrorMessage = settingsDialog.querySelector('.error-message');
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabPanes = document.querySelectorAll('.tab-pane');
@@ -63,8 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     // Explicitly reset and activate the first tab when opening settings
                     setTimeout(() => {
-                        const firstTabButton = document.querySelector('.settings-tabs .tab-button[data-tab="wiki-tab"]');
-                        const firstTabPane = document.getElementById('wiki-tab');
+                        const firstTabButton = document.querySelector('.settings-tabs .tab-button[data-tab="general-tab"]');
+                        const firstTabPane = document.getElementById('general-tab');
 
                         if (firstTabButton && firstTabPane) {
                             // Reset all tabs first
@@ -95,85 +96,112 @@ document.addEventListener('DOMContentLoaded', function() {
         closeSettingsDialog.addEventListener('click', hideSettingsDialog);
     }
 
-    if (cancelSettingsButton) {
-        cancelSettingsButton.addEventListener('click', hideSettingsDialog);
-    }
-    
+    cancelSettingsButtons.forEach(button => {
+        if (button) {
+            button.addEventListener('click', hideSettingsDialog);
+        }
+    });
+
     // Escape key is now handled by keyboard-shortcuts.js
 
-    // Handle form submission
-    if (settingsForm) {
-        settingsForm.addEventListener('submit', async function(e) {
+    // Function to collect all settings from both forms
+    function collectAllSettings() {
+        const wikiSettings = {
+            title: document.getElementById('wikiTitle').value.trim(),
+            owner: document.getElementById('wikiOwner').value.trim(),
+            notice: document.getElementById('wikiNotice').value.trim(),
+            timezone: document.getElementById('wikiTimezone').value.trim(),
+            private: document.getElementById('wikiPrivate').checked,
+            disable_comments: document.getElementById('wikiDisableComments').checked,
+            max_versions: parseInt(document.getElementById('wikiMaxVersions').value, 10) || 0,
+            max_upload_size: parseInt(document.getElementById('wikiMaxUploadSize').value, 10) || 20,
+            language: document.getElementById('wikiLanguage').value
+        };
+
+        // Validate
+        if (!wikiSettings.title || !wikiSettings.owner || !wikiSettings.notice || !wikiSettings.timezone) {
+            return { valid: false, error: 'All fields are required' };
+        }
+
+        // Validate max_versions
+        if (isNaN(wikiSettings.max_versions) || wikiSettings.max_versions < 0) {
+            return { valid: false, error: 'Document versions must be a non-negative number' };
+        }
+
+        return { valid: true, settings: wikiSettings };
+    }
+
+    // Handle general settings form submission
+    if (generalSettingsForm) {
+        generalSettingsForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-
-            // Get form values
-            const wikiSettings = {
-                title: document.getElementById('wikiTitle').value.trim(),
-                owner: document.getElementById('wikiOwner').value.trim(),
-                notice: document.getElementById('wikiNotice').value.trim(),
-                timezone: document.getElementById('wikiTimezone').value.trim(),
-                private: document.getElementById('wikiPrivate').checked,
-                disable_comments: document.getElementById('wikiDisableComments').checked,
-                max_versions: parseInt(document.getElementById('wikiMaxVersions').value, 10) || 0,
-                max_upload_size: parseInt(document.getElementById('wikiMaxUploadSize').value, 10) || 20,
-                language: document.getElementById('wikiLanguage').value
-            };
-
-            // Capture current language for comparison
-            const currentLanguage = document.documentElement.lang;
-            const newLanguage = wikiSettings.language;
-            const languageChanged = currentLanguage !== newLanguage;
-
-            // Validate
-            if (!wikiSettings.title || !wikiSettings.owner || !wikiSettings.notice || !wikiSettings.timezone) {
-                settingsErrorMessage.textContent = 'All fields are required';
-                settingsErrorMessage.style.display = 'block';
-                return;
-            }
-
-            // Validate max_versions
-            if (isNaN(wikiSettings.max_versions) || wikiSettings.max_versions < 0) {
-                settingsErrorMessage.textContent = 'Document versions must be a non-negative number';
-                settingsErrorMessage.style.display = 'block';
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/settings/wiki', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(wikiSettings)
-                });
-
-                if (response.ok) {
-                    // If language changed, close settings and reload the page
-                    if (languageChanged) {
-                        // Close settings dialog
-                        hideSettingsDialog();
-
-                        // Reload the page to apply language changes
-                        window.location.reload();
-                    } else {
-                        // Reload the page to show updated settings
-                        window.location.reload();
-                    }
-                } else {
-                    const errorData = await response.json().catch(() => null);
-                    if (errorData && errorData.message) {
-                        settingsErrorMessage.textContent = errorData.message;
-                    } else {
-                        settingsErrorMessage.textContent = 'Failed to save settings';
-                    }
-                    settingsErrorMessage.style.display = 'block';
-                }
-            } catch (error) {
-                console.error('Error saving settings:', error);
-                settingsErrorMessage.textContent = 'An error occurred while saving settings';
-                settingsErrorMessage.style.display = 'block';
-            }
+            await saveSettings();
         });
+    }
+
+    // Handle content settings form submission
+    if (contentSettingsForm) {
+        contentSettingsForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            await saveSettings();
+        });
+    }
+
+    // Save settings function
+    async function saveSettings() {
+        const result = collectAllSettings();
+
+        if (!result.valid) {
+            settingsErrorMessage.textContent = result.error;
+            settingsErrorMessage.style.display = 'block';
+            return false;
+        }
+
+        const wikiSettings = result.settings;
+
+        // Capture current language for comparison
+        const currentLanguage = document.documentElement.lang;
+        const newLanguage = wikiSettings.language;
+        const languageChanged = currentLanguage !== newLanguage;
+
+        try {
+            const response = await fetch('/api/settings/wiki', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(wikiSettings)
+            });
+
+            if (response.ok) {
+                // If language changed, close settings and reload the page
+                if (languageChanged) {
+                    // Close settings dialog
+                    hideSettingsDialog();
+
+                    // Reload the page to apply language changes
+                    window.location.reload();
+                } else {
+                    // Reload the page to show updated settings
+                    window.location.reload();
+                }
+                return true;
+            } else {
+                const errorData = await response.json().catch(() => null);
+                if (errorData && errorData.message) {
+                    settingsErrorMessage.textContent = errorData.message;
+                } else {
+                    settingsErrorMessage.textContent = 'Failed to save settings';
+                }
+                settingsErrorMessage.style.display = 'block';
+                return false;
+            }
+        } catch (error) {
+            console.error('Error saving settings:', error);
+            settingsErrorMessage.textContent = 'An error occurred while saving settings';
+            settingsErrorMessage.style.display = 'block';
+            return false;
+        }
     }
 
     // Function to load settings from the server
@@ -186,11 +214,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const settings = await response.json();
 
-            // Populate form fields
+            // Populate general form fields
             document.getElementById('wikiTitle').value = settings.title || '';
             document.getElementById('wikiOwner').value = settings.owner || '';
             document.getElementById('wikiNotice').value = settings.notice || '';
             document.getElementById('wikiTimezone').value = settings.timezone || '';
+            document.getElementById('wikiLanguage').value = settings.language || 'en';
+
+            // Populate content form fields
             document.getElementById('wikiPrivate').checked = settings.private || false;
             document.getElementById('wikiDisableComments').checked = settings.disable_comments || false;
 
@@ -212,8 +243,8 @@ document.addEventListener('DOMContentLoaded', function() {
             settingsErrorMessage.style.display = 'none';
 
             // Ensure the first tab is active by default
-            const firstTabButton = document.querySelector('.settings-tabs .tab-button[data-tab="wiki-tab"]');
-            const firstTabPane = document.getElementById('wiki-tab');
+            const firstTabButton = document.querySelector('.settings-tabs .tab-button[data-tab="general-tab"]');
+            const firstTabPane = document.getElementById('general-tab');
 
             if (firstTabButton && firstTabPane) {
                 // Reset all tabs first
@@ -389,6 +420,12 @@ document.addEventListener('DOMContentLoaded', function() {
             window.i18n.translateElement(saveUserBtn);
             window.i18n.translateElement(cancelUserBtn);
         }
+
+        // Switch to users tab
+        const usersTabButton = document.querySelector('.tab-button[data-tab="users-tab"]');
+        if (usersTabButton) {
+            usersTabButton.click();
+        }
     }
 
     // Function to set up the form for editing a user
@@ -419,6 +456,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 const editUserTitle = window.i18n.t('users.edit_user_title');
                 userFormTitle.textContent = `${editUserTitle}: ${username}`;
             }
+        }
+
+        // Switch to users tab
+        const usersTabButton = document.querySelector('.tab-button[data-tab="users-tab"]');
+        if (usersTabButton) {
+            usersTabButton.click();
         }
     }
 

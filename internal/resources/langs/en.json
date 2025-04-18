@@ -38,6 +38,7 @@
   "settings.general": "General",
   "settings.users": "Users",
   "settings.wiki": "Wiki",
+  "settings.content": "Content",
   "settings.language": "Interface Language",
   "settings.theme": "Theme",
   "settings.save_success": "Settings saved successfully",

@@ -34,10 +34,11 @@
   "toolbar.history": "История",
   "toolbar.attachments": "Вложения",
 
-  "settings.title": "Настройки Wiki",
+  "settings.title": "Настройки вики",
   "settings.general": "Общие",
   "settings.users": "Пользователи",
-  "settings.wiki": "Wiki",
+  "settings.wiki": "Вики",
+  "settings.content": "Содержание",
   "settings.language": "Язык интерфейса",
   "settings.theme": "Тема",
   "settings.save_success": "Настройки успешно сохранены",

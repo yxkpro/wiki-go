@@ -38,6 +38,7 @@
   "settings.general": "일반",
   "settings.users": "사용자",
   "settings.wiki": "위키",
+  "settings.content": "콘텐츠",
   "settings.language": "인터페이스 언어",
   "settings.theme": "테마",
   "settings.save_success": "설정이 성공적으로 저장되었습니다",

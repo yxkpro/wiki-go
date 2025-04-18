@@ -5,7 +5,11 @@
 [![version](https://img.shields.io/github/v/release/leomoon-studios/wiki-go?label=Version)](https://github.com/leomoon-studios/wiki-go/releases)
 [![demo](https://img.shields.io/badge/demo-available-brightgreen)](https://wikigo.leomoon.com)
 
-A fast, modern, **flat-file wiki** powered by Go.
+![Desktop](screenshots/preview.png)
+
+A fast, modern, **flat-file wiki** written in Go.
+
+Built for simplicity and performance with Markdown. No database, zero maintenance.
 
 No database. No bloat. Just Markdown, simplicity, and power.
 
@@ -80,11 +84,6 @@ You can try out Wiki-Go using the live demo below. The demo site resets **every 
 - 🔗 URL: https://wikigo.leomoon.com
 - 👤 User: `admin`
 - 🔒 Password: `demo123`
-
-## Preview
-
-![Desktop](screenshots/preview.png)
-More screenshots 👉 [SCREENSHOTS.md](SCREENSHOTS.md)
 
 ## Get Started
 

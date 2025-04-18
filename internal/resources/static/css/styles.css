@@ -2126,6 +2126,15 @@ tr:nth-child(even) {
     max-width: 100%;
 }
 
+.version-content blockquote,
+.markdown-body blockquote {
+    border-left: 4px solid var(--primary-color);
+    margin: 0.75em 0;
+    padding: 0.5em 1em;
+    background-color: var(--blockquote-bg);
+    border-radius: 0 8px 8px 0;
+}
+
 /* ---------- Table Picker Styles ---------- */
 .table-picker {
     position: absolute;

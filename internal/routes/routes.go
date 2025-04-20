@@ -246,6 +246,11 @@ func SetupRoutes(cfg *config.Config) {
 		w.Write(data)
 	})
 
+	// Documents list API - for document linking
+	mux.HandleFunc("/api/documents/list", func(w http.ResponseWriter, r *http.Request) {
+		handlers.ListDocumentsHandler(w, r, cfg)
+	})
+
 	// Login page
 	mux.HandleFunc("/login", handlers.LoginPageHandler)
 

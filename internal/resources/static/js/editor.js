@@ -4,9 +4,12 @@ let previewElement = null;
 let previewContent = null;
 let tablePickerElement = null;
 let emojiPickerElement = null;
+let docPickerElement = null;
 
 // Emoji data for picker
 let emojiData = [];
+// Document data for picker
+let documentData = [];
 
 // Global emoji cache
 const EmojiCache = {
@@ -146,9 +149,6 @@ function createEmojiPicker() {
     document.body.appendChild(picker);
     emojiPickerElement = picker;
 
-    // Pre-set a minimum width to avoid layout shifts
-    picker.style.minWidth = '260px';
-
     // Load emoji data using our singleton cache
     EmojiCache.getData().then(data => {
         // Save the data globally
@@ -214,35 +214,38 @@ function showEmojiPicker(button) {
 
     // Calculate initial position relative to the button
     let left = rect.left;
-    let top = rect.bottom + window.scrollY;
+    let top = rect.bottom;
 
     // Check if we're on a small screen
     const isSmallScreen = viewportWidth < 500;
 
     if (isSmallScreen) {
         // On small screens, center horizontally
-        left = Math.max(5, (viewportWidth - estimatedWidth) / 2);
+        left = Math.max(10, (viewportWidth - estimatedWidth) / 2);
 
         // If button is in the bottom half of the screen, show picker above it
         if (rect.bottom > viewportHeight / 2) {
-            top = (rect.top + window.scrollY) - estimatedHeight - 5;
+            top = rect.top - estimatedHeight - 5;
         }
     } else {
         // On larger screens, align with the button but ensure it stays in view
         // Adjust horizontal position if needed
-        if (left + estimatedWidth + 10 > viewportWidth) {
-            // If it would go off the right edge, align to right side of viewport
-            left = Math.max(5, viewportWidth - estimatedWidth - 10);
+        if (left + estimatedWidth + 20 > viewportWidth) {
+            // If it would go off the right edge, align to right side of viewport with padding
+            left = Math.max(10, viewportWidth - estimatedWidth - 20);
         }
 
+        // Ensure there's always some padding from the left edge
+        left = Math.max(10, left);
+
         // Adjust vertical position if needed
-        if (top + estimatedHeight + 10 > window.scrollY + viewportHeight) {
+        if (top + estimatedHeight + 10 > viewportHeight) {
             // If it would go off the bottom, show above the button instead
-            top = (rect.top + window.scrollY) - estimatedHeight - 5;
+            top = rect.top - estimatedHeight - 5;
 
             // If that would go off the top, just align to top of viewport
-            if (top < window.scrollY) {
-                top = window.scrollY + 5;
+            if (top < 0) {
+                top = 10;
             }
         }
     }
@@ -272,6 +275,263 @@ function hideEmojiPicker() {
         emojiPickerElement.style.display = 'none';
         // Reset any transform or size constraints that might have been applied
         emojiPickerElement.style.transform = '';
+    }
+}
+
+// Function to fetch documents
+async function fetchDocuments() {
+    try {
+        const response = await fetch('/api/documents/list');
+        if (!response.ok) {
+            if (response.status === 401) {
+                throw new Error('Authentication required');
+            }
+            throw new Error('Failed to fetch documents');
+        }
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.message || 'Failed to fetch documents');
+        }
+        return data.documents || [];
+    } catch (error) {
+        console.error('Error fetching documents:', error);
+        throw error; // Re-throw to allow handling in the caller
+    }
+}
+
+// Function to insert document link
+function insertDocLink(document) {
+    if (!editor) return;
+
+    // Get the document path and title
+    let path = document.path;
+    const title = document.title || path.split('/').pop();
+
+    // Remove the '/documents' prefix from the path to create correct internal links
+    // But keep the '/pages' prefix for the homepage
+    if (path.startsWith('/documents')) {
+        path = path.replace('/documents', '');
+    }
+
+    // Insert markdown link at cursor position
+    const cursor = editor.getCursor();
+    editor.replaceRange(`[${title}](${path})`, cursor);
+
+    // Focus the editor
+    editor.focus();
+}
+
+// Create document picker
+function createDocPicker() {
+    const picker = document.createElement('div');
+    picker.className = 'doc-picker';
+    picker.style.display = 'none';
+
+    // Create a search input
+    const searchContainer = document.createElement('div');
+    searchContainer.className = 'doc-search-container';
+
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.className = 'doc-search-input';
+    searchInput.placeholder = 'Search documents...';
+    searchInput.style.boxSizing = 'border-box';
+    searchInput.style.width = '100%';
+
+    searchContainer.appendChild(searchInput);
+    picker.appendChild(searchContainer);
+
+    // Create a content container for the documents
+    const docsContainer = document.createElement('div');
+    docsContainer.className = 'docs-container';
+    docsContainer.style.width = '100%';
+    docsContainer.style.boxSizing = 'border-box';
+
+    // Create a loading message
+    const loadingMsg = document.createElement('div');
+    loadingMsg.className = 'docs-loading';
+    loadingMsg.textContent = 'Loading documents...';
+
+    // Add both to the picker
+    picker.appendChild(loadingMsg);
+    picker.appendChild(docsContainer);
+    document.body.appendChild(picker);
+    docPickerElement = picker;
+
+    // Check if user is admin before trying to fetch documents
+    window.Auth.checkIfUserIsAdmin().then(isAdmin => {
+        if (!isAdmin) {
+            loadingMsg.textContent = 'Admin privileges required to access document list.';
+            return;
+        }
+
+        // Load document data
+        fetchDocuments().then(documents => {
+            // Save the data globally
+            documentData = documents;
+
+            // Hide loading message
+            loadingMsg.style.display = 'none';
+
+            // Function to filter and display documents
+            const filterAndDisplay = (query = '') => {
+                // Clear previous documents
+                docsContainer.innerHTML = '';
+
+                // Filter documents based on search query
+                const filteredDocs = query
+                    ? documentData.filter(doc =>
+                        doc.title.toLowerCase().includes(query.toLowerCase()) ||
+                        doc.path.toLowerCase().includes(query.toLowerCase()))
+                    : documentData;
+
+                if (filteredDocs.length === 0) {
+                    const noResults = document.createElement('div');
+                    noResults.className = 'no-results';
+                    noResults.textContent = 'No documents found.';
+                    docsContainer.appendChild(noResults);
+                    return;
+                }
+
+                // Create buttons for each document
+                filteredDocs.forEach(doc => {
+                    const button = document.createElement('button');
+                    button.className = 'doc-btn';
+                    button.title = doc.path;
+                    button.style.boxSizing = 'border-box';
+                    button.style.width = '100%';
+
+                    const docName = document.createElement('div');
+                    docName.className = 'doc-name';
+                    docName.textContent = doc.title || doc.path.split('/').pop();
+
+                    const docPath = document.createElement('div');
+                    docPath.className = 'doc-path';
+                    docPath.textContent = doc.path;
+
+                    button.appendChild(docName);
+                    button.appendChild(docPath);
+                    button.addEventListener('click', () => {
+                        insertDocLink(doc);
+                        hideDocPicker();
+                    });
+
+                    docsContainer.appendChild(button);
+                });
+            };
+
+            // Initial display of all documents
+            filterAndDisplay();
+
+            // Add search functionality
+            searchInput.addEventListener('input', (e) => {
+                filterAndDisplay(e.target.value);
+            });
+        }).catch(error => {
+            // Show error message
+            loadingMsg.textContent = 'Error loading documents: ' + (error.message || 'Access denied');
+        });
+    });
+
+    return picker;
+}
+
+// Function to show document picker
+function showDocPicker(button) {
+    if (!docPickerElement) {
+        // Create the picker
+        docPickerElement = createDocPicker();
+    }
+
+    // Toggle visibility
+    if (docPickerElement.style.display === 'block') {
+        hideDocPicker();
+        return;
+    }
+
+    const rect = button.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // Display the picker with initial position
+    docPickerElement.style.display = 'block';
+
+    // Set a default fixed width and height for initial positioning calculation
+    // This prevents layout shifts from causing miscalculations
+    const estimatedWidth = viewportWidth < 500 ? 280 : 320;
+    const estimatedHeight = 300;
+
+    // Calculate initial position relative to the button
+    let left = rect.left;
+    let top = rect.bottom;
+
+    // Check if we're on a small screen
+    const isSmallScreen = viewportWidth < 500;
+
+    if (isSmallScreen) {
+        // On small screens, center horizontally
+        left = Math.max(10, (viewportWidth - estimatedWidth) / 2);
+
+        // If button is in the bottom half of the screen, show picker above it
+        if (rect.bottom > viewportHeight / 2) {
+            top = rect.top - estimatedHeight - 5;
+        }
+    } else {
+        // On larger screens, align with the button but ensure it stays in view
+        // Adjust horizontal position if needed
+        if (left + estimatedWidth + 20 > viewportWidth) {
+            // If it would go off the right edge, align to right side of viewport with padding
+            left = Math.max(10, viewportWidth - estimatedWidth - 20);
+        }
+
+        // Ensure there's always some padding from the left edge
+        left = Math.max(10, left);
+
+        // Adjust vertical position if needed
+        if (top + estimatedHeight + 10 > viewportHeight) {
+            // If it would go off the bottom, show above the button instead
+            top = rect.top - estimatedHeight - 5;
+
+            // If that would go off the top, just align to top of viewport
+            if (top < 0) {
+                top = 10;
+            }
+        }
+    }
+
+    // Apply final position
+    docPickerElement.style.left = `${left}px`;
+    docPickerElement.style.top = `${top}px`;
+
+    // Focus search input
+    setTimeout(() => {
+        const searchInput = docPickerElement.querySelector('.doc-search-input');
+        if (searchInput) {
+            searchInput.focus();
+        }
+    }, 50);
+
+    // Add a one-time event listener to close when clicking outside
+    const closeHandler = function(e) {
+        if (!docPickerElement.contains(e.target) &&
+            !e.target.closest('.doc-link-button')) {
+            hideDocPicker();
+            document.removeEventListener('click', closeHandler);
+        }
+    };
+
+    // Use setTimeout to avoid the current click event from immediately closing
+    setTimeout(() => {
+        document.addEventListener('click', closeHandler);
+    }, 0);
+}
+
+// Function to hide document picker
+function hideDocPicker() {
+    if (docPickerElement) {
+        docPickerElement.style.display = 'none';
+        // Reset any transform or size constraints that might have been applied
+        docPickerElement.style.transform = '';
     }
 }
 
@@ -348,46 +608,48 @@ function showTablePicker(button) {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
-    // Display the picker with initial position to calculate dimensions
+    // Display the picker with initial position
     tablePickerElement.style.display = 'block';
-    tablePickerElement.style.left = '0px';  // Temporary position
-    tablePickerElement.style.top = '0px';   // Temporary position
 
-    // Force layout calculation to get actual dimensions
-    const pickerWidth = tablePickerElement.offsetWidth;
-    const pickerHeight = tablePickerElement.offsetHeight;
+    // Set a default fixed width and height for initial positioning calculation
+    // This prevents layout shifts from causing miscalculations
+    const estimatedWidth = viewportWidth < 500 ? 280 : 320;
+    const estimatedHeight = 300;
 
     // Calculate initial position relative to the button
     let left = rect.left;
-    let top = rect.bottom + window.scrollY;
+    let top = rect.bottom;
 
-    // Check if we're on a small screen (adjust threshold based on testing)
+    // Check if we're on a small screen
     const isSmallScreen = viewportWidth < 500;
 
     if (isSmallScreen) {
-        // On very small screens, center horizontally and position below the toolbar
-        left = Math.max(5, (viewportWidth - pickerWidth) / 2);
+        // On small screens, center horizontally
+        left = Math.max(10, (viewportWidth - estimatedWidth) / 2);
 
         // If button is in the bottom half of the screen, show picker above it
         if (rect.bottom > viewportHeight / 2) {
-            top = (rect.top + window.scrollY) - pickerHeight - 5;
+            top = rect.top - estimatedHeight - 5;
         }
     } else {
         // On larger screens, align with the button but ensure it stays in view
         // Adjust horizontal position if needed
-        if (left + pickerWidth + 10 > viewportWidth) {
-            // If it would go off the right edge, align to right side of viewport
-            left = Math.max(5, viewportWidth - pickerWidth - 10);
+        if (left + estimatedWidth + 20 > viewportWidth) {
+            // If it would go off the right edge, align to right side of viewport with padding
+            left = Math.max(10, viewportWidth - estimatedWidth - 20);
         }
 
+        // Ensure there's always some padding from the left edge
+        left = Math.max(10, left);
+
         // Adjust vertical position if needed
-        if (top + pickerHeight + 10 > window.scrollY + viewportHeight) {
+        if (top + estimatedHeight + 10 > viewportHeight) {
             // If it would go off the bottom, show above the button instead
-            top = (rect.top + window.scrollY) - pickerHeight - 5;
+            top = rect.top - estimatedHeight - 5;
 
             // If that would go off the top, just align to top of viewport
-            if (top < window.scrollY) {
-                top = window.scrollY + 5;
+            if (top < 0) {
+                top = 10;
             }
         }
     }
@@ -399,8 +661,7 @@ function showTablePicker(button) {
     // Add a one-time event listener to close when clicking outside
     const closeHandler = function(e) {
         if (!tablePickerElement.contains(e.target) &&
-            !e.target.closest('.table-button') &&
-            e.target.id !== 'insert-table') {
+            !e.target.closest('.table-button')) {
             tablePickerElement.style.display = 'none';
             document.removeEventListener('click', closeHandler);
         }
@@ -433,6 +694,7 @@ function createToolbar(container) {
         { icon: 'fa-list-ol', action: 'ordered-list', title: 'Ordered List' },
         { type: 'separator' },
         { icon: 'fa-link', action: 'link', title: 'Link' },
+        { icon: 'fa-file-text-o', action: 'doc-link', title: 'Link to Document' },
         { icon: 'fa-picture-o', action: 'image', title: 'Image' },
         { icon: 'fa-smile-o', action: 'emoji', title: 'Insert Emoji' },
         { type: 'separator' },
@@ -710,6 +972,11 @@ function setupToolbarActions(toolbar) {
     // Emoji button
     toolbar.querySelector('.emoji-button').addEventListener('click', (e) => {
         showEmojiPicker(e.currentTarget);
+    });
+
+    // Document link button
+    toolbar.querySelector('.doc-link-button').addEventListener('click', (e) => {
+        showDocPicker(e.currentTarget);
     });
 }
 

@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/fs"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -30,6 +31,19 @@ type FileInfo struct {
 	URL  string `json:"url"`
 	Size int64  `json:"size"` // Size in bytes
 	Type string `json:"type"` // MIME type or extension
+}
+
+// Document represents a document in the wiki
+type Document struct {
+	Title string `json:"title"`
+	Path  string `json:"path"`
+}
+
+// DocumentsResponse represents the response for the documents list API
+type DocumentsResponse struct {
+	Success   bool       `json:"success"`
+	Message   string     `json:"message,omitempty"`
+	Documents []Document `json:"documents"`
 }
 
 // UploadFileHandler handles file uploads to the document's directory
@@ -952,4 +966,112 @@ func debugFileValidation(fileContent []byte, filename string, detected, expected
 			fmt.Println("  - Missing ZIP signature!")
 		}
 	}
+}
+
+// ListDocumentsHandler handles requests to list all documents for the document picker
+func ListDocumentsHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config) {
+	// Set response headers
+	w.Header().Set("Content-Type", "application/json")
+
+	// Check if user is authenticated and is admin
+	session := auth.GetSession(r)
+	if session == nil || !session.IsAdmin {
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(DocumentsResponse{
+			Success: false,
+			Message: "Unauthorized. Admin access required.",
+		})
+		return
+	}
+
+	// Paths to scan for documents
+	documentsPath := filepath.Join(cfg.Wiki.RootDir, cfg.Wiki.DocumentsDir)
+
+	var documents []Document
+
+	// Add homepage as a special document
+	homepagePath := "/pages/home"
+	documents = append(documents, Document{
+		Title: "Home",
+		Path:  homepagePath,
+	})
+
+	// Find all documents in documents directory
+	err := filepath.WalkDir(documentsPath, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+
+		// Check if this is a document.md file
+		if !d.IsDir() && d.Name() == "document.md" {
+			// Get the directory path (document path)
+			docDir := filepath.Dir(path)
+			// Convert to relative path
+			relPath, err := filepath.Rel(cfg.Wiki.RootDir, docDir)
+			if err != nil {
+				return nil // Skip this file
+			}
+
+			// Format the path for use in URLs
+			relPath = strings.ReplaceAll(relPath, "\\", "/")
+
+			// Get the document title from the markdown file
+			title := extractTitleFromMarkdown(path)
+			if title == "" {
+				// If no title found, use the parent directory name
+				title = filepath.Base(docDir)
+			}
+
+			// For regular documents, we want to remove the documents/ prefix
+			// since it's not part of the visible URL
+			if strings.HasPrefix(relPath, cfg.Wiki.DocumentsDir) {
+				relPath = strings.TrimPrefix(relPath, cfg.Wiki.DocumentsDir)
+				// Remove any leading slash that might remain
+				relPath = strings.TrimPrefix(relPath, "/")
+			}
+
+			// Add to documents list
+			documents = append(documents, Document{
+				Title: title,
+				Path:  "/" + relPath,
+			})
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(DocumentsResponse{
+			Success: false,
+			Message: "Failed to list documents: " + err.Error(),
+		})
+		return
+	}
+
+	// Return the documents list
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(DocumentsResponse{
+		Success:   true,
+		Documents: documents,
+	})
+}
+
+// extractTitleFromMarkdown reads a markdown file and extracts the first h1 heading
+func extractTitleFromMarkdown(filePath string) string {
+	content, err := os.ReadFile(filePath)
+	if err != nil {
+		return ""
+	}
+
+	// Look for the first h1 heading (# Title)
+	lines := strings.Split(string(content), "\n")
+	for _, line := range lines {
+		line = strings.TrimSpace(line)
+		if strings.HasPrefix(line, "# ") {
+			return strings.TrimSpace(strings.TrimPrefix(line, "# "))
+		}
+	}
+
+	return ""
 }

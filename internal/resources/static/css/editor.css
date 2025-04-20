@@ -499,13 +499,14 @@
 
 /* Table picker styles */
 .table-picker {
-    position: absolute;
+    position: fixed;
     background: var(--bg-color);
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    padding: 5px;
-    z-index: 100;
+    padding: 10px;
+    z-index: 1000;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    max-width: 320px;
     width: auto;
 }
 
@@ -534,12 +535,12 @@
 
 /* Emoji picker styles */
 .emoji-picker {
-    position: absolute;
+    position: fixed;
     background: var(--bg-color);
     border: 1px solid var(--border-color);
     border-radius: 4px;
     padding: 10px;
-    z-index: 100;
+    z-index: 1000;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     max-width: 320px;
     max-height: 300px;
@@ -578,6 +579,118 @@
 }
 
 :root[data-theme="dark"] .emoji-picker .emoji-btn:hover {
+    background-color: #444;
+    border-color: #555;
+}
+
+/* Document picker styles */
+.doc-picker {
+    position: fixed;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    max-width: 320px;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: auto;
+    box-sizing: border-box;
+}
+
+.doc-search-container {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.doc-search-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.docs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-height: 220px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.docs-loading {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-color-secondary);
+}
+
+.doc-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 6px 8px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    color: var(--text-color);
+    max-width: 100%;
+}
+
+.doc-btn:hover {
+    background: var(--hover-bg);
+    border-color: var(--primary-color);
+}
+
+.doc-name {
+    font-weight: bold;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    max-width: 100%;
+}
+
+.doc-path {
+    font-size: 12px;
+    color: var(--text-color-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.no-results {
+    padding: 15px;
+    text-align: center;
+    color: var(--text-color-secondary);
+    font-style: italic;
+}
+
+:root[data-theme="dark"] .doc-picker {
+    background: #333;
+    border-color: #444;
+}
+
+:root[data-theme="dark"] .doc-btn {
+    border-color: #444;
+}
+
+:root[data-theme="dark"] .doc-btn:hover {
     background-color: #444;
     border-color: #555;
 }
@@ -764,6 +877,26 @@
         font-size: 20px;
     }
 
+    /* Mobile-specific document picker styles */
+    .doc-picker {
+        max-width: calc(100vw - 40px);
+        max-height: 300px;
+        padding: 8px;
+    }
+
+    .doc-search-input {
+        font-size: 16px; /* Better for mobile touch */
+        padding: 8px;
+    }
+
+    .docs-container {
+        max-height: 220px;
+    }
+
+    .doc-btn {
+        padding: 8px;
+    }
+
     /* Mobile-specific table picker styles */
     .table-picker {
         max-width: calc(100vw - 40px);
@@ -778,7 +911,7 @@
 }
 
 /* Very small screen styles */
-@media (max-width: 360px) {
+@media (max-width: 350px) {
     .emoji-picker {
         max-width: calc(100vw - 20px);
         padding: 6px;
@@ -791,6 +924,31 @@
     .emoji-picker .emoji-btn {
         width: 32px;
         height: 32px;
+    }
+
+    .doc-picker {
+        max-width: calc(100vw - 20px);
+        padding: 6px;
+    }
+
+    .doc-search-input {
+        padding: 6px;
+    }
+
+    .docs-container {
+        max-height: 180px;
+    }
+
+    .doc-btn {
+        padding: 6px;
+    }
+
+    .doc-name {
+        font-size: 14px;
+    }
+
+    .doc-path {
+        font-size: 11px;
     }
 
     .table-picker {

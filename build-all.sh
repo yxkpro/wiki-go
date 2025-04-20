@@ -1,6 +1,9 @@
 #!/bin/bash
 echo "Building Wiki-Go for multiple platforms..."
 
+# Use vendored dependencies
+export GOFLAGS=-mod=vendor
+
 BUILD_DIR="build"
 mkdir -p "$BUILD_DIR"
 

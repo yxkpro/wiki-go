@@ -20,6 +20,9 @@ jobs:
     permissions:
       contents: write  # Needed for creating releases
 
+    env:
+      GOFLAGS: -mod=vendor
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

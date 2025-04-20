@@ -5,14 +5,12 @@ RUN apk add --no-cache build-base git gcc musl-dev && rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
-
-RUN go mod download
+COPY go.mod go.sum vendor/ ./
 
 COPY . .
 
 ARG VERSION=dev
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags="-s -w -X 'wiki-go/internal/version.Version=${VERSION}'" -o wiki-go .
+RUN CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -installsuffix cgo -ldflags="-s -w -X 'wiki-go/internal/version.Version=${VERSION}'" -o wiki-go .
 
 # Final stage
 FROM docker.io/library/alpine:3.21

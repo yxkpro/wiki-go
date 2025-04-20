@@ -200,59 +200,14 @@ function showEmojiPicker(button) {
         return;
     }
 
-    const rect = button.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-
-    // Display the picker with initial position
+    // In showEmojiPicker, ensure picker is made visible before measuring
     emojiPickerElement.style.display = 'block';
-
-    // Set a default fixed width and height for initial positioning calculation
-    // This prevents layout shifts from causing miscalculations
-    const estimatedWidth = viewportWidth < 500 ? 280 : 320;
-    const estimatedHeight = 300;
-
-    // Calculate initial position relative to the button
-    let left = rect.left;
-    let top = rect.bottom;
-
-    // Check if we're on a small screen
-    const isSmallScreen = viewportWidth < 500;
-
-    if (isSmallScreen) {
-        // On small screens, center horizontally
-        left = Math.max(10, (viewportWidth - estimatedWidth) / 2);
-
-        // If button is in the bottom half of the screen, show picker above it
-        if (rect.bottom > viewportHeight / 2) {
-            top = rect.top - estimatedHeight - 5;
-        }
-    } else {
-        // On larger screens, align with the button but ensure it stays in view
-        // Adjust horizontal position if needed
-        if (left + estimatedWidth + 20 > viewportWidth) {
-            // If it would go off the right edge, align to right side of viewport with padding
-            left = Math.max(10, viewportWidth - estimatedWidth - 20);
-        }
-
-        // Ensure there's always some padding from the left edge
-        left = Math.max(10, left);
-
-        // Adjust vertical position if needed
-        if (top + estimatedHeight + 10 > viewportHeight) {
-            // If it would go off the bottom, show above the button instead
-            top = rect.top - estimatedHeight - 5;
-
-            // If that would go off the top, just align to top of viewport
-            if (top < 0) {
-                top = 10;
-            }
-        }
-    }
-
-    // Apply final position
-    emojiPickerElement.style.left = `${left}px`;
-    emojiPickerElement.style.top = `${top}px`;
+    // Defer positioning to next frame so layout calculations are correct
+    requestAnimationFrame(() => {
+        positionPicker(emojiPickerElement, button);
+        // Safeguard: run again after fonts/images render
+        setTimeout(() => positionPicker(emojiPickerElement, button), 50);
+    });
 
     // Add a one-time event listener to close when clicking outside
     const closeHandler = function(e) {
@@ -449,59 +404,13 @@ function showDocPicker(button) {
         return;
     }
 
-    const rect = button.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-
-    // Display the picker with initial position
+    // In showDocPicker, ensure picker is visible before measuring
     docPickerElement.style.display = 'block';
-
-    // Set a default fixed width and height for initial positioning calculation
-    // This prevents layout shifts from causing miscalculations
-    const estimatedWidth = viewportWidth < 500 ? 280 : 320;
-    const estimatedHeight = 300;
-
-    // Calculate initial position relative to the button
-    let left = rect.left;
-    let top = rect.bottom;
-
-    // Check if we're on a small screen
-    const isSmallScreen = viewportWidth < 500;
-
-    if (isSmallScreen) {
-        // On small screens, center horizontally
-        left = Math.max(10, (viewportWidth - estimatedWidth) / 2);
-
-        // If button is in the bottom half of the screen, show picker above it
-        if (rect.bottom > viewportHeight / 2) {
-            top = rect.top - estimatedHeight - 5;
-        }
-    } else {
-        // On larger screens, align with the button but ensure it stays in view
-        // Adjust horizontal position if needed
-        if (left + estimatedWidth + 20 > viewportWidth) {
-            // If it would go off the right edge, align to right side of viewport with padding
-            left = Math.max(10, viewportWidth - estimatedWidth - 20);
-        }
-
-        // Ensure there's always some padding from the left edge
-        left = Math.max(10, left);
-
-        // Adjust vertical position if needed
-        if (top + estimatedHeight + 10 > viewportHeight) {
-            // If it would go off the bottom, show above the button instead
-            top = rect.top - estimatedHeight - 5;
-
-            // If that would go off the top, just align to top of viewport
-            if (top < 0) {
-                top = 10;
-            }
-        }
-    }
-
-    // Apply final position
-    docPickerElement.style.left = `${left}px`;
-    docPickerElement.style.top = `${top}px`;
+    // Defer positioning
+    requestAnimationFrame(() => {
+        positionPicker(docPickerElement, button);
+        setTimeout(() => positionPicker(docPickerElement, button), 50);
+    });
 
     // Focus search input
     setTimeout(() => {
@@ -604,59 +513,12 @@ function showTablePicker(button) {
         return;
     }
 
-    const rect = button.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-
-    // Display the picker with initial position
+    // In showTablePicker, ensure picker is visible before measuring
     tablePickerElement.style.display = 'block';
-
-    // Set a default fixed width and height for initial positioning calculation
-    // This prevents layout shifts from causing miscalculations
-    const estimatedWidth = viewportWidth < 500 ? 280 : 320;
-    const estimatedHeight = 300;
-
-    // Calculate initial position relative to the button
-    let left = rect.left;
-    let top = rect.bottom;
-
-    // Check if we're on a small screen
-    const isSmallScreen = viewportWidth < 500;
-
-    if (isSmallScreen) {
-        // On small screens, center horizontally
-        left = Math.max(10, (viewportWidth - estimatedWidth) / 2);
-
-        // If button is in the bottom half of the screen, show picker above it
-        if (rect.bottom > viewportHeight / 2) {
-            top = rect.top - estimatedHeight - 5;
-        }
-    } else {
-        // On larger screens, align with the button but ensure it stays in view
-        // Adjust horizontal position if needed
-        if (left + estimatedWidth + 20 > viewportWidth) {
-            // If it would go off the right edge, align to right side of viewport with padding
-            left = Math.max(10, viewportWidth - estimatedWidth - 20);
-        }
-
-        // Ensure there's always some padding from the left edge
-        left = Math.max(10, left);
-
-        // Adjust vertical position if needed
-        if (top + estimatedHeight + 10 > viewportHeight) {
-            // If it would go off the bottom, show above the button instead
-            top = rect.top - estimatedHeight - 5;
-
-            // If that would go off the top, just align to top of viewport
-            if (top < 0) {
-                top = 10;
-            }
-        }
-    }
-
-    // Apply final position
-    tablePickerElement.style.left = `${left}px`;
-    tablePickerElement.style.top = `${top}px`;
+    requestAnimationFrame(() => {
+        positionPicker(tablePickerElement, button);
+        setTimeout(() => positionPicker(tablePickerElement, button), 50);
+    });
 
     // Add a one-time event listener to close when clicking outside
     const closeHandler = function(e) {
@@ -1717,3 +1579,49 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, 1000); // Delay by 1 second to let page finish loading first
 });
+
+// Add helper to position picker elements based on real size instead of a hard‑coded estimate
+function positionPicker(picker, button) {
+    // The picker must already be visible (display:block) before calling this
+    const rect = button.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    const pickerWidth = picker.offsetWidth;
+    const pickerHeight = picker.offsetHeight;
+
+    // Initial position – directly under the button
+    let left = rect.left;
+    let top = rect.bottom;
+
+    const isSmallScreen = viewportWidth < 500;
+
+    if (isSmallScreen) {
+        // Centre horizontally on very small screens
+        left = Math.max(10, (viewportWidth - pickerWidth) / 2);
+        // If the button sits in the lower half, place picker above it
+        if (rect.bottom > viewportHeight / 2) {
+            top = rect.top - pickerHeight - 5;
+        }
+    } else {
+        // Ensure the picker does not overflow the right edge
+        if (left + pickerWidth > viewportWidth - 10) {
+            // Align the right edges of button and picker
+            left = rect.right - pickerWidth;
+            // Keep at least 10 px padding from the viewport's left side
+            left = Math.max(10, left);
+        }
+        // Ensure the picker does not overflow the bottom edge
+        if (top + pickerHeight > viewportHeight - 10) {
+            // Place the picker above the button
+            top = rect.top - pickerHeight - 5;
+            // Keep at least 10 px from the top edge
+            if (top < 10) {
+                top = 10;
+            }
+        }
+    }
+
+    picker.style.left = `${left}px`;
+    picker.style.top = `${top}px`;
+}

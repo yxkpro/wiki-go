@@ -151,5 +151,11 @@
   "comments.error_title": "टिप्पणी त्रुटि",
   "comments.error_generic": "टिप्पणी पोस्ट करने में विफल।",
   "comments.error_delete": "टिप्पणी हटाने में विफल।",
-  "comments.markdown_supported": "मार्कडाउन फॉर्मेटिंग समर्थित है।"
+  "comments.markdown_supported": "मार्कडाउन फॉर्मेटिंग समर्थित है।",
+
+  "docpicker.search_placeholder": "दस्तावेज़ खोजें...",
+  "docpicker.loading": "दस्तावेज़ लोड हो रहे हैं...",
+  "docpicker.admin_required": "दस्तावेज़ सूची तक पहुंचने के लिए व्यवस्थापक अधिकार आवश्यक हैं।",
+  "docpicker.no_results": "कोई दस्तावेज़ नहीं मिला।",
+  "docpicker.error_loading": "दस्तावेज़ लोड करने में त्रुटि: {0}"
 }

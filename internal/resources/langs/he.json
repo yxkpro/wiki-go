@@ -149,7 +149,13 @@
   "comments.delete_title": "מחק תגובה",
   "comments.delete_confirm": "האם אתה בטוח שברצונך למחוק תגובה זו? פעולה זו אינה ניתנת לביטול.",
   "comments.error_title": "שגיאת תגובה",
-  "comments.error_generic": "פרסום התגובה נכשל.",
-  "comments.error_delete": "מחיקת התגובה נכשלה.",
-  "comments.markdown_supported": "עיצוב Markdown נתמך."
+  "comments.error_generic": "נכשל בפרסום התגובה.",
+  "comments.error_delete": "נכשל במחיקת התגובה.",
+  "comments.markdown_supported": "עיצוב Markdown נתמך.",
+
+  "docpicker.search_placeholder": "חיפוש מסמכים...",
+  "docpicker.loading": "טוען מסמכים...",
+  "docpicker.admin_required": "נדרשות הרשאות מנהל כדי לגשת לרשימת המסמכים.",
+  "docpicker.no_results": "לא נמצאו מסמכים.",
+  "docpicker.error_loading": "שגיאה בטעינת מסמכים: {0}"
 }

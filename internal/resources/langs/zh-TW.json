@@ -151,5 +151,11 @@
   "comments.error_title": "評論錯誤",
   "comments.error_generic": "發佈評論失敗。",
   "comments.error_delete": "刪除評論失敗。",
-  "comments.markdown_supported": "支援Markdown格式。"
+  "comments.markdown_supported": "支援Markdown格式。",
+
+  "docpicker.search_placeholder": "搜尋文件...",
+  "docpicker.loading": "正在載入文件...",
+  "docpicker.admin_required": "需要管理員權限才能存取文件列表。",
+  "docpicker.no_results": "未找到文件。",
+  "docpicker.error_loading": "載入文件時發生錯誤：{0}"
 }

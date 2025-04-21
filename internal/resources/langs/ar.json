@@ -151,5 +151,11 @@
   "comments.error_title": "خطأ في التعليق",
   "comments.error_generic": "فشل في نشر التعليق.",
   "comments.error_delete": "فشل في حذف التعليق.",
-  "comments.markdown_supported": "تنسيق ماركداون مدعوم."
+  "comments.markdown_supported": "تنسيق ماركداون مدعوم.",
+
+  "docpicker.search_placeholder": "البحث في المستندات...",
+  "docpicker.loading": "جارِ تحميل المستندات...",
+  "docpicker.admin_required": "مطلوب صلاحيات المسؤول للوصول إلى قائمة المستندات.",
+  "docpicker.no_results": "لم يتم العثور على مستندات.",
+  "docpicker.error_loading": "خطأ في تحميل المستندات: {0}"
 }

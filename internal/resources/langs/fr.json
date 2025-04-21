@@ -151,5 +151,11 @@
   "comments.error_title": "Erreur de commentaire",
   "comments.error_generic": "Échec de la publication du commentaire.",
   "comments.error_delete": "Échec de la suppression du commentaire.",
-  "comments.markdown_supported": "Formatage Markdown pris en charge."
+  "comments.markdown_supported": "Formatage Markdown pris en charge.",
+
+  "docpicker.search_placeholder": "Rechercher des documents...",
+  "docpicker.loading": "Chargement des documents...",
+  "docpicker.admin_required": "Privilèges d'administrateur requis pour accéder à la liste des documents.",
+  "docpicker.no_results": "Aucun document trouvé.",
+  "docpicker.error_loading": "Erreur lors du chargement des documents: {0}"
 }

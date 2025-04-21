@@ -148,8 +148,14 @@
   "comments.no_comments": "Ancora nessun commento. Sii il primo a commentare!",
   "comments.delete_title": "Elimina commento",
   "comments.delete_confirm": "Sei sicuro di voler eliminare questo commento? Questa azione non può essere annullata.",
-  "comments.error_title": "Errore del commento",
+  "comments.error_title": "Errore Commento",
   "comments.error_generic": "Impossibile pubblicare il commento.",
   "comments.error_delete": "Impossibile eliminare il commento.",
-  "comments.markdown_supported": "Formattazione Markdown supportata."
+  "comments.markdown_supported": "Formattazione Markdown supportata.",
+
+  "docpicker.search_placeholder": "Cerca documenti...",
+  "docpicker.loading": "Caricamento documenti...",
+  "docpicker.admin_required": "Sono richiesti privilegi di amministratore per accedere all'elenco dei documenti.",
+  "docpicker.no_results": "Nessun documento trovato.",
+  "docpicker.error_loading": "Errore nel caricamento dei documenti: {0}"
 }

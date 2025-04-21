@@ -149,7 +149,13 @@
   "comments.delete_title": "Ta bort kommentar",
   "comments.delete_confirm": "Är du säker på att du vill ta bort denna kommentar? Denna åtgärd kan inte ångras.",
   "comments.error_title": "Kommentarsfel",
-  "comments.error_generic": "Kunde inte skicka kommentar.",
+  "comments.error_generic": "Kunde inte publicera kommentar.",
   "comments.error_delete": "Kunde inte ta bort kommentar.",
-  "comments.markdown_supported": "Markdown-formatering stöds."
+  "comments.markdown_supported": "Markdown-formatering stöds.",
+
+  "docpicker.search_placeholder": "Sök dokument...",
+  "docpicker.loading": "Laddar dokument...",
+  "docpicker.admin_required": "Administratörsbehörighet krävs för att komma åt dokumentlistan.",
+  "docpicker.no_results": "Inga dokument hittades.",
+  "docpicker.error_loading": "Fel vid laddning av dokument: {0}"
 }

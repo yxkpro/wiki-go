@@ -148,8 +148,14 @@
   "comments.no_comments": "Ainda não há comentários. Seja o primeiro a comentar!",
   "comments.delete_title": "Excluir comentário",
   "comments.delete_confirm": "Tem certeza que deseja excluir este comentário? Esta ação não pode ser desfeita.",
-  "comments.error_title": "Erro de comentário",
+  "comments.error_title": "Erro de Comentário",
   "comments.error_generic": "Falha ao publicar comentário.",
   "comments.error_delete": "Falha ao excluir comentário.",
-  "comments.markdown_supported": "Formatação Markdown suportada."
+  "comments.markdown_supported": "Formatação Markdown suportada.",
+
+  "docpicker.search_placeholder": "Pesquisar documentos...",
+  "docpicker.loading": "Carregando documentos...",
+  "docpicker.admin_required": "Privilégios de administrador necessários para acessar a lista de documentos.",
+  "docpicker.no_results": "Nenhum documento encontrado.",
+  "docpicker.error_loading": "Erro ao carregar documentos: {0}"
 }

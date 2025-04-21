@@ -151,5 +151,11 @@
   "comments.error_title": "Error de comentario",
   "comments.error_generic": "Error al publicar el comentario.",
   "comments.error_delete": "Error al eliminar el comentario.",
-  "comments.markdown_supported": "Formato Markdown soportado."
+  "comments.markdown_supported": "Formato Markdown soportado.",
+
+  "docpicker.search_placeholder": "Buscar documentos...",
+  "docpicker.loading": "Cargando documentos...",
+  "docpicker.admin_required": "Se requieren privilegios de administrador para acceder a la lista de documentos.",
+  "docpicker.no_results": "No se encontraron documentos.",
+  "docpicker.error_loading": "Error al cargar documentos: {0}"
 }

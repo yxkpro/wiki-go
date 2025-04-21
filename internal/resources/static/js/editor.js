@@ -289,7 +289,7 @@ function createDocPicker() {
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
     searchInput.className = 'doc-search-input';
-    searchInput.placeholder = 'Search documents...';
+    searchInput.placeholder = window.i18n.t('docpicker.search_placeholder');
     searchInput.style.boxSizing = 'border-box';
     searchInput.style.width = '100%';
 
@@ -305,7 +305,7 @@ function createDocPicker() {
     // Create a loading message
     const loadingMsg = document.createElement('div');
     loadingMsg.className = 'docs-loading';
-    loadingMsg.textContent = 'Loading documents...';
+    loadingMsg.textContent = window.i18n.t('docpicker.loading');
 
     // Add both to the picker
     picker.appendChild(loadingMsg);
@@ -316,7 +316,7 @@ function createDocPicker() {
     // Check if user is admin before trying to fetch documents
     window.Auth.checkIfUserIsAdmin().then(isAdmin => {
         if (!isAdmin) {
-            loadingMsg.textContent = 'Admin privileges required to access document list.';
+            loadingMsg.textContent = window.i18n.t('docpicker.admin_required');
             return;
         }
 
@@ -343,7 +343,7 @@ function createDocPicker() {
                 if (filteredDocs.length === 0) {
                     const noResults = document.createElement('div');
                     noResults.className = 'no-results';
-                    noResults.textContent = 'No documents found.';
+                    noResults.textContent = window.i18n.t('docpicker.no_results');
                     docsContainer.appendChild(noResults);
                     return;
                 }
@@ -384,7 +384,7 @@ function createDocPicker() {
             });
         }).catch(error => {
             // Show error message
-            loadingMsg.textContent = 'Error loading documents: ' + (error.message || 'Access denied');
+            loadingMsg.textContent = window.i18n.t('docpicker.error_loading').replace('{0}', error.message || 'Access denied');
         });
     });
 

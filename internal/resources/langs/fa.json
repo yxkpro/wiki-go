@@ -151,5 +151,11 @@
   "comments.error_title": "خطای نظر",
   "comments.error_generic": "ارسال نظر با شکست مواجه شد.",
   "comments.error_delete": "حذف نظر با شکست مواجه شد.",
-  "comments.markdown_supported": "قالب‌بندی مارک‌داون پشتیبانی می‌شود."
+  "comments.markdown_supported": "قالب‌بندی مارک‌داون پشتیبانی می‌شود.",
+
+  "docpicker.search_placeholder": "جستجوی اسناد...",
+  "docpicker.loading": "در حال بارگذاری اسناد...",
+  "docpicker.admin_required": "برای دسترسی به لیست اسناد به دسترسی مدیر نیاز است.",
+  "docpicker.no_results": "هیچ سندی یافت نشد.",
+  "docpicker.error_loading": "خطا در بارگذاری اسناد: {0}"
 }

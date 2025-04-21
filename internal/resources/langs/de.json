@@ -149,7 +149,13 @@
   "comments.delete_title": "Kommentar löschen",
   "comments.delete_confirm": "Sind Sie sicher, dass Sie diesen Kommentar löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
   "comments.error_title": "Kommentarfehler",
-  "comments.error_generic": "Fehler beim Veröffentlichen des Kommentars.",
-  "comments.error_delete": "Fehler beim Löschen des Kommentars.",
-  "comments.markdown_supported": "Markdown-Formatierung unterstützt."
+  "comments.error_generic": "Kommentar konnte nicht gepostet werden.",
+  "comments.error_delete": "Kommentar konnte nicht gelöscht werden.",
+  "comments.markdown_supported": "Markdown-Formatierung unterstützt.",
+
+  "docpicker.search_placeholder": "Dokumente durchsuchen...",
+  "docpicker.loading": "Lade Dokumente...",
+  "docpicker.admin_required": "Administratorrechte sind erforderlich, um auf die Dokumentenliste zuzugreifen.",
+  "docpicker.no_results": "Keine Dokumente gefunden.",
+  "docpicker.error_loading": "Fehler beim Laden der Dokumente: {0}"
 }

@@ -151,5 +151,11 @@
   "comments.error_title": "Kommentarfeil",
   "comments.error_generic": "Kunne ikke legge inn kommentar.",
   "comments.error_delete": "Kunne ikke slette kommentar.",
-  "comments.markdown_supported": "Markdown-formatering støttes."
+  "comments.markdown_supported": "Markdown-formatering støttes.",
+
+  "docpicker.search_placeholder": "Søk etter dokumenter...",
+  "docpicker.loading": "Laster dokumenter...",
+  "docpicker.admin_required": "Administratorrettigheter kreves for å få tilgang til dokumentlisten.",
+  "docpicker.no_results": "Ingen dokumenter funnet.",
+  "docpicker.error_loading": "Feil ved lasting av dokumenter: {0}"
 }

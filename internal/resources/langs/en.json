@@ -151,5 +151,11 @@
   "comments.error_title": "Comment Error",
   "comments.error_generic": "Failed to post comment.",
   "comments.error_delete": "Failed to delete comment.",
-  "comments.markdown_supported": "Markdown formatting supported."
+  "comments.markdown_supported": "Markdown formatting supported.",
+
+  "docpicker.search_placeholder": "Search documents...",
+  "docpicker.loading": "Loading documents...",
+  "docpicker.admin_required": "Admin privileges required to access document list.",
+  "docpicker.no_results": "No documents found.",
+  "docpicker.error_loading": "Error loading documents: {0}"
 }

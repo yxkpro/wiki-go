@@ -151,5 +151,11 @@
   "comments.error_title": "Reactiefout",
   "comments.error_generic": "Kon reactie niet plaatsen.",
   "comments.error_delete": "Kon reactie niet verwijderen.",
-  "comments.markdown_supported": "Markdown-opmaak ondersteund."
+  "comments.markdown_supported": "Markdown-opmaak ondersteund.",
+
+  "docpicker.search_placeholder": "Documenten zoeken...",
+  "docpicker.loading": "Documenten laden...",
+  "docpicker.admin_required": "Beheerdersrechten vereist om toegang te krijgen tot de documentenlijst.",
+  "docpicker.no_results": "Geen documenten gevonden.",
+  "docpicker.error_loading": "Fout bij het laden van documenten: {0}"
 }

@@ -151,5 +151,11 @@
   "comments.error_title": "评论错误",
   "comments.error_generic": "发布评论失败。",
   "comments.error_delete": "删除评论失败。",
-  "comments.markdown_supported": "支持Markdown格式。"
+  "comments.markdown_supported": "支持Markdown格式。",
+
+  "docpicker.search_placeholder": "搜索文档...",
+  "docpicker.loading": "正在加载文档...",
+  "docpicker.admin_required": "需要管理员权限才能访问文档列表。",
+  "docpicker.no_results": "未找到文档。",
+  "docpicker.error_loading": "加载文档时出错：{0}"
 }

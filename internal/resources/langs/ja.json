@@ -151,5 +151,11 @@
   "comments.error_title": "コメントエラー",
   "comments.error_generic": "コメントの投稿に失敗しました。",
   "comments.error_delete": "コメントの削除に失敗しました。",
-  "comments.markdown_supported": "Markdown形式がサポートされています。"
+  "comments.markdown_supported": "Markdown形式がサポートされています。",
+
+  "docpicker.search_placeholder": "ドキュメントを検索...",
+  "docpicker.loading": "ドキュメントを読み込み中...",
+  "docpicker.admin_required": "ドキュメントリストにアクセスするには管理者権限が必要です。",
+  "docpicker.no_results": "ドキュメントが見つかりませんでした。",
+  "docpicker.error_loading": "ドキュメントの読み込み中にエラーが発生しました: {0}"
 }

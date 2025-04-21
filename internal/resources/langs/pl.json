@@ -151,5 +151,11 @@
   "comments.error_title": "Błąd komentarza",
   "comments.error_generic": "Nie udało się opublikować komentarza.",
   "comments.error_delete": "Nie udało się usunąć komentarza.",
-  "comments.markdown_supported": "Obsługiwane formatowanie Markdown."
+  "comments.markdown_supported": "Obsługiwane formatowanie Markdown.",
+
+  "docpicker.search_placeholder": "Szukaj dokumentów...",
+  "docpicker.loading": "Ładowanie dokumentów...",
+  "docpicker.admin_required": "Wymagane uprawnienia administratora, aby uzyskać dostęp do listy dokumentów.",
+  "docpicker.no_results": "Nie znaleziono dokumentów.",
+  "docpicker.error_loading": "Błąd podczas ładowania dokumentów: {0}"
 }

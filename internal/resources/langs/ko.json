@@ -151,5 +151,11 @@
   "comments.error_title": "댓글 오류",
   "comments.error_generic": "댓글 게시에 실패했습니다.",
   "comments.error_delete": "댓글 삭제에 실패했습니다.",
-  "comments.markdown_supported": "Markdown 형식이 지원됩니다."
+  "comments.markdown_supported": "마크다운 서식이 지원됩니다.",
+
+  "docpicker.search_placeholder": "문서 검색...",
+  "docpicker.loading": "문서 로딩 중...",
+  "docpicker.admin_required": "문서 목록에 접근하려면 관리자 권한이 필요합니다.",
+  "docpicker.no_results": "문서를 찾을 수 없습니다.",
+  "docpicker.error_loading": "문서 로딩 중 오류 발생: {0}"
 }

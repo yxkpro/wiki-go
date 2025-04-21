@@ -151,5 +151,11 @@
   "comments.error_title": "Kommenttivirhe",
   "comments.error_generic": "Kommentin lähettäminen epäonnistui.",
   "comments.error_delete": "Kommentin poistaminen epäonnistui.",
-  "comments.markdown_supported": "Markdown-muotoilu tuettu."
+  "comments.markdown_supported": "Markdown-muotoilu tuettu.",
+
+  "docpicker.search_placeholder": "Etsi dokumentteja...",
+  "docpicker.loading": "Ladataan dokumentteja...",
+  "docpicker.admin_required": "Pääkäyttäjän oikeudet vaaditaan dokumenttiluettelon käyttämiseen.",
+  "docpicker.no_results": "Dokumentteja ei löytynyt.",
+  "docpicker.error_loading": "Virhe ladattaessa dokumentteja: {0}"
 }

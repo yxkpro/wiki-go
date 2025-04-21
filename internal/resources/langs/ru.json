@@ -151,5 +151,11 @@
   "comments.error_title": "Ошибка комментария",
   "comments.error_generic": "Не удалось опубликовать комментарий.",
   "comments.error_delete": "Не удалось удалить комментарий.",
-  "comments.markdown_supported": "Поддерживается форматирование Markdown."
+  "comments.markdown_supported": "Поддерживается форматирование Markdown.",
+
+  "docpicker.search_placeholder": "Поиск документов...",
+  "docpicker.loading": "Загрузка документов...",
+  "docpicker.admin_required": "Для доступа к списку документов требуются права администратора.",
+  "docpicker.no_results": "Документы не найдены.",
+  "docpicker.error_loading": "Ошибка загрузки документов: {0}"
 }

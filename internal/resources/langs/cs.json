@@ -151,5 +151,11 @@
   "comments.error_title": "Chyba komentáře",
   "comments.error_generic": "Nepodařilo se odeslat komentář.",
   "comments.error_delete": "Nepodařilo se smazat komentář.",
-  "comments.markdown_supported": "Podporováno formátování Markdown."
+  "comments.markdown_supported": "Podporováno formátování Markdown.",
+
+  "docpicker.search_placeholder": "Hledat dokumenty...",
+  "docpicker.loading": "Načítání dokumentů...",
+  "docpicker.admin_required": "Pro přístup k seznamu dokumentů jsou vyžadována oprávnění administrátora.",
+  "docpicker.no_results": "Nebyly nalezeny žádné dokumenty.",
+  "docpicker.error_loading": "Chyba při načítání dokumentů: {0}"
 }

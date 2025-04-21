@@ -151,5 +151,11 @@
   "comments.error_title": "Yorum Hatası",
   "comments.error_generic": "Yorum gönderilemedi.",
   "comments.error_delete": "Yorum silinemedi.",
-  "comments.markdown_supported": "Markdown biçimlendirme destekleniyor."
+  "comments.markdown_supported": "Markdown biçimlendirme destekleniyor.",
+
+  "docpicker.search_placeholder": "Belgelerde ara...",
+  "docpicker.loading": "Belgeler yükleniyor...",
+  "docpicker.admin_required": "Belge listesine erişmek için yönetici ayrıcalıkları gereklidir.",
+  "docpicker.no_results": "Belge bulunamadı.",
+  "docpicker.error_loading": "Belgeler yüklenirken hata oluştu: {0}"
 }

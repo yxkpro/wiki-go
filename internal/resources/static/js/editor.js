@@ -280,6 +280,7 @@ function insertDocLink(document) {
 function createDocPicker() {
     const picker = document.createElement('div');
     picker.className = 'doc-picker';
+    picker.setAttribute('dir', 'auto');
     picker.style.display = 'none';
 
     // Create a search input

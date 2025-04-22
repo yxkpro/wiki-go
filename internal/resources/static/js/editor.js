@@ -5,6 +5,8 @@ let previewContent = null;
 let tablePickerElement = null;
 let emojiPickerElement = null;
 let docPickerElement = null;
+// Anchor picker element
+let anchorPickerElement = null;
 
 // Emoji data for picker
 let emojiData = [];
@@ -258,21 +260,32 @@ async function fetchDocuments() {
 function insertDocLink(document) {
     if (!editor) return;
 
-    // Get the document path and title
+    // Get selection (if any) to use as link text
+    const selection = editor.getSelection();
+
+    // Build path and fallback title
     let path = document.path;
     const title = document.title || path.split('/').pop();
 
-    // Remove the '/documents' prefix from the path to create correct internal links
-    // But keep the '/pages' prefix for the homepage
+    // Strip /documents prefix for internal links (except pages)
     if (path.startsWith('/documents')) {
         path = path.replace('/documents', '');
     }
 
-    // Insert markdown link at cursor position
-    const cursor = editor.getCursor();
-    editor.replaceRange(`[${title}](${path})`, cursor);
+    if (selection) {
+        // Replace selection with link
+        editor.replaceSelection(`[${selection}](${path})`);
+        // Place cursor at end of link
+    } else {
+        const cursor = editor.getCursor();
+        editor.replaceRange(`[${title}](${path})`, cursor);
+        // Select the link text so user can change it
+        editor.setSelection(
+            { line: cursor.line, ch: cursor.ch + 1 },
+            { line: cursor.line, ch: cursor.ch + 1 + title.length }
+        );
+    }
 
-    // Focus the editor
     editor.focus();
 }
 
@@ -556,9 +569,10 @@ function createToolbar(container) {
         { icon: 'fa-list-ul', action: 'unordered-list', title: 'Unordered List' },
         { icon: 'fa-list-ol', action: 'ordered-list', title: 'Ordered List' },
         { type: 'separator' },
-        { icon: 'fa-link', action: 'link', title: 'Link' },
-        { icon: 'fa-file-text-o', action: 'doc-link', title: 'Link to Document' },
         { icon: 'fa-picture-o', action: 'image', title: 'Image' },
+        { icon: 'fa-link', action: 'link', title: 'Link' },
+        { icon: 'fa-anchor', action: 'anchor-link', title: 'Link to Heading' },
+        { icon: 'fa-file-text-o', action: 'doc-link', title: 'Link to Document' },
         { icon: 'fa-smile-o', action: 'emoji', title: 'Insert Emoji' },
         { type: 'separator' },
         { icon: 'fa-th', action: 'table', title: 'Insert Custom Table', id: 'insert-table' },
@@ -840,6 +854,11 @@ function setupToolbarActions(toolbar) {
     // Document link button
     toolbar.querySelector('.doc-link-button').addEventListener('click', (e) => {
         showDocPicker(e.currentTarget);
+    });
+
+    // Anchor link button
+    toolbar.querySelector('.anchor-link-button').addEventListener('click', (e) => {
+        showAnchorPicker(e.currentTarget);
     });
 }
 
@@ -1625,4 +1644,151 @@ function positionPicker(picker, button) {
 
     picker.style.left = `${left}px`;
     picker.style.top = `${top}px`;
+}
+
+// Function to slugify heading text (mirror of Go makeSlug)
+function makeSlug(text) {
+    return text.toLowerCase()
+        .replace(/[&+_,.()\[\]{}'"!?;:~*]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .replace(/ /g, '-')
+        .replace(/[^a-z0-9-]/g, '')
+        .replace(/-+/g, '-')
+        .replace(/^[-]+|[-]+$/g, '') || 'heading';
+}
+
+// Extract headings and IDs from current editor content
+function extractAnchors(markdown) {
+    const lines = markdown.split('\n');
+    const headingRx = /^(#{1,6})\s+(.*?)\s*(\{#([a-zA-Z0-9\-]+)\})?\s*$/;
+    const anchors = [];
+
+    lines.forEach((ln) => {
+        const m = ln.match(headingRx);
+        if (!m) return;
+        const level = m[1].length;
+        const text = m[2].trim();
+        const id = m[4] || makeSlug(text);
+        anchors.push({ level, text, id });
+    });
+
+    return anchors;
+}
+
+// Insert anchor link in markdown
+function insertAnchorLink(anchor) {
+    if (!editor) return;
+
+    const selection = editor.getSelection();
+    const linkText = selection || anchor.text;
+
+    if (selection) {
+        editor.replaceSelection(`[${selection}](#${anchor.id})`);
+    } else {
+        const cursor = editor.getCursor();
+        editor.replaceRange(`[${linkText}](#${anchor.id})`, cursor);
+        // Select link text for editing if no selection existed
+        editor.setSelection(
+            { line: cursor.line, ch: cursor.ch + 1 },
+            { line: cursor.line, ch: cursor.ch + 1 + linkText.length }
+        );
+    }
+
+    editor.focus();
+}
+
+// Create anchor picker element
+function createAnchorPicker() {
+    const picker = document.createElement('div');
+    picker.className = 'anchor-picker';
+    picker.style.display = 'none';
+
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.className = 'anchor-search-input';
+    searchInput.placeholder = 'Search heading…';
+    picker.appendChild(searchInput);
+
+    const listContainer = document.createElement('div');
+    listContainer.className = 'anchor-list-container';
+    picker.appendChild(listContainer);
+
+    document.body.appendChild(picker);
+    anchorPickerElement = picker;
+
+    const renderList = (query = '') => {
+        listContainer.innerHTML = '';
+        const anchors = extractAnchors(editor.getValue()).filter(a =>
+            a.text.toLowerCase().includes(query.toLowerCase()) ||
+            a.id.toLowerCase().includes(query.toLowerCase())
+        );
+
+        if (anchors.length === 0) {
+            const noRes = document.createElement('div');
+            noRes.className = 'no-results';
+            noRes.textContent = 'No headings found';
+            listContainer.appendChild(noRes);
+            return;
+        }
+
+        anchors.forEach(a => {
+            const btn = document.createElement('button');
+            btn.className = `anchor-btn level-${a.level}`;
+            btn.textContent = `${'  '.repeat(a.level - 1)}${a.text}`;
+            btn.title = `#${a.id}`;
+            btn.addEventListener('click', () => {
+                insertAnchorLink(a);
+                hideAnchorPicker();
+            });
+            listContainer.appendChild(btn);
+        });
+    };
+
+    // initial list
+    renderList();
+
+    searchInput.addEventListener('input', (e) => {
+        renderList(e.target.value);
+    });
+
+    return picker;
+}
+
+// Show anchor picker
+function showAnchorPicker(button) {
+    if (!anchorPickerElement) {
+        anchorPickerElement = createAnchorPicker();
+    }
+
+    if (anchorPickerElement.style.display === 'block') {
+        hideAnchorPicker();
+        return;
+    }
+
+    anchorPickerElement.style.display = 'block';
+    requestAnimationFrame(() => {
+        positionPicker(anchorPickerElement, button);
+        setTimeout(() => positionPicker(anchorPickerElement, button), 50);
+    });
+
+    setTimeout(() => {
+        const input = anchorPickerElement.querySelector('.anchor-search-input');
+        if (input) input.focus();
+    }, 50);
+
+    const closeHandler = function(e) {
+        if (!anchorPickerElement.contains(e.target) &&
+            !e.target.closest('.anchor-link-button')) {
+            hideAnchorPicker();
+            document.removeEventListener('click', closeHandler);
+        }
+    };
+    setTimeout(() => document.addEventListener('click', closeHandler), 0);
+}
+
+function hideAnchorPicker() {
+    if (anchorPickerElement) {
+        anchorPickerElement.style.display = 'none';
+    }
 }

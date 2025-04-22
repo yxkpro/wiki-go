@@ -19,6 +19,7 @@ var (
 	_ = DetailsPreprocessor
 	_ = TaskListPreprocessor
 	_ = TocPreprocessor
+	_ = HeadingAnchorPreprocessor
 	_ = SuperscriptPreprocessor
 	_ = SubscriptPreprocessor
 )
@@ -40,6 +41,7 @@ func init() {
 	RegisterPreprocessor(DetailsPreprocessor)   // Process details blocks
 	RegisterPreprocessor(TaskListPreprocessor)  // Process task lists before rendering
 	RegisterPreprocessor(TocPreprocessor)       // Process table of contents markers
+	RegisterPreprocessor(HeadingAnchorPreprocessor) // Add ¶ anchors to headings
 
 	// Step 3: Register text formatting preprocessors
 	RegisterPreprocessor(HighlightPreprocessor)  // Process highlighting

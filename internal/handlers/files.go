@@ -989,13 +989,6 @@ func ListDocumentsHandler(w http.ResponseWriter, r *http.Request, cfg *config.Co
 
 	var documents []Document
 
-	// Add homepage as a special document
-	homepagePath := "/pages/home"
-	documents = append(documents, Document{
-		Title: "Home",
-		Path:  homepagePath,
-	})
-
 	// Find all documents in documents directory
 	err := filepath.WalkDir(documentsPath, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {

@@ -157,5 +157,8 @@
   "docpicker.loading": "Documenten laden...",
   "docpicker.admin_required": "Beheerdersrechten vereist om toegang te krijgen tot de documentenlijst.",
   "docpicker.no_results": "Geen documenten gevonden.",
-  "docpicker.error_loading": "Fout bij het laden van documenten: {0}"
+  "docpicker.error_loading": "Fout bij het laden van documenten: {0}",
+
+  "anchorpicker.search_placeholder": "Koppen zoeken...",
+  "anchorpicker.no_results": "Geen koppen gevonden."
 }

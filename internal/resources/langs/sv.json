@@ -157,5 +157,8 @@
   "docpicker.loading": "Laddar dokument...",
   "docpicker.admin_required": "Administratörsbehörighet krävs för att komma åt dokumentlistan.",
   "docpicker.no_results": "Inga dokument hittades.",
-  "docpicker.error_loading": "Fel vid laddning av dokument: {0}"
+  "docpicker.error_loading": "Fel vid laddning av dokument: {0}",
+
+  "anchorpicker.search_placeholder": "Sök rubriker...",
+  "anchorpicker.no_results": "Inga rubriker hittades."
 }

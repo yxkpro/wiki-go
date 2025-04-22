@@ -157,5 +157,8 @@
   "docpicker.loading": "Laster dokumenter...",
   "docpicker.admin_required": "Administratorrettigheter kreves for å få tilgang til dokumentlisten.",
   "docpicker.no_results": "Ingen dokumenter funnet.",
-  "docpicker.error_loading": "Feil ved lasting av dokumenter: {0}"
+  "docpicker.error_loading": "Feil ved lasting av dokumenter: {0}",
+
+  "anchorpicker.search_placeholder": "Søk etter overskrifter...",
+  "anchorpicker.no_results": "Ingen overskrifter funnet."
 }

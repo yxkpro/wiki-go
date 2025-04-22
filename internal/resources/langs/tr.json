@@ -157,5 +157,8 @@
   "docpicker.loading": "Belgeler yükleniyor...",
   "docpicker.admin_required": "Belge listesine erişmek için yönetici ayrıcalıkları gereklidir.",
   "docpicker.no_results": "Belge bulunamadı.",
-  "docpicker.error_loading": "Belgeler yüklenirken hata oluştu: {0}"
+  "docpicker.error_loading": "Belgeler yüklenirken hata oluştu: {0}",
+
+  "anchorpicker.search_placeholder": "Başlıklarda ara...",
+  "anchorpicker.no_results": "Başlık bulunamadı."
 }

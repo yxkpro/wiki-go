@@ -157,5 +157,8 @@
   "docpicker.loading": "טוען מסמכים...",
   "docpicker.admin_required": "נדרשות הרשאות מנהל כדי לגשת לרשימת המסמכים.",
   "docpicker.no_results": "לא נמצאו מסמכים.",
-  "docpicker.error_loading": "שגיאה בטעינת מסמכים: {0}"
+  "docpicker.error_loading": "שגיאה בטעינת מסמכים: {0}",
+
+  "anchorpicker.search_placeholder": "חיפוש כותרות...",
+  "anchorpicker.no_results": "לא נמצאו כותרות."
 }

@@ -157,5 +157,8 @@
   "docpicker.loading": "Ladataan dokumentteja...",
   "docpicker.admin_required": "Pääkäyttäjän oikeudet vaaditaan dokumenttiluettelon käyttämiseen.",
   "docpicker.no_results": "Dokumentteja ei löytynyt.",
-  "docpicker.error_loading": "Virhe ladattaessa dokumentteja: {0}"
+  "docpicker.error_loading": "Virhe ladattaessa dokumentteja: {0}",
+
+  "anchorpicker.search_placeholder": "Hae otsikoita...",
+  "anchorpicker.no_results": "Otsikoita ei löytynyt."
 }

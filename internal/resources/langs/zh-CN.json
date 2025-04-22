@@ -157,5 +157,8 @@
   "docpicker.loading": "正在加载文档...",
   "docpicker.admin_required": "需要管理员权限才能访问文档列表。",
   "docpicker.no_results": "未找到文档。",
-  "docpicker.error_loading": "加载文档时出错：{0}"
+  "docpicker.error_loading": "加载文档时出错：{0}",
+
+  "anchorpicker.search_placeholder": "搜索标题...",
+  "anchorpicker.no_results": "未找到标题。"
 }

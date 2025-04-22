@@ -157,5 +157,8 @@
   "docpicker.loading": "ドキュメントを読み込み中...",
   "docpicker.admin_required": "ドキュメントリストにアクセスするには管理者権限が必要です。",
   "docpicker.no_results": "ドキュメントが見つかりませんでした。",
-  "docpicker.error_loading": "ドキュメントの読み込み中にエラーが発生しました: {0}"
+  "docpicker.error_loading": "ドキュメントの読み込み中にエラーが発生しました: {0}",
+
+  "anchorpicker.search_placeholder": "見出しを検索...",
+  "anchorpicker.no_results": "見出しが見つかりませんでした。"
 }

@@ -157,5 +157,8 @@
   "docpicker.loading": "Načítání dokumentů...",
   "docpicker.admin_required": "Pro přístup k seznamu dokumentů jsou vyžadována oprávnění administrátora.",
   "docpicker.no_results": "Nebyly nalezeny žádné dokumenty.",
-  "docpicker.error_loading": "Chyba při načítání dokumentů: {0}"
+  "docpicker.error_loading": "Chyba při načítání dokumentů: {0}",
+
+  "anchorpicker.search_placeholder": "Hledat nadpisy...",
+  "anchorpicker.no_results": "Nenalezeny žádné nadpisy."
 }

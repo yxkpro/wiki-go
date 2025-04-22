@@ -157,5 +157,8 @@
   "docpicker.loading": "Loading documents...",
   "docpicker.admin_required": "Admin privileges required to access document list.",
   "docpicker.no_results": "No documents found.",
-  "docpicker.error_loading": "Error loading documents: {0}"
+  "docpicker.error_loading": "Error loading documents: {0}",
+
+  "anchorpicker.search_placeholder": "Search headings...",
+  "anchorpicker.no_results": "No headings found."
 }

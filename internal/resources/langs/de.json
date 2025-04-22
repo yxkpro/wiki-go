@@ -157,5 +157,8 @@
   "docpicker.loading": "Lade Dokumente...",
   "docpicker.admin_required": "Administratorrechte sind erforderlich, um auf die Dokumentenliste zuzugreifen.",
   "docpicker.no_results": "Keine Dokumente gefunden.",
-  "docpicker.error_loading": "Fehler beim Laden der Dokumente: {0}"
+  "docpicker.error_loading": "Fehler beim Laden der Dokumente: {0}",
+
+  "anchorpicker.search_placeholder": "Überschriften durchsuchen...",
+  "anchorpicker.no_results": "Keine Überschriften gefunden."
 }

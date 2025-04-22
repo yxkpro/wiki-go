@@ -157,5 +157,8 @@
   "docpicker.loading": "Chargement des documents...",
   "docpicker.admin_required": "Privilèges d'administrateur requis pour accéder à la liste des documents.",
   "docpicker.no_results": "Aucun document trouvé.",
-  "docpicker.error_loading": "Erreur lors du chargement des documents: {0}"
+  "docpicker.error_loading": "Erreur lors du chargement des documents: {0}",
+
+  "anchorpicker.search_placeholder": "Rechercher des titres...",
+  "anchorpicker.no_results": "Aucun titre trouvé."
 }

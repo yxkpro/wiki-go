@@ -157,5 +157,8 @@
   "docpicker.loading": "Caricamento documenti...",
   "docpicker.admin_required": "Sono richiesti privilegi di amministratore per accedere all'elenco dei documenti.",
   "docpicker.no_results": "Nessun documento trovato.",
-  "docpicker.error_loading": "Errore nel caricamento dei documenti: {0}"
+  "docpicker.error_loading": "Errore nel caricamento dei documenti: {0}",
+
+  "anchorpicker.search_placeholder": "Cerca intestazioni...",
+  "anchorpicker.no_results": "Nessuna intestazione trovata."
 }

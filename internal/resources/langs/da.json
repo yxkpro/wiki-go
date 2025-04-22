@@ -157,5 +157,8 @@
   "docpicker.loading": "Indlæser dokumenter...",
   "docpicker.admin_required": "Administratorrettigheder kræves for at få adgang til dokumentlisten.",
   "docpicker.no_results": "Ingen dokumenter fundet.",
-  "docpicker.error_loading": "Fejl ved indlæsning af dokumenter: {0}"
+  "docpicker.error_loading": "Fejl ved indlæsning af dokumenter: {0}",
+
+  "anchorpicker.search_placeholder": "Søg efter overskrifter...",
+  "anchorpicker.no_results": "Ingen overskrifter fundet."
 }

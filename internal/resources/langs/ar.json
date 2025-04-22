@@ -157,5 +157,8 @@
   "docpicker.loading": "جارِ تحميل المستندات...",
   "docpicker.admin_required": "مطلوب صلاحيات المسؤول للوصول إلى قائمة المستندات.",
   "docpicker.no_results": "لم يتم العثور على مستندات.",
-  "docpicker.error_loading": "خطأ في تحميل المستندات: {0}"
+  "docpicker.error_loading": "خطأ في تحميل المستندات: {0}",
+
+  "anchorpicker.search_placeholder": "ابحث في العناوين...",
+  "anchorpicker.no_results": "لم يتم العثور على عناوين."
 }

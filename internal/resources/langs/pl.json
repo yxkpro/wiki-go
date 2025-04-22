@@ -157,5 +157,8 @@
   "docpicker.loading": "Ładowanie dokumentów...",
   "docpicker.admin_required": "Wymagane uprawnienia administratora, aby uzyskać dostęp do listy dokumentów.",
   "docpicker.no_results": "Nie znaleziono dokumentów.",
-  "docpicker.error_loading": "Błąd podczas ładowania dokumentów: {0}"
+  "docpicker.error_loading": "Błąd podczas ładowania dokumentów: {0}",
+
+  "anchorpicker.search_placeholder": "Szukaj nagłówków...",
+  "anchorpicker.no_results": "Nie znaleziono nagłówków."
 }

@@ -157,5 +157,8 @@
   "docpicker.loading": "正在載入文件...",
   "docpicker.admin_required": "需要管理員權限才能存取文件列表。",
   "docpicker.no_results": "未找到文件。",
-  "docpicker.error_loading": "載入文件時發生錯誤：{0}"
+  "docpicker.error_loading": "載入文件時發生錯誤：{0}",
+
+  "anchorpicker.search_placeholder": "搜尋標題...",
+  "anchorpicker.no_results": "未找到標題。"
 }

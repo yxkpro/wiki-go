@@ -157,5 +157,8 @@
   "docpicker.loading": "در حال بارگذاری اسناد...",
   "docpicker.admin_required": "برای دسترسی به لیست اسناد به دسترسی مدیر نیاز است.",
   "docpicker.no_results": "هیچ سندی یافت نشد.",
-  "docpicker.error_loading": "خطا در بارگذاری اسناد: {0}"
+  "docpicker.error_loading": "خطا در بارگذاری اسناد: {0}",
+
+  "anchorpicker.search_placeholder": "جستجوی سرتیترها...",
+  "anchorpicker.no_results": "هیچ سرتیترى یافت نشد."
 }

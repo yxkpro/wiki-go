@@ -1663,13 +1663,28 @@ function extractAnchors(markdown) {
     const lines = markdown.split('\n');
     const headingRx = /^(#{1,6})\s+(.*?)\s*(\{#([a-zA-Z0-9\-]+)\})?\s*$/;
     const anchors = [];
+    const usedIds = {};
 
     lines.forEach((ln) => {
         const m = ln.match(headingRx);
         if (!m) return;
         const level = m[1].length;
         const text = m[2].trim();
-        const id = m[4] || makeSlug(text);
+        let id = m[4] || makeSlug(text);
+        if (!id) id = "heading";
+
+        // Ensure uniqueness (mirror Go logic)
+        if (usedIds[id]) {
+            let counter = 1;
+            let newId;
+            do {
+                newId = `${id}-${counter}`;
+                counter++;
+            } while (usedIds[newId]);
+            id = newId;
+        }
+        usedIds[id] = true;
+
         anchors.push({ level, text, id });
     });
 

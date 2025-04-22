@@ -1767,6 +1767,9 @@ function createAnchorPicker() {
         renderList(e.target.value);
     });
 
+    // Expose the renderList function so it can be called later to refresh headings
+    picker.renderList = renderList;
+
     return picker;
 }
 
@@ -1779,6 +1782,13 @@ function showAnchorPicker(button) {
     if (anchorPickerElement.style.display === 'block') {
         hideAnchorPicker();
         return;
+    }
+
+    // Refresh headings list each time the picker is shown to capture any new headings
+    if (typeof anchorPickerElement.renderList === 'function') {
+        const queryInput = anchorPickerElement.querySelector('.anchor-search-input');
+        const currentQuery = queryInput ? queryInput.value : '';
+        anchorPickerElement.renderList(currentQuery);
     }
 
     anchorPickerElement.style.display = 'block';

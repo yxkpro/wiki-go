@@ -51,6 +51,7 @@
   "settings.document_versions_description": "Количество версий для хранения для каждого документа. Установите 0, чтобы отключить версионирование.",
   "settings.max_upload_size": "Максимальный размер загружаемого файла",
   "settings.max_upload_size_description": "Максимально допустимый размер файлов для загрузки в МБ.",
+  "settings.disable_file_upload_checking": "Отключить проверку загружаемых файлов",
   "settings.private_wiki": "Приватная вики (требуется вход для просмотра)",
   "settings.disable_comments": "Отключить комментарии во всей системе",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "Выбрать файл",
   "attachments.no_file_chosen": "Файлы не выбраны",
   "attachments.allowed_types": "Разрешенные типы файлов: {{allowedTypes}} (Макс: {{maxFileSize}})",
+  "attachments.file_type_checking_disabled": "Проверка типа файла отключена. Разрешены все типы файлов.",
   "attachments.files_tab": "Файлы",
   "attachments.document_files": "Файлы документа",
   "attachments.no_files": "Для этого документа не найдено файлов.",

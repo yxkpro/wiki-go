@@ -51,6 +51,7 @@
   "settings.document_versions_description": "每个文档保留的版本数量。设置为0以禁用版本控制。",
   "settings.max_upload_size": "最大文件上传大小",
   "settings.max_upload_size_description": "上传文件的最大允许大小（MB）。",
+  "settings.disable_file_upload_checking": "禁用文件上传检查",
   "settings.private_wiki": "私有维基（需要登录才能查看）",
   "settings.disable_comments": "全系统禁用评论",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "选择文件",
   "attachments.no_file_chosen": "未选择文件",
   "attachments.allowed_types": "允许的文件类型：{{allowedTypes}}（最大：{{maxFileSize}}）",
+  "attachments.file_type_checking_disabled": "文件类型检查已禁用。允许所有文件类型。",
   "attachments.files_tab": "文件",
   "attachments.document_files": "文档文件",
   "attachments.no_files": "未找到此文档的文件。",

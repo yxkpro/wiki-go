@@ -33,17 +33,18 @@ type Config struct {
 		AllowInsecureCookies bool `yaml:"allow_insecure_cookies"`
 	} `yaml:"server"`
 	Wiki struct {
-		RootDir         string `yaml:"root_dir"`
-		DocumentsDir    string `yaml:"documents_dir"`
-		Title           string `yaml:"title"`
-		Owner           string `yaml:"owner"`
-		Notice          string `yaml:"notice"`
-		Timezone        string `yaml:"timezone"`
-		Private         bool   `yaml:"private"`
-		DisableComments bool   `yaml:"disable_comments"` // Disable comments system-wide when true
-		MaxVersions     int    `yaml:"max_versions"`
-		MaxUploadSize   int    `yaml:"max_upload_size"` // Maximum upload file size in MB
-		Language        string `yaml:"language"`        // Default language for the wiki
+		RootDir                   string `yaml:"root_dir"`
+		DocumentsDir              string `yaml:"documents_dir"`
+		Title                     string `yaml:"title"`
+		Owner                     string `yaml:"owner"`
+		Notice                    string `yaml:"notice"`
+		Timezone                  string `yaml:"timezone"`
+		Private                   bool   `yaml:"private"`
+		DisableComments           bool   `yaml:"disable_comments"` // Disable comments system-wide when true
+		DisableFileUploadChecking bool   `yaml:"disable_file_upload_checking"` // Disable mimetype checking for file uploads when true
+		MaxVersions               int    `yaml:"max_versions"`
+		MaxUploadSize             int    `yaml:"max_upload_size"` // Maximum upload file size in MB
+		Language                  string `yaml:"language"`        // Default language for the wiki
 	} `yaml:"wiki"`
 	Users []User `yaml:"users"`
 }
@@ -63,6 +64,7 @@ func LoadConfig(path string) (*Config, error) {
 	config.Wiki.Timezone = "America/Vancouver"
 	config.Wiki.Private = false
 	config.Wiki.DisableComments = false
+	config.Wiki.DisableFileUploadChecking = false // Default to false - always check file uploads
 	config.Wiki.MaxVersions = 10   // Default value
 	config.Wiki.MaxUploadSize = 10 // Default value
 	config.Wiki.Language = "en"    // Default to English
@@ -114,6 +116,7 @@ func LoadConfig(path string) (*Config, error) {
 				config.Wiki.Timezone,
 				config.Wiki.Private,
 				config.Wiki.DisableComments,
+				config.Wiki.DisableFileUploadChecking,
 				config.Wiki.MaxVersions,
 				config.Wiki.MaxUploadSize,
 				config.Wiki.Language,
@@ -158,6 +161,7 @@ wiki:
     timezone: %s
     private: %t
     disable_comments: %t
+    disable_file_upload_checking: %t
     max_versions: %d
     # Maximum file upload size in MB
     max_upload_size: %d
@@ -198,6 +202,7 @@ func SaveConfig(cfg *Config, w io.Writer) error {
 		cfg.Wiki.Timezone,
 		cfg.Wiki.Private,
 		cfg.Wiki.DisableComments,
+		cfg.Wiki.DisableFileUploadChecking,
 		cfg.Wiki.MaxVersions,
 		cfg.Wiki.MaxUploadSize,
 		cfg.Wiki.Language,

@@ -51,6 +51,7 @@
   "settings.document_versions_description": "文書ごとに保持するバージョン数。バージョン管理を無効にするには0に設定します。",
   "settings.max_upload_size": "最大アップロードサイズ",
   "settings.max_upload_size_description": "アップロードファイルの最大許容サイズ（MB単位）。",
+  "settings.disable_file_upload_checking": "ファイルアップロードチェックを無効化",
   "settings.private_wiki": "プライベートWiki（閲覧にはログインが必要）",
   "settings.disable_comments": "システム全体でコメントを無効にする",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "ファイルを選ぶ",
   "attachments.no_file_chosen": "ファイルが選択されていません",
   "attachments.allowed_types": "許可されているファイルタイプ: {{allowedTypes}} (最大: {{maxFileSize}})",
+  "attachments.file_type_checking_disabled": "ファイルタイプチェックが無効になっています。すべてのファイルタイプが許可されています。",
   "attachments.files_tab": "ファイル",
   "attachments.document_files": "文書ファイル",
   "attachments.no_files": "この文書に関連するファイルが見つかりません。",

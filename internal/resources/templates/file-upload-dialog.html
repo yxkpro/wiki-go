@@ -19,7 +19,8 @@
                     <div class="form-group">
                         <label for="fileToUpload">{{t "attachments.select_file"}}</label>
                         <input type="file" id="fileToUpload" name="file">
-                        <small class="form-help">{{t "attachments.allowed_types"}}</small>
+                        <small class="form-help allowed-types-help">{{t "attachments.allowed_types"}}</small>
+                        <small class="form-help unrestricted-types-help" style="display: none;">{{t "attachments.file_type_checking_disabled"}}</small>
                     </div>
                     <div class="form-actions">
                         <button type="submit" class="dialog-button primary" id="uploadFileBtn">{{t "common.upload"}}</button>

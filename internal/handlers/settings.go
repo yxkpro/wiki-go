@@ -13,29 +13,31 @@ import (
 
 // WikiSettingsRequest represents the request body for updating wiki settings
 type WikiSettingsRequest struct {
-	Title           string `json:"title"`
-	Owner           string `json:"owner"`
-	Notice          string `json:"notice"`
-	Timezone        string `json:"timezone"`
-	Private         bool   `json:"private"`
-	DisableComments bool   `json:"disable_comments"`
-	MaxVersions     int    `json:"max_versions"`
-	MaxUploadSize   int    `json:"max_upload_size"`
-	Language        string `json:"language"`
+	Title                     string `json:"title"`
+	Owner                     string `json:"owner"`
+	Notice                    string `json:"notice"`
+	Timezone                  string `json:"timezone"`
+	Private                   bool   `json:"private"`
+	DisableComments           bool   `json:"disable_comments"`
+	DisableFileUploadChecking bool   `json:"disable_file_upload_checking"`
+	MaxVersions               int    `json:"max_versions"`
+	MaxUploadSize             int    `json:"max_upload_size"`
+	Language                  string `json:"language"`
 }
 
 // WikiSettingsResponse represents the response for wiki settings
 type WikiSettingsResponse struct {
-	Title           string   `json:"title"`
-	Owner           string   `json:"owner"`
-	Notice          string   `json:"notice"`
-	Timezone        string   `json:"timezone"`
-	Private         bool     `json:"private"`
-	DisableComments bool     `json:"disable_comments"`
-	MaxVersions     int      `json:"max_versions"`
-	MaxUploadSize   int      `json:"max_upload_size"`
-	Language        string   `json:"language"`
-	Languages       []string `json:"languages"`
+	Title                     string   `json:"title"`
+	Owner                     string   `json:"owner"`
+	Notice                    string   `json:"notice"`
+	Timezone                  string   `json:"timezone"`
+	Private                   bool     `json:"private"`
+	DisableComments           bool     `json:"disable_comments"`
+	DisableFileUploadChecking bool     `json:"disable_file_upload_checking"`
+	MaxVersions               int      `json:"max_versions"`
+	MaxUploadSize             int      `json:"max_upload_size"`
+	Language                  string   `json:"language"`
+	Languages                 []string `json:"languages"`
 }
 
 // WikiSettingsHandler handles both GET and POST requests for wiki settings
@@ -61,16 +63,17 @@ func GetWikiSettingsHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Get the current wiki settings from the global config
 	response := WikiSettingsResponse{
-		Title:           cfg.Wiki.Title,
-		Owner:           cfg.Wiki.Owner,
-		Notice:          cfg.Wiki.Notice,
-		Timezone:        cfg.Wiki.Timezone,
-		Private:         cfg.Wiki.Private,
-		DisableComments: cfg.Wiki.DisableComments,
-		MaxVersions:     cfg.Wiki.MaxVersions,
-		MaxUploadSize:   cfg.Wiki.MaxUploadSize,
-		Language:        cfg.Wiki.Language,
-		Languages:       i18n.GetAvailableLanguages(),
+		Title:                     cfg.Wiki.Title,
+		Owner:                     cfg.Wiki.Owner,
+		Notice:                    cfg.Wiki.Notice,
+		Timezone:                  cfg.Wiki.Timezone,
+		Private:                   cfg.Wiki.Private,
+		DisableComments:           cfg.Wiki.DisableComments,
+		DisableFileUploadChecking: cfg.Wiki.DisableFileUploadChecking,
+		MaxVersions:               cfg.Wiki.MaxVersions,
+		MaxUploadSize:             cfg.Wiki.MaxUploadSize,
+		Language:                  cfg.Wiki.Language,
+		Languages:                 i18n.GetAvailableLanguages(),
 	}
 
 	// Send the response
@@ -111,6 +114,7 @@ func UpdateWikiSettingsHandler(w http.ResponseWriter, r *http.Request) {
 	updatedConfig.Wiki.Timezone = req.Timezone
 	updatedConfig.Wiki.Private = req.Private
 	updatedConfig.Wiki.DisableComments = req.DisableComments
+	updatedConfig.Wiki.DisableFileUploadChecking = req.DisableFileUploadChecking
 	updatedConfig.Wiki.MaxVersions = req.MaxVersions
 	updatedConfig.Wiki.MaxUploadSize = req.MaxUploadSize
 	updatedConfig.Wiki.Language = req.Language

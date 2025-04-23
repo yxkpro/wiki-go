@@ -142,7 +142,7 @@ func UploadFileHandler(w http.ResponseWriter, r *http.Request, cfg *config.Confi
 
 	// Validate file extension
 	ext := strings.ToLower(filepath.Ext(fileHeader.Filename))
-	if !config.IsAllowedExtension(ext) {
+	if !cfg.Wiki.DisableFileUploadChecking && !config.IsAllowedExtension(ext) {
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(FileResponse{
 			Success: false,
@@ -175,38 +175,41 @@ func UploadFileHandler(w http.ResponseWriter, r *http.Request, cfg *config.Confi
 		return
 	}
 
-	// Use enhanced detection for content type
-	detectedContentType, err := detectFileContentType(buffer, fileHeader.Filename)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(FileResponse{
-			Success: false,
-			Message: "Failed to detect file content type.",
-		})
-		return
-	}
-	expectedContentType := config.GetMimeTypeForExtension(ext)
+	// Check if MIME type validation is disabled in settings
+	if !cfg.Wiki.DisableFileUploadChecking {
+		// Use enhanced detection for content type
+		detectedContentType, err := detectFileContentType(buffer, fileHeader.Filename)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(FileResponse{
+				Success: false,
+				Message: "Failed to detect file content type.",
+			})
+			return
+		}
+		expectedContentType := config.GetMimeTypeForExtension(ext)
 
-	// Check if the detected content type matches what we expect for this extension
-	// Note: http.DetectContentType is limited and may return generic types like "application/octet-stream"
-	// So we need to be careful with the validation logic
-	if !isContentTypeCompatible(detectedContentType, expectedContentType, buffer, fileHeader.Filename) {
-		// Debug info for file validation issues
-		debugFileValidation(buffer, fileHeader.Filename, detectedContentType, expectedContentType)
+		// Check if the detected content type matches what we expect for this extension
+		// Note: http.DetectContentType is limited and may return generic types like "application/octet-stream"
+		// So we need to be careful with the validation logic
+		if !isContentTypeCompatible(detectedContentType, expectedContentType, buffer, fileHeader.Filename) {
+			// Debug info for file validation issues
+			debugFileValidation(buffer, fileHeader.Filename, detectedContentType, expectedContentType)
 
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(FileResponse{
-			Success: false,
-			Message: i18n.Translate("attachments.error_content_mismatch"),
-		})
-		return
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(FileResponse{
+				Success: false,
+				Message: i18n.Translate("attachments.error_content_mismatch"),
+			})
+			return
+		}
 	}
 
 	// Create safe filename - remove any potentially unsafe characters
 	filename := sanitizeFilename(fileHeader.Filename)
 
 	// Special handling for SVG files to prevent XSS attacks
-	if strings.ToLower(filepath.Ext(filename)) == ".svg" {
+	if strings.ToLower(filepath.Ext(filename)) == ".svg" && !cfg.Wiki.DisableFileUploadChecking {
 		// Read the entire file content
 		svgContent, err := io.ReadAll(file)
 		if err != nil {
@@ -375,7 +378,7 @@ func ListFilesHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config
 		ext := strings.ToLower(filepath.Ext(file.Name()))
 
 		// Check if it's a valid file type we want to show
-		if !config.IsAllowedExtension(ext) {
+		if !cfg.Wiki.DisableFileUploadChecking && !config.IsAllowedExtension(ext) {
 			continue
 		}
 
@@ -584,7 +587,7 @@ func ServeFileHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config
 
 	// Additional security check: Verify content type for certain file types
 	// This helps prevent serving files that have been tampered with after upload
-	if config.ShouldVerifyContentType(ext[1:]) { // Remove leading dot with ext[1:]
+	if !cfg.Wiki.DisableFileUploadChecking && config.ShouldVerifyContentType(ext[1:]) { // Remove leading dot with ext[1:]
 		// Open the file to check its content
 		f, err := os.Open(filePath)
 		if err == nil {

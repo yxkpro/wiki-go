@@ -51,6 +51,7 @@
   "settings.document_versions_description": "Número de versões a manter por documento. Defina como 0 para desativar o versionamento.",
   "settings.max_upload_size": "Tamanho máximo de upload de arquivo",
   "settings.max_upload_size_description": "Tamanho máximo permitido para uploads de arquivos em MB.",
+  "settings.disable_file_upload_checking": "Desativar verificação de upload de arquivos",
   "settings.private_wiki": "Wiki privada (login necessário para visualizar)",
   "settings.disable_comments": "Desativar comentários em todo o sistema",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "Escolher arquivo",
   "attachments.no_file_chosen": "Nenhum arquivo escolhido",
   "attachments.allowed_types": "Tipos de arquivo permitidos: {{allowedTypes}} (Máx: {{maxFileSize}})",
+  "attachments.file_type_checking_disabled": "A verificação de tipo de arquivo está desativada. Todos os tipos de arquivo são permitidos.",
   "attachments.files_tab": "Arquivos",
   "attachments.document_files": "Arquivos do Documento",
   "attachments.no_files": "Nenhum arquivo encontrado para este documento.",

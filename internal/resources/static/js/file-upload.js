@@ -14,7 +14,22 @@ function showFileUploadDialog() {
     fileUploadForm.reset();
 
     // Fetch the latest max upload size when dialog opens
-    window.SettingsManager.fetchMaxUploadSize();
+    window.SettingsManager.fetchMaxUploadSize().then(() => {
+        // Update the help text based on the file upload checking setting
+        const isFileUploadCheckingDisabled = window.SettingsManager.isFileUploadCheckingDisabled();
+        const allowedTypesHelp = fileUploadDialog.querySelector('.allowed-types-help');
+        const unrestrictedTypesHelp = fileUploadDialog.querySelector('.unrestricted-types-help');
+
+        if (isFileUploadCheckingDisabled) {
+            // Show unrestricted help text when checking is disabled
+            if (allowedTypesHelp) allowedTypesHelp.style.display = 'none';
+            if (unrestrictedTypesHelp) unrestrictedTypesHelp.style.display = 'block';
+        } else {
+            // Show allowed types help text when checking is enabled
+            if (allowedTypesHelp) allowedTypesHelp.style.display = 'block';
+            if (unrestrictedTypesHelp) unrestrictedTypesHelp.style.display = 'none';
+        }
+    });
 
     // Explicitly reset and activate the first tab when opening the dialog
     setTimeout(() => {
@@ -86,11 +101,14 @@ async function handleFileUpload(e) {
         return;
     }
 
-    // Check file type
+    // Get file extension
     const ext = file.name.split('.').pop().toLowerCase();
 
-    // Use the globally defined ALLOWED_FILE_EXTENSIONS from base.html template
-    if (!ALLOWED_FILE_EXTENSIONS.includes(ext)) {
+    // Check if file type validation is disabled in settings
+    const isFileUploadCheckingDisabled = window.SettingsManager.isFileUploadCheckingDisabled();
+
+    // Only validate file type if checking is not disabled
+    if (!isFileUploadCheckingDisabled && !ALLOWED_FILE_EXTENSIONS.includes(ext)) {
         console.log('[DEBUG] - Showing error for invalid file type');
 
         // Format allowed extensions into a user-friendly string

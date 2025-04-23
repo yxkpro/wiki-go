@@ -51,6 +51,7 @@
   "settings.document_versions_description": "प्रति दस्तावेज़ रखने के लिए संस्करणों की संख्या। वर्जनिंग को अक्षम करने के लिए 0 पर सेट करें।",
   "settings.max_upload_size": "अधिकतम फ़ाइल अपलोड आकार",
   "settings.max_upload_size_description": "अपलोड के लिए अधिकतम अनुमत फ़ाइल आकार MB में।",
+  "settings.disable_file_upload_checking": "फ़ाइल अपलोड चेकिंग अक्षम करें",
   "settings.private_wiki": "निजी विकी (देखने के लिए लॉगिन आवश्यक)",
   "settings.disable_comments": "पूरे सिस्टम में टिप्पणियाँ अक्षम करें",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "फाइल चुनें",
   "attachments.no_file_chosen": "कोई फाइल नहीं चुनी गई",
   "attachments.allowed_types": "अनुमत फाइल प्रकार: {{allowedTypes}} (अधिकतम: {{maxFileSize}})",
+  "attachments.file_type_checking_disabled": "फ़ाइल प्रकार की जांच अक्षम है। सभी फ़ाइल प्रकार अनुमत हैं।",
   "attachments.files_tab": "फाइलें",
   "attachments.document_files": "दस्तावेज़ फाइलें",
   "attachments.no_files": "इस दस्तावेज़ के लिए कोई फाइल नहीं मिली।",

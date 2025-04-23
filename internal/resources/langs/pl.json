@@ -51,6 +51,7 @@
   "settings.document_versions_description": "Liczba wersji do przechowywania dla każdego dokumentu. Ustaw na 0, aby wyłączyć wersjonowanie.",
   "settings.max_upload_size": "Maksymalny rozmiar pliku",
   "settings.max_upload_size_description": "Maksymalny dozwolony rozmiar pliku do przesłania w MB.",
+  "settings.disable_file_upload_checking": "Wyłącz sprawdzanie przesyłanych plików",
   "settings.private_wiki": "Prywatna wiki (wymaga logowania, aby przeglądać)",
   "settings.disable_comments": "Wyłącz komentarze w całym systemie",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "Wybierz plik",
   "attachments.no_file_chosen": "Nie wybrano plików",
   "attachments.allowed_types": "Dozwolone typy plików: {{allowedTypes}} (Maks: {{maxFileSize}})",
+  "attachments.file_type_checking_disabled": "Sprawdzanie typu pliku jest wyłączone. Wszystkie typy plików są dozwolone.",
   "attachments.files_tab": "Pliki",
   "attachments.document_files": "Pliki dokumentu",
   "attachments.no_files": "Nie znaleziono plików dla tego dokumentu.",

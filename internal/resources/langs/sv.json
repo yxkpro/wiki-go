@@ -51,6 +51,7 @@
   "settings.document_versions_description": "Antal versioner att behålla per dokument. Ställ in som 0 för att inaktivera versionshantering.",
   "settings.max_upload_size": "Maximal filuppladdningsstorlek",
   "settings.max_upload_size_description": "Maximal tillåten filstorlek för uppladdningar i MB.",
+  "settings.disable_file_upload_checking": "Inaktivera kontroll av filuppladdning",
   "settings.private_wiki": "Privat wiki (kräver inloggning för att visa)",
   "settings.disable_comments": "Inaktivera kommentarer för hela systemet",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "Välj fil",
   "attachments.no_file_chosen": "Ingen fil vald",
   "attachments.allowed_types": "Tillåtna filtyper: {{allowedTypes}} (Max: {{maxFileSize}})",
+  "attachments.file_type_checking_disabled": "Kontroll av filtyp är inaktiverad. Alla filtyper är tillåtna.",
   "attachments.files_tab": "Filer",
   "attachments.document_files": "Dokumentfiler",
   "attachments.no_files": "Inga filer hittades för detta dokument.",

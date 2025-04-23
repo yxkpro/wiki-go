@@ -51,6 +51,7 @@
   "settings.document_versions_description": "Aantal versies dat per document bewaard moet worden. Stel in op 0 om versiebeheer uit te schakelen.",
   "settings.max_upload_size": "Maximale bestandsgrootte voor uploads",
   "settings.max_upload_size_description": "Maximaal toegestane bestandsgrootte voor uploads in MB.",
+  "settings.disable_file_upload_checking": "Bestandsupload-controle uitschakelen",
   "settings.private_wiki": "Privé wiki (inloggen vereist om te bekijken)",
   "settings.disable_comments": "Reactiesysteem uitschakelen voor de hele site",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "Bestand kiezen",
   "attachments.no_file_chosen": "Geen bestanden gekozen",
   "attachments.allowed_types": "Toegestane bestandstypen: {{allowedTypes}} (Max: {{maxFileSize}})",
+  "attachments.file_type_checking_disabled": "Bestandstype controle is uitgeschakeld. Alle bestandstypen zijn toegestaan.",
   "attachments.files_tab": "Bestanden",
   "attachments.document_files": "Documentbestanden",
   "attachments.no_files": "Geen bestanden gevonden voor dit document.",

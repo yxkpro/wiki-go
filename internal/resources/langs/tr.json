@@ -51,6 +51,7 @@
   "settings.document_versions_description": "Her belge için saklanacak sürüm sayısı. Sürüm kontrolünü devre dışı bırakmak için 0 olarak ayarlayın.",
   "settings.max_upload_size": "Maksimum Dosya Yükleme Boyutu",
   "settings.max_upload_size_description": "MB cinsinden izin verilen maksimum dosya boyutu.",
+  "settings.disable_file_upload_checking": "Dosya yükleme kontrolünü devre dışı bırak",
   "settings.private_wiki": "Özel wiki (görüntülemek için giriş gerekli)",
   "settings.disable_comments": "Sistem genelinde yorumları devre dışı bırak",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "Dosya seç",
   "attachments.no_file_chosen": "Dosya seçilmedi",
   "attachments.allowed_types": "İzin verilen dosya türleri: {{allowedTypes}} (Maks: {{maxFileSize}})",
+  "attachments.file_type_checking_disabled": "Dosya türü kontrolü devre dışı bırakıldı. Tüm dosya türlerine izin verilir.",
   "attachments.files_tab": "Dosyalar",
   "attachments.document_files": "Belge Dosyaları",
   "attachments.no_files": "Bu belge için dosya bulunamadı.",

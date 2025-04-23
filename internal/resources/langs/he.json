@@ -51,6 +51,7 @@
   "settings.document_versions_description": "מספר הגרסאות לשמור לכל מסמך. הגדר ל-0 כדי להשבית ניהול גרסאות.",
   "settings.max_upload_size": "גודל העלאה מרבי",
   "settings.max_upload_size_description": "גודל קובץ מרבי מותר להעלאות ב-MB.",
+  "settings.disable_file_upload_checking": "השבת בדיקת העלאת קבצים",
   "settings.private_wiki": "ויקי פרטי (דורש התחברות לצפייה)",
   "settings.disable_comments": "השבת תגובות בכל המערכת",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "בחר קובץ",
   "attachments.no_file_chosen": "לא נבחר קובץ",
   "attachments.allowed_types": "סוגי קבצים מותרים: {{allowedTypes}} (מקס: {{maxFileSize}})",
+  "attachments.file_type_checking_disabled": "בדיקת סוג הקובץ מושבתת. כל סוגי הקבצים מותרים.",
   "attachments.files_tab": "קבצים",
   "attachments.document_files": "קבצי מסמך",
   "attachments.no_files": "לא נמצאו קבצים עבור מסמך זה.",

@@ -51,6 +51,7 @@
   "settings.document_versions_description": "Säilytettävien versioiden määrä per dokumentti. Aseta arvoksi 0 poistaaksesi versioinnin käytöstä.",
   "settings.max_upload_size": "Suurin sallittu tiedostokoko",
   "settings.max_upload_size_description": "Suurin sallittu tiedostokoko (MB).",
+  "settings.disable_file_upload_checking": "Poista tiedostojen latauksen tarkistus käytöstä",
   "settings.private_wiki": "Yksityinen wiki (vaatii kirjautumisen katseluun)",
   "settings.disable_comments": "Poista kommentit käytöstä koko järjestelmässä",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "Valitse tiedosto",
   "attachments.no_file_chosen": "Ei valittuja tiedostoja",
   "attachments.allowed_types": "Sallitut tiedostotyypit: {{allowedTypes}} (Max: {{maxFileSize}})",
+  "attachments.file_type_checking_disabled": "Tiedostotyypin tarkistus on poistettu käytöstä. Kaikki tiedostotyypit ovat sallittuja.",
   "attachments.files_tab": "Tiedostot",
   "attachments.document_files": "Dokumentin tiedostot",
   "attachments.no_files": "Tälle dokumentille ei löytynyt tiedostoja.",

@@ -51,6 +51,7 @@
   "settings.document_versions_description": "تعداد نسخه‌هایی که برای هر سند نگهداری می‌شود. برای غیرفعال کردن نسخه‌بندی، آن را روی 0 تنظیم کنید.",
   "settings.max_upload_size": "حداکثر اندازه فایل آپلود",
   "settings.max_upload_size_description": "حداکثر اندازه مجاز برای آپلود فایل‌ها بر حسب مگابایت.",
+  "settings.disable_file_upload_checking": "غیرفعال کردن بررسی بارگذاری فایل",
   "settings.private_wiki": "ویکی خصوصی (نیاز به ورود برای مشاهده)",
   "settings.disable_comments": "غیرفعال کردن نظرات در سراسر سیستم",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "انتخاب فایل",
   "attachments.no_file_chosen": "هیچ فایلی انتخاب نشده است",
   "attachments.allowed_types": "انواع فایل‌های مجاز: {{allowedTypes}} (حداکثر: {{maxFileSize}})",
+  "attachments.file_type_checking_disabled": "بررسی نوع فایل غیرفعال شده است. همه انواع فایل مجاز هستند.",
   "attachments.files_tab": "فایل‌ها",
   "attachments.document_files": "فایل‌های سند",
   "attachments.no_files": "هیچ فایلی برای این سند یافت نشد.",

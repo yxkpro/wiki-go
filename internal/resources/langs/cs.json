@@ -51,6 +51,7 @@
   "settings.document_versions_description": "Počet verzí k uchování na dokument. Nastavte na 0 pro vypnutí verzování.",
   "settings.max_upload_size": "Maximální velikost nahrávaného souboru",
   "settings.max_upload_size_description": "Maximální povolená velikost souboru pro nahrávání v MB.",
+  "settings.disable_file_upload_checking": "Vypnout kontrolu nahrávaných souborů",
   "settings.private_wiki": "Soukromá wiki (vyžaduje přihlášení pro zobrazení)",
   "settings.disable_comments": "Vypnout komentáře v celém systému",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "Vybrat soubor",
   "attachments.no_file_chosen": "Nebyly vybrány žádné soubory",
   "attachments.allowed_types": "Povolené typy souborů: {{allowedTypes}} (Max: {{maxFileSize}})",
+  "attachments.file_type_checking_disabled": "Kontrola typu souboru je vypnuta. Všechny typy souborů jsou povoleny.",
   "attachments.files_tab": "Soubory",
   "attachments.document_files": "Soubory dokumentu",
   "attachments.no_files": "Pro tento dokument nebyly nalezeny žádné soubory.",

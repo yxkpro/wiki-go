@@ -51,6 +51,7 @@
   "settings.document_versions_description": "عدد الإصدارات التي يجب الاحتفاظ بها لكل مستند. اضبط على 0 لتعطيل الإصدارات.",
   "settings.max_upload_size": "الحد الأقصى لحجم ملف الرفع",
   "settings.max_upload_size_description": "الحد الأقصى المسموح به لحجم الملفات المرفوعة بالميجابايت.",
+  "settings.disable_file_upload_checking": "تعطيل فحص ملفات التحميل",
   "settings.private_wiki": "ويكي خاص (يتطلب تسجيل الدخول للعرض)",
   "settings.disable_comments": "تعطيل التعليقات على مستوى النظام",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "اختر ملفًا",
   "attachments.no_file_chosen": "لم يتم اختيار ملفات",
   "attachments.allowed_types": "أنواع الملفات المسموح بها: {{allowedTypes}} (الحد الأقصى: {{maxFileSize}})",
+  "attachments.file_type_checking_disabled": "تم تعطيل فحص نوع الملف. جميع أنواع الملفات مسموح بها.",
   "attachments.files_tab": "الملفات",
   "attachments.document_files": "ملفات المستند",
   "attachments.no_files": "لم يتم العثور على ملفات لهذا المستند.",

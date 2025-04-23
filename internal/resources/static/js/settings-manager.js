@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Global variables
     let maxFileUploadSizeMB = 20; // Default value, will be updated from settings
     let maxFileUploadSizeBytes = maxFileUploadSizeMB * 1024 * 1024;
+    let disableFileUploadChecking = false; // Default value, will be updated from settings
 
     // Settings elements
     const settingsButton = document.querySelector('.settings-button');
@@ -113,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
             timezone: document.getElementById('wikiTimezone').value.trim(),
             private: document.getElementById('wikiPrivate').checked,
             disable_comments: document.getElementById('wikiDisableComments').checked,
+            disable_file_upload_checking: document.getElementById('wikiDisableFileUploadChecking').checked,
             max_versions: parseInt(document.getElementById('wikiMaxVersions').value, 10) || 0,
             max_upload_size: parseInt(document.getElementById('wikiMaxUploadSize').value, 10) || 20,
             language: document.getElementById('wikiLanguage').value
@@ -224,6 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Populate content form fields
             document.getElementById('wikiPrivate').checked = settings.private || false;
             document.getElementById('wikiDisableComments').checked = settings.disable_comments || false;
+            document.getElementById('wikiDisableFileUploadChecking').checked = settings.disable_file_upload_checking || false;
 
             // Handle max_versions specifically to account for 0 value
             document.getElementById('wikiMaxVersions').value = settings.max_versions !== undefined ? settings.max_versions : 10;
@@ -234,6 +237,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update global variables for max file size
             maxFileUploadSizeMB = settings.max_upload_size || 20;
             maxFileUploadSizeBytes = maxFileUploadSizeMB * 1024 * 1024;
+
+            // Update the file upload checking setting
+            if (settings && settings.disable_file_upload_checking !== undefined) {
+                disableFileUploadChecking = settings.disable_file_upload_checking;
+                console.log(`Disable file upload checking: ${disableFileUploadChecking}`);
+            }
 
             // Load users for the users tab
             loadUsers();
@@ -585,12 +594,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     maxFileUploadSizeBytes = maxFileUploadSizeMB * 1024 * 1024;
                     console.log(`Max upload size updated to ${maxFileUploadSizeMB}MB`);
                 }
+                // Update the file upload checking setting
+                if (settings && settings.disable_file_upload_checking !== undefined) {
+                    disableFileUploadChecking = settings.disable_file_upload_checking;
+                    console.log(`Disable file upload checking: ${disableFileUploadChecking}`);
+                }
             } else if (response.status === 401) {
                 // User is not authenticated or not an admin, use the default value
                 console.log(`Using default max upload size of ${maxFileUploadSizeMB}MB`);
+                console.log(`Using default file upload checking (enabled)`);
             }
         } catch (error) {
-            console.error('Error fetching max upload size:', error);
+            console.error('Error fetching settings:', error);
         }
     }
 
@@ -600,6 +615,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchMaxUploadSize,
         loadSettings,
         maxFileUploadSizeMB: () => maxFileUploadSizeMB,
-        maxFileUploadSizeBytes: () => maxFileUploadSizeBytes
+        maxFileUploadSizeBytes: () => maxFileUploadSizeBytes,
+        isFileUploadCheckingDisabled: () => disableFileUploadChecking
     };
 });

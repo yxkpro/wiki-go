@@ -51,6 +51,7 @@
   "settings.document_versions_description": "Antall versjoner å beholde per dokument. Sett til 0 for å deaktivere versjonering.",
   "settings.max_upload_size": "Maksimal filstørrelse for opplasting",
   "settings.max_upload_size_description": "Maksimal tillatt filstørrelse for opplastinger i MB.",
+  "settings.disable_file_upload_checking": "Deaktiver filtype-sjekking",
   "settings.private_wiki": "Privat wiki (krever innlogging for å se)",
   "settings.disable_comments": "Deaktiver kommentarer for hele systemet",
 
@@ -84,6 +85,7 @@
   "attachments.choose_file": "Velg fil",
   "attachments.no_file_chosen": "Ingen filer valgt",
   "attachments.allowed_types": "Tillatte filtyper: {{allowedTypes}} (Maks: {{maxFileSize}})",
+  "attachments.file_type_checking_disabled": "Filtype-sjekking er deaktivert. Alle filtyper er tillatt.",
   "attachments.files_tab": "Filer",
   "attachments.document_files": "Dokumentfiler",
   "attachments.no_files": "Ingen filer funnet for dette dokumentet.",

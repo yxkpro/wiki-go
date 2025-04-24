@@ -350,8 +350,8 @@ function createDocPicker() {
                 // Filter documents based on search query
                 const filteredDocs = query
                     ? documentData.filter(doc =>
-                        doc.title.toLowerCase().includes(query.toLowerCase()) ||
-                        doc.path.toLowerCase().includes(query.toLowerCase()))
+                        includesIgnoreCase(doc.title, query) ||
+                        includesIgnoreCase(doc.path, query))
                     : documentData;
 
                 if (filteredDocs.length === 0) {
@@ -364,28 +364,11 @@ function createDocPicker() {
 
                 // Create buttons for each document
                 filteredDocs.forEach(doc => {
-                    const button = document.createElement('button');
-                    button.className = 'doc-btn';
-                    button.title = doc.path;
-                    button.style.boxSizing = 'border-box';
-                    button.style.width = '100%';
-
-                    const docName = document.createElement('div');
-                    docName.className = 'doc-name';
-                    docName.textContent = doc.title || doc.path.split('/').pop();
-
-                    const docPath = document.createElement('div');
-                    docPath.className = 'doc-path';
-                    docPath.textContent = doc.path;
-
-                    button.appendChild(docName);
-                    button.appendChild(docPath);
-                    button.addEventListener('click', () => {
+                    const btn = createDocButton(doc, () => {
                         insertDocLink(doc);
                         hideDocPicker();
                     });
-
-                    docsContainer.appendChild(button);
+                    docsContainer.appendChild(btn);
                 });
             };
 
@@ -1658,6 +1641,38 @@ function makeSlug(text) {
         .replace(/^[-]+|[-]+$/g, '') || 'heading';
 }
 
+// Case-insensitive substring check
+function includesIgnoreCase(value = '', query = '') {
+    return value.toLowerCase().includes((query || '').toLowerCase());
+}
+
+// Factory that returns a button element (used by both doc-link and anchor pickers)
+function createDocButton(doc, onSelect) {
+    const btn = document.createElement('button');
+    btn.className = 'doc-btn';
+    btn.title = doc.path;
+    btn.style.boxSizing = 'border-box';
+    btn.style.width = '100%';
+
+    const docName = document.createElement('div');
+    docName.className = 'doc-name';
+    docName.textContent = doc.title || doc.path.split('/').pop();
+
+    const docPath = document.createElement('div');
+    docPath.className = 'doc-path';
+    docPath.textContent = doc.path;
+
+    btn.appendChild(docName);
+    btn.appendChild(docPath);
+
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (typeof onSelect === 'function') onSelect();
+    });
+
+    return btn;
+}
+
 // Extract headings and IDs from current editor content
 function extractAnchors(markdown) {
     const lines = markdown.split('\n');
@@ -1665,8 +1680,19 @@ function extractAnchors(markdown) {
     const anchors = [];
     const usedIds = {};
 
+    let inCodeBlock = false;
+
     lines.forEach((ln) => {
-        const m = ln.match(headingRx);
+        const trimmed = ln.trim();
+
+        // Toggle code block state on fences ``` or ~~~
+        if (trimmed.startsWith('```') || trimmed.startsWith('~~~')) {
+            inCodeBlock = !inCodeBlock;
+            return;
+        }
+        if (inCodeBlock) return; // Skip lines inside fenced code blocks
+
+        const m = trimmed.match(headingRx);
         if (!m) return;
         const level = m[1].length;
         const text = m[2].trim();
@@ -1713,70 +1739,225 @@ function insertAnchorLink(anchor) {
     editor.focus();
 }
 
-// Create anchor picker element
-function createAnchorPicker() {
+// Helper: fetch raw markdown for a document path
+async function fetchDocumentSource(docPath) {
+    try {
+        const response = await fetch(`/api/source${docPath}`);
+        if (!response.ok) throw new Error('Failed to fetch document');
+        return await response.text();
+    } catch (err) {
+        console.error('fetchDocumentSource', err);
+        throw err;
+    }
+}
+
+// Insert link to an anchor that belongs to another document
+function insertDocAnchorLink(document, anchor) {
+    if (!editor) return;
+
+    // Prepare path (mirror insertDocLink logic)
+    let path = document.path;
+    if (path.startsWith('/documents')) {
+        path = path.replace('/documents', '');
+    }
+
+    const selection = editor.getSelection();
+    const linkText = selection || anchor.text;
+    const markdown = `[${linkText}](${path}#${anchor.id})`;
+
+    if (selection) {
+        editor.replaceSelection(markdown);
+    } else {
+        const cursor = editor.getCursor();
+        editor.replaceRange(markdown, cursor);
+        editor.setSelection(
+            { line: cursor.line, ch: cursor.ch + 1 },
+            { line: cursor.line, ch: cursor.ch + 1 + linkText.length }
+        );
+    }
+
+    editor.focus();
+}
+
+// Create a picker that first lists documents and then their anchors
+function createDocAnchorPicker() {
     const picker = document.createElement('div');
     picker.className = 'anchor-picker';
     picker.style.display = 'none';
 
+    // Header (title + back button)
+    const header = document.createElement('div');
+    header.className = 'anchor-picker-header';
+    picker.appendChild(header);
+
+    const backBtn = document.createElement('button');
+    backBtn.className = 'anchor-back-btn';
+    backBtn.textContent = '←';
+    backBtn.style.display = 'none';
+    header.appendChild(backBtn);
+
+    const titleEl = document.createElement('span');
+    titleEl.className = 'anchor-picker-title';
+    titleEl.textContent = '';
+    header.appendChild(titleEl);
+
+    // Search input
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
     searchInput.className = 'anchor-search-input';
-    searchInput.placeholder = 'Search heading…';
+    searchInput.placeholder = 'Search…';
     picker.appendChild(searchInput);
 
+    // Container for list items
     const listContainer = document.createElement('div');
     listContainer.className = 'anchor-list-container';
     picker.appendChild(listContainer);
 
     document.body.appendChild(picker);
-    anchorPickerElement = picker;
 
-    const renderList = (query = '') => {
+    // State variables
+    let currentDocument = null;
+    const anchorsCache = {}; // path -> anchors array
+    let docs = [];
+
+    const renderNoResults = (msg) => {
         listContainer.innerHTML = '';
-        const anchors = extractAnchors(editor.getValue()).filter(a =>
-            a.text.toLowerCase().includes(query.toLowerCase()) ||
-            a.id.toLowerCase().includes(query.toLowerCase())
-        );
+        const noRes = document.createElement('div');
+        noRes.className = 'no-results';
+        noRes.textContent = msg;
+        listContainer.appendChild(noRes);
+    };
 
-        if (anchors.length === 0) {
-            const noRes = document.createElement('div');
-            noRes.className = 'no-results';
-            noRes.textContent = 'No headings found';
-            listContainer.appendChild(noRes);
+    const filterString = (value, query) => value.toLowerCase().includes(query.toLowerCase());
+
+    // Render document list
+    const renderDocList = (query = '') => {
+        currentDocument = null;
+        backBtn.style.display = 'none';
+        titleEl.textContent = '';
+        listContainer.innerHTML = '';
+        // Reset search field & placeholder for document mode if coming from anchor mode
+        searchInput.placeholder = 'Search document…';
+
+        if (currentDocument !== null) {
+            // ensure query retains but if currentDocument is null we keep existing query; else we may keep previous search.
+        }
+
+        const filtered = query ? docs.filter(doc =>
+            includesIgnoreCase(doc.title || '', query) || includesIgnoreCase(doc.path, query))
+            : docs;
+
+        if (filtered.length === 0) {
+            renderNoResults('No documents found');
             return;
         }
 
-        anchors.forEach(a => {
+        filtered.forEach(doc => {
+            const btn = createDocButton(doc, async () => {
+                try {
+                    let anchors = anchorsCache[doc.path];
+                    if (!anchors) {
+                        const md = await fetchDocumentSource(doc.path);
+                        anchors = extractAnchors(md);
+                        anchorsCache[doc.path] = anchors;
+                    }
+                    renderAnchorList(doc, anchors);
+                } catch (err) {
+                    console.error(err);
+                    renderNoResults('Failed to load headings');
+                }
+            });
+            listContainer.appendChild(btn);
+        });
+    };
+
+    // Render anchor list for a selected document
+    const renderAnchorList = (doc, anchors, query = '') => {
+        currentDocument = doc;
+        backBtn.style.display = 'inline-block';
+        titleEl.textContent = doc.title || doc.path;
+        listContainer.innerHTML = '';
+        // Switch placeholder to heading search and clear existing text (optional)
+        searchInput.placeholder = 'Search heading…';
+
+        const filteredAnchors = query ? anchors.filter(a =>
+            includesIgnoreCase(a.text, query) || includesIgnoreCase(a.id, query))
+            : anchors;
+
+        if (filteredAnchors.length === 0) {
+            renderNoResults('No headings found');
+            return;
+        }
+
+        filteredAnchors.forEach(a => {
             const btn = document.createElement('button');
             btn.className = `anchor-btn level-${a.level}`;
             btn.textContent = `${'  '.repeat(a.level - 1)}${a.text}`;
             btn.title = `#${a.id}`;
-            btn.addEventListener('click', () => {
-                insertAnchorLink(a);
+            btn.addEventListener('click', (ev) => {
+                ev.stopPropagation();
+                insertDocAnchorLink(doc, a);
                 hideAnchorPicker();
             });
             listContainer.appendChild(btn);
         });
     };
 
-    // initial list
-    renderList();
-
-    searchInput.addEventListener('input', (e) => {
-        renderList(e.target.value);
+    // Back button behavior
+    backBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        renderDocList();
     });
 
-    // Expose the renderList function so it can be called later to refresh headings
-    picker.renderList = renderList;
+    // Search handler
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        if (currentDocument) {
+            const anchors = anchorsCache[currentDocument.path] || [];
+            renderAnchorList(currentDocument, anchors, query);
+        } else {
+            renderDocList(query);
+        }
+    });
+
+    // Initial fetch of documents (reuse global cache if available)
+    (async () => {
+        try {
+            docs = documentData.length ? documentData : await fetchDocuments();
+            renderDocList();
+        } catch (err) {
+            renderNoResults(err.message || 'Failed to load documents');
+        }
+    })();
+
+    // Expose refresh method for showAnchorPicker()
+    picker.renderList = () => {
+        if (currentDocument) {
+            const anchors = anchorsCache[currentDocument.path] || [];
+            renderAnchorList(currentDocument, anchors, searchInput.value || '');
+        } else {
+            renderDocList(searchInput.value || '');
+        }
+    };
+
+    // Expose a reset method so the caller can force picker to start at doc list
+    picker.resetView = () => {
+        searchInput.value = '';
+        renderDocList();
+    };
 
     return picker;
 }
 
-// Show anchor picker
+// Modify showAnchorPicker to use the new picker
 function showAnchorPicker(button) {
     if (!anchorPickerElement) {
-        anchorPickerElement = createAnchorPicker();
+        anchorPickerElement = createDocAnchorPicker();
+    }
+
+    // Always reset to the top-level document list before showing
+    if (typeof anchorPickerElement.resetView === 'function') {
+        anchorPickerElement.resetView();
     }
 
     if (anchorPickerElement.style.display === 'block') {
@@ -1806,14 +1987,22 @@ function showAnchorPicker(button) {
         if (!anchorPickerElement.contains(e.target) &&
             !e.target.closest('.anchor-link-button')) {
             hideAnchorPicker();
-            document.removeEventListener('click', closeHandler);
         }
     };
+
+    // Store and register the handler so it can be cleaned up later
+    anchorPickerElement._closeHandler = closeHandler;
     setTimeout(() => document.addEventListener('click', closeHandler), 0);
 }
 
 function hideAnchorPicker() {
     if (anchorPickerElement) {
         anchorPickerElement.style.display = 'none';
+
+        // Clean up any outstanding outside-click listener
+        if (anchorPickerElement._closeHandler) {
+            document.removeEventListener('click', anchorPickerElement._closeHandler);
+            anchorPickerElement._closeHandler = null;
+        }
     }
 }

@@ -907,3 +907,54 @@
         margin: 2px;
     }
 }
+
+/* --- Anchor picker header / back button --- */
+.anchor-picker-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.anchor-back-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 16px;
+    line-height: 1;
+    padding: 4px 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+.anchor-back-btn:hover {
+    background: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+/* Dark theme adjustments */
+:root[data-theme="dark"] .anchor-back-btn:hover {
+    background: #444;
+}
+
+/* Prevent double scrollbars in anchor picker */
+.anchor-picker {
+    overflow-y: hidden;
+}
+
+.anchor-list-container {
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+/* Keep anchor picker dimensions consistent */
+.anchor-picker {
+    width: 320px;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+}
+
+.anchor-list-container {
+    flex: 1 1 auto;
+}

@@ -13,6 +13,37 @@ import (
 	"wiki-go/internal/resources"
 )
 
+// addCacheControlHeaders adds appropriate Cache-Control headers based on file type
+func addCacheControlHeaders(w http.ResponseWriter, filename string) {
+	ext := filepath.Ext(filename)
+
+	// Check if filename contains a version identifier (hash or version number)
+	isVersioned := strings.Contains(filename, ".v") ||
+	               strings.Contains(filename, ".min.") ||
+	               strings.Contains(filename, "-bundle")
+
+	// 1 year for versioned resources
+	if isVersioned {
+		w.Header().Set("Cache-Control", "public, max-age=31536000, immutable")
+		return
+	}
+
+	// Set specific cache times based on file type
+	switch ext {
+	case ".css", ".js", ".woff", ".woff2", ".ttf", ".otf":
+		// 1 week for stylesheets, scripts, and fonts
+		w.Header().Set("Cache-Control", "public, max-age=604800")
+
+	case ".png", ".jpg", ".jpeg", ".gif", ".ico", ".svg", ".webp":
+		// 2 weeks for images
+		w.Header().Set("Cache-Control", "public, max-age=1209600")
+
+	default:
+		// 1 day for other static files
+		w.Header().Set("Cache-Control", "public, max-age=86400")
+	}
+}
+
 // CSPMiddleware adds Content Security Policy headers to all responses
 func CSPMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -132,6 +163,9 @@ func SetupRoutes(cfg *config.Config) {
 			return
 		}
 
+		// Add appropriate cache headers for static files
+		addCacheControlHeaders(w, filename)
+
 		// First check if the file exists in data/static
 		customPath := filepath.Join(cfg.Wiki.RootDir, "static", filename)
 		if _, err := os.Stat(customPath); err == nil {
@@ -146,6 +180,9 @@ func SetupRoutes(cfg *config.Config) {
 
 	// Serve favicons directly from root path
 	mux.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
+		// Add cache headers for favicon (1 week)
+		w.Header().Set("Cache-Control", "public, max-age=604800")
+
 		customPath := filepath.Join(cfg.Wiki.RootDir, "static", "favicon.ico")
 		if _, err := os.Stat(customPath); err == nil {
 			http.ServeFile(w, r, customPath)
@@ -154,6 +191,9 @@ func SetupRoutes(cfg *config.Config) {
 		http.ServeFile(w, r, filepath.Join("internal", "resources", "static", "favicon.ico"))
 	})
 	mux.HandleFunc("/favicon.png", func(w http.ResponseWriter, r *http.Request) {
+		// Add cache headers for favicon (1 week)
+		w.Header().Set("Cache-Control", "public, max-age=604800")
+
 		customPath := filepath.Join(cfg.Wiki.RootDir, "static", "favicon.png")
 		if _, err := os.Stat(customPath); err == nil {
 			http.ServeFile(w, r, customPath)
@@ -162,6 +202,9 @@ func SetupRoutes(cfg *config.Config) {
 		http.ServeFile(w, r, filepath.Join("internal", "resources", "static", "favicon.png"))
 	})
 	mux.HandleFunc("/favicon.svg", func(w http.ResponseWriter, r *http.Request) {
+		// Add cache headers for favicon (1 week)
+		w.Header().Set("Cache-Control", "public, max-age=604800")
+
 		customPath := filepath.Join(cfg.Wiki.RootDir, "static", "favicon.svg")
 		if _, err := os.Stat(customPath); err == nil {
 			http.ServeFile(w, r, customPath)
@@ -170,6 +213,9 @@ func SetupRoutes(cfg *config.Config) {
 		http.ServeFile(w, r, filepath.Join("internal", "resources", "static", "favicon.svg"))
 	})
 	mux.HandleFunc("/logo.png", func(w http.ResponseWriter, r *http.Request) {
+		// Add cache headers for logo (1 week)
+		w.Header().Set("Cache-Control", "public, max-age=604800")
+
 		customPath := filepath.Join(cfg.Wiki.RootDir, "static", "logo.png")
 		if _, err := os.Stat(customPath); err == nil {
 			http.ServeFile(w, r, customPath)
@@ -237,6 +283,8 @@ func SetupRoutes(cfg *config.Config) {
 	// Emoji data API - serve the emojis.json file
 	mux.HandleFunc("/api/data/emojis", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
+		// Add cache headers for emoji data (1 day)
+		w.Header().Set("Cache-Control", "public, max-age=86400")
 		dataFS := resources.GetDataFS()
 		data, err := fs.ReadFile(dataFS, "emojis.json")
 		if err != nil {

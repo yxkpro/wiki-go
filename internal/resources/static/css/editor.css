@@ -686,6 +686,48 @@
     border-color: #555;
 }
 
+.anchor-picker-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.anchor-back-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 16px;
+    line-height: 1;
+    padding: 4px 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+.anchor-back-btn:hover {
+    background: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+/* Dark theme adjustments */
+:root[data-theme="dark"] .anchor-back-btn:hover {
+    background: #444;
+}
+
+/* Prevent double scrollbars in anchor picker */
+.anchor-picker {
+    overflow-y: hidden;
+}
+
+.anchor-list-container {
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+.anchor-list-container {
+    flex: 1 1 auto;
+}
+
 /* Indentation based on heading level */
 .anchor-btn.level-2 { padding-left: 12px; }
 .anchor-btn.level-3 { padding-left: 24px; }
@@ -875,22 +917,6 @@
         font-size: 20px;
     }
 
-    /* Mobile-specific document picker styles */
-    .doc-picker {
-        max-width: calc(100vw - 40px);
-        max-height: 300px;
-        padding: 8px;
-    }
-
-    .doc-search-input {
-        font-size: 16px; /* Better for mobile touch */
-        padding: 8px;
-    }
-
-    .docs-container {
-        max-height: 220px;
-    }
-
     .doc-btn {
         padding: 8px;
     }
@@ -906,55 +932,4 @@
         height: 18px;
         margin: 2px;
     }
-}
-
-/* --- Anchor picker header / back button --- */
-.anchor-picker-header {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 6px;
-}
-
-.anchor-back-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-color);
-    font-size: 16px;
-    line-height: 1;
-    padding: 4px 6px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.15s ease, color 0.15s ease;
-}
-.anchor-back-btn:hover {
-    background: var(--hover-bg);
-    color: var(--primary-color);
-}
-
-/* Dark theme adjustments */
-:root[data-theme="dark"] .anchor-back-btn:hover {
-    background: #444;
-}
-
-/* Prevent double scrollbars in anchor picker */
-.anchor-picker {
-    overflow-y: hidden;
-}
-
-.anchor-list-container {
-    max-height: 240px;
-    overflow-y: auto;
-}
-
-/* Keep anchor picker dimensions consistent */
-.anchor-picker {
-    width: 320px;
-    max-width: 320px;
-    display: flex;
-    flex-direction: column;
-}
-
-.anchor-list-container {
-    flex: 1 1 auto;
 }

@@ -101,9 +101,9 @@ docker run -d \
   leomoonstudios/wiki-go
 ```
 
-### Running with Docker
+### Docker Compose
 
-### Option 1 – Plain HTTP (port 8080)
+#### Option 1 – Plain HTTP (port 8080)
 
 Use the supplied `docker-compose-http.yml`:
 
@@ -113,7 +113,57 @@ docker-compose -f docker-compose-http.yml up -d
 
 This starts Wiki-Go on http://localhost:8080. Ideal when you terminate TLS at a reverse-proxy (Nginx/Traefik/Caddy). Remember to set `allow_insecure_cookies: true` in `data/config.yaml` if the proxy–>container hop is plain HTTP.
 
-### Option 2 – Native HTTPS (port 443)
+<details>
+<summary>Nginx reverse-proxy configuration (click to expand)</summary>
+
+```nginx
+server {
+    listen 80;
+    server_name wiki.example.com;
+
+    # Redirect all HTTP to HTTPS (assuming you use Let's Encrypt on 443)
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name wiki.example.com;
+
+    ssl_certificate     /etc/letsencrypt/live/wiki.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/wiki.example.com/privkey.pem;
+
+    # --- proxy to Wiki-Go container running on HTTP (port 8080) ---
+    location / {
+        proxy_pass http://wiki-go:8080;
+
+        # Recommended headers
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+}
+```
+
+Compose example for the Nginx service:
+
+```yaml
+  nginx:
+    image: nginx:alpine
+    container_name: wiki-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      - wiki-go
+```
+
+</details>
+
+#### Option 2 – Native HTTPS (port 443)
 
 ```bash
 # Place certificate + key in ./ssl/

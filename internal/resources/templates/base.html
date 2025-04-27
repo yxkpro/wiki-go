@@ -4,9 +4,9 @@
     <title>{{if .CurrentDir.Title}}{{if ne .CurrentDir.Path "/"}}{{.CurrentDir.Title}} - {{end}}{{.Config.Wiki.Title}}{{else}}{{.Config.Wiki.Title}}{{end}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicons -->
-    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/static/favicon.png" type="image/png">
+    {{if hasFavicon .Config.Wiki.RootDir "ico"}}<link rel="icon" href="/static/favicon.ico" type="image/x-icon">{{end}}
+    {{if hasFavicon .Config.Wiki.RootDir "svg"}}<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">{{end}}
+    {{if hasFavicon .Config.Wiki.RootDir "png"}}<link rel="icon" href="/static/favicon.png" type="image/png">{{end}}
     <!-- Prevent theme flash - load these scripts first -->
     <script src="/static/js/debug-toggle.js"></script>
     <script src="/static/js/utilities.js"></script>

@@ -143,6 +143,44 @@ func generateNonce() string {
 }
 */
 
+// Helper function to check if a file exists
+func fileExists(path string) bool {
+	_, err := os.Stat(path)
+	return err == nil
+}
+
+// Helper function to check if any custom favicon exists
+func anyCustomFaviconExists(rootDir string) bool {
+	for _, format := range []string{"favicon.ico", "favicon.png", "favicon.svg"} {
+		if fileExists(filepath.Join(rootDir, "static", format)) {
+			return true
+		}
+	}
+	return false
+}
+
+// Helper function to handle favicon requests with proper fallback logic
+func handleFaviconRequest(w http.ResponseWriter, r *http.Request, cfg *config.Config, format string) {
+	// Add cache headers for favicon (1 week)
+	w.Header().Set("Cache-Control", "public, max-age=604800")
+
+	// Check if this specific favicon exists in custom path
+	customPath := filepath.Join(cfg.Wiki.RootDir, "static", "favicon."+format)
+	if fileExists(customPath) {
+		http.ServeFile(w, r, customPath)
+		return
+	}
+
+	// If any custom favicon exists but not this one, return 404
+	if anyCustomFaviconExists(cfg.Wiki.RootDir) {
+		http.NotFound(w, r)
+		return
+	}
+
+	// Fallback to embedded favicon only if no custom favicons exist
+	http.ServeFile(w, r, filepath.Join("internal", "resources", "static", "favicon."+format))
+}
+
 // SetupRoutes configures all routes for the application
 func SetupRoutes(cfg *config.Config) {
 	// Create a new ServeMux to apply middleware to all routes
@@ -166,11 +204,27 @@ func SetupRoutes(cfg *config.Config) {
 		// Add appropriate cache headers for static files
 		addCacheControlHeaders(w, filename)
 
+		// Check if this is a favicon file
+		isFaviconFile := false
+		for _, ext := range []string{"ico", "png", "svg"} {
+			if filename == "favicon."+ext {
+				isFaviconFile = true
+				break
+			}
+		}
+
 		// First check if the file exists in data/static
 		customPath := filepath.Join(cfg.Wiki.RootDir, "static", filename)
-		if _, err := os.Stat(customPath); err == nil {
+		if fileExists(customPath) {
 			// File exists in data/static, serve it directly
 			http.ServeFile(w, r, customPath)
+			return
+		}
+
+		// For favicon files, check if any custom favicon exists before falling back
+		if isFaviconFile && anyCustomFaviconExists(cfg.Wiki.RootDir) {
+			// If any custom favicon exists but not this one, return 404
+			http.NotFound(w, r)
 			return
 		}
 
@@ -180,38 +234,17 @@ func SetupRoutes(cfg *config.Config) {
 
 	// Serve favicons directly from root path
 	mux.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
-		// Add cache headers for favicon (1 week)
-		w.Header().Set("Cache-Control", "public, max-age=604800")
-
-		customPath := filepath.Join(cfg.Wiki.RootDir, "static", "favicon.ico")
-		if _, err := os.Stat(customPath); err == nil {
-			http.ServeFile(w, r, customPath)
-			return
-		}
-		http.ServeFile(w, r, filepath.Join("internal", "resources", "static", "favicon.ico"))
+		handleFaviconRequest(w, r, cfg, "ico")
 	})
+
 	mux.HandleFunc("/favicon.png", func(w http.ResponseWriter, r *http.Request) {
-		// Add cache headers for favicon (1 week)
-		w.Header().Set("Cache-Control", "public, max-age=604800")
-
-		customPath := filepath.Join(cfg.Wiki.RootDir, "static", "favicon.png")
-		if _, err := os.Stat(customPath); err == nil {
-			http.ServeFile(w, r, customPath)
-			return
-		}
-		http.ServeFile(w, r, filepath.Join("internal", "resources", "static", "favicon.png"))
+		handleFaviconRequest(w, r, cfg, "png")
 	})
+
 	mux.HandleFunc("/favicon.svg", func(w http.ResponseWriter, r *http.Request) {
-		// Add cache headers for favicon (1 week)
-		w.Header().Set("Cache-Control", "public, max-age=604800")
-
-		customPath := filepath.Join(cfg.Wiki.RootDir, "static", "favicon.svg")
-		if _, err := os.Stat(customPath); err == nil {
-			http.ServeFile(w, r, customPath)
-			return
-		}
-		http.ServeFile(w, r, filepath.Join("internal", "resources", "static", "favicon.svg"))
+		handleFaviconRequest(w, r, cfg, "svg")
 	})
+
 	mux.HandleFunc("/logo.png", func(w http.ResponseWriter, r *http.Request) {
 		// Add cache headers for logo (1 week)
 		w.Header().Set("Cache-Control", "public, max-age=604800")

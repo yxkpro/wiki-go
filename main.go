@@ -39,8 +39,15 @@ func main() {
 
 	// Start the server
 	addr := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
-	fmt.Printf("Server starting on %s...\n", addr)
-	if err := http.ListenAndServe(addr, nil); err != nil {
-		log.Fatal(err)
+	if cfg.Server.SSL && cfg.Server.SSLCert != "" && cfg.Server.SSLKey != "" {
+		fmt.Printf("HTTPS server starting on %s...\n", addr)
+		if err := http.ListenAndServeTLS(addr, cfg.Server.SSLCert, cfg.Server.SSLKey, nil); err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		fmt.Printf("HTTP server starting on %s...\n", addr)
+		if err := http.ListenAndServe(addr, nil); err != nil {
+			log.Fatal(err)
+		}
 	}
 }

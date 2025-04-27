@@ -101,23 +101,49 @@ docker run -d \
   leomoonstudios/wiki-go
 ```
 
-### Using Docker Compose (recommended)
+### Running with Docker
+
+### Option 1 – Plain HTTP (port 8080)
+
+Use the supplied `docker-compose-http.yml`:
+
+```bash
+docker-compose -f docker-compose-http.yml up -d
+```
+
+This starts Wiki-Go on http://localhost:8080. Ideal when you terminate TLS at a reverse-proxy (Nginx/Traefik/Caddy). Remember to set `allow_insecure_cookies: true` in `data/config.yaml` if the proxy–>container hop is plain HTTP.
+
+### Option 2 – Native HTTPS (port 443)
+
+```bash
+# Place certificate + key in ./ssl/
+mkdir -p ssl
+docker-compose -f docker-compose-ssl.yml up -d
+```
+
+`docker-compose-ssl.yml` maps host port 443 → container port 443 and mounts your certificate/key. Enable TLS in the application config (see below).
+
+---
+
+## Native TLS Configuration
+
+In `data/config.yaml` set:
 
 ```yaml
-services:
-  wiki-go:
-    image: leomoonstudios/wiki-go
-    container_name: wiki-go
-    user: 1000:1000
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./data:/wiki/data
-    environment:
-      - PUID=1000
-      - PGID=1000
-    restart: unless-stopped
+server:
+  host: 0.0.0.0
+  port: 443            # container listens on 443
+  allow_insecure_cookies: false
+  ssl: true            # enable built-in HTTPS
+  ssl_cert: /path/to/certificate.crt
+  ssl_key:  /path/to/private.key
 ```
+
+If `ssl: false` (default) the app serves plain HTTP on `port` (8080 by default) and you can run it behind a reverse proxy instead.
+
+The Docker image published by GitHub exposes **both** 8080 and 443 so you can choose either scenario at runtime.
+
+---
 
 ### Binary
 

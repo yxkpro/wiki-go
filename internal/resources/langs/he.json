@@ -109,6 +109,7 @@
   "login.title": "התחברות",
   "login.username": "שם משתמש",
   "login.password": "סיסמה",
+  "login.keep_logged_in": "השאר אותי מחובר (30 ימים)",
   "login.button": "התחברות",
   "login.error": "שם משתמש או סיסמה שגויים",
 

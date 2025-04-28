@@ -109,6 +109,7 @@
   "login.title": "लॉगिन",
   "login.username": "उपयोगकर्ता नाम",
   "login.password": "पासवर्ड",
+  "login.keep_logged_in": "मुझे लॉग इन रखें (30 दिन)",
   "login.button": "लॉगिन",
   "login.error": "अमान्य उपयोगकर्ता नाम या पासवर्ड",
 

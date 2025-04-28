@@ -109,6 +109,7 @@
   "login.title": "Giriş",
   "login.username": "Kullanıcı Adı",
   "login.password": "Şifre",
+  "login.keep_logged_in": "Oturumu açık tut (30 gün)",
   "login.button": "Giriş",
   "login.error": "Geçersiz kullanıcı adı veya şifre",
 

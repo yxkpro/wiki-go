@@ -109,6 +109,7 @@
   "login.title": "Anmelden",
   "login.username": "Benutzername",
   "login.password": "Passwort",
+  "login.keep_logged_in": "Angemeldet bleiben (30 Tage)",
   "login.button": "Anmelden",
   "login.error": "Ungültiger Benutzername oder Passwort",
 

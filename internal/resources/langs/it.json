@@ -109,6 +109,7 @@
   "login.title": "Accedi",
   "login.username": "Nome utente",
   "login.password": "Password",
+  "login.keep_logged_in": "Mantieni l'accesso (30 giorni)",
   "login.button": "Accedi",
   "login.error": "Nome utente o password non validi",
 

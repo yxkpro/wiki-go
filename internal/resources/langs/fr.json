@@ -109,6 +109,7 @@
   "login.title": "Connexion",
   "login.username": "Nom d'utilisateur",
   "login.password": "Mot de passe",
+  "login.keep_logged_in": "Rester connecté (30 jours)",
   "login.button": "Connexion",
   "login.error": "Nom d'utilisateur ou mot de passe invalide",
 

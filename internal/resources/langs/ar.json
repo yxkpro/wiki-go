@@ -109,6 +109,7 @@
   "login.title": "تسجيل الدخول",
   "login.username": "اسم المستخدم",
   "login.password": "كلمة المرور",
+  "login.keep_logged_in": "أبقني متصلاً (30 يوماً)",
   "login.button": "تسجيل الدخول",
   "login.error": "اسم مستخدم أو كلمة مرور غير صالحة",
 

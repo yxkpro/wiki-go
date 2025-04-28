@@ -109,6 +109,7 @@
   "login.title": "Iniciar sesión",
   "login.username": "Nombre de usuario",
   "login.password": "Contraseña",
+  "login.keep_logged_in": "Mantener sesión iniciada (30 días)",
   "login.button": "Iniciar sesión",
   "login.error": "Nombre de usuario o contraseña inválidos",
 

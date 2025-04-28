@@ -109,6 +109,7 @@
   "login.title": "Kirjaudu sisään",
   "login.username": "Käyttäjätunnus",
   "login.password": "Salasana",
+  "login.keep_logged_in": "Pidä minut kirjautuneena (30 päivää)",
   "login.button": "Kirjaudu sisään",
   "login.error": "Virheellinen käyttäjätunnus tai salasana",
 

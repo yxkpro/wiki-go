@@ -109,6 +109,7 @@
   "login.title": "Вход",
   "login.username": "Имя пользователя",
   "login.password": "Пароль",
+  "login.keep_logged_in": "Оставаться в системе (30 дней)",
   "login.button": "Вход",
   "login.error": "Неверное имя пользователя или пароль",
 

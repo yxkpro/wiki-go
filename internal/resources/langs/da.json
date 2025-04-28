@@ -109,6 +109,7 @@
   "login.title": "Log ind",
   "login.username": "Brugernavn",
   "login.password": "Adgangskode",
+  "login.keep_logged_in": "Hold mig logget ind (30 dage)",
   "login.button": "Log ind",
   "login.error": "Ugyldigt brugernavn eller adgangskode",
 

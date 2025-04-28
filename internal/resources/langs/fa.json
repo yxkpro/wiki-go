@@ -109,6 +109,7 @@
   "login.title": "ورود",
   "login.username": "نام کاربری",
   "login.password": "رمز عبور",
+  "login.keep_logged_in": "مرا به خاطر بسپار (۳۰ روز)",
   "login.button": "ورود",
   "login.error": "نام کاربری یا رمز عبور نامعتبر است",
 

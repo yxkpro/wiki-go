@@ -109,6 +109,7 @@
   "login.title": "登入",
   "login.username": "使用者名稱",
   "login.password": "密碼",
+  "login.keep_logged_in": "保持登入狀態（30天）",
   "login.button": "登入",
   "login.error": "使用者名稱或密碼無效",
 

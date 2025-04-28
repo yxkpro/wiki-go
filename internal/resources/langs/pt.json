@@ -109,6 +109,7 @@
   "login.title": "Entrar",
   "login.username": "Nome de usuário",
   "login.password": "Senha",
+  "login.keep_logged_in": "Manter-me conectado (30 dias)",
   "login.button": "Entrar",
   "login.error": "Nome de usuário ou senha inválidos",
 

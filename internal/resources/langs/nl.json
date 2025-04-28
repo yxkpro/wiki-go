@@ -109,6 +109,7 @@
   "login.title": "Inloggen",
   "login.username": "Gebruikersnaam",
   "login.password": "Wachtwoord",
+  "login.keep_logged_in": "Ingelogd blijven (30 dagen)",
   "login.button": "Inloggen",
   "login.error": "Ongeldige gebruikersnaam of wachtwoord",
 

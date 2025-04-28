@@ -109,6 +109,7 @@
   "login.title": "ログイン",
   "login.username": "ユーザー名",
   "login.password": "パスワード",
+  "login.keep_logged_in": "ログイン状態を保持する（30日間）",
   "login.button": "ログイン",
   "login.error": "ユーザー名またはパスワードが無効です",
 

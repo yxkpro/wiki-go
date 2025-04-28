@@ -109,6 +109,7 @@
   "login.title": "Logowanie",
   "login.username": "Nazwa użytkownika",
   "login.password": "Hasło",
+  "login.keep_logged_in": "Pozostań zalogowany (30 dni)",
   "login.button": "Zaloguj się",
   "login.error": "Nieprawidłowa nazwa użytkownika lub hasło",
 

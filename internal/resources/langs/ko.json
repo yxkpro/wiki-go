@@ -109,6 +109,7 @@
   "login.title": "로그인",
   "login.username": "사용자 이름",
   "login.password": "비밀번호",
+  "login.keep_logged_in": "로그인 상태 유지 (30일)",
   "login.button": "로그인",
   "login.error": "잘못된 사용자 이름 또는 비밀번호",
 

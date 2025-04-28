@@ -109,6 +109,7 @@
   "login.title": "Logga in",
   "login.username": "Användarnamn",
   "login.password": "Lösenord",
+  "login.keep_logged_in": "Håll mig inloggad (30 dagar)",
   "login.button": "Logga in",
   "login.error": "Ogiltigt användarnamn eller lösenord",
 

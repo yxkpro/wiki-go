@@ -109,6 +109,7 @@
   "login.title": "Přihlášení",
   "login.username": "Uživatelské jméno",
   "login.password": "Heslo",
+  "login.keep_logged_in": "Zůstat přihlášen (30 dní)",
   "login.button": "Přihlásit se",
   "login.error": "Neplatné uživatelské jméno nebo heslo",
 

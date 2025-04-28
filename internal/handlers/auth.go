@@ -9,6 +9,7 @@ import (
 	"wiki-go/internal/config"
 	"wiki-go/internal/crypto"
 	"wiki-go/internal/resources"
+	"wiki-go/internal/i18n"
 )
 
 type LoginRequest struct {
@@ -91,8 +92,15 @@ func LoginPageHandler(w http.ResponseWriter, r *http.Request) {
 		data.Theme = cookie.Value
 	}
 
-	// Get and execute login template
-	tmpl, err := template.ParseFS(resources.GetTemplatesFS(), "templates/login.html")
+	// Create function map with translation function
+	funcMap := template.FuncMap{
+		"t": func(key string) string {
+			return i18n.Translate(key)
+		},
+	}
+
+	// Get and execute login template with translation function
+	tmpl, err := template.New("login.html").Funcs(funcMap).ParseFS(resources.GetTemplatesFS(), "templates/login.html")
 	if err != nil {
 		http.Error(w, "Error loading login template: "+err.Error(), http.StatusInternalServerError)
 		return

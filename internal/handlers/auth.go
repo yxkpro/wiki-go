@@ -12,8 +12,9 @@ import (
 )
 
 type LoginRequest struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Username    string `json:"username"`
+	Password    string `json:"password"`
+	KeepLoggedIn bool   `json:"keepLoggedIn"`
 }
 
 // LoginHandler handles API login requests
@@ -37,7 +38,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create session
-	if err := auth.CreateSession(w, req.Username, isAdmin, cfg); err != nil {
+	if err := auth.CreateSession(w, req.Username, isAdmin, req.KeepLoggedIn, cfg); err != nil {
 		http.Error(w, "Failed to create session", http.StatusInternalServerError)
 		return
 	}

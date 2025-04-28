@@ -33,7 +33,7 @@ func GenerateSessionToken() (string, error) {
 }
 
 // CreateSession creates a new session for the user
-func CreateSession(w http.ResponseWriter, username string, isAdmin bool, cfg *config.Config) error {
+func CreateSession(w http.ResponseWriter, username string, isAdmin bool, keepLoggedIn bool, cfg *config.Config) error {
 	token, err := GenerateSessionToken()
 	if err != nil {
 		return err
@@ -47,6 +47,12 @@ func CreateSession(w http.ResponseWriter, username string, isAdmin bool, cfg *co
 	}
 	mu.Unlock()
 
+	// Set cookie expiration time based on keepLoggedIn flag
+	maxAge := 3600 * 24 // 24 hours by default
+	if keepLoggedIn {
+		maxAge = 3600 * 24 * 30 // 30 days for persistent login
+	}
+
 	// Set the secure HTTP-only session token cookie
 	http.SetCookie(w, &http.Cookie{
 		Name:     "session_token",
@@ -55,7 +61,7 @@ func CreateSession(w http.ResponseWriter, username string, isAdmin bool, cfg *co
 		HttpOnly: true,
 		Secure:   !cfg.Server.AllowInsecureCookies,
 		SameSite: http.SameSiteStrictMode,
-		MaxAge:   3600 * 24, // 24 hours
+		MaxAge:   maxAge,
 	})
 
 	// Set a non-HTTP-only cookie for the username to be accessible by JavaScript
@@ -66,7 +72,7 @@ func CreateSession(w http.ResponseWriter, username string, isAdmin bool, cfg *co
 		HttpOnly: false,
 		Secure:   !cfg.Server.AllowInsecureCookies,
 		SameSite: http.SameSiteStrictMode,
-		MaxAge:   3600 * 24, // 24 hours
+		MaxAge:   maxAge,
 	})
 
 	return nil
@@ -87,13 +93,8 @@ func GetSession(r *http.Request) *Session {
 		return nil
 	}
 
-	// Check if session is expired (24 hours)
-	if time.Since(session.CreatedAt) > 24*time.Hour {
-		mu.Lock()
-		delete(sessions, c.Value)
-		mu.Unlock()
-		return nil
-	}
+	// Session expiration is now handled by cookie expiration time
+	// which is set in CreateSession based on the keepLoggedIn parameter
 
 	return &session
 }

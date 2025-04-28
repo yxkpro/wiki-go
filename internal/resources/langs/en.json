@@ -109,6 +109,7 @@
   "login.title": "Login",
   "login.username": "Username",
   "login.password": "Password",
+  "login.keep_logged_in": "Keep me logged in (30 days)",
   "login.button": "Login",
   "login.error": "Invalid username or password",
 

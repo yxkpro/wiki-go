@@ -98,6 +98,7 @@
         e.preventDefault();
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
+        const keepLoggedIn = document.getElementById('keepLoggedIn')?.checked || false;
 
         try {
             const response = await fetch('/api/login', {
@@ -105,7 +106,11 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({
+                    username,
+                    password,
+                    keepLoggedIn
+                })
             });
 
             if (response.ok) {

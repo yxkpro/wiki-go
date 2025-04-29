@@ -578,8 +578,9 @@
     z-index: 1000;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     max-width: 320px;
-    max-height: 300px;
-    overflow-y: auto;
+    min-width: 260px;
+    max-height: 350px;
+    overflow-y: hidden;
     overflow-x: hidden;
     width: auto;
     box-sizing: border-box;
@@ -722,6 +723,7 @@
 .anchor-list-container {
     max-height: 240px;
     overflow-y: auto;
+    padding-bottom: 10px;
 }
 
 .anchor-list-container {

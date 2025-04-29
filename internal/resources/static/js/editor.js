@@ -303,7 +303,7 @@ function createDocPicker() {
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
     searchInput.className = 'doc-search-input';
-    searchInput.placeholder = window.i18n.t('docpicker.search_placeholder');
+    searchInput.placeholder = window.i18n ? window.i18n.t('docpicker.search_placeholder') : 'Search…';
     searchInput.style.boxSizing = 'border-box';
     searchInput.style.width = '100%';
 
@@ -319,7 +319,7 @@ function createDocPicker() {
     // Create a loading message
     const loadingMsg = document.createElement('div');
     loadingMsg.className = 'docs-loading';
-    loadingMsg.textContent = window.i18n.t('docpicker.loading');
+    loadingMsg.textContent = window.i18n ? window.i18n.t('docpicker.loading') : 'Loading...';
 
     // Add both to the picker
     picker.appendChild(loadingMsg);
@@ -330,7 +330,7 @@ function createDocPicker() {
     // Check if user is admin before trying to fetch documents
     window.Auth.checkIfUserIsAdmin().then(isAdmin => {
         if (!isAdmin) {
-            loadingMsg.textContent = window.i18n.t('docpicker.admin_required');
+            loadingMsg.textContent = window.i18n ? window.i18n.t('docpicker.admin_required') : 'Admin required';
             return;
         }
 
@@ -357,7 +357,7 @@ function createDocPicker() {
                 if (filteredDocs.length === 0) {
                     const noResults = document.createElement('div');
                     noResults.className = 'no-results';
-                    noResults.textContent = window.i18n.t('docpicker.no_results');
+                    noResults.textContent = window.i18n ? window.i18n.t('docpicker.no_results') : 'No results found';
                     docsContainer.appendChild(noResults);
                     return;
                 }
@@ -381,7 +381,7 @@ function createDocPicker() {
             });
         }).catch(error => {
             // Show error message
-            loadingMsg.textContent = window.i18n.t('docpicker.error_loading').replace('{0}', error.message || 'Access denied');
+            loadingMsg.textContent = window.i18n ? window.i18n.t('docpicker.error_loading').replace('{0}', error.message || 'Access denied') : 'Error loading documents';
         });
     });
 
@@ -1784,6 +1784,7 @@ function createDocAnchorPicker() {
     const picker = document.createElement('div');
     picker.className = 'anchor-picker';
     picker.style.display = 'none';
+    picker.setAttribute('dir', 'auto');
 
     // Header (title + back button)
     const header = document.createElement('div');
@@ -1805,7 +1806,7 @@ function createDocAnchorPicker() {
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
     searchInput.className = 'anchor-search-input';
-    searchInput.placeholder = 'Search…';
+    searchInput.placeholder = window.i18n ? window.i18n.t('docpicker.search_placeholder') : 'Search…';
     picker.appendChild(searchInput);
 
     // Container for list items
@@ -1824,7 +1825,7 @@ function createDocAnchorPicker() {
         listContainer.innerHTML = '';
         const noRes = document.createElement('div');
         noRes.className = 'no-results';
-        noRes.textContent = msg;
+        noRes.textContent = window.i18n ? window.i18n.t(msg) || msg : msg;
         listContainer.appendChild(noRes);
     };
 
@@ -1848,7 +1849,7 @@ function createDocAnchorPicker() {
             : docs;
 
         if (filtered.length === 0) {
-            renderNoResults('No documents found');
+            renderNoResults('docpicker.no_results');
             return;
         }
 
@@ -1926,7 +1927,7 @@ function createDocAnchorPicker() {
             docs = documentData.length ? documentData : await fetchDocuments();
             renderDocList();
         } catch (err) {
-            renderNoResults(err.message || 'Failed to load documents');
+            renderNoResults(err.message || window.i18n ? window.i18n.t('docpicker.error_loading') : 'Error loading documents');
         }
     })();
 

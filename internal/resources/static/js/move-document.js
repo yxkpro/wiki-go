@@ -128,12 +128,13 @@ async function handleMoveDocumentSubmit(e) {
 function updateMoveButtonVisibility() {
     const moveDocButton = document.querySelector('.move-document');
     if (!moveDocButton) return;
-    
+
     const currentPath = getCurrentDocPath();
     if (currentPath === '' || currentPath === '/' || currentPath.toLowerCase() === 'homepage') {
         moveDocButton.style.display = 'none';
     } else {
-        moveDocButton.style.display = '';
+        // Ensure it is visible (inline-flex) so it overrides the admin-only-button default
+        moveDocButton.style.cssText = 'display: inline-flex !important';
     }
 }
 
@@ -141,16 +142,16 @@ function updateMoveButtonVisibility() {
 function initMoveDocument() {
     const moveDocButton = document.querySelector('.move-document');
     const moveDocDialog = document.querySelector('.move-document-dialog');
-    
+
     if (!moveDocButton || !moveDocDialog) return;
-    
+
     const moveDocForm = document.getElementById('moveDocumentForm');
     const closeMoveDocDialog = moveDocDialog.querySelector('.close-dialog');
     const cancelMoveDocButton = moveDocDialog.querySelector('.cancel-dialog');
 
     // Hide move button for homepage
     updateMoveButtonVisibility();
-    
+
     // Update visibility when editor is loaded
     document.addEventListener('editor-loaded', updateMoveButtonVisibility);
 

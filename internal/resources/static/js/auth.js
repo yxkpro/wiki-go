@@ -209,8 +209,8 @@
                     btn.style.cssText = 'display: inline-flex !important';
                 });
 
-                // Special case for rename button (only show if not on homepage)
-                const renameBtn = document.querySelector('.rename-document');
+                // Special case for move/rename button (only show if not on homepage)
+                const renameBtn = document.querySelector('.move-document');
                 if (renameBtn && (window.location.pathname === '/' || window.location.pathname === '/homepage')) {
                     renameBtn.style.cssText = 'display: none !important';
                 }

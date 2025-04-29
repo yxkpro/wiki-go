@@ -2110,6 +2110,16 @@ tr:nth-child(even) {
     box-sizing: border-box;
 }
 
+/* Add hyperlink styling for version preview */
+.version-content a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.version-content a:hover {
+    text-decoration: underline;
+}
+
 /* Handle pre and code blocks to prevent overflow */
 .version-content pre,
 .version-content code {

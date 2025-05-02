@@ -38,11 +38,13 @@ func SourceHandler(w http.ResponseWriter, r *http.Request) {
 	path := strings.TrimPrefix(r.URL.Path, "/api/source")
 
 	var docPath string
+	var dirPath string
 
 	// Special case for homepage (root path)
 	if path == "" || path == "/" {
 		// For the homepage, we use the pages directory
 		docPath = filepath.Join(cfg.Wiki.RootDir, "pages", "home", "document.md")
+		dirPath = filepath.Join(cfg.Wiki.RootDir, "pages", "home")
 	} else {
 		// Clean and normalize the path
 		path = filepath.Clean(path)
@@ -50,19 +52,41 @@ func SourceHandler(w http.ResponseWriter, r *http.Request) {
 		path = strings.ReplaceAll(path, "\\", "/")
 
 		// Get the full filesystem path, adding the documents subdirectory
-		docPath = filepath.Join(cfg.Wiki.RootDir, cfg.Wiki.DocumentsDir, path, "document.md")
+		dirPath = filepath.Join(cfg.Wiki.RootDir, cfg.Wiki.DocumentsDir, path)
+		docPath = filepath.Join(dirPath, "document.md")
 	}
 
 	// Read the markdown file
 	content, err := os.ReadFile(docPath)
 	if err != nil {
-	if os.IsNotExist(err) {
-		http.NotFound(w, r)
-		return
-		} else {
-			http.Error(w, "Failed to read document", http.StatusInternalServerError)
+		if os.IsNotExist(err) {
+			// Check if the directory exists
+			dirInfo, dirErr := os.Stat(dirPath)
+			if dirErr == nil && dirInfo.IsDir() {
+				// Directory exists but document.md doesn't
+				// Create a default content with the directory name as title
+				dirName := filepath.Base(path)
+				if dirName == "" || dirName == "." {
+					dirName = "Home"
+				}
+				
+				// Format the directory name for display (replace dashes with spaces, capitalize)
+				formattedName := utils.FormatDirName(dirName)
+				
+				// Create default content
+				defaultContent := fmt.Sprintf("# %s\n\nEnter content here", formattedName)
+				
+				// Set content type and write response
+				w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+				w.Write([]byte(defaultContent))
+				return
+			}
+			
+			http.Error(w, "Document not found", http.StatusNotFound)
 			return
 		}
+		http.Error(w, "Failed to read document", http.StatusInternalServerError)
+		return
 	}
 
 	// Set content type and write response
@@ -345,22 +369,11 @@ func DeleteDocumentHandler(w http.ResponseWriter, r *http.Request) {
 	fileInfo, err := os.Stat(fullPath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			// Try with .md extension
-			if !strings.HasSuffix(fullPath, ".md") {
-				fullPath += ".md"
-				fileInfo, err = os.Stat(fullPath)
-				if err != nil {
-					sendJSONError(w, "Document not found", http.StatusNotFound, "The specified document does not exist")
-					return
-				}
-			} else {
-				sendJSONError(w, "Document not found", http.StatusNotFound, "The specified document does not exist")
-				return
-			}
-		} else {
-			sendJSONError(w, "Error accessing document", http.StatusInternalServerError, err.Error())
+			http.Error(w, "Document not found", http.StatusNotFound)
 			return
 		}
+		sendJSONError(w, "Error accessing document", http.StatusInternalServerError, err.Error())
+		return
 	}
 
 	// Delete the file or directory recursively

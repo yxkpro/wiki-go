@@ -10,6 +10,7 @@ import (
 	"wiki-go/internal/crypto"
 	"wiki-go/internal/resources"
 	"wiki-go/internal/i18n"
+	"wiki-go/internal/roles"
 )
 
 type LoginRequest struct {
@@ -32,14 +33,14 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Validate credentials
-	valid, isAdmin := auth.ValidateCredentials(req.Username, req.Password, cfg)
+	valid, role := auth.ValidateCredentials(req.Username, req.Password, cfg)
 	if !valid {
 		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 		return
 	}
 
 	// Create session
-	if err := auth.CreateSession(w, req.Username, isAdmin, req.KeepLoggedIn, cfg); err != nil {
+	if err := auth.CreateSession(w, req.Username, role, req.KeepLoggedIn, cfg); err != nil {
 		http.Error(w, "Failed to create session", http.StatusInternalServerError)
 		return
 	}
@@ -55,11 +56,11 @@ func CheckAuthHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Return user information including admin status
+	// Return user information including role
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"username": session.Username,
-		"is_admin": session.IsAdmin,
+		"role":     session.Role,
 	})
 }
 
@@ -128,7 +129,7 @@ func CheckDefaultPasswordHandler(w http.ResponseWriter, r *http.Request) {
 	defaultPasswordInUse := false
 
 	for _, user := range cfg.Users {
-		if user.IsAdmin && user.Username == defaultUsername {
+		if user.Role == roles.RoleAdmin && user.Username == defaultUsername {
 			// Check if password is still the default
 			if crypto.CheckPasswordHash(defaultPassword, user.Password) {
 				defaultPasswordInUse = true

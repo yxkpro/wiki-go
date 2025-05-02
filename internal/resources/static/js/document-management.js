@@ -62,26 +62,26 @@
                     if (authResponse.status === 401) {
                         // Show login dialog
                         window.Auth.showLoginDialog(() => {
-                            // After login, check if admin
-                            window.Auth.checkIfUserIsAdmin().then(isAdmin => {
-                                if (isAdmin) {
+                            // After login, check if user has editor or admin role
+                            window.Auth.checkUserRole('editor').then(canEdit => {
+                                if (canEdit) {
                                     showNewDocDialog();
                                     // Update toolbar buttons after login
                                     window.Auth.updateToolbarButtons();
                                 } else {
-                                    window.Auth.showAdminOnlyError();
+                                    window.Auth.showPermissionError('editor');
                                 }
                             });
                         });
                         return;
                     }
 
-                    // User is authenticated, check if admin
-                    const isAdmin = await window.Auth.checkIfUserIsAdmin();
-                    if (isAdmin) {
+                    // User is authenticated, check if user has editor or admin role
+                    const canEdit = await window.Auth.checkUserRole('editor');
+                    if (canEdit) {
                         showNewDocDialog();
                     } else {
-                        window.Auth.showAdminOnlyError();
+                        window.Auth.showPermissionError('editor');
                     }
                 } catch (error) {
                     console.error('Error:', error);

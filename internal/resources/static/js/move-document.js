@@ -11,10 +11,10 @@ function showMoveDocDialog() {
     const moveSourcePathInput = document.getElementById('moveSourcePath');
     const moveTargetPathInput = document.getElementById('moveTargetPath');
 
-    // First check if user is an admin
-    window.Auth.checkIfUserIsAdmin().then(isAdmin => {
-        if (!isAdmin) {
-            window.Auth.showAdminOnlyError();
+    // First check if user has editor or admin role
+    window.Auth.checkUserRole('editor').then(canEdit => {
+        if (!canEdit) {
+            window.Auth.showPermissionError('editor');
             return;
         }
 

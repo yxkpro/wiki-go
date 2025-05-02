@@ -186,6 +186,27 @@ func SetupRoutes(cfg *config.Config) {
 	// Create a new ServeMux to apply middleware to all routes
 	mux := http.NewServeMux()
 
+	// Role-based middleware
+	adminMiddleware := func(next http.HandlerFunc) http.HandlerFunc {
+		return func(w http.ResponseWriter, r *http.Request) {
+			if !auth.RequireRole(r, "admin") {
+				http.Error(w, "Admin access required", http.StatusForbidden)
+				return
+			}
+			next(w, r)
+		}
+	}
+
+	editorMiddleware := func(next http.HandlerFunc) http.HandlerFunc {
+		return func(w http.ResponseWriter, r *http.Request) {
+			if !auth.RequireRole(r, "editor") {
+				http.Error(w, "Editor access required", http.StatusForbidden)
+				return
+			}
+			next(w, r)
+		}
+	}
+
 	// Serve static files with custom handling to check data/static first
 	mux.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
 		// Extract the file path from the URL
@@ -294,23 +315,23 @@ func SetupRoutes(cfg *config.Config) {
 		handlers.SearchHandler(w, r, cfg)
 	})
 
-	// Settings API
-	mux.HandleFunc("/api/settings/wiki", handlers.WikiSettingsHandler)
+	// Settings API - Admin only
+	mux.HandleFunc("/api/settings/wiki", adminMiddleware(handlers.WikiSettingsHandler))
 
-	// User Management API
-	mux.HandleFunc("/api/users", handlers.UsersHandler)
+	// User Management API - Admin only
+	mux.HandleFunc("/api/users", adminMiddleware(handlers.UsersHandler))
 
-	// Version history API
-	mux.HandleFunc("/api/versions/", func(w http.ResponseWriter, r *http.Request) {
+	// Version history API - Editor or Admin
+	mux.HandleFunc("/api/versions/", editorMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		handlers.VersionsHandler(w, r, cfg)
-	})
+	}))
 
-	// Document move/rename API
-	mux.HandleFunc("/api/document/move", func(w http.ResponseWriter, r *http.Request) {
+	// Document move/rename API - Editor or Admin
+	mux.HandleFunc("/api/document/move", editorMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		handlers.MoveDocumentHandler(w, r, cfg)
-	})
+	}))
 
-	// Markdown rendering API
+	// Markdown rendering API - No auth required
 	mux.HandleFunc("/api/render-markdown", handlers.RenderMarkdownHandler)
 
 	// Emoji data API - serve the emojis.json file
@@ -334,6 +355,8 @@ func SetupRoutes(cfg *config.Config) {
 
 	// Login page
 	mux.HandleFunc("/login", handlers.LoginPageHandler)
+
+
 
 	// Home page and other pages
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {

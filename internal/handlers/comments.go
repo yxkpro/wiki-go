@@ -10,6 +10,7 @@ import (
 
 	"wiki-go/internal/auth"
 	"wiki-go/internal/comments"
+	"wiki-go/internal/roles"
 	"wiki-go/internal/utils"
 )
 
@@ -165,14 +166,14 @@ func DeleteCommentHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is authenticated and is an admin
+	// Check if user is authenticated and has admin role
 	session := auth.GetSession(r)
 	if session == nil {
 		sendJSONError(w, "Authentication required", http.StatusUnauthorized, "")
 		return
 	}
 
-	if !session.IsAdmin {
+	if session.Role != roles.RoleAdmin {
 		sendJSONError(w, "Admin privileges required", http.StatusForbidden, "")
 		return
 	}

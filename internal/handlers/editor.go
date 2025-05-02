@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 	"wiki-go/internal/auth"
+	"wiki-go/internal/roles"
 	"wiki-go/internal/utils"
 )
 
@@ -26,10 +27,10 @@ func SourceHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is authenticated
+	// Check if user is authenticated and has appropriate permissions
 	session := auth.GetSession(r)
-	if session == nil {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+	if session == nil || (session.Role != roles.RoleAdmin && session.Role != roles.RoleEditor) {
+		http.Error(w, "Unauthorized. Admin or editor access required.", http.StatusUnauthorized)
 		return
 	}
 
@@ -55,24 +56,9 @@ func SourceHandler(w http.ResponseWriter, r *http.Request) {
 	// Read the markdown file
 	content, err := os.ReadFile(docPath)
 	if err != nil {
-		if os.IsNotExist(err) {
-			// If document doesn't exist, create it with a default title
-			dirName := filepath.Base(filepath.Dir(docPath))
-			title := utils.FormatDirName(dirName)
-			content = []byte(fmt.Sprintf("# %s\n", title))
-
-			// Create directory if it doesn't exist
-			dir := filepath.Dir(docPath)
-			if err := os.MkdirAll(dir, 0755); err != nil {
-				http.Error(w, "Failed to create directory", http.StatusInternalServerError)
-				return
-			}
-
-			// Write the initial content
-			if err := os.WriteFile(docPath, content, 0644); err != nil {
-				http.Error(w, "Failed to create document", http.StatusInternalServerError)
-				return
-			}
+	if os.IsNotExist(err) {
+		http.NotFound(w, r)
+		return
 		} else {
 			http.Error(w, "Failed to read document", http.StatusInternalServerError)
 			return
@@ -91,10 +77,10 @@ func SaveHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is authenticated
+	// Check if user is authenticated and has appropriate permissions
 	session := auth.GetSession(r)
-	if session == nil {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+	if session == nil || (session.Role != roles.RoleAdmin && session.Role != roles.RoleEditor) {
+		http.Error(w, "Unauthorized. Admin or editor access required.", http.StatusUnauthorized)
 		return
 	}
 
@@ -201,10 +187,10 @@ func CreateDocumentHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check authentication
+	// Check authentication and permissions
 	session := auth.GetSession(r)
-	if session == nil {
-		sendJSONError(w, "Unauthorized", http.StatusUnauthorized, "")
+	if session == nil || (session.Role != roles.RoleAdmin && session.Role != roles.RoleEditor) {
+		sendJSONError(w, "Unauthorized", http.StatusUnauthorized, "Admin or editor access required")
 		return
 	}
 
@@ -329,10 +315,10 @@ func DeleteDocumentHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check authentication
+	// Check authentication and permissions
 	session := auth.GetSession(r)
-	if session == nil {
-		sendJSONError(w, "Authentication required", http.StatusUnauthorized, "You must be logged in to delete documents")
+	if session == nil || (session.Role != roles.RoleAdmin && session.Role != roles.RoleEditor) {
+		sendJSONError(w, "Authentication required", http.StatusUnauthorized, "Admin or editor access required to delete documents")
 		return
 	}
 

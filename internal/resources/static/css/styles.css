@@ -1507,6 +1507,28 @@ tr:nth-child(even) {
     font-weight: 500;
 }
 
+/* Role badges */
+.role-badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 5px;
+    color: white;
+}
+
+.role-badge.role-admin {
+    background-color: var(--primary-color);
+}
+
+.role-badge.role-editor {
+    background-color: #28a745; /* Green for editors */
+}
+
+.role-badge.role-viewer {
+    background-color: #6c757d; /* Gray for viewers */
+}
+
+/* For backward compatibility */
 .user-item .admin-badge {
     background-color: var(--primary-color);
     color: white;

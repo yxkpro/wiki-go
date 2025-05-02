@@ -51,13 +51,13 @@ func UploadFileHandler(w http.ResponseWriter, r *http.Request, cfg *config.Confi
 	// Set appropriate headers
 	w.Header().Set("Content-Type", "application/json")
 
-	// Check if user is authenticated and is admin
+	// Check if user is authenticated and has appropriate permissions
 	session := auth.GetSession(r)
-	if session == nil || !session.IsAdmin {
+	if session == nil || (session.Role != config.RoleAdmin && session.Role != config.RoleEditor) {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode(FileResponse{
 			Success: false,
-			Message: "Unauthorized. Admin access required.",
+			Message: "Unauthorized. Admin or editor access required.",
 		})
 		return
 	}
@@ -418,13 +418,13 @@ func DeleteFileHandler(w http.ResponseWriter, r *http.Request, cfg *config.Confi
 	// Set appropriate headers
 	w.Header().Set("Content-Type", "application/json")
 
-	// Check if user is authenticated and is admin
+	// Check if user is authenticated and has appropriate permissions
 	session := auth.GetSession(r)
-	if session == nil || !session.IsAdmin {
+	if session == nil || (session.Role != config.RoleAdmin && session.Role != config.RoleEditor) {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode(FileResponse{
 			Success: false,
-			Message: "Unauthorized. Admin access required.",
+			Message: "Unauthorized. Admin or editor access required.",
 		})
 		return
 	}
@@ -976,13 +976,13 @@ func ListDocumentsHandler(w http.ResponseWriter, r *http.Request, cfg *config.Co
 	// Set response headers
 	w.Header().Set("Content-Type", "application/json")
 
-	// Check if user is authenticated and is admin
+	// Check if user is authenticated and has appropriate permissions
 	session := auth.GetSession(r)
-	if session == nil || !session.IsAdmin {
+	if session == nil || (session.Role != config.RoleAdmin && session.Role != config.RoleEditor) {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode(DocumentsResponse{
 			Success: false,
-			Message: "Unauthorized. Admin access required.",
+			Message: "Unauthorized. Admin or editor access required.",
 		})
 		return
 	}

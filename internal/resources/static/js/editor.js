@@ -327,10 +327,10 @@ function createDocPicker() {
     document.body.appendChild(picker);
     docPickerElement = picker;
 
-    // Check if user is admin before trying to fetch documents
-    window.Auth.checkIfUserIsAdmin().then(isAdmin => {
-        if (!isAdmin) {
-            loadingMsg.textContent = window.i18n ? window.i18n.t('docpicker.admin_required') : 'Admin required';
+    // Check if user has editor or admin role before trying to fetch documents
+    window.Auth.checkUserRole('editor').then(canEdit => {
+        if (!canEdit) {
+            loadingMsg.textContent = window.i18n ? window.i18n.t('docpicker.admin_required') : 'Editor or admin required';
             return;
         }
 
@@ -1295,26 +1295,26 @@ function initializeEditControls() {
                 if (authResponse.status === 401) {
                     // Show login dialog
                     window.Auth.showLoginDialog(() => {
-                        // After login, check if admin
-                        window.Auth.checkIfUserIsAdmin().then(isAdmin => {
-                            if (isAdmin) {
+                        // After login, check if user has editor or admin role
+                        window.Auth.checkUserRole('editor').then(canEdit => {
+                            if (canEdit) {
                                 loadEditor(mainContent, editorContainer, viewToolbar, editToolbar);
                                 // Update toolbar buttons after login
                                 window.Auth.updateToolbarButtons();
                             } else {
-                                window.Auth.showAdminOnlyError();
+                                window.Auth.showPermissionError('editor');
                             }
                         });
                     });
                     return;
                 }
 
-                // User is authenticated, check if admin
-                const isAdmin = await window.Auth.checkIfUserIsAdmin();
-                if (isAdmin) {
+                // User is authenticated, check if user has editor or admin role
+                const canEdit = await window.Auth.checkUserRole('editor');
+                if (canEdit) {
                     loadEditor(mainContent, editorContainer, viewToolbar, editToolbar);
                 } else {
-                    window.Auth.showAdminOnlyError();
+                    window.Auth.showPermissionError('editor');
                 }
             } catch (error) {
                 console.error('Error:', error);

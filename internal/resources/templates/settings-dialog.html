@@ -101,9 +101,15 @@
                                 <input type="password" id="userFormPassword" name="password">
                                 <small class="form-help" id="password-help">{{t "users.password_help"}}</small>
                             </div>
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="userIsAdmin" name="userIsAdmin">
-                                <label for="userIsAdmin">{{t "users.administrator"}}</label>
+                            <div class="form-group">
+                                <label for="userRole">{{t "users.role"}}</label>
+                                <div class="language-selector-wrapper">
+                                    <select id="userRole" name="userRole" class="language-selector">
+                                        <option value="admin">{{t "users.role_admin"}}</option>
+                                        <option value="editor">{{t "users.role_editor"}}</option>
+                                        <option value="viewer">{{t "users.role_viewer"}}</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-actions">
                                 <button type="submit" class="dialog-button primary" id="saveUserBtn">{{t "users.add_button"}}</button>

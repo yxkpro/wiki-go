@@ -77,16 +77,18 @@
                 {{if .Content}}
                 <div class="page-toolbar" dir="auto">
                     <div class="view-toolbar">
-                        <!-- Admin-only buttons -->
-                        <button class="toolbar-button admin-only-button new-document" title="{{t "common.new"}}" {{if .IsAdmin}}style="display: inline-flex !important"{{else}}style="display: none !important"{{end}}>
+                        <!-- Editor and Admin buttons -->
+                        <button class="toolbar-button editor-only-button new-document" title="{{t "common.new"}}" {{if or (eq .UserRole "admin") (eq .UserRole "editor")}}style="display: inline-flex !important"{{else}}style="display: none !important"{{end}}>
                             <i class="fa fa-file-text-o"></i>
                             <span class="button-text">{{t "common.new"}}</span>
                         </button>
-                        <button class="toolbar-button admin-only-button edit-page" title="{{t "common.edit"}}" {{if .IsAdmin}}style="display: inline-flex !important"{{else}}style="display: none !important"{{end}}>
+                        <button class="toolbar-button editor-only-button edit-page" title="{{t "common.edit"}}" {{if or (eq .UserRole "admin") (eq .UserRole "editor")}}style="display: inline-flex !important"{{else}}style="display: none !important"{{end}}>
                             <i class="fa fa-pencil"></i>
                             <span class="button-text">{{t "common.edit"}}</span>
                         </button>
-                        <button class="toolbar-button admin-only-button settings-button" title="{{t "common.settings"}}" {{if .IsAdmin}}style="display: inline-flex !important"{{else}}style="display: none !important"{{end}}>
+                        
+                        <!-- Admin-only buttons -->
+                        <button class="toolbar-button admin-only-button settings-button" title="{{t "common.settings"}}" {{if eq .UserRole "admin"}}style="display: inline-flex !important"{{else}}style="display: none !important"{{end}}>
                             <i class="fa fa-cog"></i>
                             <span class="button-text">{{t "common.settings"}}</span>
                         </button>
@@ -125,11 +127,11 @@
                             <span class="button-text">{{t "toolbar.attachments"}}</span>
                         </button>
                         {{if ne .CurrentDir.Path "/"}}
-                        <button class="toolbar-button admin-only-button move-document" title="{{t "common.move"}}" {{if .IsAdmin}}style="display: inline-flex !important"{{else}}style="display: none !important"{{end}}>
+                        <button class="toolbar-button editor-only-button move-document" title="{{t "common.move"}}" {{if or (eq .UserRole "admin") (eq .UserRole "editor")}}style="display: inline-flex !important"{{else}}style="display: none !important"{{end}}>
                             <i class="fa fa-arrows"></i>
                             <span class="button-text">{{t "common.move"}}/{{t "common.rename"}}</span>
                         </button>
-                        <button class="toolbar-button delete-document" title="{{t "common.delete"}}">
+                        <button class="toolbar-button editor-only-button delete-document" title="{{t "common.delete"}}">
                             <i class="fa fa-trash"></i>
                             <span class="button-text">{{t "common.delete"}}</span>
                         </button>
@@ -175,7 +177,7 @@
                 {{t "footer.last_edited"}}: {{formatTime .LastModified .Config.Wiki.Timezone "2006-01-02 15:04:05"}}
             </div>
             <div>
-                {{t "footer.powered_by"}} <a href="https://github.com/leomoon-studios/wiki-go" class="footer-powered" target="_blank">LeoMoon Wiki-Go</a> <span class="version" {{if .IsAdmin}}style="display: inline !important"{{else}}style="display: none !important"{{end}}>{{getVersion}}</span>
+                {{t "footer.powered_by"}} <a href="https://github.com/leomoon-studios/wiki-go" class="footer-powered" target="_blank">LeoMoon Wiki-Go</a> <span class="version" {{if eq .UserRole "admin"}}style="display: inline !important"{{else}}style="display: none !important"{{end}}>{{getVersion}}</span>
             </div>
         </footer>
     </div>

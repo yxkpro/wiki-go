@@ -13,7 +13,7 @@ import (
 // Session represents a user session
 type Session struct {
 	Username  string
-	IsAdmin   bool
+	Role      string  // User role: "admin", "editor", or "viewer"
 	CreatedAt time.Time
 }
 
@@ -33,7 +33,7 @@ func GenerateSessionToken() (string, error) {
 }
 
 // CreateSession creates a new session for the user
-func CreateSession(w http.ResponseWriter, username string, isAdmin bool, keepLoggedIn bool, cfg *config.Config) error {
+func CreateSession(w http.ResponseWriter, username string, role string, keepLoggedIn bool, cfg *config.Config) error {
 	token, err := GenerateSessionToken()
 	if err != nil {
 		return err
@@ -42,7 +42,7 @@ func CreateSession(w http.ResponseWriter, username string, isAdmin bool, keepLog
 	mu.Lock()
 	sessions[token] = Session{
 		Username:  username,
-		IsAdmin:   isAdmin,
+		Role:      role,
 		CreatedAt: time.Now(),
 	}
 	mu.Unlock()
@@ -132,13 +132,15 @@ func ClearSession(w http.ResponseWriter, r *http.Request, cfg *config.Config) {
 }
 
 // ValidateCredentials validates user credentials against the config
-func ValidateCredentials(username, password string, cfg *config.Config) (bool, bool) {
+func ValidateCredentials(username, password string, cfg *config.Config) (bool, string) {
 	for _, user := range cfg.Users {
 		if user.Username == username && crypto.CheckPasswordHash(password, user.Password) {
-			return true, user.IsAdmin
+			// Use the user's role
+			role := user.Role
+			return true, role
 		}
 	}
-	return false, false
+	return false, ""
 }
 
 // CheckAuth verifies if the user is authenticated and returns their session
@@ -157,4 +159,24 @@ func RequireAuth(r *http.Request, cfg *config.Config) bool {
 	// If the wiki is private, check if the user is authenticated
 	session := GetSession(r)
 	return session != nil
+}
+
+// RequireRole checks if user has required role or higher
+func RequireRole(r *http.Request, requiredRole string) bool {
+	session := GetSession(r)
+	if session == nil {
+		return false
+	}
+
+	// Role hierarchy: admin > editor > viewer
+	switch requiredRole {
+	case "admin":
+		return session.Role == "admin"
+	case "editor":
+		return session.Role == "admin" || session.Role == "editor"
+	case "viewer":
+		return session.Role == "admin" || session.Role == "editor" || session.Role == "viewer"
+	default:
+		return false
+	}
 }

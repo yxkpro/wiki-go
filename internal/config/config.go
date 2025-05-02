@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 	"wiki-go/internal/crypto"
+	"wiki-go/internal/roles"
 
 	"gopkg.in/yaml.v3"
 )
@@ -18,8 +19,15 @@ const ConfigFilePath = "data/config.yaml"
 type User struct {
 	Username string `yaml:"username"`
 	Password string `yaml:"password"`
-	IsAdmin  bool   `yaml:"is_admin"`
+	Role     string `yaml:"role"`     // "admin", "editor", or "viewer"
 }
+
+// Role constants - using the ones defined in roles package
+var (
+	RoleAdmin  = roles.RoleAdmin  // Can do anything
+	RoleEditor = roles.RoleEditor // Can edit documents and post comments
+	RoleViewer = roles.RoleViewer // Can only view documents and post comments
+)
 
 // Config represents the server configuration
 type Config struct {
@@ -98,7 +106,7 @@ func LoadConfig(path string) (*Config, error) {
 			config.Users = append(config.Users, User{
 				Username: "admin",
 				Password: hashedPassword,
-				IsAdmin:  true,
+				Role:     RoleAdmin,
 			})
 
 			// Format all users
@@ -150,6 +158,8 @@ func LoadConfig(path string) (*Config, error) {
 		return nil, err
 	}
 
+	// Migrate user roles from is_admin to role - this is now done in main.go
+
 	return config, nil
 }
 
@@ -189,8 +199,8 @@ users:
 
 // FormatUserEntry formats a single user entry for the config file
 func FormatUserEntry(user User) string {
-	return fmt.Sprintf("    - username: %s\n      password: %s\n      is_admin: %t",
-		user.Username, user.Password, user.IsAdmin)
+	return fmt.Sprintf("    - username: %s\n      password: %s\n      role: %s",
+		user.Username, user.Password, user.Role)
 }
 
 // SaveConfig saves the configuration to a writer

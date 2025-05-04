@@ -88,7 +88,23 @@ func MoveDocumentHandler(w http.ResponseWriter, r *http.Request, cfg *config.Con
 
 	// Determine if this is a rename or move operation
 	isRename := moveReq.NewSlug != ""
-	isMove := moveReq.TargetPath != ""
+	
+	// Check if this is a move to root operation
+	moveToRoot := false
+	sourceBase := filepath.Base(moveReq.SourcePath)
+	sourceDir := filepath.Dir(moveReq.SourcePath)
+	
+	// If we're moving to the root (empty target path) and the source is not already at the root
+	if moveReq.TargetPath == "" && sourceDir != "." {
+		moveToRoot = true
+		log.Printf("Detected move to root operation: %s -> %s", moveReq.SourcePath, moveReq.NewSlug)
+	}
+	
+	// Determine if this is a move operation
+	isMove := moveReq.TargetPath != "" || moveToRoot
+	
+	log.Printf("Operation analysis: sourceBase=%s, sourceDir=%s, moveToRoot=%v", 
+		sourceBase, sourceDir, moveToRoot)
 
 	// Build the full source path
 	documentDir := filepath.Join(cfg.Wiki.RootDir, cfg.Wiki.DocumentsDir)
@@ -109,6 +125,10 @@ func MoveDocumentHandler(w http.ResponseWriter, r *http.Request, cfg *config.Con
 	var fullTargetPath string
 	var newPath string
 
+	// Log the request details for debugging
+	log.Printf("Move request: SourcePath=%s, TargetPath=%s, NewSlug=%s", moveReq.SourcePath, moveReq.TargetPath, moveReq.NewSlug)
+	log.Printf("Operation type: isRename=%v, isMove=%v", isRename, isMove)
+
 	if isRename && !isMove {
 		// Rename operation (change slug only)
 		parentDir := filepath.Dir(moveReq.SourcePath)
@@ -120,22 +140,63 @@ func MoveDocumentHandler(w http.ResponseWriter, r *http.Request, cfg *config.Con
 	} else if isMove && !isRename {
 		// Move operation (change path only)
 		sourceName := filepath.Base(moveReq.SourcePath)
-		newPath = filepath.Join(moveReq.TargetPath, sourceName)
+		
+		// Special case for moving to root
+		if moveReq.TargetPath == "" {
+			newPath = sourceName
+		} else {
+			newPath = filepath.Join(moveReq.TargetPath, sourceName)
+		}
+		
 		fullTargetPath = filepath.Join(documentDir, newPath)
 	} else if isMove && isRename {
 		// Both move and rename
-		newPath = filepath.Join(moveReq.TargetPath, moveReq.NewSlug)
+		
+		// Special case for moving to root
+		if moveReq.TargetPath == "" {
+			newPath = moveReq.NewSlug
+		} else {
+			newPath = filepath.Join(moveReq.TargetPath, moveReq.NewSlug)
+		}
+		
 		fullTargetPath = filepath.Join(documentDir, newPath)
 	} else {
 		// This case should not happen due to earlier validation
 		sendJSONResponse(w, false, "Either new slug or target path must be provided", http.StatusBadRequest, "", "")
 		return
 	}
+	
+	// Log the calculated paths
+	log.Printf("Calculated paths: newPath=%s, fullTargetPath=%s", newPath, fullTargetPath)
 
-	// Check if target already exists
-	if _, err := os.Stat(fullTargetPath); err == nil {
-		sendJSONResponse(w, false, "Target already exists", http.StatusConflict, "", "")
-		return
+	// Check if target already exists, but only if it's not the same as the source
+	// We need to check if the document.md file exists at the target path
+	targetDocPath := filepath.Join(fullTargetPath, "document.md")
+	
+	// Skip the check if the target is the same as the source (just in a different location)
+	// This allows moving a document to the root with the same name
+	if fullTargetPath != fullSourcePath {
+		if _, err := os.Stat(targetDocPath); err == nil {
+			// Check if this is a case-only rename (e.g., "test" to "Test")
+			sourceBaseLower := strings.ToLower(filepath.Base(moveReq.SourcePath))
+			targetBaseLower := strings.ToLower(moveReq.NewSlug)
+			
+			// If it's not a case-only rename, then it's a conflict
+			if sourceBaseLower != targetBaseLower || filepath.Dir(fullSourcePath) == filepath.Dir(fullTargetPath) {
+				sendJSONResponse(w, false, "A document already exists at the target location", http.StatusConflict, "", "")
+				return
+			}
+		}
+		
+		// Also check if the directory itself exists and is not empty
+		if info, err := os.Stat(fullTargetPath); err == nil && info.IsDir() {
+			// Check if the directory is empty
+			entries, err := os.ReadDir(fullTargetPath)
+			if err == nil && len(entries) > 0 {
+				sendJSONResponse(w, false, "Target directory already exists and is not empty", http.StatusConflict, "", "")
+				return
+			}
+		}
 	}
 
 	// Create target directory if it doesn't exist
@@ -145,8 +206,19 @@ func MoveDocumentHandler(w http.ResponseWriter, r *http.Request, cfg *config.Con
 		return
 	}
 
+	// Log paths for debugging
+	log.Printf("Moving document from %s to %s", fullSourcePath, fullTargetPath)
+	
+	// Check if source and target are the same
+	if fullSourcePath == fullTargetPath {
+		log.Printf("WARNING: Source and target paths are the same! This will cause an error.")
+		sendJSONResponse(w, false, "Source and target paths are the same", http.StatusBadRequest, "", "")
+		return
+	}
+	
 	// Move the document or category
 	if err := os.Rename(fullSourcePath, fullTargetPath); err != nil {
+		log.Printf("Error moving document: %v", err)
 		sendJSONResponse(w, false, "Failed to move: "+err.Error(), http.StatusInternalServerError, "", "")
 		return
 	}

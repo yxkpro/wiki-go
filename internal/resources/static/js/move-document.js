@@ -75,10 +75,23 @@ async function handleMoveDocumentSubmit(e) {
         return;
     }
 
-    // Extract the new slug from the target path
-    const pathParts = targetPath.split('/');
-    const newSlug = pathParts.pop();
-    const newPath = pathParts.join('/');
+    // Check if we're moving to the root or to another directory
+    let newSlug, newPath;
+    
+    // Special case: if we're moving from a category to the root
+    const sourceHasCategory = sourcePath.includes('/');
+    const movingToRoot = !targetPath.includes('/');
+    
+    if (targetPath.includes('/')) {
+        // Moving to another directory
+        const pathParts = targetPath.split('/');
+        newSlug = pathParts.pop();
+        newPath = pathParts.join('/');
+    } else {
+        // Moving to root
+        newSlug = targetPath;
+        newPath = '';
+    }
 
     try {
         const response = await fetch('/api/document/move', {

@@ -35,6 +35,7 @@ type VersionResponse struct {
 
 // Helper to send a JSON error response
 func sendJSONErrorVersion(w http.ResponseWriter, message string, statusCode int) {
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 	response := map[string]interface{}{
 		"success": false,

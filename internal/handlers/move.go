@@ -40,7 +40,11 @@ func MoveDocumentHandler(w http.ResponseWriter, r *http.Request, cfg *config.Con
 	// Check authentication
 	session := auth.GetSession(r)
 	if session == nil {
-		sendJSONResponse(w, false, "Authentication required", http.StatusUnauthorized, "", "")
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"success": false,
+			"message": "Unauthorized. Admin or editor access required.",
+		})
 		return
 	}
 

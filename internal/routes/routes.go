@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/fs"
 	"net/http"
@@ -190,7 +191,12 @@ func SetupRoutes(cfg *config.Config) {
 	adminMiddleware := func(next http.HandlerFunc) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
 			if !auth.RequireRole(r, "admin") {
-				http.Error(w, "Admin access required", http.StatusForbidden)
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(http.StatusForbidden)
+				json.NewEncoder(w).Encode(map[string]interface{}{
+					"success": false,
+					"message": "Admin access required",
+				})
 				return
 			}
 			next(w, r)
@@ -200,7 +206,12 @@ func SetupRoutes(cfg *config.Config) {
 	editorMiddleware := func(next http.HandlerFunc) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
 			if !auth.RequireRole(r, "editor") {
-				http.Error(w, "Editor access required", http.StatusForbidden)
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(http.StatusForbidden)
+				json.NewEncoder(w).Encode(map[string]interface{}{
+					"success": false,
+					"message": "Unauthorized. Admin or editor access required.",
+				})
 				return
 			}
 			next(w, r)

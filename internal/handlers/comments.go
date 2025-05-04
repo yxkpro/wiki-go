@@ -42,7 +42,12 @@ func AddCommentHandler(w http.ResponseWriter, r *http.Request) {
 	// Check if user is authenticated
 	session := auth.GetSession(r)
 	if session == nil {
-		sendJSONError(w, "Authentication required", http.StatusUnauthorized, "")
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"success": false,
+			"message": "Authentication required",
+		})
 		return
 	}
 
@@ -169,7 +174,12 @@ func DeleteCommentHandler(w http.ResponseWriter, r *http.Request) {
 	// Check if user is authenticated and has admin role
 	session := auth.GetSession(r)
 	if session == nil {
-		sendJSONError(w, "Authentication required", http.StatusUnauthorized, "")
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"success": false,
+			"message": "Authentication required",
+		})
 		return
 	}
 
@@ -202,8 +212,8 @@ func DeleteCommentHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Send success response
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(CommentResponse{
-		Success: true,
-		Message: "Comment deleted successfully",
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"success": true,
+		"message": "Comment deleted successfully",
 	})
 }

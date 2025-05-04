@@ -100,7 +100,12 @@ func UpdateWikiSettingsHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Validate the request
 	if req.Title == "" || req.Owner == "" || req.Notice == "" || req.Timezone == "" {
-		sendJSONError(w, "All fields are required", http.StatusBadRequest, "")
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"success": false,
+			"message": "All fields are required",
+		})
 		return
 	}
 
@@ -132,7 +137,8 @@ func UpdateWikiSettingsHandler(w http.ResponseWriter, r *http.Request) {
 	// Send success response
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]string{
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"success": true,
 		"message": "Settings updated successfully",
 	})
 }

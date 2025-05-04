@@ -12,6 +12,7 @@
             <button class="tab-button active" data-tab="general-tab">{{t "settings.general"}}</button>
             <button class="tab-button" data-tab="content-tab">{{t "settings.content"}}</button>
             <button class="tab-button" data-tab="users-tab">{{t "settings.users"}}</button>
+            <button class="tab-button" data-tab="import-tab">{{t "settings.import"}}</button>
         </div>
 
         <div class="tab-content">
@@ -119,6 +120,8 @@
                     </div>
                 </div>
             </div>
+            
+            {{template "import-tab" .}}
         </div>
     </div>
 </div>

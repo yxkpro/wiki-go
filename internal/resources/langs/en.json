@@ -39,6 +39,7 @@
   "settings.users": "Users",
   "settings.wiki": "Wiki",
   "settings.content": "Content",
+  "settings.import": "Import",
   "settings.language": "Interface Language",
   "settings.theme": "Theme",
   "settings.save_success": "Settings saved successfully",
@@ -167,5 +168,15 @@
   "docpicker.error_loading": "Error loading documents: {0}",
 
   "anchorpicker.search_placeholder": "Search headings...",
-  "anchorpicker.no_results": "No headings found."
+  "anchorpicker.no_results": "No headings found.",
+
+  "import.title": "Import Documents",
+  "import.description": "Import markdown files from a ZIP archive. Files will be processed and stored in the appropriate document structure.",
+  "import.select_zip": "Select ZIP Archive",
+  "import.zip_help": "Upload a ZIP file containing markdown (.md) files to import.",
+  "import.start_button": "Import",
+  "import.importing": "Importing...",
+  "import.results_title": "Import Results",
+  "import.success": "Import completed successfully.",
+  "import.error": "Import failed: {0}"
 }

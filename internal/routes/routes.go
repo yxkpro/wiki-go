@@ -353,6 +353,15 @@ func SetupRoutes(cfg *config.Config) {
 		handlers.ListDocumentsHandler(w, r, cfg)
 	})
 
+	// Import API - Admin only
+	mux.HandleFunc("/api/import", func(w http.ResponseWriter, r *http.Request) {
+		handlers.ImportHandler(w, r, cfg)
+	})
+
+	mux.HandleFunc("/api/import/status/", func(w http.ResponseWriter, r *http.Request) {
+		handlers.ImportStatusHandler(w, r, cfg)
+	})
+
 	// Login page
 	mux.HandleFunc("/login", handlers.LoginPageHandler)
 

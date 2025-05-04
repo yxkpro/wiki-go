@@ -189,6 +189,23 @@ func MoveDocumentHandler(w http.ResponseWriter, r *http.Request, cfg *config.Con
 		}
 	}
 
+	// Handle comments directory
+	commentsSourcePath := filepath.Join(cfg.Wiki.RootDir, "comments", moveReq.SourcePath)
+	commentsTargetPath := filepath.Join(cfg.Wiki.RootDir, "comments", newPath)
+
+	// Check if comments directory exists
+	if _, err := os.Stat(commentsSourcePath); err == nil {
+		// Create parent directory for comments if needed
+		if err := os.MkdirAll(filepath.Dir(commentsTargetPath), 0755); err != nil {
+			log.Printf("Warning: Failed to create comments target directory: %v", err)
+		} else {
+			// Move comments directory
+			if err := os.Rename(commentsSourcePath, commentsTargetPath); err != nil {
+				log.Printf("Warning: Failed to move comments directory: %v", err)
+			}
+		}
+	}
+
 	// Return success response with both old and new paths
 	sendJSONResponse(w, true, "Document moved successfully", http.StatusOK, newPath, moveReq.SourcePath)
 }

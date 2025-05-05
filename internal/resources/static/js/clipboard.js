@@ -1,14 +1,129 @@
 /**
  * Clipboard handling module for Wiki-Go
- * Enables pasting images from clipboard directly into the editor
+ * Enables pasting images from clipboard directly into the editor and URL link creation
  */
 
 // Main initialization function for clipboard handling
 function initClipboardHandling() {
-    console.log('Initializing clipboard handler at document level');
+    console.log('Initializing clipboard handler');
 
-    // Instead of attaching to CodeMirror directly, attach to document and filter
+    // Handle clipboard paste events at document level (for images)
     document.addEventListener('paste', documentPasteHandler);
+
+    // Add direct binding to CodeMirror textarea (for URL links)
+    setupDirectTextareaBinding();
+}
+
+/**
+ * Set up direct binding to CodeMirror textarea for URL pasting
+ */
+function setupDirectTextareaBinding() {
+    // Bind to any existing CodeMirror instances
+    bindToExistingCodeMirrors();
+
+    // Set up observer to detect new CodeMirror instances
+    const observer = new MutationObserver(mutations => {
+        for (const mutation of mutations) {
+            if (mutation.addedNodes.length) {
+                bindToExistingCodeMirrors();
+                break;
+            }
+        }
+    });
+
+    // Start observing the DOM for changes
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Check again after delays (for dynamically loaded editors)
+    setTimeout(bindToExistingCodeMirrors, 1000);
+    setTimeout(bindToExistingCodeMirrors, 2000);
+}
+
+/**
+ * Find and bind to CodeMirror textarea elements
+ */
+function bindToExistingCodeMirrors() {
+    // Find all CodeMirror textareas
+    const textareas = document.querySelectorAll('.CodeMirror textarea');
+    if (textareas.length === 0) {
+        return;
+    }
+
+    textareas.forEach(textarea => {
+        // Only bind once to each textarea
+        if (!textarea.hasAttribute('data-url-paste-bound')) {
+            // Add paste event listener with capture to get it before CodeMirror
+            textarea.addEventListener('paste', handleUrlPaste, true);
+
+            // Mark as bound
+            textarea.setAttribute('data-url-paste-bound', 'true');
+            console.log('URL paste handler bound to CodeMirror textarea');
+        }
+    });
+}
+
+/**
+ * Handle URL paste directly on the CodeMirror textarea
+ * @param {ClipboardEvent} event - The paste event
+ */
+function handleUrlPaste(event) {
+    // Find the CodeMirror instance
+    const cmElement = event.target.closest('.CodeMirror');
+    if (!cmElement || !cmElement.CodeMirror) {
+        return;
+    }
+
+    const editor = cmElement.CodeMirror;
+
+    // Check if text is selected
+    if (!editor.somethingSelected()) {
+        return;
+    }
+
+    // Get clipboard text
+    const clipboardText = event.clipboardData.getData('text/plain').trim();
+    if (!clipboardText) {
+        return; // Empty clipboard text
+    }
+
+    // Check if it looks like a URL (permissive check)
+    const looksLikeUrl = clipboardText.includes('//') ||
+                         clipboardText.includes('www.') ||
+                         clipboardText.includes('.') ||
+                         clipboardText.includes(':');
+
+    if (looksLikeUrl) {
+        // Prevent default paste behavior
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Get selected text
+        const selectedText = editor.getSelection();
+
+        // Check if the selection is multiline
+        const isMultiLine = selectedText.includes('\n');
+
+        if (isMultiLine) {
+            // For multiline selections, just replace with the URL
+            editor.replaceSelection(clipboardText);
+            console.log('Replaced multiline selection with URL');
+        } else {
+            // For single line selections, create a markdown link
+
+            // Format URL (add http:// if needed)
+            let url = clipboardText;
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'http://' + url;
+            }
+
+            // Create markdown link
+            const markdownLink = `[${selectedText}](${url})`;
+
+            // Replace selection with markdown link
+            editor.replaceSelection(markdownLink);
+            console.log('Created link:', markdownLink);
+        }
+    }
 }
 
 /**
@@ -30,21 +145,26 @@ async function documentPasteHandler(event) {
         return; // Not pasting in the editor, allow default behavior
     }
 
-    console.log('Paste event detected in editor');
-
-    // Handle paste event
-    await handlePaste(event);
+    // Handle paste event for images
+    await handleImagePaste(event);
 }
 
 /**
- * Handle paste events in the editor
+ * Handle image paste events in the editor
  * @param {ClipboardEvent} event - The paste event
  */
-async function handlePaste(event) {
+async function handleImagePaste(event) {
     // Check if there are any clipboard items
     if (!event.clipboardData || !event.clipboardData.items) {
         return;
     }
+
+    // Get the editor instance
+    const cmElement = document.querySelector('.CodeMirror');
+    if (!cmElement || !cmElement.CodeMirror) {
+        return;
+    }
+    const editor = cmElement.CodeMirror;
 
     // Look for images in clipboard data
     const items = event.clipboardData.items;
@@ -54,55 +174,38 @@ async function handlePaste(event) {
         if (items[i].type.startsWith('image/')) {
             // Found an image, get the file
             imageFile = items[i].getAsFile();
-            console.log('Found image in clipboard:', items[i].type);
             break;
         }
     }
 
     // If no image was found, allow default paste behavior
     if (!imageFile) {
-        console.log('No image found in clipboard, allowing default paste behavior');
         return;
     }
 
     // Prevent default paste behavior for images
     event.preventDefault();
-    console.log('Handling image paste, prevented default behavior');
 
     try {
         // Get the current document path
         const docPath = getCurrentDocPath();
-        console.log('Current document path:', docPath);
 
         // Generate a timestamp-based filename with the correct extension
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
         const extension = imageFile.type.split('/')[1] || 'png';
         const filename = `image-${timestamp}.${extension}`;
-        console.log('Generated filename:', filename);
 
         // Create FormData to upload the image
         const formData = new FormData();
         formData.append('file', imageFile, filename);
         formData.append('docPath', docPath);
 
-        // Get the editor instance - make sure we find the most current one
-        const cmElement = document.querySelector('.CodeMirror');
-        if (!cmElement) {
-            throw new Error('CodeMirror editor not found');
-        }
-        const editor = cmElement.CodeMirror;
-        if (!editor) {
-            throw new Error('CodeMirror instance not available');
-        }
-
         // Show a temporary loading message at cursor
         const loadingPlaceholder = `![Uploading ${filename}...]()`;
         const cursor = editor.getCursor();
         editor.replaceRange(loadingPlaceholder, cursor);
-        console.log('Added loading placeholder at cursor');
 
         // Upload the image
-        console.log('Uploading image to server...');
         const response = await fetch('/api/files/upload', {
             method: 'POST',
             body: formData
@@ -110,7 +213,6 @@ async function handlePaste(event) {
 
         // Process the response
         const data = await response.json();
-        console.log('Upload response:', data);
 
         // Find the position of the loading placeholder
         const text = editor.getValue();
@@ -159,14 +261,12 @@ async function handlePaste(event) {
     }
 }
 
-// Initialize clipboard handling just once when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    // Setup clipboard handling at the document level
-    initClipboardHandling();
-});
+// Initialize clipboard handling when the page loads
+document.addEventListener('DOMContentLoaded', initClipboardHandling);
 
 // Expose functions globally if needed
 window.ClipboardHandler = {
     init: initClipboardHandling,
-    handlePaste: handlePaste
+    handleUrlPaste: handleUrlPaste,
+    handleImagePaste: handleImagePaste
 };

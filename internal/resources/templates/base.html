@@ -3,6 +3,8 @@
 <head>
     <title>{{if .CurrentDir.Title}}{{if ne .CurrentDir.Path "/"}}{{.CurrentDir.Title}} - {{end}}{{.Config.Wiki.Title}}{{else}}{{.Config.Wiki.Title}}{{end}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="user-role" content="{{.UserRole}}">
+    <meta name="doc-path" content="{{.CurrentDir.Path}}">
     <!-- Favicons -->
     {{if hasFavicon .Config.Wiki.RootDir "ico"}}<link rel="icon" href="/static/favicon.ico" type="image/x-icon">{{end}}
     {{if hasFavicon .Config.Wiki.RootDir "svg"}}<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">{{end}}
@@ -227,5 +229,6 @@
 
     <!-- Clipboard paste handling -->
     <script src="/static/js/clipboard.js"></script>
+    <script src="/static/js/tasklist-live.js" defer></script>
 </body>
 </html>

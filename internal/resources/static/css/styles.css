@@ -2767,3 +2767,19 @@ tr:nth-child(even) {
         margin-left: 5px;
     }
 }
+
+/* Save state indicator for live checkbox editing */
+.save-state {
+    font-size: 0.8em;
+    margin-left: 7px;
+    color: var(--breadcrumb-color);
+    opacity: 1;
+}
+
+.save-state.saved {
+    color: var(--primary-color);
+}
+
+.save-state.error {
+    color: var(--danger-color);
+}

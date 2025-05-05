@@ -87,7 +87,7 @@
                             <i class="fa fa-pencil"></i>
                             <span class="button-text">{{t "common.edit"}}</span>
                         </button>
-                        
+
                         <!-- Admin-only buttons -->
                         <button class="toolbar-button admin-only-button settings-button" title="{{t "common.settings"}}" {{if eq .UserRole "admin"}}style="display: inline-flex !important"{{else}}style="display: none !important"{{end}}>
                             <i class="fa fa-cog"></i>
@@ -224,5 +224,8 @@
     <!-- Mermaid diagrams support (local version) -->
     <script src="/static/libs/mermaid-10.9.3/mermaid.min.js"></script>
     <script src="/static/js/mermaid-init.js"></script>
+
+    <!-- Clipboard paste handling -->
+    <script src="/static/js/clipboard.js"></script>
 </body>
 </html>

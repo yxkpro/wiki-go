@@ -306,10 +306,6 @@
     color: #aaa;
 }
 
-:root[data-theme="dark"] .editor-preview a {
-    color: #6bf;
-}
-
 :root[data-theme="dark"] .editor-preview h1,
 :root[data-theme="dark"] .editor-preview h2,
 :root[data-theme="dark"] .editor-preview h3,

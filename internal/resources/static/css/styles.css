@@ -2274,34 +2274,56 @@ tr:nth-child(even) {
 }
 
 /* ---------- Task List Styles ---------- */
-.task-list-item-container {
+.task-list-item-container,
+.markdown-content ul li:has(> input[type="checkbox"]),
+.editor-preview ul li:has(> input[type="checkbox"]),
+.version-content ul li:has(> input[type="checkbox"]) {
     display: block;
     position: relative;
     margin-bottom: 0.5rem;
+    list-style-type: none !important;
 }
 
 /* Nested task lists indentation */
-.task-list-item-container[data-indent-level="1"] {
+.task-list-item-container[data-indent-level="1"],
+.markdown-content ul ul li:has(> input[type="checkbox"]),
+.editor-preview ul ul li:has(> input[type="checkbox"]),
+.version-content ul ul li:has(> input[type="checkbox"]) {
     margin-left: 1.5rem;
 }
 
-.task-list-item-container[data-indent-level="2"] {
+.task-list-item-container[data-indent-level="2"],
+.markdown-content ul ul ul li:has(> input[type="checkbox"]),
+.editor-preview ul ul ul li:has(> input[type="checkbox"]),
+.version-content ul ul ul li:has(> input[type="checkbox"]) {
     margin-left: 3rem;
 }
 
-.task-list-item-container[data-indent-level="3"] {
+.task-list-item-container[data-indent-level="3"],
+.markdown-content ul ul ul ul li:has(> input[type="checkbox"]),
+.editor-preview ul ul ul ul li:has(> input[type="checkbox"]),
+.version-content ul ul ul ul li:has(> input[type="checkbox"]) {
     margin-left: 4.5rem;
 }
 
-.task-list-item-container[data-indent-level="4"] {
+.task-list-item-container[data-indent-level="4"],
+.markdown-content ul ul ul ul ul li:has(> input[type="checkbox"]),
+.editor-preview ul ul ul ul ul li:has(> input[type="checkbox"]),
+.version-content ul ul ul ul ul li:has(> input[type="checkbox"]) {
     margin-left: 6rem;
 }
 
-.task-list-item-container[data-indent-level="5"] {
+.task-list-item-container[data-indent-level="5"],
+.markdown-content ul ul ul ul ul ul li:has(> input[type="checkbox"]),
+.editor-preview ul ul ul ul ul ul li:has(> input[type="checkbox"]),
+.version-content ul ul ul ul ul ul li:has(> input[type="checkbox"]) {
     margin-left: 7.5rem;
 }
 
-.task-list-item {
+.task-list-item,
+.markdown-content li:has(> input[type="checkbox"]),
+.editor-preview li:has(> input[type="checkbox"]),
+.version-content li:has(> input[type="checkbox"]) {
     position: relative;
     line-height: 1.5;
     margin-bottom: 0.25rem;
@@ -2309,7 +2331,10 @@ tr:nth-child(even) {
     align-items: flex-start;
 }
 
-.task-checkbox {
+.task-checkbox,
+.markdown-content li input[type="checkbox"],
+.editor-preview li input[type="checkbox"],
+.version-content li input[type="checkbox"] {
     margin-right: 8px !important;
     margin-top: 4px !important;
     position: relative;
@@ -2333,22 +2358,34 @@ tr:nth-child(even) {
 }
 
 /* Styles for dark mode */
-:root[data-theme="dark"] .task-checkbox {
+:root[data-theme="dark"] .task-checkbox,
+:root[data-theme="dark"] .markdown-content li input[type="checkbox"],
+:root[data-theme="dark"] .editor-preview li input[type="checkbox"],
+:root[data-theme="dark"] .version-content li input[type="checkbox"] {
     border-color: #888;
     background-color: #333;
 }
 
-.task-checkbox:checked {
+.task-checkbox:checked,
+.markdown-content li input[type="checkbox"]:checked,
+.editor-preview li input[type="checkbox"]:checked,
+.version-content li input[type="checkbox"]:checked {
     border-color: #0366d6; /* GitHub-like blue */
     background-color: #0366d6;
 }
 
-:root[data-theme="dark"] .task-checkbox:checked {
+:root[data-theme="dark"] .task-checkbox:checked,
+:root[data-theme="dark"] .markdown-content li input[type="checkbox"]:checked,
+:root[data-theme="dark"] .editor-preview li input[type="checkbox"]:checked,
+:root[data-theme="dark"] .version-content li input[type="checkbox"]:checked {
     border-color: #58a6ff; /* Lighter blue for dark mode */
     background-color: #58a6ff;
 }
 
-.task-checkbox:checked::after {
+.task-checkbox:checked::after,
+.markdown-content li input[type="checkbox"]:checked::after,
+.editor-preview li input[type="checkbox"]:checked::after,
+.version-content li input[type="checkbox"]:checked::after {
     content: "";
     position: absolute;
     top: 1px;
@@ -2365,10 +2402,43 @@ tr:nth-child(even) {
     display: inline;
 }
 
+/* Remove bullet points from task lists */
+.markdown-content ul li:has(> input[type="checkbox"]),
+.editor-preview ul li:has(> input[type="checkbox"]),
+.version-content ul li:has(> input[type="checkbox"]) {
+    list-style-type: none !important;
+    margin-left: -1.5em;
+}
+
+.markdown-content ul ul li:has(> input[type="checkbox"]),
+.editor-preview ul ul li:has(> input[type="checkbox"]),
+.version-content ul ul li:has(> input[type="checkbox"]) {
+    margin-left: 0;
+}
+
+/* Fix margins and alignment for nested lists */
+.markdown-content ul:has(li > input[type="checkbox"]),
+.editor-preview ul:has(li > input[type="checkbox"]),
+.version-content ul:has(li > input[type="checkbox"]) {
+    padding-left: 1.5rem;
+}
+
 .task-list-item strong,
 .task-list-item a,
 .task-list-item em,
-.task-list-item code {
+.task-list-item code,
+.markdown-content li:has(> input[type="checkbox"]) strong,
+.markdown-content li:has(> input[type="checkbox"]) a,
+.markdown-content li:has(> input[type="checkbox"]) em,
+.markdown-content li:has(> input[type="checkbox"]) code,
+.editor-preview li:has(> input[type="checkbox"]) strong,
+.editor-preview li:has(> input[type="checkbox"]) a,
+.editor-preview li:has(> input[type="checkbox"]) em,
+.editor-preview li:has(> input[type="checkbox"]) code,
+.version-content li:has(> input[type="checkbox"]) strong,
+.version-content li:has(> input[type="checkbox"]) a,
+.version-content li:has(> input[type="checkbox"]) em,
+.version-content li:has(> input[type="checkbox"]) code {
     margin-left: 2px;
     margin-right: 2px;
 }

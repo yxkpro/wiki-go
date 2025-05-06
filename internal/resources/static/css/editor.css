@@ -493,6 +493,9 @@
     margin-bottom: 0.5em;
 }
 
+.editor-preview a          { color: var(--primary-color); text-decoration: none; }
+.editor-preview a:hover    { text-decoration: underline; }
+
 /* Table picker styles */
 .table-picker {
     position: fixed;

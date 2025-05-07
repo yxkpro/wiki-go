@@ -373,10 +373,11 @@ func SetupRoutes(cfg *config.Config) {
 		handlers.ImportStatusHandler(w, r, cfg)
 	})
 
+	// Utility API endpoints
+	mux.HandleFunc("/api/utils/slugify", handlers.SlugifyHandler)
+
 	// Login page
 	mux.HandleFunc("/login", handlers.LoginPageHandler)
-
-
 
 	// Home page and other pages
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {

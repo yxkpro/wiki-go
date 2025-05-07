@@ -719,6 +719,8 @@ func isContentTypeCompatible(detected, expected string, fileContent []byte, file
 		return detected == "image/png"
 	case "image/gif":
 		return detected == "image/gif"
+	case "image/webp":
+		return detected == "image/webp"
 	case "application/pdf":
 		return detected == "application/pdf"
 	case "text/plain":

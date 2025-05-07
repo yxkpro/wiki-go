@@ -330,15 +330,25 @@ body.has-password-warning .hamburger {
 .nav-item a {
     color: var(--text-color);
     text-decoration: none;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 4px 8px;
     border-radius: 4px;
     transition: all 0.2s ease;
+    position: relative;
+    gap: 6px;
 }
 
 .nav-item a:hover {
     background-color: var(--hover-bg);
     color: var(--primary-color);
+}
+
+/* Arrow indicator */
+.nav-arrow {
+    opacity: 0.6;
+    font-size: 0.85em;
 }
 
 /* ---------- Search ---------- */

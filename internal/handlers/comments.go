@@ -130,6 +130,17 @@ func GetCommentsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Authentication: Require login if the wiki is private
+	if !auth.RequireAuth(r, cfg) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"success": false,
+			"message": "Authentication required",
+		})
+		return
+	}
+
 	// Get the document path from the request
 	docPath := strings.TrimPrefix(r.URL.Path, "/api/comments/")
 	if docPath == "" {

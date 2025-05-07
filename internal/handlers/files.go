@@ -315,6 +315,16 @@ func ListFilesHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config
 		return
 	}
 
+	// Authentication: Require login if the wiki is private
+	if !auth.RequireAuth(r, cfg) {
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(FileResponse{
+			Success: false,
+			Message: "Unauthorized. Please log in to access files.",
+		})
+		return
+	}
+
 	// Get the document path from the URL
 	path := strings.TrimPrefix(r.URL.Path, "/api/files/list")
 
@@ -525,6 +535,12 @@ func ServeFileHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config
 	// Only allow GET method
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Authentication: Require login if the wiki is private
+	if !auth.RequireAuth(r, cfg) {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}
 

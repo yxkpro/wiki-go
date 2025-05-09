@@ -10,25 +10,25 @@
     {{if hasFavicon .Config.Wiki.RootDir "svg"}}<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">{{end}}
     {{if hasFavicon .Config.Wiki.RootDir "png"}}<link rel="icon" href="/static/favicon.png" type="image/png">{{end}}
     <!-- Prevent theme flash - load these scripts first -->
-    <script src="/static/js/debug-toggle.js"></script>
-    <script src="/static/js/utilities.js"></script>
-    <script src="/static/js/theme-manager.js"></script>
+    <script src="/static/js/debug-toggle.js?={{getVersion}}"></script>
+    <script src="/static/js/utilities.js?={{getVersion}}"></script>
+    <script src="/static/js/theme-manager.js?={{getVersion}}"></script>
     <!-- File extensions configuration -->
-    <script src="/static/js/file-extensions.js"></script>
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <link rel="stylesheet" href="/static/css/markdown-extensions.css">
-    <link rel="stylesheet" href="/static/css/stats.css">
-    <link rel="stylesheet" href="/static/css/comments.css">
-    <link rel="stylesheet" href="/static/css/import.css">
+    <script src="/static/js/file-extensions.js?={{getVersion}}"></script>
+    <link rel="stylesheet" href="/static/css/styles.css?={{getVersion}}">
+    <link rel="stylesheet" href="/static/css/markdown-extensions.css?={{getVersion}}">
+    <link rel="stylesheet" href="/static/css/stats.css?={{getVersion}}">
+    <link rel="stylesheet" href="/static/css/comments.css?={{getVersion}}">
+    <link rel="stylesheet" href="/static/css/import.css?={{getVersion}}">
     <link id="prism-theme" rel="stylesheet" href="/static/libs/prism-1.30.0/prism-tomorrow.min.css">
     <!-- Replace EasyMDE with CodeMirror -->
     <link rel="stylesheet" href="/static/libs/codemirror-5.65.18/codemirror.min.css">
     <link rel="stylesheet" href="/static/libs/codemirror-5.65.18/theme/darcula.min.css">
-    <link rel="stylesheet" href="/static/css/editor.css">
+    <link rel="stylesheet" href="/static/css/editor.css?={{getVersion}}">
     <link rel="stylesheet" href="/static/libs/fontawesome-4.7.0/css/fontawesome.min.css">
-    <link rel="stylesheet" href="/static/css/print.css" media="print">
-    <link rel="stylesheet" href="/static/custom.css">
-    <script src="/static/js/markdown-extensions.js"></script>
+    <link rel="stylesheet" href="/static/css/print.css?={{getVersion}}" media="print">
+    <link rel="stylesheet" href="/static/custom.css?={{getVersion}}">
+    <script src="/static/js/markdown-extensions.js?={{getVersion}}"></script>
     <!-- CodeMirror Scripts -->
     <script src="/static/libs/codemirror-5.65.18/codemirror.min.js"></script>
     <script src="/static/libs/codemirror-5.65.18/mode/markdown.min.js"></script>
@@ -196,41 +196,41 @@
         <div class="search-results-content"></div>
     </div>
 
-    <script src="/static/js/dialog-system.js"></script>
-    <script src="/static/js/sidebar-navigation.js"></script>
-    <script src="/static/js/file-utilities.js"></script>
-    <script src="/static/js/file-upload.js"></script>
-    <script src="/static/js/version-history.js"></script>
-    <script src="/static/js/auth.js"></script>
-    <script src="/static/js/slugify.js"></script>
-    <script src="/static/js/document-management.js"></script>
-    <script src="/static/js/copy-button.js"></script>
-    <script src="/static/js/settings-manager.js"></script>
-    <script src="/static/js/keyboard-shortcuts.js"></script>
-    <script src="/static/js/app-init.js"></script>
-    <script src="/static/js/editor.js"></script>
-    <script src="/static/js/search.js"></script>
-    <script src="/static/js/move-document.js"></script>
-    <script src="/static/js/import-manager.js"></script>
-    <script src="/static/js/i18n.js"></script>
+    <script src="/static/js/dialog-system.js?={{getVersion}}"></script>
+    <script src="/static/js/sidebar-navigation.js?={{getVersion}}"></script>
+    <script src="/static/js/file-utilities.js?={{getVersion}}"></script>
+    <script src="/static/js/file-upload.js?={{getVersion}}"></script>
+    <script src="/static/js/version-history.js?={{getVersion}}"></script>
+    <script src="/static/js/auth.js?={{getVersion}}"></script>
+    <script src="/static/js/slugify.js?={{getVersion}}"></script>
+    <script src="/static/js/document-management.js?={{getVersion}}"></script>
+    <script src="/static/js/copy-button.js?={{getVersion}}"></script>
+    <script src="/static/js/settings-manager.js?={{getVersion}}"></script>
+    <script src="/static/js/keyboard-shortcuts.js?={{getVersion}}"></script>
+    <script src="/static/js/app-init.js?={{getVersion}}"></script>
+    <script src="/static/js/editor.js?={{getVersion}}"></script>
+    <script src="/static/js/search.js?={{getVersion}}"></script>
+    <script src="/static/js/move-document.js?={{getVersion}}"></script>
+    <script src="/static/js/import-manager.js?={{getVersion}}"></script>
+    <script src="/static/js/i18n.js?={{getVersion}}"></script>
     {{if not .Config.Wiki.DisableComments}}
-    <script src="/static/js/comments.js"></script>
+    <script src="/static/js/comments.js?={{getVersion}}"></script>
     {{end}}
 
     <!-- Code syntax highlighting -->
     <script src="/static/libs/prism-1.30.0/prism.min.js"></script>
-    <script src="/static/js/prism-init.js"></script>
+    <script src="/static/js/prism-init.js?={{getVersion}}"></script>
 
     <!-- Math equations support -->
-    <script src="/static/js/mathjax-init.js"></script>
+    <script src="/static/js/mathjax-init.js?={{getVersion}}"></script>
     <script src="/static/libs/mathjax-3.2.2/tex-mml-chtml.js"></script>
 
     <!-- Mermaid diagrams support (local version) -->
     <script src="/static/libs/mermaid-10.9.3/mermaid.min.js"></script>
-    <script src="/static/js/mermaid-init.js"></script>
+    <script src="/static/js/mermaid-init.js?={{getVersion}}"></script>
 
     <!-- Clipboard paste handling -->
-    <script src="/static/js/clipboard.js"></script>
-    <script src="/static/js/tasklist-live.js" defer></script>
+    <script src="/static/js/clipboard.js?={{getVersion}}"></script>
+    <script src="/static/js/tasklist-live.js?={{getVersion}}" defer></script>
 </body>
 </html>

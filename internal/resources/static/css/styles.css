@@ -347,8 +347,20 @@ body.has-password-warning .hamburger {
 
 /* Arrow indicator */
 .nav-arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: solid currentColor;
+    border-width: 0 2px 2px 0;
+    padding: 4px;
+    transform: rotate(-45deg);
     opacity: 0.6;
-    font-size: 0.85em;
+    transition: transform 0.2s ease;
+}
+
+/* Rotate arrow down when directory is expanded (active) */
+.nav-item.active > a .nav-arrow {
+    transform: rotate(45deg);
 }
 
 /* ---------- Search ---------- */

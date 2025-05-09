@@ -4,7 +4,7 @@
             <a href="{{.Path}}">
                 {{.Title}}
                 {{/* Show arrow if this item is a directory and has children */}}
-                {{if and .IsDir (gt (len .Children) 0)}}<i class="fa fa-angle-right nav-arrow" aria-hidden="true"></i>{{end}}
+                {{if and .IsDir (gt (len .Children) 0)}}<span class="nav-arrow" aria-hidden="true"></span>{{end}}
             </a>
             {{if and .IsDir .Children .IsActive}}
                 <div class="nav-children" style="padding-left: 16px;">

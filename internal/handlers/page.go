@@ -58,7 +58,7 @@ func PageHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config) {
 	// Check if path exists
 	info, err := os.Stat(fsPath)
 	if err != nil || !info.IsDir() {
-		http.NotFound(w, r)
+		NotFoundHandler(w, r, cfg)
 		return
 	}
 
@@ -149,7 +149,7 @@ func PageHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config) {
 	// Get authentication status - do this for ALL pages
 	session := auth.GetSession(r)
 	isAuthenticated = session != nil
-	
+
 	// Get user role
 	userRole := ""
 	if isAuthenticated && session != nil {

@@ -226,10 +226,15 @@ wiki:
     language: %s
 security:
     login_ban:
+        # Enable protection against brute force login attacks
         enabled: %t
+        # Number of failed attempts before triggering a ban
         max_failures: %d
+        # Time window in seconds for counting failures
         window_seconds: %d
+        # Duration in seconds for the first ban
         initial_ban_seconds: %d
+        # Maximum ban duration in seconds (24 hours)
         max_ban_seconds: %d
 users:
 %s`

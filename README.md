@@ -254,6 +254,18 @@ users:
     - username: admin
       password: <bcrypt-hashed-password>
       is_admin: true
+security:
+    login_ban:
+        # Enable protection against brute force login attacks
+        enabled: true
+        # Number of failed attempts before triggering a ban
+        max_failures: 3
+        # Time window in seconds for counting failures
+        window_seconds: 30
+        # Duration in seconds for the first ban
+        initial_ban_seconds: 60
+        # Maximum ban duration in seconds (24 hours)
+        max_ban_seconds: 86400
 ```
 
 ### Customization
@@ -325,6 +337,7 @@ It's recommended to change these credentials immediately after first login.
 ## Security
 
 - **Authentication**: User authentication with secure password hashing
+- **Login Rate Limiting**: Protection against brute force attacks with temporary IP bans after multiple failed attempts
 - **Private Mode**: Optional private wiki mode requiring login
 - **Admin Controls**: Separate admin privileges for content management
 

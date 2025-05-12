@@ -26,6 +26,29 @@
         initTouchGestures();
     });
 
+    // Refresh sidebar content
+    async function refreshSidebar() {
+        if (!sidebar) return;
+
+        try {
+            const response = await fetch(window.location.pathname);
+            const text = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/html');
+            const newSidebar = doc.querySelector('.nav-items');
+
+            if (newSidebar) {
+                const navItems = sidebar.querySelector('.nav-items');
+                if (navItems) {
+                    navItems.innerHTML = newSidebar.innerHTML;
+                    initSidebarLinks(); // Reinitialize click handlers
+                }
+            }
+        } catch (error) {
+            console.error('Error refreshing sidebar:', error);
+        }
+    }
+
     // Hamburger menu toggle
     function initHamburgerMenu() {
         if (!hamburger) return;
@@ -39,7 +62,7 @@
     // Click outside to close
     function initClickOutside() {
         document.addEventListener('click', function(e) {
-            if (sidebar && 
+            if (sidebar &&
                 sidebar.classList.contains('active') &&
                 !sidebar.contains(e.target) &&
                 !hamburger.contains(e.target)) {
@@ -51,7 +74,7 @@
     // Links inside sidebar - close sidebar on mobile when clicked
     function initSidebarLinks() {
         if (!sidebar) return;
-        
+
         sidebar.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', function() {
                 if (window.innerWidth <= 768) {
@@ -78,7 +101,7 @@
     // Process swipe gestures
     function handleSwipe() {
         if (!sidebar) return;
-        
+
         const swipeDistance = touchEndX - touchStartX;
 
         // Right swipe (open sidebar)
@@ -126,6 +149,7 @@
     window.SidebarNavigation = {
         toggleSidebar: toggleSidebar,
         openSidebar: openSidebar,
-        closeSidebar: closeSidebar
+        closeSidebar: closeSidebar,
+        refreshSidebar: refreshSidebar
     };
 })();

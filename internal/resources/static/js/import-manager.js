@@ -231,6 +231,11 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             resultsHtml += '</ul>';
+
+            // Refresh the sidebar to show new content
+            if (window.SidebarNavigation && window.SidebarNavigation.refreshSidebar) {
+                window.SidebarNavigation.refreshSidebar();
+            }
         }
 
         if (data.errors && data.errors.length) {

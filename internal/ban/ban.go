@@ -35,11 +35,11 @@ import (
 //
 //
 // Exponential ban growth stops at 24 h to avoid absurd lock-out times.
-const (
-    thresholdFails     = 3                     // allowed failures inside window
-    windowDuration     = 30 * time.Second      // observation window
-    initialBanDuration = 1 * time.Minute       // first ban length
-    maxBanDuration     = 24 * time.Hour        // upper bound for exponential growth
+var (
+    thresholdFails     = 3                    // allowed failures inside window
+    windowDuration     = 30 * time.Second     // observation window
+    initialBanDuration = 1 * time.Minute      // first ban length
+    maxBanDuration     = 24 * time.Hour       // upper bound for exponential growth
 )
 
 type Attempt struct {
@@ -162,10 +162,13 @@ func (b *BanList) RegisterFailure(key string) (time.Duration, bool) {
         at.BanUntil = now.Unix() + at.BanLen
         at.Fails = 0
         at.FirstFail = 0
+
+        b.persistAsync()
+        return time.Duration(at.BanLen) * time.Second, true
     }
 
     b.persistAsync()
-    return time.Duration(at.BanLen) * time.Second, true
+    return 0, false
 }
 
 // Clear removes ban/failure information for the key (called after successful login).
@@ -197,4 +200,21 @@ func (b *BanList) persistAsync() {
         f.Close()
         _ = os.Rename(tmp, path) // atomic on POSIX
     }(snapshot, b.filePath)
+}
+
+// UpdatePolicy allows overriding the default login ban policy at runtime.
+// Provide zero or negative values to keep current ones.
+func UpdatePolicy(maxFails, windowSec, initialSec, maxSec int) {
+    if maxFails > 0 {
+        thresholdFails = maxFails
+    }
+    if windowSec > 0 {
+        windowDuration = time.Duration(windowSec) * time.Second
+    }
+    if initialSec > 0 {
+        initialBanDuration = time.Duration(initialSec) * time.Second
+    }
+    if maxSec > 0 {
+        maxBanDuration = time.Duration(maxSec) * time.Second
+    }
 }

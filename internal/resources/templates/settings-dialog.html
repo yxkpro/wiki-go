@@ -12,6 +12,7 @@
             <button class="tab-button active" data-tab="general-tab">{{t "settings.general"}}</button>
             <button class="tab-button" data-tab="content-tab">{{t "settings.content"}}</button>
             <button class="tab-button" data-tab="users-tab">{{t "settings.users"}}</button>
+            <button class="tab-button" data-tab="security-tab">{{t "settings.security"}}</button>
             <button class="tab-button" data-tab="import-tab">{{t "settings.import"}}</button>
         </div>
 
@@ -120,7 +121,35 @@
                     </div>
                 </div>
             </div>
-            
+            <div id="security-tab" class="tab-pane">
+                <form class="settings-form" id="securitySettingsForm">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="loginBanEnabled" name="loginBanEnabled">
+                        <label for="loginBanEnabled">{{t "settings.login_ban_enabled"}}</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginBanMaxFailures">{{t "settings.login_ban_max_failures"}}</label>
+                        <input type="number" id="loginBanMaxFailures" name="loginBanMaxFailures" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginBanWindow">{{t "settings.login_ban_window"}}</label>
+                        <input type="number" id="loginBanWindow" name="loginBanWindow" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginBanInitial">{{t "settings.login_ban_initial"}}</label>
+                        <input type="number" id="loginBanInitial" name="loginBanInitial" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginBanMax">{{t "settings.login_ban_max"}}</label>
+                        <input type="number" id="loginBanMax" name="loginBanMax" min="1" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="dialog-button primary">{{t "common.save"}}</button>
+                        <button type="button" class="dialog-button cancel-settings">{{t "common.cancel"}}</button>
+                    </div>
+                </form>
+            </div>
+
             {{template "import-tab" .}}
         </div>
     </div>

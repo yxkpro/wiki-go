@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const cancelSettingsButtons = settingsDialog.querySelectorAll('.cancel-settings');
     const generalSettingsForm = document.getElementById('wikiSettingsForm');
     const contentSettingsForm = document.getElementById('contentSettingsForm');
+    const securitySettingsForm = document.getElementById('securitySettingsForm');
     const settingsErrorMessage = settingsDialog.querySelector('.error-message');
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabPanes = document.querySelectorAll('.tab-pane');
@@ -149,6 +150,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Handle security settings form submission
+    if (securitySettingsForm) {
+        securitySettingsForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            await saveSecuritySettings();
+        });
+    }
+
     // Save settings function
     async function saveSettings() {
         const result = collectAllSettings();
@@ -268,6 +277,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 firstTabButton.classList.add('active');
                 firstTabPane.classList.add('active');
             }
+
+            // Another request for security
+            try {
+                const secResp = await fetch('/api/settings/security');
+                if (secResp.ok) {
+                    const sec = await secResp.json();
+                    document.getElementById('loginBanEnabled').checked = sec.login_ban.enabled;
+                    document.getElementById('loginBanMaxFailures').value = sec.login_ban.max_failures;
+                    document.getElementById('loginBanWindow').value = sec.login_ban.window_seconds;
+                    document.getElementById('loginBanInitial').value = sec.login_ban.initial_ban_seconds;
+                    document.getElementById('loginBanMax').value = sec.login_ban.max_ban_seconds;
+                }
+            } catch (e) {}
         } catch (error) {
             console.error('Error loading settings:', error);
             alert('Failed to load settings');
@@ -360,15 +382,15 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get roles with fallback for backward compatibility
             const roleA = a.role || (a.is_admin ? 'admin' : 'viewer');
             const roleB = b.role || (b.is_admin ? 'admin' : 'viewer');
-            
+
             // Define role priority (admin > editor > viewer)
             const rolePriority = { 'admin': 0, 'editor': 1, 'viewer': 2 };
-            
+
             // Sort by role priority first
             if (rolePriority[roleA] !== rolePriority[roleB]) {
                 return rolePriority[roleA] - rolePriority[roleB];
             }
-            
+
             // If same role, sort alphabetically
             return a.username.localeCompare(b.username);
         });
@@ -377,16 +399,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const isCurrentUser = user.username === currentUsername;
             // Get role with fallback for backward compatibility
             const role = user.role || (user.is_admin ? 'admin' : 'viewer');
-            
+
             // Get role display name
             let roleDisplay = role.charAt(0).toUpperCase() + role.slice(1);
             if (window.i18n && window.i18n.t) {
                 roleDisplay = window.i18n.t(`users.role_${role}`);
             }
-            
+
             // Set role badge class based on role
             const roleBadgeClass = `role-badge role-${role}`;
-            
+
             return `
                 <div class="user-item" data-username="${user.username}">
                     <div class="user-info">
@@ -469,7 +491,7 @@ document.addEventListener('DOMContentLoaded', function() {
         passwordInput.value = '';
         passwordHelp.style.display = 'block';
         passwordInput.required = false;
-        
+
         // Set the role dropdown value
         if (user.role) {
             userRoleSelect.value = user.role;
@@ -635,6 +657,38 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error('Error fetching settings:', error);
+        }
+    }
+
+    // Function to save security settings
+    async function saveSecuritySettings() {
+        const payload = {
+            login_ban: {
+                enabled: document.getElementById('loginBanEnabled').checked,
+                max_failures: parseInt(document.getElementById('loginBanMaxFailures').value, 10) || 3,
+                window_seconds: parseInt(document.getElementById('loginBanWindow').value, 10) || 30,
+                initial_ban_seconds: parseInt(document.getElementById('loginBanInitial').value, 10) || 60,
+                max_ban_seconds: parseInt(document.getElementById('loginBanMax').value, 10) || 86400
+            }
+        };
+
+        try {
+            const resp = await fetch('/api/settings/security', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (resp.ok) {
+                // reload to apply new policy without restart
+                window.location.reload();
+            } else {
+                settingsErrorMessage.textContent = 'Failed to save security settings';
+                settingsErrorMessage.style.display = 'block';
+            }
+        } catch (e) {
+            console.error(e);
+            settingsErrorMessage.textContent = 'Error saving security settings';
+            settingsErrorMessage.style.display = 'block';
         }
     }
 

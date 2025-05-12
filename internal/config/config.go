@@ -61,6 +61,15 @@ type Config struct {
 		Language                  string `yaml:"language"`        // Default language for the wiki
 	} `yaml:"wiki"`
 	Users []User `yaml:"users"`
+	Security struct {
+		LoginBan struct {
+			Enabled           bool `yaml:"enabled"`
+			MaxFailures       int  `yaml:"max_failures"`
+			WindowSeconds     int  `yaml:"window_seconds"`
+			InitialBanSeconds int  `yaml:"initial_ban_seconds"`
+			MaxBanSeconds     int  `yaml:"max_ban_seconds"`
+		} `yaml:"login_ban"`
+	} `yaml:"security"`
 }
 
 // LoadConfig loads the configuration from a YAML file
@@ -86,6 +95,13 @@ func LoadConfig(path string) (*Config, error) {
 	config.Wiki.MaxUploadSize = 10 // Default value
 	config.Wiki.Language = "en"    // Default to English
 	config.Users = []User{}        // Initialize empty users array
+
+	// Security defaults
+	config.Security.LoginBan.Enabled = true
+	config.Security.LoginBan.MaxFailures = 3
+	config.Security.LoginBan.WindowSeconds = 30
+	config.Security.LoginBan.InitialBanSeconds = 60
+	config.Security.LoginBan.MaxBanSeconds = 86400 // 24h
 
 	// Read config file
 	data, err := os.ReadFile(path)
@@ -140,6 +156,11 @@ func LoadConfig(path string) (*Config, error) {
 				config.Wiki.MaxVersions,
 				config.Wiki.MaxUploadSize,
 				config.Wiki.Language,
+				config.Security.LoginBan.Enabled,
+				config.Security.LoginBan.MaxFailures,
+				config.Security.LoginBan.WindowSeconds,
+				config.Security.LoginBan.InitialBanSeconds,
+				config.Security.LoginBan.MaxBanSeconds,
 				usersStr.String(),
 			)
 
@@ -203,6 +224,13 @@ wiki:
     max_upload_size: %d
     # Default language for the wiki interface (en, es, etc.)
     language: %s
+security:
+    login_ban:
+        enabled: %t
+        max_failures: %d
+        window_seconds: %d
+        initial_ban_seconds: %d
+        max_ban_seconds: %d
 users:
 %s`
 }
@@ -245,6 +273,11 @@ func SaveConfig(cfg *Config, w io.Writer) error {
 		cfg.Wiki.MaxVersions,
 		cfg.Wiki.MaxUploadSize,
 		cfg.Wiki.Language,
+		cfg.Security.LoginBan.Enabled,
+		cfg.Security.LoginBan.MaxFailures,
+		cfg.Security.LoginBan.WindowSeconds,
+		cfg.Security.LoginBan.InitialBanSeconds,
+		cfg.Security.LoginBan.MaxBanSeconds,
 		usersStr.String(),
 	)
 

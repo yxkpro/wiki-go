@@ -128,17 +128,20 @@
                 window.location.reload();
             } else {
                 let msg = window.i18n ? window.i18n.t('login.error') : 'Invalid username or password';
-                try {
-                    const data = await response.json();
-                    if (data && data.message) {
-                        msg = data.message;
-                        if (data.retryAfter) {
-                            msg += ` (retry in ${data.retryAfter}s)`;
+
+                if (response.status === 429) {
+                    try {
+                        const data = await response.json();
+                        if (data && data.message) {
+                            msg = data.message;
+                            if (data.retryAfter) {
+                                const retryTxt = window.i18n ? window.i18n.t('login.retry_in') : 'retry in';
+                                msg += ` (${retryTxt} ${data.retryAfter}s)`;
+                            }
                         }
-                    }
-                } catch (e) {
-                    // ignore JSON parse errors
+                    } catch (e) {}
                 }
+
                 errorMessage.textContent = msg;
                 errorMessage.style.display = 'block';
             }

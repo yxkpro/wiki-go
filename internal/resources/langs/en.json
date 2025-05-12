@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "Disable File Upload Checking",
   "settings.private_wiki": "Private wiki (requires login to view)",
   "settings.disable_comments": "Disable comments system-wide",
+  "settings.security": "Security",
+  "settings.login_ban_enabled": "Enable Login Ban (brute-force protection)",
+  "settings.login_ban_max_failures": "Max Failures Before Ban",
+  "settings.login_ban_window": "Window (seconds)",
+  "settings.login_ban_initial": "Initial Ban (seconds)",
+  "settings.login_ban_max": "Max Ban (seconds)",
 
   "users.title": "User Management",
   "users.add_new": "Add New User",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "Keep me logged in (30 days)",
   "login.button": "Login",
   "login.error": "Invalid username or password",
+  "login.ban": "Too many failed logins; try again later",
+  "login.retry_in": "retry in",
 
   "new_doc.title": "Create New Document",
   "new_doc.document_title": "Document Title",

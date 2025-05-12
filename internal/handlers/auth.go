@@ -242,6 +242,19 @@ func CheckDefaultPasswordHandler(w http.ResponseWriter, r *http.Request) {
 
 // InitLoginBan initialises IP banning using cfg.Wiki.RootDir/temp/login_ban.json.
 func InitLoginBan(cfg *config.Config) {
+	if !cfg.Security.LoginBan.Enabled {
+		loginBan = nil
+		return
+	}
+
+	// Apply policy overrides from config
+	ban.UpdatePolicy(
+		cfg.Security.LoginBan.MaxFailures,
+		cfg.Security.LoginBan.WindowSeconds,
+		cfg.Security.LoginBan.InitialBanSeconds,
+		cfg.Security.LoginBan.MaxBanSeconds,
+	)
+
 	path := filepath.Join(cfg.Wiki.RootDir, "temp", "login_ban.json")
 	bl, err := ban.NewBanList(path)
 	if err != nil {

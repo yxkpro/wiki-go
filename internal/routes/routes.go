@@ -328,6 +328,7 @@ func SetupRoutes(cfg *config.Config) {
 
 	// Settings API - Admin only
 	mux.HandleFunc("/api/settings/wiki", adminMiddleware(handlers.WikiSettingsHandler))
+	mux.HandleFunc("/api/settings/security", adminMiddleware(handlers.SecuritySettingsHandler))
 
 	// User Management API - Admin only
 	mux.HandleFunc("/api/users", adminMiddleware(handlers.UsersHandler))

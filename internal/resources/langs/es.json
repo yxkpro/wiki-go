@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "Buscar encabezados...",
   "anchorpicker.no_results": "No se encontraron encabezados.",
 
-  "import.title": "Importar Documentos",
   "import.description": "Importar archivos markdown desde un archivo ZIP. Los archivos serán procesados y almacenados en la estructura de documentos apropiada. La estructura de directorios en el ZIP (categoría/subcategoría) se conservará en la wiki.",
   "import.select_zip": "Seleccionar Archivo ZIP",
   "import.zip_help": "Sube un archivo ZIP que contenga archivos markdown (.md) para importar.",

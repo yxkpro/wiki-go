@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "חיפוש כותרות...",
   "anchorpicker.no_results": "לא נמצאו כותרות.",
 
-  "import.title": "ייבוא מסמכים",
   "import.description": "ייבוא קבצי מרקדאון מארכיון ZIP. הקבצים יעובדו ויאוחסנו במבנה המסמכים המתאים. מבנה התיקיות ב-ZIP (קטגוריה/תת-קטגוריה) יישמר בוויקי.",
   "import.select_zip": "בחר ארכיון ZIP",
   "import.zip_help": "העלה קובץ ZIP המכיל קבצי מרקדאון (.md) לייבוא.",

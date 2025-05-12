@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "Søk etter overskrifter...",
   "anchorpicker.no_results": "Ingen overskrifter funnet.",
 
-  "import.title": "Importer dokumenter",
   "import.description": "Importer markdown-filer fra et ZIP-arkiv. Filene vil bli behandlet og lagret i den passende dokumentstrukturen. Mappestrukturen i ZIP-filen (kategori/underkategori) vil bli bevart i wikien.",
   "import.select_zip": "Velg ZIP-arkiv",
   "import.zip_help": "Last opp en ZIP-fil som inneholder markdown (.md) filer for import.",

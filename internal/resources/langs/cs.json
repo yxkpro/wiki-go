@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "Hledat nadpisy...",
   "anchorpicker.no_results": "Nenalezeny žádné nadpisy.",
 
-  "import.title": "Import dokumentů",
   "import.description": "Import markdown souborů ze ZIP archivu. Soubory budou zpracovány a uloženy v příslušné struktuře dokumentů. Struktura adresářů v ZIP archivu (kategorie/podkategorie) bude zachována ve wiki.",
   "import.select_zip": "Vybrat ZIP archiv",
   "import.zip_help": "Nahrajte ZIP soubor obsahující markdown (.md) soubory k importu.",

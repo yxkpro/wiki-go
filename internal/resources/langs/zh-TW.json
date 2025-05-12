@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "搜尋標題...",
   "anchorpicker.no_results": "未找到標題。",
 
-  "import.title": "匯入文件",
   "import.description": "從ZIP封存檔匯入Markdown檔案。檔案將被處理並儲存在適當的文件結構中。ZIP中的目錄結構（類別/子類別）將在wiki中保留。",
   "import.select_zip": "選擇ZIP封存檔",
   "import.zip_help": "上傳包含要匯入的Markdown（.md）檔案的ZIP檔案。",

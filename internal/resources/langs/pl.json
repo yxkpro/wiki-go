@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "Szukaj nagłówków...",
   "anchorpicker.no_results": "Nie znaleziono nagłówków.",
 
-  "import.title": "Importuj dokumenty",
   "import.description": "Importuj pliki markdown z archiwum ZIP. Pliki zostaną przetworzone i zapisane w odpowiedniej strukturze dokumentów. Struktura katalogów w ZIP (kategoria/podkategoria) zostanie zachowana w wiki.",
   "import.select_zip": "Wybierz archiwum ZIP",
   "import.zip_help": "Prześlij plik ZIP zawierający pliki markdown (.md) do zaimportowania.",

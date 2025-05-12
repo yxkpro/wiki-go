@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "Koppen zoeken...",
   "anchorpicker.no_results": "Geen koppen gevonden.",
 
-  "import.title": "Documenten importeren",
   "import.description": "Importeer markdown-bestanden uit een ZIP-archief. Bestanden worden verwerkt en opgeslagen in de juiste documentstructuur. De mapstructuur in de ZIP (categorie/subcategorie) blijft behouden in de wiki.",
   "import.select_zip": "ZIP-archief selecteren",
   "import.zip_help": "Upload een ZIP-bestand met markdown (.md) bestanden om te importeren.",

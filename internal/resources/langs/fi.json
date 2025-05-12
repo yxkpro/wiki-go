@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "Hae otsikoita...",
   "anchorpicker.no_results": "Otsikoita ei löytynyt.",
 
-  "import.title": "Tuo dokumentteja",
   "import.description": "Tuo markdown-tiedostoja ZIP-arkistosta. Tiedostot käsitellään ja tallennetaan asianmukaiseen dokumenttirakenteeseen. ZIP-tiedoston hakemistorakenne (kategoria/alakategoria) säilytetään wikissä.",
   "import.select_zip": "Valitse ZIP-arkisto",
   "import.zip_help": "Lataa ZIP-tiedosto, joka sisältää tuotavia markdown-tiedostoja (.md).",

@@ -1414,7 +1414,7 @@ tr:nth-child(even) {
 /* Custom checkbox styling */
 .checkbox-group {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 10px;
     margin-bottom: 16px;
     position: relative;
@@ -1432,7 +1432,7 @@ tr:nth-child(even) {
     position: relative;
     padding-left: 28px;
     cursor: pointer;
-    display: inline-block;
+    display: block;
     margin-bottom: 0;
     user-select: none;
     font-weight: normal;

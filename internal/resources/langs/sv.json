@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "Sök rubriker...",
   "anchorpicker.no_results": "Inga rubriker hittades.",
 
-  "import.title": "Importera dokument",
   "import.description": "Importera markdown-filer från ett ZIP-arkiv. Filerna kommer att bearbetas och lagras i lämplig dokumentstruktur. Katalogstrukturen i ZIP-filen (kategori/underkategori) kommer att bevaras i wikin.",
   "import.select_zip": "Välj ZIP-arkiv",
   "import.zip_help": "Ladda upp en ZIP-fil som innehåller markdown (.md) filer för import.",

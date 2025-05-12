@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "Überschriften durchsuchen...",
   "anchorpicker.no_results": "Keine Überschriften gefunden.",
 
-  "import.title": "Dokumente importieren",
   "import.description": "Markdown-Dateien aus einem ZIP-Archiv importieren. Dateien werden verarbeitet und in der entsprechenden Dokumentstruktur gespeichert. Die Verzeichnisstruktur in der ZIP-Datei (Kategorie/Unterkategorie) wird im Wiki beibehalten.",
   "import.select_zip": "ZIP-Archiv auswählen",
   "import.zip_help": "Laden Sie eine ZIP-Datei hoch, die Markdown-Dateien (.md) zum Importieren enthält.",

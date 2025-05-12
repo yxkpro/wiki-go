@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "搜索标题...",
   "anchorpicker.no_results": "未找到标题。",
 
-  "import.title": "导入文档",
   "import.description": "从ZIP归档文件导入Markdown文件。文件将被处理并存储在适当的文档结构中。ZIP中的目录结构（类别/子类别）将在wiki中保留。",
   "import.select_zip": "选择ZIP归档",
   "import.zip_help": "上传包含要导入的Markdown（.md）文件的ZIP文件。",

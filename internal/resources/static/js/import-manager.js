@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const file = importZipFile.files[0];
-        
+
         // Validate file type
         if (!file.name.toLowerCase().endsWith('.zip')) {
             showImportError('Please select a valid ZIP file');
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             // Show progress UI
             showImportProgress();
-            
+
             // Start the import process
             const response = await fetch('/api/import', {
                 method: 'POST',
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const data = await response.json();
-            
+
             // Get the job status URL
             if (data.statusUrl) {
                 // Poll for status updates
@@ -99,16 +99,16 @@ document.addEventListener('DOMContentLoaded', function() {
     async function pollImportStatus(statusUrl) {
         try {
             const response = await fetch(statusUrl);
-            
+
             if (!response.ok) {
                 throw new Error('Failed to get import status');
             }
-            
+
             const data = await response.json();
-            
+
             // Update progress
             updateImportProgress(data);
-            
+
             // If import is still in progress, poll again after a delay
             if (data.status === 'processing') {
                 setTimeout(() => pollImportStatus(statusUrl), 1000);
@@ -133,19 +133,19 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function updateImportProgress(data) {
         if (!data) return;
-        
+
         const progress = data.progress || 0;
-        
+
         // Update progress bar
         if (importProgressBar) {
             importProgressBar.style.width = `${progress}%`;
         }
-        
+
         // Update progress text
         if (importProgressText) {
             importProgressText.textContent = `${progress}%`;
         }
-        
+
         // Update progress details
         if (importProgressDetails && data.currentFile) {
             importProgressDetails.textContent = `Processing: ${data.currentFile}`;
@@ -160,15 +160,15 @@ document.addEventListener('DOMContentLoaded', function() {
             importButton.disabled = true;
             importButton.textContent = window.i18n ? window.i18n.t('import.importing') : 'Importing...';
         }
-        
+
         if (importZipFile) {
             importZipFile.disabled = true;
         }
-        
+
         if (importProgressContainer) {
             importProgressContainer.style.display = 'block';
         }
-        
+
         // Hide results if they were previously shown
         if (importResults) {
             importResults.style.display = 'none';
@@ -183,25 +183,25 @@ document.addEventListener('DOMContentLoaded', function() {
             importButton.disabled = false;
             importButton.textContent = window.i18n ? window.i18n.t('import.start_button') : 'Import';
         }
-        
+
         if (importZipFile) {
             importZipFile.disabled = false;
         }
-        
+
         if (importProgressContainer) {
             importProgressContainer.style.display = 'none';
         }
-        
+
         // Reset progress bar
         if (importProgressBar) {
             importProgressBar.style.width = '0%';
         }
-        
+
         // Reset progress text
         if (importProgressText) {
             importProgressText.textContent = '0%';
         }
-        
+
         // Reset progress details
         if (importProgressDetails) {
             importProgressDetails.textContent = '';
@@ -214,40 +214,39 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function showImportResults(data) {
         resetImportProgress();
-        
+
         if (!importResults || !importResultsContent) return;
-        
+
         // Show results container
         importResults.style.display = 'block';
-        
+
         // Build results HTML
         let resultsHtml = '';
-        
+
         if (data.importedFiles && data.importedFiles.length) {
-            resultsHtml += '<h5>Imported Files:</h5>';
             resultsHtml += '<ul class="imported-files-list">';
-            
+
             data.importedFiles.forEach(file => {
                 resultsHtml += `<li>${file.originalPath} → <a href="${file.newPath}" target="_blank">${file.newPath}</a></li>`;
             });
-            
+
             resultsHtml += '</ul>';
         }
-        
+
         if (data.errors && data.errors.length) {
             resultsHtml += '<h5>Errors:</h5>';
             resultsHtml += '<ul class="import-errors-list">';
-            
+
             data.errors.forEach(error => {
                 resultsHtml += `<li>${error}</li>`;
             });
-            
+
             resultsHtml += '</ul>';
         }
-        
+
         // Add summary
         resultsHtml += `<p class="import-summary">Successfully imported ${data.successCount || 0} files with ${data.errorCount || 0} errors.</p>`;
-        
+
         // Update results content
         importResultsContent.innerHTML = resultsHtml;
     }
@@ -258,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function showImportError(message) {
         const errorMessage = document.querySelector('.settings-dialog .error-message');
-        
+
         if (errorMessage) {
             errorMessage.textContent = message;
             errorMessage.style.display = 'block';
@@ -275,20 +274,20 @@ document.addEventListener('DOMContentLoaded', function() {
         if (importForm) {
             importForm.reset();
         }
-        
+
         resetImportProgress();
-        
+
         // Hide results
         if (importResults) {
             importResults.style.display = 'none';
         }
-        
+
         // Clear error message
         const errorMessage = document.querySelector('.settings-dialog .error-message');
         if (errorMessage) {
             errorMessage.style.display = 'none';
         }
-        
+
         // Disable import button
         if (importButton) {
             importButton.disabled = true;

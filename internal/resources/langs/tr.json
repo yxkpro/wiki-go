@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "Başlıklarda ara...",
   "anchorpicker.no_results": "Başlık bulunamadı.",
 
-  "import.title": "Belgeleri İçe Aktar",
   "import.description": "ZIP arşivinden markdown dosyalarını içe aktarın. Dosyalar işlenecek ve uygun belge yapısında saklanacaktır. ZIP'teki dizin yapısı (kategori/alt kategori) wiki'de korunacaktır.",
   "import.select_zip": "ZIP Arşivi Seç",
   "import.zip_help": "İçe aktarılacak markdown (.md) dosyaları içeren bir ZIP dosyası yükleyin.",

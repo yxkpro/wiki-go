@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "Cerca intestazioni...",
   "anchorpicker.no_results": "Nessuna intestazione trovata.",
 
-  "import.title": "Importa Documenti",
   "import.description": "Importa file markdown da un archivio ZIP. I file verranno elaborati e archiviati nella struttura di documenti appropriata. La struttura delle directory nel ZIP (categoria/sottocategoria) sarà preservata nel wiki.",
   "import.select_zip": "Seleziona Archivio ZIP",
   "import.zip_help": "Carica un file ZIP contenente file markdown (.md) da importare.",

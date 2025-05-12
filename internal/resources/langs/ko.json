@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "제목 검색...",
   "anchorpicker.no_results": "제목을 찾을 수 없습니다.",
 
-  "import.title": "문서 가져오기",
   "import.description": "ZIP 아카이브에서 마크다운 파일을 가져옵니다. 파일은 처리되어 적절한 문서 구조에 저장됩니다. ZIP의 디렉토리 구조(카테고리/하위 카테고리)는 위키에서 유지됩니다.",
   "import.select_zip": "ZIP 아카이브 선택",
   "import.zip_help": "가져올 마크다운(.md) 파일이 포함된 ZIP 파일을 업로드하세요.",

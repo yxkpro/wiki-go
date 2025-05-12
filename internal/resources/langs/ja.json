@@ -178,7 +178,6 @@
   "anchorpicker.search_placeholder": "見出しを検索...",
   "anchorpicker.no_results": "見出しが見つかりませんでした。",
 
-  "import.title": "文書をインポート",
   "import.description": "ZIPアーカイブからMarkdownファイルをインポートします。ファイルは処理され、適切な文書構造に保存されます。ZIP内のディレクトリ構造（カテゴリ/サブカテゴリ）はウィキ内で保持されます。",
   "import.select_zip": "ZIPアーカイブを選択",
   "import.zip_help": "インポートするMarkdown（.md）ファイルを含むZIPファイルをアップロードしてください。",

@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "Inaktivera kontroll av filuppladdning",
   "settings.private_wiki": "Privat wiki (kräver inloggning för att visa)",
   "settings.disable_comments": "Inaktivera kommentarer för hela systemet",
+  "settings.security": "Säkerhet",
+  "settings.login_ban_enabled": "Aktivera inloggningsspärr (skydd mot brutala angrepp)",
+  "settings.login_ban_max_failures": "Max antal misslyckade försök innan spärr",
+  "settings.login_ban_window": "Tidsfönster (sekunder)",
+  "settings.login_ban_initial": "Initial spärrtid (sekunder)",
+  "settings.login_ban_max": "Maximal spärrtid (sekunder)",
 
   "users.title": "Användarhantering",
   "users.add_new": "Lägg till ny användare",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "Håll mig inloggad (30 dagar)",
   "login.button": "Logga in",
   "login.error": "Ogiltigt användarnamn eller lösenord",
+  "login.ban": "För många misslyckade inloggningsförsök; försök igen senare",
+  "login.retry_in": "försök igen om",
 
   "new_doc.title": "Skapa nytt dokument",
   "new_doc.document_title": "Dokumenttitel",

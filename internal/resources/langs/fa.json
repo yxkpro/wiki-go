@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "غیرفعال کردن بررسی بارگذاری فایل",
   "settings.private_wiki": "ویکی خصوصی (نیاز به ورود برای مشاهده)",
   "settings.disable_comments": "غیرفعال کردن نظرات در سراسر سیستم",
+  "settings.security": "امنیت",
+  "settings.login_ban_enabled": "فعال کردن مسدودسازی ورود (محافظت در برابر حملات بروت فورس)",
+  "settings.login_ban_max_failures": "حداکثر تلاش‌های ناموفق قبل از مسدودسازی",
+  "settings.login_ban_window": "پنجره زمانی (ثانیه)",
+  "settings.login_ban_initial": "مسدودسازی اولیه (ثانیه)",
+  "settings.login_ban_max": "حداکثر زمان مسدودسازی (ثانیه)",
 
   "users.title": "مدیریت کاربران",
   "users.add_new": "افزودن کاربر جدید",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "مرا به خاطر بسپار (۳۰ روز)",
   "login.button": "ورود",
   "login.error": "نام کاربری یا رمز عبور نامعتبر است",
+  "login.ban": "تلاش‌های ناموفق زیاد برای ورود؛ لطفاً بعداً دوباره امتحان کنید",
+  "login.retry_in": "تلاش مجدد در",
 
   "new_doc.title": "ایجاد سند جدید",
   "new_doc.document_title": "عنوان سند",

@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "Deaktiver kontrol af filupload",
   "settings.private_wiki": "Privat wiki (kræver login for at se)",
   "settings.disable_comments": "Deaktiver kommentarer systembredt",
+  "settings.security": "Sikkerhed",
+  "settings.login_ban_enabled": "Aktiver login-blokering (beskyttelse mod brute-force)",
+  "settings.login_ban_max_failures": "Maks. mislykkede forsøg før blokering",
+  "settings.login_ban_window": "Tidsvindue (sekunder)",
+  "settings.login_ban_initial": "Indledende blokering (sekunder)",
+  "settings.login_ban_max": "Maks. blokeringstid (sekunder)",
 
   "users.title": "Brugerstyring",
   "users.add_new": "Tilføj ny bruger",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "Hold mig logget ind (30 dage)",
   "login.button": "Log ind",
   "login.error": "Ugyldigt brugernavn eller adgangskode",
+  "login.ban": "For mange mislykkede login-forsøg; prøv igen senere",
+  "login.retry_in": "prøv igen om",
 
   "new_doc.title": "Opret nyt dokument",
   "new_doc.document_title": "Dokumenttitel",

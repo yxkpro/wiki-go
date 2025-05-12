@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "Vypnout kontrolu nahrávaných souborů",
   "settings.private_wiki": "Soukromá wiki (vyžaduje přihlášení pro zobrazení)",
   "settings.disable_comments": "Vypnout komentáře v celém systému",
+  "settings.security": "Zabezpečení",
+  "settings.login_ban_enabled": "Povolit blokování přihlášení (ochrana proti útokům hrubou silou)",
+  "settings.login_ban_max_failures": "Maximum neúspěšných pokusů před blokováním",
+  "settings.login_ban_window": "Časové okno (sekundy)",
+  "settings.login_ban_initial": "Počáteční doba blokování (sekundy)",
+  "settings.login_ban_max": "Maximální doba blokování (sekundy)",
 
   "users.title": "Správa uživatelů",
   "users.add_new": "Přidat nového uživatele",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "Zůstat přihlášen (30 dní)",
   "login.button": "Přihlásit se",
   "login.error": "Neplatné uživatelské jméno nebo heslo",
+  "login.ban": "Příliš mnoho neúspěšných přihlášení; zkuste to později",
+  "login.retry_in": "zkuste znovu za",
 
   "new_doc.title": "Vytvořit nový dokument",
   "new_doc.document_title": "Název dokumentu",

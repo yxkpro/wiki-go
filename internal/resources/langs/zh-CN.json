@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "禁用文件上传检查",
   "settings.private_wiki": "私有维基（需要登录才能查看）",
   "settings.disable_comments": "全系统禁用评论",
+  "settings.security": "安全",
+  "settings.login_ban_enabled": "启用登录禁止（防暴力破解保护）",
+  "settings.login_ban_max_failures": "禁止前最大失败次数",
+  "settings.login_ban_window": "时间窗口（秒）",
+  "settings.login_ban_initial": "初始禁止时间（秒）",
+  "settings.login_ban_max": "最大禁止时间（秒）",
 
   "users.title": "用户管理",
   "users.add_new": "添加新用户",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "保持登录状态（30天）",
   "login.button": "登录",
   "login.error": "用户名或密码无效",
+  "login.ban": "登录失败次数过多；请稍后再试",
+  "login.retry_in": "请在此时间后重试",
 
   "new_doc.title": "创建新文档",
   "new_doc.document_title": "文档标题",

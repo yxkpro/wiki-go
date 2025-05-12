@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "Disabilita controllo caricamento file",
   "settings.private_wiki": "Wiki privato (login richiesto per visualizzare)",
   "settings.disable_comments": "Disattiva i commenti a livello di sistema",
+  "settings.security": "Sicurezza",
+  "settings.login_ban_enabled": "Abilita blocco di accesso (protezione contro attacchi brute-force)",
+  "settings.login_ban_max_failures": "Numero massimo di tentativi falliti prima del blocco",
+  "settings.login_ban_window": "Finestra temporale (secondi)",
+  "settings.login_ban_initial": "Blocco iniziale (secondi)",
+  "settings.login_ban_max": "Blocco massimo (secondi)",
 
   "users.title": "Gestione Utenti",
   "users.add_new": "Aggiungi Nuovo Utente",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "Mantieni l'accesso (30 giorni)",
   "login.button": "Accedi",
   "login.error": "Nome utente o password non validi",
+  "login.ban": "Troppi tentativi di accesso falliti; riprova più tardi",
+  "login.retry_in": "riprova tra",
 
   "new_doc.title": "Crea Nuovo Documento",
   "new_doc.document_title": "Titolo Documento",

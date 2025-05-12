@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "Dateiupload-Überprüfung deaktivieren",
   "settings.private_wiki": "Privates Wiki (Anmeldung zum Anzeigen erforderlich)",
   "settings.disable_comments": "Kommentare systemweit deaktivieren",
+  "settings.security": "Sicherheit",
+  "settings.login_ban_enabled": "Anmeldesperre aktivieren (Brute-Force-Schutz)",
+  "settings.login_ban_max_failures": "Maximale Fehlversuche vor Sperre",
+  "settings.login_ban_window": "Zeitfenster (Sekunden)",
+  "settings.login_ban_initial": "Anfängliche Sperrdauer (Sekunden)",
+  "settings.login_ban_max": "Maximale Sperrdauer (Sekunden)",
 
   "users.title": "Benutzerverwaltung",
   "users.add_new": "Neuen Benutzer hinzufügen",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "Angemeldet bleiben (30 Tage)",
   "login.button": "Anmelden",
   "login.error": "Ungültiger Benutzername oder Passwort",
+  "login.ban": "Zu viele fehlgeschlagene Anmeldeversuche; versuchen Sie es später erneut",
+  "login.retry_in": "erneut versuchen in",
 
   "new_doc.title": "Neues Dokument erstellen",
   "new_doc.document_title": "Dokumenttitel",

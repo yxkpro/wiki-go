@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "تعطيل فحص ملفات التحميل",
   "settings.private_wiki": "ويكي خاص (يتطلب تسجيل الدخول للعرض)",
   "settings.disable_comments": "تعطيل التعليقات على مستوى النظام",
+  "settings.security": "الأمان",
+  "settings.login_ban_enabled": "تفعيل حظر تسجيل الدخول (حماية من محاولات الاختراق)",
+  "settings.login_ban_max_failures": "الحد الأقصى للمحاولات الفاشلة قبل الحظر",
+  "settings.login_ban_window": "النافذة الزمنية (ثوان)",
+  "settings.login_ban_initial": "مدة الحظر المبدئية (ثوان)",
+  "settings.login_ban_max": "الحد الأقصى لمدة الحظر (ثوان)",
 
   "users.title": "إدارة المستخدمين",
   "users.add_new": "إضافة مستخدم جديد",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "أبقني متصلاً (30 يوماً)",
   "login.button": "تسجيل الدخول",
   "login.error": "اسم مستخدم أو كلمة مرور غير صالحة",
+  "login.ban": "محاولات تسجيل دخول فاشلة كثيرة؛ حاول مرة أخرى لاحقاً",
+  "login.retry_in": "أعد المحاولة بعد",
 
   "new_doc.title": "إنشاء مستند جديد",
   "new_doc.document_title": "عنوان المستند",

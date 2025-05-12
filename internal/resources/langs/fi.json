@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "Poista tiedostojen latauksen tarkistus käytöstä",
   "settings.private_wiki": "Yksityinen wiki (vaatii kirjautumisen katseluun)",
   "settings.disable_comments": "Poista kommentit käytöstä koko järjestelmässä",
+  "settings.security": "Turvallisuus",
+  "settings.login_ban_enabled": "Ota käyttöön kirjautumisesto (suojaus brute-force-hyökkäyksiltä)",
+  "settings.login_ban_max_failures": "Epäonnistuneiden yritysten enimmäismäärä ennen estoa",
+  "settings.login_ban_window": "Aikaikkuna (sekuntia)",
+  "settings.login_ban_initial": "Alustava estoaika (sekuntia)",
+  "settings.login_ban_max": "Enimmäisestoaika (sekuntia)",
 
   "users.title": "Käyttäjähallinta",
   "users.add_new": "Lisää uusi käyttäjä",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "Pidä minut kirjautuneena (30 päivää)",
   "login.button": "Kirjaudu sisään",
   "login.error": "Virheellinen käyttäjätunnus tai salasana",
+  "login.ban": "Liian monta epäonnistunutta kirjautumisyritystä; yritä myöhemmin uudelleen",
+  "login.retry_in": "yritä uudelleen",
 
   "new_doc.title": "Luo uusi dokumentti",
   "new_doc.document_title": "Dokumentin otsikko",

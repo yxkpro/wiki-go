@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "ファイルアップロードチェックを無効化",
   "settings.private_wiki": "プライベートWiki（閲覧にはログインが必要）",
   "settings.disable_comments": "システム全体でコメントを無効にする",
+  "settings.security": "セキュリティ",
+  "settings.login_ban_enabled": "ログイン禁止を有効にする（ブルートフォース保護）",
+  "settings.login_ban_max_failures": "禁止前の最大失敗回数",
+  "settings.login_ban_window": "ウィンドウ（秒）",
+  "settings.login_ban_initial": "初期禁止（秒）",
+  "settings.login_ban_max": "最大禁止（秒）",
 
   "users.title": "ユーザー管理",
   "users.add_new": "新規ユーザーを追加",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "ログイン状態を保持する（30日間）",
   "login.button": "ログイン",
   "login.error": "ユーザー名またはパスワードが無効です",
+  "login.ban": "ログイン失敗が多すぎます。後でもう一度お試しください",
+  "login.retry_in": "再試行まで",
 
   "new_doc.title": "新規文書を作成",
   "new_doc.document_title": "文書タイトル",

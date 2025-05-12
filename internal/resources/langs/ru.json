@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "Отключить проверку загружаемых файлов",
   "settings.private_wiki": "Приватная вики (требуется вход для просмотра)",
   "settings.disable_comments": "Отключить комментарии во всей системе",
+  "settings.security": "Безопасность",
+  "settings.login_ban_enabled": "Включить блокировку входа (защита от брутфорса)",
+  "settings.login_ban_max_failures": "Максимальное количество неудачных попыток до блокировки",
+  "settings.login_ban_window": "Временное окно (секунды)",
+  "settings.login_ban_initial": "Начальная блокировка (секунды)",
+  "settings.login_ban_max": "Максимальная блокировка (секунды)",
 
   "users.title": "Управление пользователями",
   "users.add_new": "Добавить нового пользователя",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "Оставаться в системе (30 дней)",
   "login.button": "Вход",
   "login.error": "Неверное имя пользователя или пароль",
+  "login.ban": "Слишком много неудачных попыток входа; попробуйте позже",
+  "login.retry_in": "повторите через",
 
   "new_doc.title": "Создать новый документ",
   "new_doc.document_title": "Заголовок документа",

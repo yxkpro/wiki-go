@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "Dosya yükleme kontrolünü devre dışı bırak",
   "settings.private_wiki": "Özel wiki (görüntülemek için giriş gerekli)",
   "settings.disable_comments": "Sistem genelinde yorumları devre dışı bırak",
+  "settings.security": "Güvenlik",
+  "settings.login_ban_enabled": "Giriş Engellemesini Etkinleştir (brute-force koruması)",
+  "settings.login_ban_max_failures": "Engellemeden Önce Maksimum Başarısız Deneme",
+  "settings.login_ban_window": "Zaman Penceresi (saniye)",
+  "settings.login_ban_initial": "İlk Engelleme Süresi (saniye)",
+  "settings.login_ban_max": "Maksimum Engelleme Süresi (saniye)",
 
   "users.title": "Kullanıcı Yönetimi",
   "users.add_new": "Yeni Kullanıcı Ekle",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "Oturumu açık tut (30 gün)",
   "login.button": "Giriş",
   "login.error": "Geçersiz kullanıcı adı veya şifre",
+  "login.ban": "Çok fazla başarısız giriş denemesi; daha sonra tekrar deneyin",
+  "login.retry_in": "tekrar deneyin",
 
   "new_doc.title": "Yeni Belge Oluştur",
   "new_doc.document_title": "Belge Başlığı",

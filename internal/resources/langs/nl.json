@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "Bestandsupload-controle uitschakelen",
   "settings.private_wiki": "Privé wiki (inloggen vereist om te bekijken)",
   "settings.disable_comments": "Reactiesysteem uitschakelen voor de hele site",
+  "settings.security": "Beveiliging",
+  "settings.login_ban_enabled": "Inlogverbod inschakelen (brute-force bescherming)",
+  "settings.login_ban_max_failures": "Max. mislukkingen voor verbod",
+  "settings.login_ban_window": "Tijdsvenster (seconden)",
+  "settings.login_ban_initial": "Initieel verbod (seconden)",
+  "settings.login_ban_max": "Max. verbod (seconden)",
 
   "users.title": "Gebruikersbeheer",
   "users.add_new": "Nieuwe gebruiker toevoegen",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "Ingelogd blijven (30 dagen)",
   "login.button": "Inloggen",
   "login.error": "Ongeldige gebruikersnaam of wachtwoord",
+  "login.ban": "Te veel mislukte inlogpogingen; probeer het later opnieuw",
+  "login.retry_in": "probeer opnieuw over",
 
   "new_doc.title": "Nieuw document aanmaken",
   "new_doc.document_title": "Documenttitel",

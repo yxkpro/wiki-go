@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "Désactiver la vérification des téléchargements de fichiers",
   "settings.private_wiki": "Wiki privé (connexion requise pour visualiser)",
   "settings.disable_comments": "Désactiver les commentaires à l'échelle du système",
+  "settings.security": "Sécurité",
+  "settings.login_ban_enabled": "Activer le blocage de connexion (protection contre les attaques par force brute)",
+  "settings.login_ban_max_failures": "Nombre maximal d'échecs avant blocage",
+  "settings.login_ban_window": "Fenêtre de temps (secondes)",
+  "settings.login_ban_initial": "Blocage initial (secondes)",
+  "settings.login_ban_max": "Blocage maximal (secondes)",
 
   "users.title": "Gestion des utilisateurs",
   "users.add_new": "Ajouter un nouvel utilisateur",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "Rester connecté (30 jours)",
   "login.button": "Connexion",
   "login.error": "Nom d'utilisateur ou mot de passe invalide",
+  "login.ban": "Trop de tentatives de connexion échouées; réessayez plus tard",
+  "login.retry_in": "réessayer dans",
 
   "new_doc.title": "Créer un nouveau document",
   "new_doc.document_title": "Titre du document",

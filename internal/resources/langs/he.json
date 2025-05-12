@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "השבת בדיקת העלאת קבצים",
   "settings.private_wiki": "ויקי פרטי (דורש התחברות לצפייה)",
   "settings.disable_comments": "השבת תגובות בכל המערכת",
+  "settings.security": "אבטחה",
+  "settings.login_ban_enabled": "הפעל חסימת התחברות (הגנה מפני התקפות כוח)",
+  "settings.login_ban_max_failures": "מספר כישלונות מקסימלי לפני חסימה",
+  "settings.login_ban_window": "חלון זמן (שניות)",
+  "settings.login_ban_initial": "חסימה ראשונית (שניות)",
+  "settings.login_ban_max": "חסימה מקסימלית (שניות)",
 
   "users.title": "ניהול משתמשים",
   "users.add_new": "הוסף משתמש חדש",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "השאר אותי מחובר (30 ימים)",
   "login.button": "התחברות",
   "login.error": "שם משתמש או סיסמה שגויים",
+  "login.ban": "יותר מדי ניסיונות התחברות כושלים; נסה שוב מאוחר יותר",
+  "login.retry_in": "נסה שוב בעוד",
 
   "new_doc.title": "יצירת מסמך חדש",
   "new_doc.document_title": "כותרת מסמך",

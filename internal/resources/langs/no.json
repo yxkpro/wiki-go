@@ -55,6 +55,12 @@
   "settings.disable_file_upload_checking": "Deaktiver filtype-sjekking",
   "settings.private_wiki": "Privat wiki (krever innlogging for å se)",
   "settings.disable_comments": "Deaktiver kommentarer for hele systemet",
+  "settings.security": "Sikkerhet",
+  "settings.login_ban_enabled": "Aktiver påloggingsbegrensning (beskyttelse mot brute-force)",
+  "settings.login_ban_max_failures": "Maks. antall mislykkede forsøk før utestengelse",
+  "settings.login_ban_window": "Tidsvindu (sekunder)",
+  "settings.login_ban_initial": "Første utestengelse (sekunder)",
+  "settings.login_ban_max": "Maksimal utestengelse (sekunder)",
 
   "users.title": "Brukerstyring",
   "users.add_new": "Legg til ny bruker",
@@ -116,6 +122,8 @@
   "login.keep_logged_in": "Hold meg innlogget (30 dager)",
   "login.button": "Logg inn",
   "login.error": "Ugyldig brukernavn eller passord",
+  "login.ban": "For mange mislykkede påloggingsforsøk; prøv igjen senere",
+  "login.retry_in": "prøv igjen om",
 
   "new_doc.title": "Opprett nytt dokument",
   "new_doc.document_title": "Dokumenttittel",

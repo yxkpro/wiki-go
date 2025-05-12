@@ -1,6 +1,7 @@
 package config
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"os"
@@ -158,6 +159,15 @@ func LoadConfig(path string) (*Config, error) {
 		return nil, err
 	}
 
+	// Ensure the on-disk configuration includes every setting present in the current template.
+	// This will rewrite the file ONLY when new settings have been introduced that are not
+	// present in the user's existing config.yaml. The user's current values will be
+	// preserved because we first unmarshalled them into the config struct above before
+	// regenerating the file via the template.
+	if err := ensureCompleteConfig(path, config, data); err != nil {
+		return nil, err
+	}
+
 	// Migrate user roles from is_admin to role - this is now done in main.go
 
 	return config, nil
@@ -240,4 +250,32 @@ func SaveConfig(cfg *Config, w io.Writer) error {
 
 	_, err := w.Write([]byte(configData))
 	return err
+}
+
+// ensureCompleteConfig regenerates the configuration file using the current template and
+// writes it back to disk ONLY if the newly rendered file differs from what already exists.
+// This means that when new settings are added to the application template, running the app
+// once will automatically add them to an existing config.yaml while preserving the user's
+// current values for existing settings.
+func ensureCompleteConfig(path string, cfg *Config, original []byte) error {
+	var buf bytes.Buffer
+	if err := SaveConfig(cfg, &buf); err != nil {
+		return err
+	}
+
+	newData := buf.Bytes()
+
+	// If the generated configuration exactly matches what is already on disk, no update is
+	// necessary. This quick equality check avoids unnecessary writes.
+	if bytes.Equal(original, newData) {
+		return nil
+	}
+
+	// Otherwise, overwrite the file with the fully rendered configuration that now contains
+	// any newly introduced settings.
+	if err := os.WriteFile(path, newData, 0644); err != nil {
+		return fmt.Errorf("failed to update config file with new settings: %w", err)
+	}
+
+	return nil
 }

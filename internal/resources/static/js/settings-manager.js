@@ -156,6 +156,32 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             await saveSecuritySettings();
         });
+
+        // Add event listener for login ban checkbox
+        const loginBanCheckbox = document.getElementById('loginBanEnabled');
+        const loginBanFields = [
+            'loginBanMaxFailures',
+            'loginBanWindow',
+            'loginBanInitial',
+            'loginBanMax'
+        ];
+
+        function updateLoginBanFields() {
+            const isEnabled = loginBanCheckbox.checked;
+            loginBanFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                field.disabled = !isEnabled;
+            });
+        }
+
+        // Set initial state
+        loginBanCheckbox.addEventListener('change', updateLoginBanFields);
+        // Update fields when loading settings
+        const originalLoadSettings = loadSettings;
+        loadSettings = async function() {
+            await originalLoadSettings();
+            updateLoginBanFields();
+        };
     }
 
     // Save settings function

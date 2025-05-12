@@ -99,7 +99,19 @@
                         // Redirect to home page after successful login
                         window.location.href = '/';
                     } else {
-                        errorMessage.textContent = errorText;
+                        let msg = errorText;
+                        try {
+                            const data = await response.json();
+                            if (data && data.message) {
+                                msg = data.message;
+                                if (data.retryAfter) {
+                                    msg += ` (retry in ${data.retryAfter}s)`;
+                                }
+                            }
+                        } catch (e) {
+                            // ignore JSON parse errors
+                        }
+                        errorMessage.textContent = msg;
                         errorMessage.style.display = 'block';
                     }
                 } catch (error) {

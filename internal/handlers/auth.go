@@ -5,8 +5,13 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"net"
+	"path/filepath"
+	"strconv"
+	"strings"
 	"wiki-go/internal/auth"
 	"wiki-go/internal/config"
+	"wiki-go/internal/ban"
 	"wiki-go/internal/crypto"
 	"wiki-go/internal/resources"
 	"wiki-go/internal/i18n"
@@ -19,10 +24,33 @@ type LoginRequest struct {
 	KeepLoggedIn bool   `json:"keepLoggedIn"`
 }
 
+// loginBan handles IP-based banning for failed login attempts.
+var loginBan *ban.BanList
+
+// clientIP extracts the real client IP address, considering proxy headers.
+func clientIP(r *http.Request) string {
+	// Prioritise common proxy headers
+	if ip := r.Header.Get("X-Forwarded-For"); ip != "" {
+		// X-Forwarded-For may contain multiple IPs, the first is the client
+		if comma := strings.Index(ip, ","); comma != -1 {
+			return strings.TrimSpace(ip[:comma])
+		}
+		return strings.TrimSpace(ip)
+	}
+	if ip := r.Header.Get("X-Real-IP"); ip != "" {
+		return ip
+	}
+	// Fallback to RemoteAddr
+	if host, _, err := net.SplitHostPort(r.RemoteAddr); err == nil {
+		return host
+	}
+	return r.RemoteAddr // as-is (unlikely path)
+}
+
 // LoginHandler handles API login requests
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	
+
 	if r.Method != http.MethodPost {
 		json.NewEncoder(w).Encode(map[string]interface{}{
 			"success": false,
@@ -42,15 +70,48 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	ip := clientIP(r)
+
+	// If IP is currently banned, short-circuit before doing any work.
+	if loginBan != nil {
+		if remaining := loginBan.IsBanned(ip); remaining > 0 {
+			w.Header().Set("Retry-After", strconv.Itoa(int(remaining.Seconds())))
+			w.WriteHeader(http.StatusTooManyRequests)
+			json.NewEncoder(w).Encode(map[string]interface{}{
+				"success":    false,
+				"retryAfter": int(remaining.Seconds()),
+				"message":    "Too many failed logins; try again later",
+			})
+			return
+		}
+	}
+
 	// Validate credentials
 	valid, role := auth.ValidateCredentials(req.Username, req.Password, cfg)
 	if !valid {
+		if loginBan != nil {
+			if dur, bannedNow := loginBan.RegisterFailure(ip); bannedNow {
+				// Immediately inform client of new ban
+				w.Header().Set("Retry-After", strconv.Itoa(int(dur.Seconds())))
+				w.WriteHeader(http.StatusTooManyRequests)
+				json.NewEncoder(w).Encode(map[string]interface{}{
+					"success":    false,
+					"retryAfter": int(dur.Seconds()),
+					"message":    "Too many failed logins; try again later",
+				})
+				return
+			}
+		}
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode(map[string]interface{}{
 			"success": false,
 			"message": "Invalid credentials",
 		})
 		return
+	}
+
+	if loginBan != nil {
+		loginBan.Clear(ip) // successful login resets failures / ban
 	}
 
 	// Create session
@@ -73,7 +134,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 // CheckAuthHandler checks if the user is authenticated
 func CheckAuthHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	
+
 	session := auth.GetSession(r)
 	if session == nil {
 		w.WriteHeader(http.StatusUnauthorized)
@@ -95,7 +156,7 @@ func CheckAuthHandler(w http.ResponseWriter, r *http.Request) {
 // LogoutHandler handles user logout
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	
+
 	auth.ClearSession(w, r, cfg)
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{
@@ -177,4 +238,15 @@ func CheckDefaultPasswordHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]bool{
 		"defaultPasswordInUse": defaultPasswordInUse,
 	})
+}
+
+// InitLoginBan initialises IP banning using cfg.Wiki.RootDir/temp/login_ban.json.
+func InitLoginBan(cfg *config.Config) {
+	path := filepath.Join(cfg.Wiki.RootDir, "temp", "login_ban.json")
+	bl, err := ban.NewBanList(path)
+	if err != nil {
+		log.Printf("Warning: failed to initialise login ban list: %v", err)
+	} else {
+		loginBan = bl
+	}
 }

@@ -127,7 +127,19 @@
                 // Reload the page to refresh the comments section
                 window.location.reload();
             } else {
-                errorMessage.textContent = window.i18n ? window.i18n.t('login.error') : 'Invalid username or password';
+                let msg = window.i18n ? window.i18n.t('login.error') : 'Invalid username or password';
+                try {
+                    const data = await response.json();
+                    if (data && data.message) {
+                        msg = data.message;
+                        if (data.retryAfter) {
+                            msg += ` (retry in ${data.retryAfter}s)`;
+                        }
+                    }
+                } catch (e) {
+                    // ignore JSON parse errors
+                }
+                errorMessage.textContent = msg;
                 errorMessage.style.display = 'block';
             }
         } catch (error) {
@@ -184,7 +196,7 @@
             }
 
             const data = await response.json();
-            
+
             // Handle role hierarchy
             if (requiredRole === 'admin') {
                 return data.role === 'admin';
@@ -193,7 +205,7 @@
             } else if (requiredRole === 'viewer') {
                 return data.role === 'admin' || data.role === 'editor' || data.role === 'viewer';
             }
-            
+
             return false;
         } catch (error) {
             console.error('Error checking user role:', error);
@@ -238,14 +250,14 @@
             const authData = await authResponse.json();
             const isAdmin = authData.role === 'admin';
             const isEditor = authData.role === 'editor';
-            
+
             // Show/hide buttons based on role
             if (isAdmin) {
                 // Admin user - show all admin buttons
                 document.querySelectorAll('.admin-only-button').forEach(btn => {
                     btn.style.cssText = 'display: inline-flex !important';
                 });
-                
+
                 // Show editor buttons
                 document.querySelectorAll('.editor-only-button').forEach(btn => {
                     btn.style.cssText = 'display: inline-flex !important';
@@ -261,11 +273,11 @@
                 document.querySelectorAll('.admin-only-button').forEach(btn => {
                     btn.style.display = 'none';
                 });
-                
+
                 document.querySelectorAll('.editor-only-button').forEach(btn => {
                     btn.style.cssText = 'display: inline-flex !important';
                 });
-                
+
                 // Special case for move/rename button (only show if not on homepage)
                 const renameBtn = document.querySelector('.move-document');
                 if (renameBtn && (window.location.pathname === '/' || window.location.pathname === '/homepage')) {
@@ -277,7 +289,7 @@
                     btn.style.display = 'none';
                 });
             }
-            
+
             // Show logout button, hide login button for all authenticated users
             document.querySelector('.toolbar-button.auth-button.primary').style.cssText = 'display: none !important';
             document.querySelector('.logout-button').style.cssText = 'display: inline-flex !important';

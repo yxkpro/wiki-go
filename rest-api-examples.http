@@ -3,7 +3,7 @@
 ### Variables
 @base_url = http://127.0.0.1:8080
 @username = admin
-@password = test
+@password = testat
 @doc_name = API Test Document
 @doc_path = api-testing/api-test-document
 @doc_body = # API Test Document\n\nChanged content...

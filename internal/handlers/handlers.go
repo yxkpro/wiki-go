@@ -17,6 +17,9 @@ func InitHandlers(config *config.Config) {
 		log.Printf("Warning: Failed to initialize i18n package: %v", err)
 	}
 
+	// Initialise IP-based ban list for login attempts
+	InitLoginBan(cfg)
+
 	// Routes are now managed in the routes package
 }
 

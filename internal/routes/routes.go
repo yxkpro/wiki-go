@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/fs"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
@@ -385,7 +386,13 @@ func SetupRoutes(cfg *config.Config) {
 		// Check if authentication is required
 		if !auth.RequireAuth(r, cfg) {
 			// If private and not authenticated, redirect to login page
-			http.Redirect(w, r, "/login", http.StatusSeeOther)
+			// Preserve original requested path so that we can jump back after login.
+			target := r.URL.RequestURI()
+			if target == "" {
+				target = "/"
+			}
+			q := url.QueryEscape(target)
+			http.Redirect(w, r, "/login?redirect="+q, http.StatusSeeOther)
 			return
 		}
 

@@ -16,6 +16,7 @@ import (
 	"wiki-go/internal/resources"
 	"wiki-go/internal/i18n"
 	"wiki-go/internal/roles"
+	"wiki-go/internal/version"
 )
 
 type LoginRequest struct {
@@ -192,6 +193,9 @@ func LoginPageHandler(w http.ResponseWriter, r *http.Request) {
 	funcMap := template.FuncMap{
 		"t": func(key string) string {
 			return i18n.Translate(key)
+		},
+		"getVersion": func() string {
+			return version.Version
 		},
 	}
 

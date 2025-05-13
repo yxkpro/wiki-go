@@ -15,7 +15,10 @@
             }
         })();
     </script>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/theme.css?={{getVersion}}">
+    <link rel="stylesheet" href="/static/css/buttons.css?={{getVersion}}">
+    <link rel="stylesheet" href="/static/css/dialog.css?={{getVersion}}">
+    <link rel="stylesheet" href="/static/css/forms.css?={{getVersion}}">
     <style>
         /* Adapt login dialog to full page context */
         body {
@@ -96,8 +99,14 @@
                     });
 
                     if (response.ok) {
-                        // Redirect to home page after successful login
-                        window.location.href = '/';
+                        // Redirect to original page if provided
+                        const params = new URLSearchParams(window.location.search);
+                        const dest = params.get('redirect');
+                        if (dest && dest.startsWith('/')) {
+                            window.location.href = dest;
+                        } else {
+                            window.location.href = '/';
+                        }
                     } else {
                         let msg = errorText;
                         if (response.status === 429) {

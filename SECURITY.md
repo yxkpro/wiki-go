@@ -71,8 +71,8 @@ Example `config.yaml` section:
 security:
   login_ban:
     enabled: true
-    max_failures: 3
-    window_seconds: 30
+    max_failures: 5
+    window_seconds: 180
     initial_ban_seconds: 60
     max_ban_seconds: 86400  # 24 hours
 ```

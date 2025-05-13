@@ -98,8 +98,8 @@ func LoadConfig(path string) (*Config, error) {
 
 	// Security defaults
 	config.Security.LoginBan.Enabled = true
-	config.Security.LoginBan.MaxFailures = 3
-	config.Security.LoginBan.WindowSeconds = 30
+	config.Security.LoginBan.MaxFailures = 5
+	config.Security.LoginBan.WindowSeconds = 180
 	config.Security.LoginBan.InitialBanSeconds = 60
 	config.Security.LoginBan.MaxBanSeconds = 86400 // 24h
 

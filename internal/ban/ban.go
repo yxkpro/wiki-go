@@ -36,8 +36,8 @@ import (
 //
 // Exponential ban growth stops at 24 h to avoid absurd lock-out times.
 var (
-    thresholdFails     = 3                    // allowed failures inside window
-    windowDuration     = 30 * time.Second     // observation window
+    thresholdFails     = 5                    // allowed failures inside window
+    windowDuration     = 180 * time.Second    // observation window
     initialBanDuration = 1 * time.Minute      // first ban length
     maxBanDuration     = 24 * time.Hour       // upper bound for exponential growth
 )
@@ -149,7 +149,7 @@ func (b *BanList) RegisterFailure(key string) (time.Duration, bool) {
         allowedFails = 0
     }
 
-    if at.Fails > allowedFails {
+    if at.Fails >= allowedFails {
         // Apply / extend ban
         if at.BanLen == 0 {
             at.BanLen = int64(initialBanDuration.Seconds())

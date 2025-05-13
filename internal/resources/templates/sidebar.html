@@ -3,17 +3,19 @@
     <span class="hamburger-icon"></span>
 </button>
 <div class="sidebar">
-    <a href="/" class="sidebar-title">
-        {{$logoPath := hasLogo .Config.Wiki.RootDir}}
-        {{if $logoPath}}
-        <div class="logo-container">
-            <img src="{{$logoPath}}" alt="" class="sidebar-logo">
+    <div class="sidebar-header">
+        <a href="/" class="sidebar-title">
+            {{$logoPath := hasLogo .Config.Wiki.RootDir}}
+            {{if $logoPath}}
+            <div class="logo-container">
+                <img src="{{$logoPath}}" alt="" class="sidebar-logo">
+            </div>
+            {{end}}
+            <div class="title-text">{{.Config.Wiki.Title}}</div>
+        </a>
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder='Search...' aria-label="Search documentation">
         </div>
-        {{end}}
-        <div class="title-text">{{.Config.Wiki.Title}}</div>
-    </a>
-    <div class="search-container">
-        <input type="text" class="search-box" placeholder='Search...' aria-label="Search documentation">
     </div>
     <div class="nav-items">
         {{template "nav-items" .Navigation}}

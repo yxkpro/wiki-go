@@ -1,0 +1,367 @@
+/* Dialog component styles */
+
+/* ---------- Dialog styles ---------- */
+/* Common dialog styles */
+.login-dialog,
+.new-document-dialog,
+.move-document-dialog,
+.confirmation-dialog,
+.message-dialog,
+.user-confirmation-dialog,
+.file-upload-dialog,
+.version-history-dialog,
+.settings-dialog {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.login-dialog.active,
+.new-document-dialog.active,
+.move-document-dialog.active,
+.confirmation-dialog.active,
+.message-dialog.active,
+.user-confirmation-dialog.active,
+.file-upload-dialog.active,
+.version-history-dialog.active,
+.settings-dialog.active {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Disabled form field styles */
+.settings-form input[disabled] {
+    opacity: 0.6;
+    background-color: var(--bg-color-secondary);
+    cursor: not-allowed;
+    border-color: var(--border-color);
+}
+
+.settings-form input[disabled] + label,
+.settings-form label:has(+ input[disabled]) {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Import functionality styles */
+.import-management {
+    padding: 1rem 0;
+}
+
+.import-description {
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.import-form {
+    margin-bottom: 1.5rem;
+}
+
+.import-progress-container {
+    margin: 1.5rem 0;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 20px;
+    background-color: var(--bg-color-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--primary-color);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.progress-status {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.import-results {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background-color: var(--bg-color-secondary);
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.import-results h4 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.import-results-content {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.imported-files-list,
+.import-errors-list {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+    list-style-type: none;
+}
+
+.imported-files-list li,
+.import-errors-list li {
+    margin-bottom: 0.5rem;
+    word-break: break-word;
+}
+
+.import-errors-list li {
+    color: var(--error-color);
+}
+
+.import-summary {
+    margin-top: 1rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.imported-files-list a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+.imported-files-list a:hover {
+    text-decoration: underline;
+}
+
+/* Dark mode support */
+[data-theme="dark"] .progress-bar-container,
+.dark-mode .progress-bar-container {
+    background-color: #333;
+}
+
+[data-theme="dark"] .progress-status,
+.dark-mode .progress-status {
+    color: #aaa;
+}
+
+[data-theme="dark"] .import-results,
+.dark-mode .import-results {
+    background-color: #2a2a2a;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .import-errors-list li,
+.dark-mode .import-errors-list li {
+    color: #ff6b6b;
+}
+
+[data-theme="dark"] .imported-files-list a,
+.dark-mode .imported-files-list a {
+    color: #64b5f6;
+}
+
+/* Common dialog container styles */
+.login-container,
+.dialog-container {
+    background: var(--bg-color);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+}
+
+.dialog-title {
+    margin-top: 0;
+    margin-bottom: 24px;
+    color: var(--text-color);
+    font-size: 1.5rem;
+}
+
+.close-dialog {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 5px;
+    transition: all 0.2s;
+}
+
+.close-dialog:hover {
+    color: var(--primary-color);
+}
+
+/* Error message styles */
+.error-message {
+    color: #ff4444;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+    display: none;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: rgba(255, 68, 68, 0.1);
+}
+
+.error-message[style*="display: block"] {
+    display: block !important;
+}
+
+/* Note box styles */
+.note-box {
+    background-color: var(--hover-bg);
+    border-left: 4px solid var(--primary-color);
+    padding: 12px;
+    margin: 16px 0;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    line-height: 1.4;
+}
+
+.note-box i {
+    color: var(--primary-color);
+    margin-right: 8px;
+}
+
+/* Message and confirmation dialog specific styles */
+.confirmation-dialog .dialog-message {
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.confirmation-dialog .dialog-warning {
+    margin-bottom: 20px;
+    color: var(--danger-color);
+    font-weight: bold;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.message-dialog, .user-confirmation-dialog {
+    z-index: 2500;
+}
+
+.message-dialog .dialog-container,
+.user-confirmation-dialog .dialog-container {
+    max-width: 450px;
+}
+
+.message-dialog .message-content,
+.user-confirmation-dialog .confirm-content {
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.message-dialog .message-ok,
+.user-confirmation-dialog .confirm-yes {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.message-dialog .message-ok:hover,
+.user-confirmation-dialog .confirm-yes:hover {
+    background-color: var(--primary-hover);
+}
+
+.user-confirmation-dialog .confirm-no {
+    background-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.user-confirmation-dialog .confirm-no:hover {
+    background-color: var(--hover-bg);
+}
+
+/* Login form styles */
+.login-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-button,
+.login-submit-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* ---------- Settings Dialog ---------- */
+.settings-dialog .dialog-container {
+    width: 600px;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.settings-tabs,
+.file-upload-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-color-muted);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.tab-button:hover {
+    color: var(--text-color);
+}
+
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.tab-content {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.tab-pane {
+    display: none;
+    width: 100%;
+}
+
+.tab-pane.active {
+    display: block;
+}

@@ -1,0 +1,189 @@
+/* Button styles */
+
+/* ---------- Actions menu ---------- */
+.page-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    padding-left: 16px;
+    position: relative;
+}
+
+.page-actions-dropdown {
+    position: relative;
+}
+
+/* Common button styles */
+.page-actions-button,
+.toolbar-button,
+.dialog-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: normal;
+    width: auto;
+}
+
+.page-actions-button:hover,
+.toolbar-button:hover,
+.dialog-button:hover {
+    background: var(--hover-bg);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.page-actions-button svg,
+.toolbar-button svg,
+.dialog-button svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+.toolbar-button.primary,
+.dialog-button.primary,
+.login-button,
+.login-submit-button {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.toolbar-button.primary:hover,
+.dialog-button.primary:hover,
+.login-button:hover,
+.login-submit-button:hover {
+    opacity: 0.9;
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+/* Delete button styling */
+.toolbar-button.delete-document,
+.dialog-button.delete-confirm {
+    color: var(--danger-color);
+}
+
+.toolbar-button.delete-document:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.dialog-button.delete-confirm {
+    background-color: var(--danger-color) !important;
+    color: white !important;
+}
+
+.dialog-button.delete-confirm:hover {
+    background-color: #c82333 !important;
+}
+
+[data-theme="dark"] .dialog-button.delete-confirm:hover {
+    background-color: #e25c5c !important;
+}
+
+.page-actions-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
+    z-index: 100;
+    display: none;
+}
+
+.page-actions-menu.active {
+    display: block;
+}
+
+.page-actions-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    color: var(--text-color);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+}
+
+.page-actions-item:hover {
+    background: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.page-actions-item svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+/* Authentication button styles */
+.auth-button {
+    width: auto;
+    font-weight: normal;
+}
+
+/* Admin-only button styles - hidden by default */
+.admin-only-button {
+    display: none !important;
+}
+
+/* ---------- Page toolbar styles ---------- */
+.page-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    padding-left: 16px;
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin: 16px 0;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.view-toolbar,
+.edit-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Content editing state */
+.content.editing .markdown-content {
+    display: none;
+}
+
+.content.editing .view-toolbar {
+    display: none;
+}
+
+.content.editing .edit-toolbar {
+    display: flex !important;
+}
+
+.content.editing .footer {
+    margin-top: auto;
+}

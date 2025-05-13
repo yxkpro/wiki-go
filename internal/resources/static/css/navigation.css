@@ -1,0 +1,377 @@
+/* Navigation components: hamburger, sidebar, breadcrumbs */
+
+/* ---------- Hamburger menu ---------- */
+.hamburger {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: var(--sidebar-bg);
+    border: none;
+    cursor: pointer;
+    padding: 20px;
+    width: 60px;
+    height: 60px;
+    border-bottom: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+}
+
+.hamburger-icon {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--text-color);
+    position: relative;
+    transition: all 0.3s ease-out;
+    margin: 0 auto;
+}
+
+.hamburger-icon:before,
+.hamburger-icon:after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--text-color);
+    position: absolute;
+    transition: all 0.3s ease-out;
+    left: 0;
+}
+
+.hamburger-icon:before {
+    top: -6px;
+}
+
+.hamburger-icon:after {
+    bottom: -6px;
+}
+
+/* Hamburger animation */
+.hamburger.active .hamburger-icon {
+    background: transparent !important;
+}
+
+.hamburger.active .hamburger-icon:before {
+    top: 0;
+    transform: rotate(45deg);
+}
+
+.hamburger.active .hamburger-icon:after {
+    bottom: 0;
+    transform: rotate(-45deg);
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 16px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform 0.3s ease;
+    z-index: 1001;
+}
+
+.sidebar-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    /* padding: 16px 0; */
+    /* border-bottom: 1px solid var(--border-color); */
+    /* margin-bottom: 8px; */
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 24px;
+    width: 100%;
+}
+
+.sidebar-title:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.sidebar-logo {
+    height: 120px;
+    width: 120px;
+    object-fit: contain;
+}
+
+.title-text {
+    text-align: center;
+}
+
+.sidebar-footer {
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+    font-size: 12px;
+    color: var(--breadcrumb-color);
+    text-align: center;
+}
+
+.sidebar-footer .owner {
+    color: var(--text-color);
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.sidebar-footer .notice {
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.nav-items {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.nav-item {
+    margin: 0;
+    border-radius: 4px;
+}
+
+.nav-item.directory {
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.nav-item.active > a {
+    color: var(--primary-color);
+    background-color: var(--hover-bg);
+}
+
+.nav-children {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 2px;
+    border-left: 2px solid var(--border-color);
+}
+
+.nav-item a {
+    color: var(--text-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    position: relative;
+    gap: 6px;
+}
+
+.nav-item a:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+/* Arrow indicator */
+.nav-arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: solid currentColor;
+    border-width: 0 2px 2px 0;
+    padding: 4px;
+    transform: rotate(-45deg);
+    opacity: 0.6;
+    transition: transform 0.2s ease;
+}
+
+/* Rotate arrow down when directory is expanded (active) */
+.nav-item.active > a .nav-arrow {
+    transform: rotate(45deg);
+}
+
+/* ---------- Breadcrumbs ---------- */
+.breadcrumbs {
+    margin-bottom: 24px;
+    color: var(--breadcrumb-color);
+    font-size: 14px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.breadcrumbs-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.breadcrumbs-path {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+.breadcrumbs-path::-webkit-scrollbar {
+    display: none !important; /* Chrome, Safari, Opera */
+}
+
+/* Ensure dark theme also hides scrollbars */
+:root[data-theme="dark"] .breadcrumbs-path {
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+:root[data-theme="dark"] .breadcrumbs-path::-webkit-scrollbar {
+    display: none !important; /* Chrome, Safari, Opera */
+}
+
+.breadcrumbs a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumbs .separator {
+    color: var(--breadcrumb-color);
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    /* Hamburger and sidebar for mobile */
+    .hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        padding: 12px;
+        position: fixed;
+        z-index: 1001;
+        background: var(--bg-color);
+        border-bottom: 1px solid var(--border-color);
+        border-right: 1px solid var(--border-color);
+    }
+
+    /* Override global styles for password warning on mobile */
+    body.has-password-warning .hamburger {
+        height: 48px;
+        top: 40px;
+        left: 0;
+    }
+
+    /* Ensure hamburger transforms into X when sidebar is active */
+    .hamburger.active {
+        z-index: 1002; /* Ensure it stays on top */
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        width: min(var(--sidebar-width), 85vw);
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 1001;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    /* Ensure content doesn't overlap sidebar when in edit mode */
+    body.sidebar-active .editor-container.active {
+        margin-left: min(var(--sidebar-width), 85vw);
+        width: calc(100% - min(var(--sidebar-width), 85vw));
+        transition: margin-left 0.3s ease, width 0.3s ease;
+    }
+
+    body.sidebar-active {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+    }
+
+    body.sidebar-active::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 90;
+        backdrop-filter: blur(2px);
+    }
+
+    /* Mobile breadcrumbs */
+    .breadcrumbs {
+        position: fixed;
+        top: 0;
+        left: 48px;
+        right: 0;
+        padding: 0 10px;
+        background: var(--bg-color);
+        border-bottom: 1px solid var(--border-color);
+        z-index: 90;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        height: 48px;
+        box-sizing: border-box;
+    }
+
+    .breadcrumbs-container {
+        width: 100%;
+        overflow-x: auto;
+        display: flex;
+        align-items: center;
+        scrollbar-width: none !important; /* Firefox */
+        -ms-overflow-style: none !important; /* IE and Edge */
+    }
+
+    .breadcrumbs-container::-webkit-scrollbar {
+        display: none !important; /* Chrome, Safari, Opera */
+    }
+
+    .breadcrumbs-path {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        scrollbar-width: none !important; /* Firefox */
+        -ms-overflow-style: none !important; /* IE and Edge */
+    }
+
+    .breadcrumbs-path::-webkit-scrollbar {
+        display: none !important; /* Chrome, Safari, Opera */
+    }
+
+    .breadcrumbs .separator {
+        margin: 0 4px;
+    }
+
+    body.has-password-warning .breadcrumbs {
+        top: 40px;
+        margin-bottom: 35px; /* Increased bottom margin to prevent overlap with h1 on desktop */
+    }
+}

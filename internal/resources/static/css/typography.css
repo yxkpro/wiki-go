@@ -1,0 +1,259 @@
+/* Typography and content formatting */
+
+/* ---------- Content typography ---------- */
+.content h1 {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.content h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.25em;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.content h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+.content p {
+    margin: 0.2em 0 1em 0;
+}
+
+.content ul, .content ol {
+    margin: 0.3em 0;
+    padding-left: 1.5em;
+}
+
+.content li {
+    margin: 0.15em 0;
+    overflow: visible; /* Ensure the copy button is visible */
+}
+
+.content pre {
+    background-color: var(--code-bg);
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    margin: 0.75em 0;
+    position: relative;
+}
+
+.content pre > code {
+    overflow-x: auto; /* Allow code to scroll */
+}
+
+.content code {
+    background-color: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+/* Code copy button */
+.copy-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    background: var(--theme-toggle-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-color);
+    font-size: 12px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 10;
+    align-self: flex-end;
+}
+
+.content pre:hover .copy-button {
+    opacity: 1;
+}
+
+.copy-button:hover {
+    background: var(--hover-bg);
+}
+
+.copy-button svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+.copy-button.copied {
+    background: var(--primary-color);
+    color: var(--bg-color);
+    border-color: var(--primary-color);
+}
+
+/* Override Prism.js styles */
+/* Override Prism.js styles for dark theme */
+:root[data-theme="dark"] pre[class*="language-"],
+:root[data-theme="dark"] code[class*="language-"] {
+    background-color: var(--code-bg);
+    border-color: var(--border-color);
+    text-shadow: none;
+}
+
+/* Override Prism.js styles for light theme */
+:root:not([data-theme="dark"]) pre[class*="language-"],
+:root:not([data-theme="dark"]) code[class*="language-"] {
+    background-color: var(--code-bg);
+    border-color: var(--border-color);
+    text-shadow: none;
+    color: var(--text-color);
+}
+
+/* Make sure tokens have appropriate contrast in light mode */
+:root:not([data-theme="dark"]) .token.comment,
+:root:not([data-theme="dark"]) .token.prolog,
+:root:not([data-theme="dark"]) .token.doctype,
+:root:not([data-theme="dark"]) .token.cdata {
+    color: #708090;
+}
+
+:root:not([data-theme="dark"]) .token.punctuation {
+    color: #444;
+}
+
+/* Remove individual line boxes */
+pre[class*="language-"] > code {
+    border: none;
+    padding: 0;
+    background: none;
+}
+
+/* Inline code style */
+:not(pre) > code {
+    border: 1px solid var(--border-color);
+    background-color: var(--code-bg) !important;
+    color: var(--text-color) !important;
+}
+
+/* ---------- Content styles ---------- */
+.content mark {
+    background-color: #fff3cd;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+:root[data-theme="dark"] .content mark {
+    background-color: #2c2c00;
+    color: #fff3cd;
+}
+
+.content sup {
+    font-size: 0.75em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+.content sub {
+    font-size: 0.75em;
+    vertical-align: sub;
+    line-height: 0;
+}
+
+.content del {
+    text-decoration: line-through;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+/* Blockquote style */
+.content blockquote {
+    border-left: 4px solid var(--primary-color);
+    margin: 0.75em 0;
+    padding: 0.5em 1em;
+    background-color: var(--blockquote-bg);
+    border-radius: 0 8px 8px 0;
+}
+
+/* Markdown content styles */
+.markdown-content a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.markdown-content a:hover {
+    text-decoration: underline;
+}
+
+.markdown-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5rem auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------- Footnotes styles ---------- */
+.footnotes {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9em;
+    color: var(--text-color);
+}
+
+.footnotes ol {
+    padding-left: 20px;
+}
+
+.footnotes li {
+    margin-bottom: 10px;
+}
+
+.footnote-ref {
+    font-size: 0.75em;
+    vertical-align: super;
+    line-height: 0;
+    margin: 0 2px;
+    color: var(--primary-color);
+}
+
+.footnote-backref {
+    font-size: 0.8em;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+/* ---------- Tables ---------- */
+table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+th {
+    background-color: var(--hover-bg);
+    font-weight: 600;
+}
+
+tr:nth-child(even) {
+    background-color: var(--hover-bg);
+}

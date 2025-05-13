@@ -24,7 +24,48 @@
         initClickOutside();
         initSidebarLinks();
         initTouchGestures();
+
+        // Scroll current document into view in sidebar
+        scrollActiveIntoView();
     });
+
+    // Find the most nested active item and scroll it into view
+    function scrollActiveIntoView() {
+        const navItems = document.querySelector('.nav-items');
+        if (!navItems) return;
+
+        // Find the deepest active item
+        const activeItems = navItems.querySelectorAll('.nav-item.active');
+        if (!activeItems.length) return;
+
+        let deepestItem = activeItems[0];
+        let maxDepth = getDepth(deepestItem, navItems);
+
+        for (let i = 1; i < activeItems.length; i++) {
+            const depth = getDepth(activeItems[i], navItems);
+            if (depth > maxDepth) {
+                maxDepth = depth;
+                deepestItem = activeItems[i];
+            }
+        }
+
+        // Scroll with offset
+        const offset = 150;
+        navItems.scrollTop = Math.max(0, deepestItem.offsetTop - offset);
+    }
+
+    // Calculate element depth in the DOM tree
+    function getDepth(element, container) {
+        let depth = 0;
+        let parent = element.parentElement;
+
+        while (parent && parent !== container) {
+            depth++;
+            parent = parent.parentElement;
+        }
+
+        return depth;
+    }
 
     // Refresh sidebar content
     async function refreshSidebar() {

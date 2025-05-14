@@ -67,6 +67,12 @@ func SuperscriptPreprocessor(markdown string, _ string) string {
 					result.WriteByte('$')
 					// Process superscript only when not in code or math
 				} else if line[i] == '^' && !inCode && !inInlineMath {
+					// Skip if this is a footnote reference [^...]
+					if i > 0 && line[i-1] == '[' {
+						result.WriteByte('^')
+						continue
+					}
+
 					// Find the closing caret
 					end := -1
 					for j := i + 1; j < len(line); j++ {

@@ -19,6 +19,12 @@
 - **Hierarchical Organization**: Organize content in nested directories
 - **Version History**: Track changes with full revision history and restore previous versions
 - **Document Management**: Create, edit, and delete documents with a user-friendly interface
+- **Document Sorting and Naming**: Control the order of documents in the sidebar through slug names:
+  - Documents are sorted alphabetically by their directory slug name
+  - Document titles (displayed in the sidebar and heading) are taken from the first H1 heading in document.md
+  - To manually sort documents, prefix slug names with numbers (e.g., `1-overview`, `2-installation`, `3-usage`)
+  - The slug name can differ from the displayed title, allowing for organized structure while maintaining readable titles
+  - Example: A directory named `1-getting-started` with document.md containing `# Getting Started Guide` will show as "Getting Started Guide" in the sidebar but be sorted first
 
 ## Collaboration & Feedback
 - **Comments System**: Enable discussions on documents with a full-featured commenting system

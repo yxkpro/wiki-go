@@ -49,8 +49,15 @@
             }
         }
 
-        // Scroll with offset
-        const offset = 150;
+        // Calculate dynamic offset based on whether logo exists
+        let offset = 150; // Default offset
+        const logo = document.querySelector('.sidebar img, .sidebar svg'); // Check for logo image or SVG
+        if (logo) {
+            // Add the logo's height to the offset
+            offset += logo.offsetHeight;
+        }
+
+        // Scroll with dynamic offset
         navItems.scrollTop = Math.max(0, deepestItem.offsetTop - offset);
     }
 

@@ -7,11 +7,9 @@
 
 ![Desktop](screenshots/preview.png)
 
-A fast, modern, **flat-file wiki** written in Go.
+LeoMoon Wiki-Go is a modern, feature-rich, databaseless **flat-file wiki** platform built with Go. It provides a clean, intuitive interface for creating and managing knowledge bases, documentation, and collaborative content without requiring any external database.
 
-Built for simplicity and performance with Markdown. No database, zero maintenance.
-
-No database. No bloat. Just Markdown, simplicity, and power.
+No database. No bloat. Zero maintenance. Just Markdown.
 
 ## Important Configuration Note with Non-SSL Setups
 
@@ -236,6 +234,11 @@ server:
     # where HTTPS is not available. This reduces security by allowing
     # cookies to be transmitted in plain text.
     allow_insecure_cookies: true
+    # Enable native TLS. When true, application will run over HTTPS using the
+    # supplied certificate and key paths.
+    ssl: false
+    ssl_cert:
+    ssl_key:
 wiki:
     root_dir: data
     documents_dir: documents
@@ -250,10 +253,6 @@ wiki:
     max_upload_size: 10
     # Default language for the wiki interface (en, es, etc.)
     language: en
-users:
-    - username: admin
-      password: <bcrypt-hashed-password>
-      is_admin: true
 security:
     login_ban:
         # Enable protection against brute force login attacks
@@ -266,6 +265,10 @@ security:
         initial_ban_seconds: 60
         # Maximum ban duration in seconds (24 hours)
         max_ban_seconds: 86400
+users:
+    - username: admin
+      password: <bcrypt-hashed-password>
+      is_admin: true
 ```
 
 ### Customization

@@ -262,11 +262,6 @@ Force RTL text.
 
 LeoMoon Wiki-Go supports special shortcodes for dynamic content:
 
-**Statistics Shortcode**:
-```
-:::stats count=*:::
+Use `[toc]` to automatically generate a table of contents based on the headings in your document.
 
-:::stats recent=5:::
-```
-
-These shortcodes display document statistics like total count or recent changes.
+Use `:::stats count=*:::` to display the total number of documents in your wiki, and `:::stats recent=5:::` to show a list of the 5 most recently modified documents.

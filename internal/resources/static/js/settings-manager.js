@@ -117,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
             disable_comments: document.getElementById('wikiDisableComments').checked,
             disable_file_upload_checking: document.getElementById('wikiDisableFileUploadChecking').checked,
             enable_link_embedding: document.getElementById('wikiEnableLinkEmbedding').checked,
+            hide_attachments: document.getElementById('wikiHideAttachments').checked,
             max_versions: parseInt(document.getElementById('wikiMaxVersions').value, 10) || 0,
             max_upload_size: parseInt(document.getElementById('wikiMaxUploadSize').value, 10) || 20,
             language: document.getElementById('wikiLanguage').value
@@ -264,6 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('wikiDisableComments').checked = settings.disable_comments || false;
             document.getElementById('wikiDisableFileUploadChecking').checked = settings.disable_file_upload_checking || false;
             document.getElementById('wikiEnableLinkEmbedding').checked = settings.enable_link_embedding || false;
+            document.getElementById('wikiHideAttachments').checked = settings.hide_attachments || false;
 
             // Handle max_versions specifically to account for 0 value
             document.getElementById('wikiMaxVersions').value = settings.max_versions !== undefined ? settings.max_versions : 10;

@@ -57,6 +57,7 @@ type Config struct {
 		DisableComments           bool   `yaml:"disable_comments"` // Disable comments system-wide when true
 		DisableFileUploadChecking bool   `yaml:"disable_file_upload_checking"` // Disable mimetype checking for file uploads when true
 		EnableLinkEmbedding       bool   `yaml:"enable_link_embedding"` // Enable automatic link embedding from clipboard when true
+		HideAttachments           bool   `yaml:"hide_attachments"` // Hide attachments section in documents when true
 		MaxVersions               int    `yaml:"max_versions"`
 		MaxUploadSize             int    `yaml:"max_upload_size"` // Maximum upload file size in MB
 		Language                  string `yaml:"language"`        // Default language for the wiki
@@ -93,6 +94,7 @@ func LoadConfig(path string) (*Config, error) {
 	config.Wiki.DisableComments = false
 	config.Wiki.DisableFileUploadChecking = false // Default to false - always check file uploads
 	config.Wiki.EnableLinkEmbedding = false
+	config.Wiki.HideAttachments = false
 	config.Wiki.MaxVersions = 10   // Default value
 	config.Wiki.MaxUploadSize = 10 // Default value
 	config.Wiki.Language = "en"    // Default to English
@@ -156,6 +158,7 @@ func LoadConfig(path string) (*Config, error) {
 				config.Wiki.DisableComments,
 				config.Wiki.DisableFileUploadChecking,
 				config.Wiki.EnableLinkEmbedding,
+				config.Wiki.HideAttachments,
 				config.Wiki.MaxVersions,
 				config.Wiki.MaxUploadSize,
 				config.Wiki.Language,
@@ -223,6 +226,7 @@ wiki:
     disable_comments: %t
     disable_file_upload_checking: %t
     enable_link_embedding: %t
+    hide_attachments: %t
     max_versions: %d
     # Maximum file upload size in MB
     max_upload_size: %d
@@ -280,6 +284,7 @@ func SaveConfig(cfg *Config, w io.Writer) error {
 		cfg.Wiki.DisableComments,
 		cfg.Wiki.DisableFileUploadChecking,
 		cfg.Wiki.EnableLinkEmbedding,
+		cfg.Wiki.HideAttachments,
 		cfg.Wiki.MaxVersions,
 		cfg.Wiki.MaxUploadSize,
 		cfg.Wiki.Language,

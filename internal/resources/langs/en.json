@@ -56,6 +56,7 @@
   "settings.private_wiki": "Private wiki (requires login to view)",
   "settings.disable_comments": "Disable comments system-wide",
   "settings.enable_link_embedding": "Enable link embedding from clipboard",
+  "settings.hide_attachments": "Hide attachments section in documents",
   "settings.security": "Security",
   "settings.login_ban_enabled": "Enable Login Ban (brute-force protection)",
   "settings.login_ban_max_failures": "Max Failures Before Ban",

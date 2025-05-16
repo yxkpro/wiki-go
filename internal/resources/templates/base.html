@@ -168,12 +168,14 @@
             </div>
 
             <!-- Add file attachments section -->
+            {{if not .Config.Wiki.HideAttachments}}
             <div class="file-attachments-section">
                 <h3>{{t "attachments.title"}}</h3>
                 <div class="file-attachments-list">
                     <div class="loading-message">{{t "attachments.loading"}}</div>
                 </div>
             </div>
+            {{end}}
 
         {{end}}
         {{if .DirContent}}

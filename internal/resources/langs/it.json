@@ -55,6 +55,7 @@
   "settings.disable_file_upload_checking": "Disabilita controllo caricamento file",
   "settings.private_wiki": "Wiki privato (login richiesto per visualizzare)",
   "settings.disable_comments": "Disattiva i commenti a livello di sistema",
+  "settings.enable_link_embedding": "Abilita incorporamento dei link dagli appunti",
   "settings.security": "Sicurezza",
   "settings.login_ban_enabled": "Abilita blocco di accesso (protezione contro attacchi brute-force)",
   "settings.login_ban_max_failures": "Numero massimo di tentativi falliti prima del blocco",

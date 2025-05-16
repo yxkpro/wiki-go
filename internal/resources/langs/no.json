@@ -54,6 +54,7 @@
   "settings.max_upload_size_description": "Maksimal tillatt filstørrelse for opplastinger i MB.",
   "settings.disable_file_upload_checking": "Deaktiver filtype-sjekking",
   "settings.private_wiki": "Privat wiki (krever innlogging for å se)",
+  "settings.enable_link_embedding": "Aktiver lenkeinnbygging fra utklippstavlen",
   "settings.disable_comments": "Deaktiver kommentarer for hele systemet",
   "settings.security": "Sikkerhet",
   "settings.login_ban_enabled": "Aktiver påloggingsbegrensning (beskyttelse mot brute-force)",

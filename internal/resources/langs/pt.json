@@ -55,6 +55,7 @@
   "settings.disable_file_upload_checking": "Desativar verificação de upload de arquivos",
   "settings.private_wiki": "Wiki privada (login necessário para visualizar)",
   "settings.disable_comments": "Desativar comentários em todo o sistema",
+  "settings.enable_link_embedding": "Ativar incorporação de links da área de transferência",
   "settings.security": "Segurança",
   "settings.login_ban_enabled": "Ativar Bloqueio de Login (proteção contra força bruta)",
   "settings.login_ban_max_failures": "Máximo de Falhas Antes do Bloqueio",

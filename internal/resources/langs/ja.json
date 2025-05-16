@@ -55,6 +55,7 @@
   "settings.disable_file_upload_checking": "ファイルアップロードチェックを無効化",
   "settings.private_wiki": "プライベートWiki（閲覧にはログインが必要）",
   "settings.disable_comments": "システム全体でコメントを無効にする",
+  "settings.enable_link_embedding": "クリップボードからのリンク埋め込みを有効にする",
   "settings.security": "セキュリティ",
   "settings.login_ban_enabled": "ログイン禁止を有効にする（ブルートフォース保護）",
   "settings.login_ban_max_failures": "禁止前の最大失敗回数",

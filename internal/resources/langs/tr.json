@@ -55,6 +55,7 @@
   "settings.disable_file_upload_checking": "Dosya yükleme kontrolünü devre dışı bırak",
   "settings.private_wiki": "Özel wiki (görüntülemek için giriş gerekli)",
   "settings.disable_comments": "Sistem genelinde yorumları devre dışı bırak",
+  "settings.enable_link_embedding": "Panodan bağlantı gömmeyi etkinleştir",
   "settings.security": "Güvenlik",
   "settings.login_ban_enabled": "Giriş Engellemesini Etkinleştir (brute-force koruması)",
   "settings.login_ban_max_failures": "Engellemeden Önce Maksimum Başarısız Deneme",

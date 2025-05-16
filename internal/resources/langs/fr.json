@@ -55,6 +55,7 @@
   "settings.disable_file_upload_checking": "Désactiver la vérification des téléchargements de fichiers",
   "settings.private_wiki": "Wiki privé (connexion requise pour visualiser)",
   "settings.disable_comments": "Désactiver les commentaires à l'échelle du système",
+  "settings.enable_link_embedding": "Activer l'intégration des liens depuis le presse-papiers",
   "settings.security": "Sécurité",
   "settings.login_ban_enabled": "Activer le blocage de connexion (protection contre les attaques par force brute)",
   "settings.login_ban_max_failures": "Nombre maximal d'échecs avant blocage",

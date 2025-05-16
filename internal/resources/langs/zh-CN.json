@@ -55,6 +55,7 @@
   "settings.disable_file_upload_checking": "禁用文件上传检查",
   "settings.private_wiki": "私有维基（需要登录才能查看）",
   "settings.disable_comments": "全系统禁用评论",
+  "settings.enable_link_embedding": "启用从剪贴板嵌入链接",
   "settings.security": "安全",
   "settings.login_ban_enabled": "启用登录禁止（防暴力破解保护）",
   "settings.login_ban_max_failures": "禁止前最大失败次数",

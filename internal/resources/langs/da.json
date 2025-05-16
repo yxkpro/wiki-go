@@ -55,6 +55,7 @@
   "settings.disable_file_upload_checking": "Deaktiver kontrol af filupload",
   "settings.private_wiki": "Privat wiki (kræver login for at se)",
   "settings.disable_comments": "Deaktiver kommentarer systembredt",
+  "settings.enable_link_embedding": "Aktiver link-indlejring fra udklipsholder",
   "settings.security": "Sikkerhed",
   "settings.login_ban_enabled": "Aktiver login-blokering (beskyttelse mod brute-force)",
   "settings.login_ban_max_failures": "Maks. mislykkede forsøg før blokering",

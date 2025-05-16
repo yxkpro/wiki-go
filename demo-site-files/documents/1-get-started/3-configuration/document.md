@@ -16,8 +16,8 @@ server:
     # Enable native TLS. When true, application will run over HTTPS using the
     # supplied certificate and key paths.
     ssl: false
-    ssl_cert: 
-    ssl_key: 
+    ssl_cert:
+    ssl_key:
 wiki:
     root_dir: data
     documents_dir: documents
@@ -27,6 +27,8 @@ wiki:
     timezone: America/Vancouver
     private: false
     disable_comments: false
+    disable_file_upload_checking: false
+    enable_link_embedding: true
     max_versions: 10
     # Maximum file upload size in MB
     max_upload_size: 10

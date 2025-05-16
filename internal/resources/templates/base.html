@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="user-role" content="{{.UserRole}}">
     <meta name="doc-path" content="{{.CurrentDir.Path}}">
+    <meta name="enable-link-embedding" content="{{.Config.Wiki.EnableLinkEmbedding}}">
     <!-- Favicons -->
     {{if hasFavicon .Config.Wiki.RootDir "ico"}}<link rel="icon" href="/static/favicon.ico" type="image/x-icon">{{end}}
     {{if hasFavicon .Config.Wiki.RootDir "svg"}}<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">{{end}}

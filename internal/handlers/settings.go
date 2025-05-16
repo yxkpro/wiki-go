@@ -20,6 +20,7 @@ type WikiSettingsRequest struct {
 	Private                   bool   `json:"private"`
 	DisableComments           bool   `json:"disable_comments"`
 	DisableFileUploadChecking bool   `json:"disable_file_upload_checking"`
+	EnableLinkEmbedding       bool   `json:"enable_link_embedding"`
 	MaxVersions               int    `json:"max_versions"`
 	MaxUploadSize             int    `json:"max_upload_size"`
 	Language                  string `json:"language"`
@@ -34,6 +35,7 @@ type WikiSettingsResponse struct {
 	Private                   bool     `json:"private"`
 	DisableComments           bool     `json:"disable_comments"`
 	DisableFileUploadChecking bool     `json:"disable_file_upload_checking"`
+	EnableLinkEmbedding       bool     `json:"enable_link_embedding"`
 	MaxVersions               int      `json:"max_versions"`
 	MaxUploadSize             int      `json:"max_upload_size"`
 	Language                  string   `json:"language"`
@@ -70,6 +72,7 @@ func GetWikiSettingsHandler(w http.ResponseWriter, r *http.Request) {
 		Private:                   cfg.Wiki.Private,
 		DisableComments:           cfg.Wiki.DisableComments,
 		DisableFileUploadChecking: cfg.Wiki.DisableFileUploadChecking,
+		EnableLinkEmbedding:       cfg.Wiki.EnableLinkEmbedding,
 		MaxVersions:               cfg.Wiki.MaxVersions,
 		MaxUploadSize:             cfg.Wiki.MaxUploadSize,
 		Language:                  cfg.Wiki.Language,
@@ -120,6 +123,7 @@ func UpdateWikiSettingsHandler(w http.ResponseWriter, r *http.Request) {
 	updatedConfig.Wiki.Private = req.Private
 	updatedConfig.Wiki.DisableComments = req.DisableComments
 	updatedConfig.Wiki.DisableFileUploadChecking = req.DisableFileUploadChecking
+	updatedConfig.Wiki.EnableLinkEmbedding = req.EnableLinkEmbedding
 	updatedConfig.Wiki.MaxVersions = req.MaxVersions
 	updatedConfig.Wiki.MaxUploadSize = req.MaxUploadSize
 	updatedConfig.Wiki.Language = req.Language

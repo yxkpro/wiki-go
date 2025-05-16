@@ -10,8 +10,13 @@ function initClipboardHandling() {
     // Handle clipboard paste events at document level (for images)
     document.addEventListener('paste', documentPasteHandler);
 
-    // Add direct binding to CodeMirror textarea (for URL links)
-    setupDirectTextareaBinding();
+    // Check if link embedding from clipboard is enabled
+    if (window.WikiConfig && window.WikiConfig.enableLinkEmbedding) {
+        // Add direct binding to CodeMirror textarea (for URL links)
+        setupDirectTextareaBinding();
+    } else {
+        console.log('Link embedding from clipboard is disabled');
+    }
 }
 
 /**

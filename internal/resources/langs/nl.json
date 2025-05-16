@@ -56,6 +56,7 @@
   "settings.private_wiki": "Privé wiki (inloggen vereist om te bekijken)",
   "settings.disable_comments": "Reactiesysteem uitschakelen voor de hele site",
   "settings.enable_link_embedding": "Inbedden van links vanuit klembord inschakelen",
+  "settings.hide_attachments": "Sectie met bijlagen in documenten verbergen",
   "settings.security": "Beveiliging",
   "settings.login_ban_enabled": "Inlogverbod inschakelen (brute-force bescherming)",
   "settings.login_ban_max_failures": "Max. mislukkingen voor verbod",

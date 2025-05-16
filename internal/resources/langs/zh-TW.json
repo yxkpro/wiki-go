@@ -56,6 +56,7 @@
   "settings.private_wiki": "私人維基（需要登入才能查看）",
   "settings.disable_comments": "全系統停用評論",
   "settings.enable_link_embedding": "啟用從剪貼簿嵌入連結",
+  "settings.hide_attachments": "在文件中隱藏附件部分",
   "settings.security": "安全",
   "settings.login_ban_enabled": "啟用登入禁止（防暴力破解保護）",
   "settings.login_ban_max_failures": "禁止前最大失敗次數",

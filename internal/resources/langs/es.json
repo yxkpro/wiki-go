@@ -56,6 +56,7 @@
   "settings.private_wiki": "Wiki privado (requiere inicio de sesión para ver)",
   "settings.disable_comments": "Desactivar comentarios en todo el sistema",
   "settings.enable_link_embedding": "Habilitar incrustación de enlaces desde el portapapeles",
+  "settings.hide_attachments": "Ocultar sección de archivos adjuntos en documentos",
   "settings.security": "Seguridad",
   "settings.login_ban_enabled": "Habilitar Bloqueo de Inicios de Sesión (protección contra fuerza bruta)",
   "settings.login_ban_max_failures": "Máximo de Fallos Antes del Bloqueo",

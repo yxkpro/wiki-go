@@ -56,6 +56,7 @@
   "settings.private_wiki": "Prywatna wiki (wymaga logowania, aby przeglądać)",
   "settings.disable_comments": "Wyłącz komentarze w całym systemie",
   "settings.enable_link_embedding": "Włącz osadzanie linków ze schowka",
+  "settings.hide_attachments": "Ukryj sekcję załączników w dokumentach",
   "settings.security": "Bezpieczeństwo",
   "settings.login_ban_enabled": "Włącz blokadę logowania (ochrona przed atakami brute-force)",
   "settings.login_ban_max_failures": "Maksymalna liczba niepowodzeń przed blokadą",

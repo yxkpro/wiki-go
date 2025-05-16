@@ -56,6 +56,7 @@
   "settings.private_wiki": "Soukromá wiki (vyžaduje přihlášení pro zobrazení)",
   "settings.disable_comments": "Vypnout komentáře v celém systému",
   "settings.enable_link_embedding": "Povolit vkládání odkazů ze schránky",
+  "settings.hide_attachments": "Skrýt sekci příloh v dokumentech",
   "settings.security": "Zabezpečení",
   "settings.login_ban_enabled": "Povolit blokování přihlášení (ochrana proti útokům hrubou silou)",
   "settings.login_ban_max_failures": "Maximum neúspěšných pokusů před blokováním",

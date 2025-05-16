@@ -56,6 +56,7 @@
   "settings.private_wiki": "Privat wiki (kräver inloggning för att visa)",
   "settings.disable_comments": "Inaktivera kommentarer för hela systemet",
   "settings.enable_link_embedding": "Aktivera länkinbäddning från urklipp",
+  "settings.hide_attachments": "Dölj bilagor i dokument",
   "settings.security": "Säkerhet",
   "settings.login_ban_enabled": "Aktivera inloggningsspärr (skydd mot brutala angrepp)",
   "settings.login_ban_max_failures": "Max antal misslyckade försök innan spärr",

@@ -56,6 +56,7 @@
   "settings.private_wiki": "Privates Wiki (Anmeldung zum Anzeigen erforderlich)",
   "settings.disable_comments": "Kommentare systemweit deaktivieren",
   "settings.enable_link_embedding": "Link-Einbettung aus Zwischenablage aktivieren",
+  "settings.hide_attachments": "Anhangsbereich in Dokumenten ausblenden",
   "settings.security": "Sicherheit",
   "settings.login_ban_enabled": "Anmeldesperre aktivieren (Brute-Force-Schutz)",
   "settings.login_ban_max_failures": "Maximale Fehlversuche vor Sperre",

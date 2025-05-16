@@ -56,6 +56,7 @@
   "settings.private_wiki": "비공개 위키 (보려면 로그인 필요)",
   "settings.disable_comments": "시스템 전체 댓글 비활성화",
   "settings.enable_link_embedding": "클립보드에서 링크 임베딩 활성화",
+  "settings.hide_attachments": "문서에서 첨부 파일 섹션 숨기기",
   "settings.security": "보안",
   "settings.login_ban_enabled": "로그인 차단 활성화 (무차별 대입 공격 방지)",
   "settings.login_ban_max_failures": "차단 전 최대 실패 횟수",

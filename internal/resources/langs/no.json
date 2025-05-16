@@ -56,6 +56,7 @@
   "settings.private_wiki": "Privat wiki (krever innlogging for å se)",
   "settings.enable_link_embedding": "Aktiver lenkeinnbygging fra utklippstavlen",
   "settings.disable_comments": "Deaktiver kommentarer for hele systemet",
+  "settings.hide_attachments": "Skjul vedleggsseksjonen i dokumenter",
   "settings.security": "Sikkerhet",
   "settings.login_ban_enabled": "Aktiver påloggingsbegrensning (beskyttelse mot brute-force)",
   "settings.login_ban_max_failures": "Maks. antall mislykkede forsøk før utestengelse",

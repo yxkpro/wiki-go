@@ -24,6 +24,7 @@
   "common.insert": "Infoga",
   "common.create": "Skapa",
   "common.sending": "Skickar...",
+  "common.view": "Visa",
 
   "nav.home": "Hem",
 
@@ -187,5 +188,10 @@
   "import.importing": "Importerar...",
   "import.results_title": "Importresultat",
   "import.success": "Importen slutfördes framgångsrikt.",
-  "import.error": "Importen misslyckades: {0}"
+  "import.error": "Importen misslyckades: {0}",
+
+  "file_renamed.success": "Filen har bytt namn",
+  "file_renamed.error_title": "Namnbyte misslyckades",
+  "file_renamed.error_message": "Fel",
+  "file_renamed.check_console": "Kontrollera konsolen för mer information."
 }

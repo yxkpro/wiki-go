@@ -24,6 +24,7 @@
   "common.insert": "插入",
   "common.create": "建立",
   "common.sending": "傳送中...",
+  "common.view": "檢視",
 
   "nav.home": "首頁",
 
@@ -187,5 +188,10 @@
   "import.importing": "匯入中...",
   "import.results_title": "匯入結果",
   "import.success": "匯入成功完成。",
-  "import.error": "匯入失敗：{0}"
+  "import.error": "匯入失敗：{0}",
+
+  "file_renamed.success": "檔案重新命名成功",
+  "file_renamed.error_title": "重新命名失敗",
+  "file_renamed.error_message": "錯誤",
+  "file_renamed.check_console": "請查看控制台獲取更多詳情。"
 }

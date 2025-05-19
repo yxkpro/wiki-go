@@ -24,6 +24,7 @@
   "common.insert": "Insert",
   "common.create": "Create",
   "common.sending": "Sending...",
+  "common.view": "View",
 
   "nav.home": "Home",
 
@@ -108,6 +109,11 @@
 
   "delete_file.title": "Delete File",
   "delete_file.confirm_message": "Are you sure you want to delete this file? This action cannot be undone.",
+
+  "file_renamed.success": "File renamed successfully",
+  "file_renamed.error_title": "Rename Failed",
+  "file_renamed.error_message": "Error",
+  "file_renamed.check_console": "Please check the console for more details.",
 
   "move.title": "Move/Rename Document",
   "move.current_path": "Current Path",

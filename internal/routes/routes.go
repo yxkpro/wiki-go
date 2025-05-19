@@ -313,6 +313,10 @@ func SetupRoutes(cfg *config.Config) {
 		handlers.DeleteFileHandler(w, r, cfg)
 	})
 
+	mux.HandleFunc("/api/files/rename", func(w http.ResponseWriter, r *http.Request) {
+		handlers.RenameFileHandler(w, r, cfg)
+	})
+
 	mux.HandleFunc("/api/files/", func(w http.ResponseWriter, r *http.Request) {
 		handlers.ServeFileHandler(w, r, cfg)
 	})

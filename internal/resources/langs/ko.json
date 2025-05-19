@@ -24,6 +24,7 @@
   "common.insert": "삽입",
   "common.create": "생성",
   "common.sending": "전송 중...",
+  "common.view": "보기",
 
   "nav.home": "홈",
 
@@ -187,5 +188,10 @@
   "import.importing": "가져오는 중...",
   "import.results_title": "가져오기 결과",
   "import.success": "가져오기가 성공적으로 완료되었습니다.",
-  "import.error": "가져오기 실패: {0}"
+  "import.error": "가져오기 실패: {0}",
+
+  "file_renamed.success": "파일 이름이 성공적으로 변경되었습니다",
+  "file_renamed.error_title": "이름 변경 실패",
+  "file_renamed.error_message": "오류",
+  "file_renamed.check_console": "자세한 내용은 콘솔을 확인하세요."
 }

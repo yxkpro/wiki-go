@@ -24,6 +24,7 @@
   "common.insert": "Vložit",
   "common.create": "Vytvořit",
   "common.sending": "Odesílání...",
+  "common.view": "Zobrazit",
 
   "nav.home": "Domů",
 
@@ -108,6 +109,11 @@
 
   "delete_file.title": "Smazat soubor",
   "delete_file.confirm_message": "Opravdu chcete smazat tento soubor? Tuto akci nelze vrátit zpět.",
+
+  "file_renamed.success": "Soubor byl úspěšně přejmenován",
+  "file_renamed.error_title": "Přejmenování selhalo",
+  "file_renamed.error_message": "Chyba",
+  "file_renamed.check_console": "Prosím, zkontrolujte konzoli pro více detailů.",
 
   "move.title": "Přesunout/přejmenovat dokument",
   "move.current_path": "Aktuální cesta",

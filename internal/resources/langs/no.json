@@ -24,6 +24,7 @@
   "common.insert": "Sett inn",
   "common.create": "Opprett",
   "common.sending": "Sender...",
+  "common.view": "Vis",
 
   "nav.home": "Hjem",
 
@@ -187,5 +188,10 @@
   "import.importing": "Importerer...",
   "import.results_title": "Importresultater",
   "import.success": "Import fullført.",
-  "import.error": "Import mislyktes: {0}"
+  "import.error": "Import mislyktes: {0}",
+
+  "file_renamed.success": "Fil omdøpt med suksess",
+  "file_renamed.error_title": "Omdøping mislyktes",
+  "file_renamed.error_message": "Feil",
+  "file_renamed.check_console": "Vennligst sjekk konsollen for mer informasjon."
 }

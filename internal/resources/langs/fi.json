@@ -24,6 +24,7 @@
   "common.insert": "Lisää",
   "common.create": "Luo",
   "common.sending": "Lähetetään...",
+  "common.view": "Näytä",
 
   "nav.home": "Koti",
 
@@ -108,6 +109,11 @@
 
   "delete_file.title": "Poista tiedosto",
   "delete_file.confirm_message": "Haluatko varmasti poistaa tämän tiedoston? Tätä toimintoa ei voi kumota.",
+
+  "file_renamed.success": "Tiedosto uudelleennimetty onnistuneesti",
+  "file_renamed.error_title": "Uudelleennimeäminen epäonnistui",
+  "file_renamed.error_message": "Virhe",
+  "file_renamed.check_console": "Tarkista konsoli saadaksesi lisätietoja.",
 
   "move.title": "Siirrä/Nimeä uudelleen dokumentti",
   "move.current_path": "Nykyinen polku",

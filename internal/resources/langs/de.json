@@ -24,6 +24,7 @@
   "common.insert": "Einfügen",
   "common.create": "Erstellen",
   "common.sending": "Senden...",
+  "common.view": "Anzeigen",
 
   "nav.home": "Startseite",
 
@@ -108,6 +109,11 @@
 
   "delete_file.title": "Datei löschen",
   "delete_file.confirm_message": "Sind Sie sicher, dass Sie diese Datei löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+
+  "file_renamed.success": "Datei erfolgreich umbenannt",
+  "file_renamed.error_title": "Umbenennung fehlgeschlagen",
+  "file_renamed.error_message": "Fehler",
+  "file_renamed.check_console": "Bitte prüfen Sie die Konsole für weitere Details.",
 
   "move.title": "Dokument verschieben/umbenennen",
   "move.current_path": "Aktueller Pfad",

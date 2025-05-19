@@ -100,6 +100,22 @@
     text-overflow: ellipsis;
     min-width: 0;
     margin-right: 10px;
+    position: relative;
+}
+
+.file-name .name-text {
+    display: block;
+    width: 100%;
+}
+
+.file-name .name-edit {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    font-size: 0.95em;
 }
 
 .file-size {
@@ -118,21 +134,20 @@
     border: none;
     background-color: var(--hover-bg);
     cursor: pointer;
-    padding: 6px 12px;
+    padding: 8px;
     border-radius: 4px;
     color: var(--text-secondary);
     transition: all 0.2s ease;
     position: relative;
     display: flex;
     align-items: center;
-    gap: 5px;
-    min-width: 80px;
     justify-content: center;
+    width: 32px;
+    height: 32px;
 }
 
 .file-actions button span {
-    font-size: 13px;
-    font-weight: 500;
+    display: none; /* Hide text labels */
 }
 
 .file-actions button:hover {
@@ -172,6 +187,16 @@
 
 .file-actions .delete-file-btn:hover {
     background-color: rgba(255, 82, 82, 0.15);
+}
+
+.file-actions .rename-file-btn {
+    color: var(--text-color);
+    background-color: rgba(var(--text-color-rgb, 128, 128, 128), 0.08);
+}
+
+.file-actions .rename-file-btn:hover {
+    color: var(--primary-color);
+    background-color: rgba(var(--primary-color-rgb, 0, 120, 210), 0.15);
 }
 
 /* File Attachments Section Styles */

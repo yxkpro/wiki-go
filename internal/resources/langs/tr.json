@@ -24,6 +24,7 @@
   "common.insert": "Ekle",
   "common.create": "Oluştur",
   "common.sending": "Gönderiliyor...",
+  "common.view": "Görüntüle",
 
   "nav.home": "Ana Sayfa",
 
@@ -187,5 +188,10 @@
   "import.importing": "İçe Aktarılıyor...",
   "import.results_title": "İçe Aktarma Sonuçları",
   "import.success": "İçe aktarma başarıyla tamamlandı.",
-  "import.error": "İçe aktarma başarısız oldu: {0}"
+  "import.error": "İçe aktarma başarısız oldu: {0}",
+
+  "file_renamed.success": "Dosya başarıyla yeniden adlandırıldı",
+  "file_renamed.error_title": "Yeniden adlandırma başarısız oldu",
+  "file_renamed.error_message": "Hata",
+  "file_renamed.check_console": "Daha fazla ayrıntı için lütfen konsolu kontrol edin."
 }

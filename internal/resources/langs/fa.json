@@ -24,6 +24,7 @@
   "common.insert": "درج",
   "common.create": "ایجاد",
   "common.sending": "در حال ارسال...",
+  "common.view": "مشاهده",
 
   "nav.home": "خانه",
 
@@ -108,6 +109,11 @@
 
   "delete_file.title": "حذف فایل",
   "delete_file.confirm_message": "آیا مطمئن هستید که می‌خواهید این فایل را حذف کنید؟ این عمل قابل بازگشت نیست.",
+
+  "file_renamed.success": "فایل با موفقیت تغییر نام یافت",
+  "file_renamed.error_title": "خطا در تغییر نام",
+  "file_renamed.error_message": "خطا",
+  "file_renamed.check_console": "لطفاً کنسول را برای جزئیات بیشتر بررسی کنید.",
 
   "move.title": "انتقال/تغییر نام سند",
   "move.current_path": "مسیر فعلی",

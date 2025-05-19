@@ -24,6 +24,7 @@
   "common.insert": "Insérer",
   "common.create": "Créer",
   "common.sending": "Envoi en cours...",
+  "common.view": "Voir",
 
   "nav.home": "Accueil",
 
@@ -108,6 +109,11 @@
 
   "delete_file.title": "Supprimer le fichier",
   "delete_file.confirm_message": "Êtes-vous sûr de vouloir supprimer ce fichier ? Cette action ne peut pas être annulée.",
+
+  "file_renamed.success": "Fichier renommé avec succès",
+  "file_renamed.error_title": "Échec du renommage",
+  "file_renamed.error_message": "Erreur",
+  "file_renamed.check_console": "Veuillez consulter la console pour plus de détails.",
 
   "move.title": "Déplacer/Renommer le document",
   "move.current_path": "Chemin actuel",

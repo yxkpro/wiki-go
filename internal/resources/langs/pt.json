@@ -24,6 +24,7 @@
   "common.insert": "Inserir",
   "common.create": "Criar",
   "common.sending": "Enviando...",
+  "common.view": "Visualizar",
 
   "nav.home": "Início",
 
@@ -187,5 +188,10 @@
   "import.importing": "Importando...",
   "import.results_title": "Resultados da Importação",
   "import.success": "Importação concluída com sucesso.",
-  "import.error": "Falha na importação: {0}"
+  "import.error": "Falha na importação: {0}",
+
+  "file_renamed.success": "Arquivo renomeado com sucesso",
+  "file_renamed.error_title": "Falha ao renomear",
+  "file_renamed.error_message": "Erro",
+  "file_renamed.check_console": "Por favor, verifique o console para mais detalhes."
 }

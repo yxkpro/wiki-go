@@ -24,6 +24,7 @@
   "common.insert": "إدراج",
   "common.create": "إنشاء",
   "common.sending": "جارٍ الإرسال...",
+  "common.view": "عرض",
 
   "nav.home": "الرئيسية",
 
@@ -108,6 +109,11 @@
 
   "delete_file.title": "حذف الملف",
   "delete_file.confirm_message": "هل أنت متأكد من رغبتك في حذف هذا الملف؟ لا يمكن التراجع عن هذا الإجراء.",
+
+  "file_renamed.success": "تم إعادة تسمية الملف بنجاح",
+  "file_renamed.error_title": "فشل إعادة التسمية",
+  "file_renamed.error_message": "خطأ",
+  "file_renamed.check_console": "يرجى التحقق من وحدة التحكم لمزيد من التفاصيل.",
 
   "move.title": "نقل/إعادة تسمية المستند",
   "move.current_path": "المسار الحالي",

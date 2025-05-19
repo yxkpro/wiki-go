@@ -1089,3 +1089,185 @@ func extractTitleFromMarkdown(filePath string) string {
 
 	return ""
 }
+
+// RenameFileHandler handles renaming of a file
+func RenameFileHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config) {
+	// Set appropriate headers
+	w.Header().Set("Content-Type", "application/json")
+
+	// Check if user is authenticated and has appropriate permissions
+	session := auth.GetSession(r)
+	if session == nil || (session.Role != config.RoleAdmin && session.Role != config.RoleEditor) {
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(FileResponse{
+			Success: false,
+			Message: "Unauthorized. Admin or editor access required.",
+		})
+		return
+	}
+
+	// Only allow POST method
+	if r.Method != http.MethodPost {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		json.NewEncoder(w).Encode(FileResponse{
+			Success: false,
+			Message: "Method not allowed. Use POST to rename files.",
+		})
+		return
+	}
+
+	// Parse request body
+	var renameReq struct {
+		CurrentPath string `json:"currentPath"`
+		NewName     string `json:"newName"`
+	}
+
+	if err := json.NewDecoder(r.Body).Decode(&renameReq); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(FileResponse{
+			Success: false,
+			Message: "Invalid request format.",
+		})
+		return
+	}
+
+	// Validate request
+	if renameReq.CurrentPath == "" || renameReq.NewName == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(FileResponse{
+			Success: false,
+			Message: "Current path and new name are required.",
+		})
+		return
+	}
+
+	// Debug incoming request
+	fmt.Printf("Rename request received - CurrentPath: %s, NewName: %s\n", renameReq.CurrentPath, renameReq.NewName)
+
+	// Clean and normalize the path
+	path := renameReq.CurrentPath
+	path = filepath.Clean(path)
+	path = strings.TrimSuffix(path, "/")
+	path = strings.ReplaceAll(path, "\\", "/")
+
+	// Extract directory and filename
+	dir := filepath.Dir(path)
+	filename := filepath.Base(path)
+	newPath := filepath.Join(dir, renameReq.NewName)
+
+	// Log paths for debugging
+	fmt.Printf("Path components: path=%s, dir=%s, filename=%s, newPath=%s\n", path, dir, filename, newPath)
+
+	// Determine file paths based on two possible locations
+	var currentFilePath, newFilePath string
+	var fileFound bool
+
+	// Try the documents directory first (most common case)
+	currentDocumentsPath := filepath.Join(cfg.Wiki.RootDir, cfg.Wiki.DocumentsDir, path)
+	if fileExists(currentDocumentsPath) {
+		currentFilePath = currentDocumentsPath
+		newFilePath = filepath.Join(cfg.Wiki.RootDir, cfg.Wiki.DocumentsDir, newPath)
+		fileFound = true
+		fmt.Printf("File found in documents path: %s\n", currentFilePath)
+	}
+
+	// If not found in documents, try pages directory
+	if !fileFound && strings.HasPrefix(path, "pages/") {
+		currentPagesPath := filepath.Join(cfg.Wiki.RootDir, path)
+		if fileExists(currentPagesPath) {
+			currentFilePath = currentPagesPath
+			newFilePath = filepath.Join(cfg.Wiki.RootDir, newPath)
+			fileFound = true
+			fmt.Printf("File found in pages path: %s\n", currentFilePath)
+		}
+	}
+
+	// If file not found in either location, check if the target file already exists
+	// which could mean the file was already renamed
+	if !fileFound {
+		// Check if the destination file already exists with the new name
+		possibleNewPathInDocuments := filepath.Join(cfg.Wiki.RootDir, cfg.Wiki.DocumentsDir, newPath)
+		possibleNewPathInPages := filepath.Join(cfg.Wiki.RootDir, newPath)
+
+		if fileExists(possibleNewPathInDocuments) ||
+		   (strings.HasPrefix(newPath, "pages/") && fileExists(possibleNewPathInPages)) {
+			// The file with the new name already exists, likely was already renamed
+			fmt.Printf("File already appears to have been renamed to: %s\n", newPath)
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(FileResponse{
+				Success: true,
+				Message: "File already renamed.",
+				URL:     "/api/files/" + newPath,
+			})
+			return
+		}
+
+		// If we get here, the file truly doesn't exist
+		fmt.Printf("Error: File not found in documents or pages path\n")
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(FileResponse{
+			Success: false,
+			Message: "File not found.",
+		})
+		return
+	}
+
+	// Log the full paths for debugging
+	fmt.Printf("Renaming file: %s -> %s\n", currentFilePath, newFilePath)
+
+	// Check if target already exists
+	if _, err := os.Stat(newFilePath); err == nil {
+		w.WriteHeader(http.StatusConflict)
+		json.NewEncoder(w).Encode(FileResponse{
+			Success: false,
+			Message: "A file with this name already exists.",
+		})
+		return
+	}
+
+	// Rename the file
+	err := os.Rename(currentFilePath, newFilePath)
+	if err != nil {
+		fmt.Printf("Error renaming file: %v\n", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(FileResponse{
+			Success: false,
+			Message: "Failed to rename file: " + err.Error(),
+		})
+		return
+	}
+
+	// Create URL for the renamed file
+	urlPath := filepath.Join("/api/files", newPath)
+	// Replace backslashes with forward slashes for URLs
+	urlPath = strings.ReplaceAll(urlPath, "\\", "/")
+
+	fmt.Printf("File renamed successfully: %s -> %s\n", currentFilePath, newFilePath)
+	fmt.Printf("URL path: %s\n", urlPath)
+
+	// Return success response
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(FileResponse{
+		Success: true,
+		Message: "File renamed successfully.",
+		URL:     urlPath,
+	})
+}
+
+// Helper function to check if a file exists
+func fileExists(path string) bool {
+	info, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return !info.IsDir()
+}
+
+// Helper function to check if a directory exists
+func dirExists(path string) bool {
+	info, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return info.IsDir()
+}

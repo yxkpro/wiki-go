@@ -24,6 +24,7 @@
   "common.insert": "Вставить",
   "common.create": "Создать",
   "common.sending": "Отправка...",
+  "common.view": "Просмотр",
 
   "nav.home": "Главная",
 
@@ -187,5 +188,10 @@
   "import.importing": "Импортирование...",
   "import.results_title": "Результаты импорта",
   "import.success": "Импорт успешно завершен.",
-  "import.error": "Ошибка импорта: {0}"
+  "import.error": "Ошибка импорта: {0}",
+
+  "file_renamed.success": "Файл успешно переименован",
+  "file_renamed.error_title": "Ошибка переименования",
+  "file_renamed.error_message": "Ошибка",
+  "file_renamed.check_console": "Пожалуйста, проверьте консоль для получения дополнительной информации."
 }

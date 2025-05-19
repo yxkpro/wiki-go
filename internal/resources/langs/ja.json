@@ -24,6 +24,7 @@
   "common.insert": "挿入",
   "common.create": "作成",
   "common.sending": "送信中...",
+  "common.view": "表示",
 
   "nav.home": "ホーム",
 
@@ -187,5 +188,10 @@
   "import.importing": "インポート中...",
   "import.results_title": "インポート結果",
   "import.success": "インポートが正常に完了しました。",
-  "import.error": "インポートに失敗しました: {0}"
+  "import.error": "インポートに失敗しました: {0}",
+
+  "file_renamed.success": "ファイル名の変更に成功しました",
+  "file_renamed.error_title": "名前の変更に失敗しました",
+  "file_renamed.error_message": "エラー",
+  "file_renamed.check_console": "詳細はコンソールを確認してください。"
 }

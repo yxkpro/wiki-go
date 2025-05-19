@@ -24,6 +24,7 @@
   "common.insert": "Indsæt",
   "common.create": "Opret",
   "common.sending": "Sender...",
+  "common.view": "Vis",
 
   "nav.home": "Hjem",
 
@@ -108,6 +109,11 @@
 
   "delete_file.title": "Slet fil",
   "delete_file.confirm_message": "Er du sikker på, at du vil slette denne fil? Denne handling kan ikke fortrydes.",
+
+  "file_renamed.success": "Fil omdøbt med succes",
+  "file_renamed.error_title": "Omdøbning mislykkedes",
+  "file_renamed.error_message": "Fejl",
+  "file_renamed.check_console": "Tjek venligst konsollen for flere detaljer.",
 
   "move.title": "Flyt/omdøb dokument",
   "move.current_path": "Nuværende sti",

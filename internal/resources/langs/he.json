@@ -24,6 +24,7 @@
   "common.insert": "הוספה",
   "common.create": "יצירה",
   "common.sending": "שולח...",
+  "common.view": "צפייה",
 
   "nav.home": "דף הבית",
 
@@ -187,5 +188,10 @@
   "import.importing": "מייבא...",
   "import.results_title": "תוצאות ייבוא",
   "import.success": "הייבוא הושלם בהצלחה.",
-  "import.error": "הייבוא נכשל: {0}"
+  "import.error": "הייבוא נכשל: {0}",
+
+  "file_renamed.success": "שם הקובץ שונה בהצלחה",
+  "file_renamed.error_title": "שינוי השם נכשל",
+  "file_renamed.error_message": "שגיאה",
+  "file_renamed.check_console": "אנא בדוק את המסוף לפרטים נוספים."
 }

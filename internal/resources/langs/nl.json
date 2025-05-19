@@ -24,6 +24,7 @@
   "common.insert": "Invoegen",
   "common.create": "Aanmaken",
   "common.sending": "Verzenden...",
+  "common.view": "Bekijken",
 
   "nav.home": "Home",
 
@@ -187,5 +188,10 @@
   "import.importing": "Importeren...",
   "import.results_title": "Importeerresultaten",
   "import.success": "Importeren succesvol voltooid.",
-  "import.error": "Importeren mislukt: {0}"
+  "import.error": "Importeren mislukt: {0}",
+
+  "file_renamed.success": "Bestand succesvol hernoemd",
+  "file_renamed.error_title": "Hernoemen mislukt",
+  "file_renamed.error_message": "Fout",
+  "file_renamed.check_console": "Controleer de console voor meer details."
 }

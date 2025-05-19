@@ -24,6 +24,7 @@
   "common.insert": "डालें",
   "common.create": "बनाएं",
   "common.sending": "भेज रहा है...",
+  "common.view": "देखें",
 
   "nav.home": "होम",
 
@@ -187,5 +188,10 @@
   "import.importing": "आयात हो रहा है...",
   "import.results_title": "आयात परिणाम",
   "import.success": "आयात सफलतापूर्वक पूरा हुआ।",
-  "import.error": "आयात विफल: {0}"
+  "import.error": "आयात विफल: {0}",
+
+  "file_renamed.success": "फ़ाइल का नाम सफलतापूर्वक बदला गया",
+  "file_renamed.error_title": "नाम बदलना विफल रहा",
+  "file_renamed.error_message": "त्रुटि",
+  "file_renamed.check_console": "कृपया अधिक जानकारी के लिए कंसोल जांचें।"
 }

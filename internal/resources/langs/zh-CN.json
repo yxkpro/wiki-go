@@ -24,6 +24,7 @@
   "common.insert": "插入",
   "common.create": "创建",
   "common.sending": "发送中...",
+  "common.view": "查看",
 
   "nav.home": "首页",
 
@@ -187,5 +188,10 @@
   "import.importing": "导入中...",
   "import.results_title": "导入结果",
   "import.success": "导入成功完成。",
-  "import.error": "导入失败：{0}"
+  "import.error": "导入失败：{0}",
+
+  "file_renamed.success": "文件重命名成功",
+  "file_renamed.error_title": "重命名失败",
+  "file_renamed.error_message": "错误",
+  "file_renamed.check_console": "请查看控制台获取更多详情。"
 }

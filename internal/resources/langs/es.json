@@ -24,6 +24,7 @@
   "common.insert": "Insertar",
   "common.create": "Crear",
   "common.sending": "Enviando...",
+  "common.view": "Ver",
 
   "nav.home": "Inicio",
 
@@ -108,6 +109,11 @@
 
   "delete_file.title": "Eliminar archivo",
   "delete_file.confirm_message": "¿Está seguro de que desea eliminar este archivo? Esta acción no se puede deshacer.",
+
+  "file_renamed.success": "Archivo renombrado con éxito",
+  "file_renamed.error_title": "Error al renombrar",
+  "file_renamed.error_message": "Error",
+  "file_renamed.check_console": "Por favor, revise la consola para más detalles.",
 
   "move.title": "Mover/Renombrar Documento",
   "move.current_path": "Ruta Actual",

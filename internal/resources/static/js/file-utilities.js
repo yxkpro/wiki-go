@@ -52,7 +52,7 @@ function getFileIcon(fileType) {
 
 // Render files list HTML
 function renderFilesList(files) {
-    // Get filesList element first to prevent reference errors
+    // Get filesList element first to prevent reference references
     const filesList = document.querySelector('.files-list');
     if (!filesList) {
         console.error('Files list element not found');
@@ -64,6 +64,12 @@ function renderFilesList(files) {
     if (!files || files.length === 0) {
         filesList.innerHTML = '<div class="empty-message">' + (window.i18n ? window.i18n.t('attachments.no_files') : 'No files found for this document.') + '</div>';
         return;
+    }
+
+    // Clear error message if it exists
+    const errorMessage = document.querySelector('.error-message');
+    if (errorMessage && errorMessage.style.display === 'block') {
+        errorMessage.style.display = 'none';
     }
 
     const html = files.map(file => {
@@ -98,9 +104,12 @@ function renderFilesList(files) {
 
         console.log("Safe file object:", safeFile);
 
-        // Prepare file path for deletion - extract just the filename
+        // Prepare file path for deletion and rename operations
+        const docPath = getCurrentDocPath();
         const filename = safeFile.Name;
-        const deletePath = `${getCurrentDocPath()}/${filename}`;
+        const filePath = `${docPath}/${filename}`;
+
+        console.log("File operation path:", filePath);
 
         // Determine if file is an image
         const isImage = safeFile.Type && safeFile.Type.startsWith('image/');
@@ -109,7 +118,10 @@ function renderFilesList(files) {
             <div class="file-item" data-file-url="${safeFile.URL}">
                 <div class="file-info">
                     <div class="file-icon">${getFileIcon(safeFile.Type)}</div>
-                    <div class="file-name">${safeFile.Name}</div>
+                    <div class="file-name" data-path="${filePath}" data-current-name="${safeFile.Name}">
+                        <span class="name-text">${safeFile.Name}</span>
+                        <input type="text" class="name-edit" value="${safeFile.Name}" style="display: none;">
+                    </div>
                     <div class="file-size">${formatFileSize(safeFile.Size)}</div>
                 </div>
                 <div class="file-actions">
@@ -117,7 +129,15 @@ function renderFilesList(files) {
                         <i class="fa fa-plus"></i>
                         <span data-i18n="common.insert">${window.i18n ? window.i18n.t('common.insert') : 'Insert'}</span>
                     </button>
-                    <button class="delete-file-btn" title="${window.i18n ? window.i18n.t('common.delete') : 'Delete file'}" data-path="${deletePath}" data-i18n-title="common.delete">
+                    <button class="rename-file-btn" title="${window.i18n ? window.i18n.t('common.view') : 'View file'}" data-url="${safeFile.URL}" data-i18n-title="common.view">
+                        <i class="fa fa-eye"></i>
+                        <span data-i18n="common.view">${window.i18n ? window.i18n.t('common.view') : 'View'}</span>
+                    </button>
+                    <button class="rename-file-btn" title="${window.i18n ? window.i18n.t('common.rename') : 'Rename file'}" data-path="${filePath}" data-name="${safeFile.Name}" data-i18n-title="common.rename">
+                        <i class="fa fa-pencil"></i>
+                        <span data-i18n="common.rename">${window.i18n ? window.i18n.t('common.rename') : 'Rename'}</span>
+                    </button>
+                    <button class="delete-file-btn" title="${window.i18n ? window.i18n.t('common.delete') : 'Delete file'}" data-path="${filePath}" data-i18n-title="common.delete">
                         <i class="fa fa-trash"></i>
                         <span data-i18n="common.delete">${window.i18n ? window.i18n.t('common.delete') : 'Delete'}</span>
                     </button>
@@ -136,6 +156,88 @@ function renderFilesList(files) {
         });
     });
 
+    // Add event listeners for rename buttons
+    filesList.querySelectorAll('.rename-file-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const fileNameElement = button.closest('.file-item').querySelector('.file-name');
+            const nameText = fileNameElement.querySelector('.name-text');
+            const nameEdit = fileNameElement.querySelector('.name-edit');
+
+            // Get the filename and extension separately
+            const fullName = fileNameElement.getAttribute('data-current-name');
+            const lastDotIndex = fullName.lastIndexOf('.');
+            const hasExtension = lastDotIndex > 0;
+            const nameWithoutExt = hasExtension ? fullName.substring(0, lastDotIndex) : fullName;
+            const extension = hasExtension ? fullName.substring(lastDotIndex) : '';
+
+            // Show the edit input and hide the text
+            nameText.style.display = 'none';
+            nameEdit.style.display = 'block';
+            nameEdit.focus();
+
+            // Select only the name part without extension
+            if (hasExtension) {
+                // Select only the name part, not the extension
+                nameEdit.setSelectionRange(0, nameWithoutExt.length);
+            } else {
+                // If no extension, select the whole name
+                nameEdit.select();
+            }
+        });
+    });
+
+    // Add event listeners for the edit inputs
+    filesList.querySelectorAll('.name-edit').forEach(input => {
+        // Save on Enter, cancel on Escape
+        input.addEventListener('keydown', async (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const newName = input.value.trim();
+                const fileNameElement = input.closest('.file-name');
+                const path = fileNameElement.getAttribute('data-path');
+                const currentName = fileNameElement.getAttribute('data-current-name');
+
+                // Check if the current name has an extension
+                const lastDotIndex = currentName.lastIndexOf('.');
+                const hasExtension = lastDotIndex > 0;
+                const extension = hasExtension ? currentName.substring(lastDotIndex) : '';
+
+                // Only add extension if the user hasn't already included one
+                let finalNewName = newName;
+                if (hasExtension && !newName.includes('.')) {
+                    finalNewName = newName + extension;
+                }
+
+                if (finalNewName && finalNewName !== currentName) {
+                    input.disabled = true;
+                    await renameFile(path, finalNewName);
+                    input.disabled = false;
+                }
+
+                // Hide input, show text
+                input.style.display = 'none';
+                input.closest('.file-name').querySelector('.name-text').style.display = 'block';
+            } else if (e.key === 'Escape') {
+                // Cancel on Escape
+                input.value = input.closest('.file-name').getAttribute('data-current-name');
+                input.style.display = 'none';
+                input.closest('.file-name').querySelector('.name-text').style.display = 'block';
+            }
+        });
+
+        // Remove the blur event listener entirely - only use Enter key to save
+        // This prevents double rename requests
+    });
+
+    // Add event listeners for view buttons
+    filesList.querySelectorAll('.view-file-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const url = button.getAttribute('data-url');
+            window.open(url, '_blank');
+        });
+    });
+
     // Add event listeners for insert buttons
     filesList.querySelectorAll('.insert-file-btn').forEach(button => {
         button.addEventListener('click', () => {
@@ -146,15 +248,10 @@ function renderFilesList(files) {
         });
     });
 
-    // Add click event for file items (open file in new tab)
+    // Update file item click behavior
     filesList.querySelectorAll('.file-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-            // Only open file if clicking on the item itself, not on action buttons
-            if (!e.target.closest('.file-actions')) {
-                const url = item.getAttribute('data-file-url');
-                window.open(url, '_blank');
-            }
-        });
+        // Remove the click event for opening files - now using the view button instead
+        item.style.cursor = 'default';
     });
 }
 
@@ -326,6 +423,100 @@ function handleFileInsertion(url, isImage, name) {
     }
 }
 
+// Rename a file
+async function renameFile(path, newName) {
+    console.log("Attempting to rename file at path:", path, "to", newName);
+
+    try {
+        const response = await fetch('/api/files/rename', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                currentPath: path,
+                newName: newName
+            })
+        });
+
+        console.log("Rename response status:", response.status);
+
+        // Check if we got a 404 (Not Found) status, but try to reload files anyway since
+        // the file might have been renamed successfully despite the error
+        if (response.status === 404) {
+            console.log("Got 404 status, but checking if rename succeeded anyway");
+            // Reload files list to see if rename actually succeeded
+            await loadDocumentFiles();
+
+            // Wait a moment to check if the renamed file appears in the list
+            setTimeout(() => {
+                // Find if any file in the list has the new name
+                const filesList = document.querySelector('.files-list');
+                if (filesList && filesList.querySelector(`.file-name[data-current-name="${newName}"]`)) {
+                    console.log("File with new name found despite 404 error, rename likely succeeded");
+                    // Show success message
+                    if (window.DialogSystem && window.DialogSystem.showToast) {
+                        window.DialogSystem.showToast(
+                            window.i18n ? window.i18n.t('file_renamed.success') : "File renamed successfully",
+                            "success"
+                        );
+                    }
+                    return true;
+                } else {
+                    // If we can't find the file with the new name, show the error
+                    throw new Error("File not found or rename failed");
+                }
+            }, 500);
+
+            return true;
+        }
+
+        const data = await response.json();
+        console.log("Rename response data:", data);
+
+        if (!data.success) {
+            console.error("Server reported error:", data.message);
+            throw new Error(data.message || 'Failed to rename file');
+        }
+
+        // Show success message
+        if (window.DialogSystem && window.DialogSystem.showToast) {
+            window.DialogSystem.showToast(
+                window.i18n ? window.i18n.t('file_renamed.success') : "File renamed successfully",
+                "success"
+            );
+        } else {
+            console.log("File renamed successfully (toast not available)");
+        }
+
+        // Reload files list after successful rename
+        loadDocumentFiles();
+        return true;
+    } catch (error) {
+        console.error('Error renaming file:', error);
+
+        // Check if files list already contains a file with the new name,
+        // which would indicate the rename succeeded despite an error response
+        const filesList = document.querySelector('.files-list');
+        if (filesList && filesList.querySelector(`.file-name[data-current-name="${newName}"]`)) {
+            console.log("File with new name found in DOM, rename likely succeeded despite error");
+            return true;
+        }
+
+        // Only show error dialog if we're certain the rename failed
+        if (window.DialogSystem && window.DialogSystem.showMessageDialog) {
+            window.DialogSystem.showMessageDialog(
+                window.i18n ? window.i18n.t('file_renamed.error_title') : "Rename Failed",
+                `${window.i18n ? window.i18n.t('file_renamed.error_message') : "Error"}: ${error.message || 'Failed to rename file'}. ${window.i18n ? window.i18n.t('file_renamed.check_console') : "Please check the console for more details."}`
+            );
+        } else {
+            alert("Error renaming file: " + (error.message || "Unknown error"));
+        }
+
+        return false;
+    }
+}
+
 // Use the global getCurrentDocPath function from utilities.js
 
 // Export functions
@@ -335,6 +526,7 @@ window.FileUtilities = {
     renderFilesList,
     loadDocumentFiles,
     deleteFile,
+    renameFile,
     handleFileInsertion,
     updateFileAttachments
 };

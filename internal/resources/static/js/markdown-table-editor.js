@@ -1285,8 +1285,8 @@
     // Find which column the cursor is in
     const cursorCol = findCursorColumn(cm, lineText, cursor.ch);
 
-    // Don't move if cursor is in the first column
-    if (cursorCol <= 0) {
+    // Don't move if cursor is in the first content column (index 1)
+    if (cursorCol <= 1) {
       return;
     }
 

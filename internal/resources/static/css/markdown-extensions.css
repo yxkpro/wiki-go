@@ -59,12 +59,14 @@ mark {
     direction: rtl;
     unicode-bidi: isolate;
     text-align: right;
+    margin: 0.2em 0 1em 0;
 }
 
 .ltr, .ltr * {
     direction: ltr;
     unicode-bidi: isolate;
     text-align: left;
+    margin: 0.2em 0 1em 0;
 }
 
 /* Table of Contents styles */

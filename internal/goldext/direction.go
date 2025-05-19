@@ -1,140 +1,201 @@
 package goldext
 
 import (
+	"bytes"
+	"fmt"
 	"strings"
+	"sync"
+
+	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/extension"
+	"github.com/yuin/goldmark/parser"
+	html "github.com/yuin/goldmark/renderer/html"
 )
 
-// DirectionPreprocessor transforms rtl/ltr code blocks into HTML divs
-// and avoids processing nested direction blocks inside other code blocks
+// Store extracted direction blocks until restored after Goldmark processing
+var (
+	directionBlocks     = make(map[string]string)
+	directionBlockCount = 0
+	directionMutex      sync.Mutex
+)
+
+// DirectionPreprocessor extracts rtl/ltr blocks and replaces them with placeholders
+// The actual HTML generation will happen after Goldmark processes everything else
 func DirectionPreprocessor(markdown string, _ string) string {
-	// We'll break this into smaller, more manageable steps
+	directionMutex.Lock()
+	defer directionMutex.Unlock()
 
-	// 1. First, let's extract all standalone direction blocks (not inside other code blocks)
-	// We'll replace them with unique placeholders
+	// Reset the storage on each new document
+	directionBlocks = make(map[string]string)
+	directionBlockCount = 0
 
+	// Process line by line to safely extract RTL/LTR blocks
 	lines := strings.Split(markdown, "\n")
-	processedLines := make([]string, len(lines))
-	copy(processedLines, lines)
-
-	// Maps to store replacements
-	replacements := make(map[int]string) // Line index -> replacement HTML
-	linesToRemove := make(map[int]bool)  // Lines to be removed
+	var result []string
 
 	// State tracking
-	backtickStack := 0             // Track nesting of ``` blocks
-	tildeStack := 0                // Track nesting of ~~~ blocks
-	inDirectionBlock := false      // Are we in a direction block?
-	directionStart := -1           // Start line of current direction block
-	directionContent := []string{} // Content of current direction block
-	directionBlockType := ""       // Type of block: "backtick" or "tilde"
-	directionType := ""            // Type of direction: "rtl" or "ltr"
+	inCodeBlock := false  // Are we inside a non-RTL/LTR code block?
+	inRtlLtrBlock := false // Are we inside an RTL/LTR block?
+	blockType := "" // rtl or ltr
+	blockContent := []string{}
+	codeBlockDepth := 0
 
-	// Scan through all lines
-	for i, line := range lines {
+	for i := 0; i < len(lines); i++ {
+		line := lines[i]
 		trimmed := strings.TrimSpace(line)
 
-		// Check for code block markers
+		// Handle code block markers
 		if strings.HasPrefix(trimmed, "```") {
-			if backtickStack == 0 {
-				// Opening a backtick block
-				backtickStack++
-
-				// Check if it's a direction block and we're not inside any other block
-				if tildeStack == 0 && (trimmed == "```rtl" || trimmed == "```ltr") {
-					inDirectionBlock = true
-					directionStart = i
-					directionContent = []string{}
-					directionBlockType = "backtick"
-					directionType = strings.TrimPrefix(trimmed, "```")
-					// Mark this line for removal
-					linesToRemove[i] = true
+			if trimmed == "```rtl" || trimmed == "```ltr" {
+				// Only process as RTL/LTR block if we're not already in a code block
+				if !inCodeBlock && !inRtlLtrBlock {
+					inRtlLtrBlock = true
+					blockType = strings.TrimPrefix(trimmed, "```")
+					blockContent = []string{}
+					continue
 				}
-			} else {
-				// Closing a backtick block
-				backtickStack--
+			}
 
-				// If we're closing a direction block
-				if inDirectionBlock && directionBlockType == "backtick" && backtickStack == 0 && tildeStack == 0 {
-					// Create replacement HTML
-					replacement := "<div class=\"" + directionType + "\">\n" + strings.Join(directionContent, "\n") + "\n</div>"
-					replacements[directionStart] = replacement
-
-					// Mark this line for removal
-					linesToRemove[i] = true
-
-					// Reset state
-					inDirectionBlock = false
-					directionStart = -1
-					directionContent = []string{}
-					directionBlockType = ""
-					directionType = ""
+			// Toggle code block state if not an RTL/LTR block or already in a code block
+			if !inRtlLtrBlock || inCodeBlock {
+				if codeBlockDepth == 0 {
+					codeBlockDepth = 1
+				} else {
+					codeBlockDepth = 0
 				}
+				inCodeBlock = codeBlockDepth > 0
+			}
+
+			// If this is the closing marker for an RTL/LTR block
+			if inRtlLtrBlock && trimmed == "```" && !inCodeBlock {
+				// Create a placeholder for this block
+				blockID := fmt.Sprintf("DIRECTION_BLOCK_%d", directionBlockCount)
+				directionBlockCount++
+
+				// Store the direction type and content for later processing
+				directionBlocks[blockID] = blockType + "|" + strings.Join(blockContent, "\n")
+
+				// Add the placeholder to the output
+				result = append(result, "<!-- "+blockID+" -->")
+
+				// Reset state
+				inRtlLtrBlock = false
+				blockType = ""
+				blockContent = []string{}
+				continue
 			}
 		} else if strings.HasPrefix(trimmed, "~~~") {
-			if tildeStack == 0 {
-				// Opening a tilde block
-				tildeStack++
-
-				// Check if it's a direction block and we're not inside any other block
-				if backtickStack == 0 && (trimmed == "~~~rtl" || trimmed == "~~~ltr") {
-					inDirectionBlock = true
-					directionStart = i
-					directionContent = []string{}
-					directionBlockType = "tilde"
-					directionType = strings.TrimPrefix(trimmed, "~~~")
-					// Mark this line for removal
-					linesToRemove[i] = true
-				}
-			} else {
-				// Closing a tilde block
-				tildeStack--
-
-				// If we're closing a direction block
-				if inDirectionBlock && directionBlockType == "tilde" && tildeStack == 0 && backtickStack == 0 {
-					// Create replacement HTML
-					replacement := "<div class=\"" + directionType + "\">\n" + strings.Join(directionContent, "\n") + "\n</div>"
-					replacements[directionStart] = replacement
-
-					// Mark this line for removal
-					linesToRemove[i] = true
-
-					// Reset state
-					inDirectionBlock = false
-					directionStart = -1
-					directionContent = []string{}
-					directionBlockType = ""
-					directionType = ""
+			if trimmed == "~~~rtl" || trimmed == "~~~ltr" {
+				// Only process as RTL/LTR block if we're not already in a code block
+				if !inCodeBlock && !inRtlLtrBlock {
+					inRtlLtrBlock = true
+					blockType = strings.TrimPrefix(trimmed, "~~~")
+					blockContent = []string{}
+					continue
 				}
 			}
-		} else if inDirectionBlock && ((directionBlockType == "backtick" && backtickStack > 0 && tildeStack == 0) ||
-			(directionBlockType == "tilde" && tildeStack > 0 && backtickStack == 0)) {
-			// We're inside a direction block, collect the content
-			directionContent = append(directionContent, line)
-			// Mark this line for removal
-			linesToRemove[i] = true
+
+			// Toggle code block state if not an RTL/LTR block or already in a code block
+			if !inRtlLtrBlock || inCodeBlock {
+				if codeBlockDepth == 0 {
+					codeBlockDepth = 1
+				} else {
+					codeBlockDepth = 0
+				}
+				inCodeBlock = codeBlockDepth > 0
+			}
+
+			// If this is the closing marker for an RTL/LTR block
+			if inRtlLtrBlock && trimmed == "~~~" && !inCodeBlock {
+				// Create a placeholder for this block
+				blockID := fmt.Sprintf("DIRECTION_BLOCK_%d", directionBlockCount)
+				directionBlockCount++
+
+				// Store the direction type and content for later processing
+				directionBlocks[blockID] = blockType + "|" + strings.Join(blockContent, "\n")
+
+				// Add the placeholder to the output
+				result = append(result, "<!-- "+blockID+" -->")
+
+				// Reset state
+				inRtlLtrBlock = false
+				blockType = ""
+				blockContent = []string{}
+				continue
+			}
 		}
-	}
 
-	// Handle unclosed direction blocks at end of document
-	if inDirectionBlock && directionStart >= 0 {
-		// Create replacement HTML for unclosed direction block
-		replacement := "<div class=\"" + directionType + "\">\n" + strings.Join(directionContent, "\n") + "\n</div>"
-		replacements[directionStart] = replacement
-	}
-
-	// Process the lines, applying replacements and removing marked lines
-	result := []string{}
-
-	for i, line := range processedLines {
-		if replacement, ok := replacements[i]; ok {
-			// This line has a replacement
-			result = append(result, replacement)
-		} else if !linesToRemove[i] {
-			// This line should not be removed
+		// Collect content or pass line through
+		if inRtlLtrBlock && !inCodeBlock {
+			blockContent = append(blockContent, line)
+		} else {
 			result = append(result, line)
 		}
-		// Lines marked for removal are skipped
+	}
+
+	// Handle any unclosed blocks at EOF (rare case)
+	if inRtlLtrBlock && !inCodeBlock && blockType != "" {
+		blockID := fmt.Sprintf("DIRECTION_BLOCK_%d", directionBlockCount)
+		directionBlockCount++
+		directionBlocks[blockID] = blockType + "|" + strings.Join(blockContent, "\n")
+		result = append(result, "<!-- "+blockID+" -->")
 	}
 
 	return strings.Join(result, "\n")
+}
+
+// RestoreDirectionBlocks replaces direction block placeholders with HTML
+// This must be called after Goldmark rendering
+func RestoreDirectionBlocks(htmlContent string) string {
+	directionMutex.Lock()
+	defer directionMutex.Unlock()
+
+	// Create our own Goldmark instance for RTL/LTR content processing
+	// This won't be recursive because we're only processing the content inside the blocks
+	md := goldmark.New(
+		goldmark.WithExtensions(
+			extension.Table,
+			extension.Strikethrough,
+			extension.Linkify,
+			extension.Footnote,
+			extension.DefinitionList,
+			extension.GFM,
+		),
+		goldmark.WithParserOptions(
+			parser.WithAutoHeadingID(),
+			parser.WithAttribute(),
+		),
+		goldmark.WithRendererOptions(
+			html.WithUnsafe(),
+			html.WithHardWraps(),
+		),
+	)
+
+	result := htmlContent
+
+	// Replace each placeholder with processed HTML
+	for id, block := range directionBlocks {
+		placeholder := fmt.Sprintf("<!-- %s -->", id)
+
+		// Split the stored data into type and content
+		parts := strings.SplitN(block, "|", 2)
+		if len(parts) != 2 {
+			continue
+		}
+
+		dirType := parts[0]
+		content := parts[1]
+
+		// Render the content with Goldmark
+		var buf bytes.Buffer
+		if err := md.Convert([]byte(content), &buf); err != nil {
+			// If error, just use unprocessed content
+			result = strings.Replace(result, placeholder, fmt.Sprintf("<div class=\"%s\">%s</div>", dirType, content), 1)
+		} else {
+			// Use the rendered HTML inside the direction div
+			result = strings.Replace(result, placeholder, fmt.Sprintf("<div class=\"%s\">%s</div>", dirType, buf.String()), 1)
+		}
+	}
+
+	return result
 }

@@ -386,7 +386,7 @@ The commenting system allows users to provide feedback and engage in discussions
 4. Administrators can delete any comments
 5. Comments can be disabled system-wide through the admin settings panel
 
-## Hotkeys
+## Shortcuts
 
 Wiki-Go provides several keyboard shortcuts to enhance productivity:
 
@@ -395,6 +395,14 @@ Wiki-Go provides several keyboard shortcuts to enhance productivity:
 - `Ctrl+E` - Enter edit mode
 - `Ctrl+S` - Save document when in edit mode
 - `Escape` - Exit edit mode or close dialogs
+
+### Formatting Shortcuts (in edit mode)
+
+- `Ctrl+B` - Toggle bold formatting
+- `Ctrl+I` - Toggle italic formatting
+- `Ctrl+H` - Toggle/cycle heading levels (# -> ## -> ### ... -> plain text)
+- `Ctrl+Q` - Toggle block quote
+- `Ctrl+/` - Toggle code formatting (inline code for single-line selections, code blocks for multi-line selections or current line when nothing is selected)
 
 ### Table Editing
 
@@ -437,6 +445,9 @@ Wiki-Go includes powerful table editing capabilities with keyboard shortcuts:
 - **Syntax Highlighting**: [Prism.js](https://github.com/PrismJS/prism)
 - **Diagrams**: [Mermaid.js](https://github.com/mermaid-js/mermaid)
 - **Math Rendering**: [MathJax](https://github.com/mathjax/MathJax)
+- **Table Editing**: [mte-kernel](https://github.com/susisu/mte-kernel) for powerful markdown table editing
+- **URL Slugs**: [gosimple/slug](https://github.com/gosimple/slug) for URL-friendly slugs
+- **Markdown Parser**: [goldmark](https://github.com/yuin/goldmark) for markdown parsing
 
 ### Architecture
 - **Simple Configuration**: Easy YAML-based configuration

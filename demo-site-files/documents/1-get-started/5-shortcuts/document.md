@@ -1,4 +1,4 @@
-# Hotkeys
+# Shortcuts
 
 Wiki-Go provides several keyboard shortcuts to enhance productivity:
 
@@ -7,6 +7,14 @@ Wiki-Go provides several keyboard shortcuts to enhance productivity:
 - `Ctrl+E` - Enter edit mode
 - `Ctrl+S` - Save document when in edit mode
 - `Escape` - Exit edit mode or close dialogs
+
+### Formatting Shortcuts (in edit mode)
+
+- `Ctrl+B` - Toggle bold formatting
+- `Ctrl+I` - Toggle italic formatting
+- `Ctrl+H` - Toggle/cycle heading levels (# -> ## -> ### ... -> plain text)
+- `Ctrl+Q` - Toggle block quote
+- `Ctrl+/` - Toggle code formatting (inline code for single-line selections, code blocks for multi-line selections or current line when nothing is selected)
 
 ## Table Editing
 

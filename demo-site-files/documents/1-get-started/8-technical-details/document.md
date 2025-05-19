@@ -7,6 +7,9 @@
 - **Syntax Highlighting**: [Prism.js](https://github.com/PrismJS/prism)
 - **Diagrams**: [Mermaid.js](https://github.com/mermaid-js/mermaid)
 - **Math Rendering**: [MathJax](https://github.com/mathjax/MathJax)
+- **Table Editing**: [mte-kernel](https://github.com/susisu/mte-kernel) for powerful markdown table editing
+- **URL Slugs**: [gosimple/slug](https://github.com/gosimple/slug) for URL-friendly slugs
+- **Markdown Parser**: [goldmark](https://github.com/yuin/goldmark) for markdown parsing
 
 ## Architecture
 - **Simple Configuration**: Easy YAML-based configuration

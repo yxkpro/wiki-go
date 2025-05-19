@@ -416,15 +416,10 @@ function highlightCells(cell) {
 function insertTable(rows, cols) {
     if (!editor) return;
 
-    let table = '\n';
-    // Header
-    table += '| ' + Array(cols).fill('Header').join(' | ') + ' |\n';
-    // Separator
-    table += '| ' + Array(cols).fill('---').join(' | ') + ' |\n';
-    // Rows
-    for (let i = 0; i < rows; i++) {
-        table += '| ' + Array(cols).fill('Cell').join(' | ') + ' |\n';
-    }
+    // Use the createMarkdownTable function from markdown-table-editor.js
+    // which will create a properly formatted table
+    const table = '\n' + (window.createMarkdownTable ? window.createMarkdownTable(rows, cols) : '');
+
     editor.replaceSelection(table);
     if (tablePickerElement) {
         tablePickerElement.style.display = 'none';
@@ -471,7 +466,21 @@ function createToolbar(container) {
         { icon: 'fa-smile-o', action: 'emoji', title: 'Insert Emoji' },
         { type: 'separator' },
         { icon: 'fa-th', action: 'table', title: 'Insert Custom Table', id: 'insert-table' },
-        { icon: 'fa-minus', action: 'horizontal-rule', title: 'Horizontal Rule' },
+        { icon: 'fa-align-center', action: 'format-table', title: 'Format Markdown Table' },
+        { icon: 'fa-plus-square', action: 'insert-row', title: 'Insert Row', style: 'position: relative;' },
+        { icon: 'fa-plus-square', action: 'insert-column', title: 'Insert Column', style: 'position: relative;' },
+        { icon: 'fa-minus-square', action: 'delete-row', title: 'Delete Row', style: 'position: relative;' },
+        { icon: 'fa-minus-square', action: 'delete-column', title: 'Delete Column', style: 'position: relative;' },
+        { icon: 'fa-arrow-up', action: 'move-row-up', title: 'Move Row Up', style: 'position: relative;' },
+        { icon: 'fa-arrow-down', action: 'move-row-down', title: 'Move Row Down', style: 'position: relative;' },
+        { icon: 'fa-arrow-left', action: 'move-column-left', title: 'Move Column Left', style: 'position: relative;' },
+        { icon: 'fa-arrow-right', action: 'move-column-right', title: 'Move Column Right', style: 'position: relative;' },
+        { icon: 'fa-align-left', action: 'align-column-left', title: 'Align Column Left', style: 'position: relative;' },
+        { icon: 'fa-align-center', action: 'align-column-center', title: 'Align Column Center', style: 'position: relative;' },
+        { icon: 'fa-align-right', action: 'align-column-right', title: 'Align Column Right', style: 'position: relative;' },
+        { icon: 'fa-align-justify', action: 'align-column-none', title: 'Remove Column Alignment', style: 'position: relative;' },
+        { type: 'separator' },
+        { icon: 'fa-ellipsis-h', action: 'horizontal-rule', title: 'Horizontal Rule' },
         { type: 'separator' },
         { icon: 'fa-clock-o', action: 'recent-edits', title: 'Insert Recent Edits' },
         { icon: 'fa-book', action: 'total', title: 'Insert Total Number of Documents' },
@@ -495,6 +504,11 @@ function createToolbar(container) {
             btn.className = `toolbar-button ${button.action}-button`;
             btn.dataset.action = button.action;
             btn.title = button.title;
+
+            // Apply inline style if provided
+            if (button.style) {
+                btn.setAttribute('style', button.style);
+            }
 
             const icon = document.createElement('i');
             icon.className = `fa ${button.icon}`;
@@ -645,6 +659,70 @@ function setupToolbarActions(toolbar) {
             case 'table':
                 showTablePicker(button);
                 break;
+            case 'format-table':
+                editor.execCommand('markdownTableFormat');
+                editor.focus();
+                break;
+            case 'insert-row':
+                editor.execCommand('markdownTableInsertRow');
+                editor.focus();
+                break;
+            case 'insert-column':
+                editor.execCommand('markdownTableInsertColumn');
+                editor.focus();
+                break;
+            case 'delete-row':
+                editor.execCommand('markdownTableDeleteRow');
+                editor.focus();
+                break;
+            case 'delete-column':
+                editor.execCommand('markdownTableDeleteColumn');
+                editor.focus();
+                break;
+            case 'move-row-up':
+                console.log('[DEBUG-DETAIL] Move Row Up button clicked');
+                if (typeof CodeMirror.commands.directMoveRowUp === 'function') {
+                    console.log('[DEBUG-DETAIL] Calling directMoveRowUp directly from toolbar button');
+                    CodeMirror.commands.directMoveRowUp(editor);
+                } else {
+                    console.log('[DEBUG-DETAIL] Using execCommand for markdownTableMoveRowUp');
+                    editor.execCommand('markdownTableMoveRowUp');
+                }
+                editor.focus();
+                break;
+            case 'move-row-down':
+                console.log('[DEBUG-DETAIL] Move Row Down button clicked');
+                if (typeof CodeMirror.commands.directMoveRowDown === 'function') {
+                    console.log('[DEBUG-DETAIL] Calling directMoveRowDown directly from toolbar button');
+                    CodeMirror.commands.directMoveRowDown(editor);
+                } else {
+                    console.log('[DEBUG-DETAIL] Using execCommand for markdownTableMoveRowDown');
+                    editor.execCommand('markdownTableMoveRowDown');
+                }
+                editor.focus();
+                break;
+            case 'move-column-left':
+                console.log('[DEBUG-DETAIL] Move Column Left button clicked');
+                if (typeof CodeMirror.commands.directMoveColumnLeft === 'function') {
+                    console.log('[DEBUG-DETAIL] Calling directMoveColumnLeft directly from toolbar button');
+                    CodeMirror.commands.directMoveColumnLeft(editor);
+                } else {
+                    console.log('[DEBUG-DETAIL] Using execCommand for markdownTableMoveColumnLeft');
+                    editor.execCommand('markdownTableMoveColumnLeft');
+                }
+                editor.focus();
+                break;
+            case 'move-column-right':
+                console.log('[DEBUG-DETAIL] Move Column Right button clicked');
+                if (typeof CodeMirror.commands.directMoveColumnRight === 'function') {
+                    console.log('[DEBUG-DETAIL] Calling directMoveColumnRight directly from toolbar button');
+                    CodeMirror.commands.directMoveColumnRight(editor);
+                } else {
+                    console.log('[DEBUG-DETAIL] Using execCommand for markdownTableMoveColumnRight');
+                    editor.execCommand('markdownTableMoveColumnRight');
+                }
+                editor.focus();
+                break;
             case 'horizontal-rule': {
                 const cursor = editor.getCursor();
                 editor.replaceRange('\n---\n', cursor);
@@ -676,6 +754,22 @@ function setupToolbarActions(toolbar) {
                 break;
             case 'anchor-link':
                 showAnchorPicker(button);
+                break;
+            case 'align-column-left':
+                editor.execCommand('markdownTableAlignColumnLeft');
+                editor.focus();
+                break;
+            case 'align-column-center':
+                editor.execCommand('markdownTableAlignColumnCenter');
+                editor.focus();
+                break;
+            case 'align-column-right':
+                editor.execCommand('markdownTableAlignColumnRight');
+                editor.focus();
+                break;
+            case 'align-column-none':
+                editor.execCommand('markdownTableAlignColumnNone');
+                editor.focus();
                 break;
             default:
                 break;
@@ -932,10 +1026,8 @@ async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar
                     nonEmpty: true
                 },
                 extraKeys: {
-                    "Enter": "newlineAndIndentContinueMarkdownList",
-                    "Tab": (cm) => cm.execCommand("indentMore"),
-                    "Shift-Tab": (cm) => cm.execCommand("indentLess"),
-                    // Add keyboard shortcut for toggling preview
+                    // Tab and Enter handling is now done directly in markdown-table-editor.js
+                    // by overriding the CodeMirror commands
                     "Ctrl-P": togglePreview
                 },
                 placeholder: 'Write your markdown here...',

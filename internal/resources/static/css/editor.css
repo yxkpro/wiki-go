@@ -102,6 +102,128 @@
     color: var(--primary-color) !important;
 }
 
+/* Custom table operation button styles */
+.custom-toolbar button.insert-row-button::after {
+    content: "↔";
+    position: absolute;
+    font-size: 10px;
+    bottom: 1px;
+    right: 1px;
+    color: var(--text-color-secondary);
+    font-weight: bold;
+    text-shadow: 0 0 1px var(--bg-color);
+}
+
+.custom-toolbar button.insert-column-button::after {
+    content: "↕";
+    position: absolute;
+    font-size: 10px;
+    bottom: 1px;
+    right: 1px;
+    color: var(--text-color-secondary);
+    font-weight: bold;
+    text-shadow: 0 0 1px var(--bg-color);
+}
+
+.custom-toolbar button.delete-row-button::after {
+    content: "↔";
+    position: absolute;
+    font-size: 10px;
+    bottom: 1px;
+    right: 1px;
+    color: var(--text-color-secondary);
+    font-weight: bold;
+    text-shadow: 0 0 1px var(--bg-color);
+}
+
+.custom-toolbar button.delete-column-button::after {
+    content: "↕";
+    position: absolute;
+    font-size: 10px;
+    bottom: 1px;
+    right: 1px;
+    color: var(--text-color-secondary);
+    font-weight: bold;
+    text-shadow: 0 0 1px var(--bg-color);
+}
+
+.custom-toolbar button.move-row-up-button,
+.custom-toolbar button.move-row-down-button {
+    position: relative;
+}
+
+.custom-toolbar button.move-row-up-button::after,
+.custom-toolbar button.move-row-down-button::after {
+    content: "↔";
+    position: absolute;
+    font-size: 10px;
+    bottom: 1px;
+    right: 1px;
+    color: var(--text-color-secondary);
+    font-weight: bold;
+    text-shadow: 0 0 1px var(--bg-color);
+}
+
+.custom-toolbar button.move-column-left-button,
+.custom-toolbar button.move-column-right-button {
+    position: relative;
+}
+
+.custom-toolbar button.move-column-left-button::after,
+.custom-toolbar button.move-column-right-button::after {
+    content: "↕";
+    position: absolute;
+    font-size: 10px;
+    bottom: 1px;
+    right: 1px;
+    color: var(--text-color-secondary);
+    font-weight: bold;
+    text-shadow: 0 0 1px var(--bg-color);
+}
+
+/* Column alignment button styles */
+.custom-toolbar button.align-column-left-button,
+.custom-toolbar button.align-column-center-button,
+.custom-toolbar button.align-column-right-button,
+.custom-toolbar button.align-column-none-button {
+    position: relative;
+}
+
+.custom-toolbar button.align-column-left-button::after,
+.custom-toolbar button.align-column-center-button::after,
+.custom-toolbar button.align-column-right-button::after,
+.custom-toolbar button.align-column-none-button::after {
+    content: "↕";
+    position: absolute;
+    font-size: 10px;
+    bottom: 1px;
+    right: 1px;
+    color: var(--text-color-secondary);
+    font-weight: bold;
+    text-shadow: 0 0 1px var(--bg-color);
+}
+
+/* Hover states for table operation buttons */
+.custom-toolbar button.insert-row-button:hover::after,
+.custom-toolbar button.insert-column-button:hover::after,
+.custom-toolbar button.delete-row-button:hover::after,
+.custom-toolbar button.delete-column-button:hover::after,
+.custom-toolbar button.move-row-up-button:hover::after,
+.custom-toolbar button.move-row-down-button:hover::after,
+.custom-toolbar button.move-column-left-button:hover::after,
+.custom-toolbar button.move-column-right-button:hover::after,
+.custom-toolbar button.align-column-left-button:hover::after,
+.custom-toolbar button.align-column-center-button:hover::after,
+.custom-toolbar button.align-column-right-button:hover::after,
+.custom-toolbar button.align-column-none-button:hover::after {
+    color: var(--primary-color);
+}
+
+/* Dark mode adjustments */
+:root[data-theme="dark"] .custom-toolbar button::after {
+    text-shadow: 0 0 1px #111;
+}
+
 .custom-toolbar i.separator {
     display: inline-block;
     width: 0;

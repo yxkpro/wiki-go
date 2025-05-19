@@ -1,6 +1,6 @@
 // debug-toggle.js
 // Set to false for production, true for development
-const DEBUG_MODE = false;
+const DEBUG_MODE = true;
 
 if (!DEBUG_MODE) {
   // Store original console for potential restoration if needed

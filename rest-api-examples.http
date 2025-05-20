@@ -3,11 +3,12 @@
 ### Variables
 @base_url = http://127.0.0.1:8080
 @username = admin
-@password = admin
+@password = test
 @doc_name = API Test Document
 @doc_path = api-testing/api-test-document
 @doc_body = # API Test Document\n\nChanged content...
 @test_upload = example.txt
+@renamed_upload = renamed-example.txt
 @newuser_username = newuser
 @newuser_password = test
 @newuser_role = viewer
@@ -116,8 +117,18 @@ Accept: application/json
 GET {{ base_url }}/api/files/{{ doc_path }}/{{ test_upload }}
 Cookie: session={{ session }}
 
-#### Delete file
-DELETE {{ base_url }}/api/files/delete/{{ doc_path }}/{{ test_upload }}
+#### Rename file
+POST {{ base_url }}/api/files/rename
+Cookie: session={{ session }}
+Content-Type: application/json
+
+{
+  "currentPath": "{{ doc_path }}/{{ test_upload }}",
+  "newName": "{{ renamed_upload }}"
+}
+
+#### Delete renamed file
+DELETE {{ base_url }}/api/files/delete/{{ doc_path }}/{{ renamed_upload }}
 Cookie: session={{ session }}
 
 ### Comments
@@ -150,7 +161,7 @@ Cookie: session={{ session }}
 GET {{ base_url }}/api/versions/{{ doc_path }}
 Accept: application/json
 
-### Store the first version’s timestamp
+### Store the first version's timestamp
 @version_ts = {{get_version_history.response.body.$.versions[0].timestamp}}
 
 #### Restore version

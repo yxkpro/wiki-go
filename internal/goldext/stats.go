@@ -46,37 +46,52 @@ func StatsPreprocessor(markdown string, _ string) string {
 			continue
 		}
 
-		// Process stats shortcodes
+		// Process stats shortcodes with respect to inline code blocks
 		if strings.Contains(line, ":::stats") {
-			// Match exact stats shortcode pattern
-			statsRegex := regexp.MustCompile(`:::stats\s+(recent|count)=([^:]+):::`)
-			processed := statsRegex.ReplaceAllStringFunc(line, func(match string) string {
-				params := statsRegex.FindStringSubmatch(match)
-				if len(params) < 3 {
-					return match
-				}
+			// Process each segment of the line, preserving inline code
+			var processedLine string
+			segments := strings.Split(line, "`")
 
-				shortcodeType := params[1]
-				shortcodeValue := params[2]
+			for i, segment := range segments {
+				// Even segments (0, 2, 4...) are outside inline code
+				if i%2 == 0 {
+					// Match exact stats shortcode pattern
+					if strings.Contains(segment, ":::stats") {
+						statsRegex := regexp.MustCompile(`:::stats\s+(recent|count)=([^:]+):::`)
+						segment = statsRegex.ReplaceAllStringFunc(segment, func(match string) string {
+							params := statsRegex.FindStringSubmatch(match)
+							if len(params) < 3 {
+								return match
+							}
 
-				if shortcodeType == "count" {
-					var buf strings.Builder
-					renderDocumentCount(&buf, shortcodeValue)
-					return buf.String()
-				} else if shortcodeType == "recent" {
-					count, err := strconv.Atoi(shortcodeValue)
-					if err != nil || count <= 0 {
-						count = 5 // Default to 5 if invalid
+							shortcodeType := params[1]
+							shortcodeValue := params[2]
+
+							if shortcodeType == "count" {
+								var buf strings.Builder
+								renderDocumentCount(&buf, shortcodeValue)
+								return buf.String()
+							} else if shortcodeType == "recent" {
+								count, err := strconv.Atoi(shortcodeValue)
+								if err != nil || count <= 0 {
+									count = 5 // Default to 5 if invalid
+								}
+								var buf strings.Builder
+								renderRecentEdits(&buf, count)
+								return buf.String()
+							}
+
+							return match
+						})
 					}
-					var buf strings.Builder
-					renderRecentEdits(&buf, count)
-					return buf.String()
+					processedLine += segment
+				} else {
+					// Odd segments (1, 3, 5...) are inside inline code - preserve them
+					processedLine += "`" + segment + "`"
 				}
+			}
 
-				return match
-			})
-
-			processedLines = append(processedLines, processed)
+			processedLines = append(processedLines, processedLine)
 		} else {
 			processedLines = append(processedLines, line)
 		}

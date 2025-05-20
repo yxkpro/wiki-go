@@ -166,7 +166,7 @@ func RestoreDirectionBlocks(htmlContent string) string {
 			parser.WithAttribute(),
 		),
 		goldmark.WithRendererOptions(
-			html.WithUnsafe(),
+			// html.WithUnsafe(),
 			html.WithHardWraps(),
 		),
 	)

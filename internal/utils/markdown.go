@@ -68,7 +68,7 @@ func RenderMarkdownWithPath(md string, docPath string) []byte {
 		),
 		// Renderer options
 		goldmark.WithRendererOptions(
-			html.WithUnsafe(), // Allow raw HTML in the markdown
+			// html.WithUnsafe(), // Allow raw HTML in the markdown
 			html.WithHardWraps(),
 		),
 	)

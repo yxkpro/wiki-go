@@ -1,5 +1,6 @@
 /* Content area and layout styles */
 
+
 .content {
     margin-left: var(--sidebar-width);
     padding: 32px 48px;

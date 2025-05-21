@@ -165,17 +165,17 @@ body.has-password-warning .hamburger {
     top: 40px;
 }
 
-/* Theme switcher styles */
-.theme-switcher {
+.sidebar-footer-buttons {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 10px;
     margin-top: 12px;
     padding-top: 12px;
     border-top: 1px solid var(--border-color);
 }
 
-.theme-toggle {
+.sidebar-footer-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -190,12 +190,12 @@ body.has-password-warning .hamburger {
     transition: all 0.2s ease;
 }
 
-.theme-toggle:hover {
+.sidebar-footer-btn:hover {
     background: var(--hover-bg);
     color: var(--primary-color);
 }
 
-.theme-toggle svg {
+.sidebar-footer-btn svg {
     width: 20px;
     height: 20px;
     fill: currentColor;

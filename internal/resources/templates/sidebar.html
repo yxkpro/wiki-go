@@ -23,8 +23,11 @@
     <div class="sidebar-footer">
         <div class="owner">{{.Config.Wiki.Owner}}</div>
         <div class="notice">{{.Config.Wiki.Notice}}</div>
-        <div class="theme-switcher">
-            <button class="theme-toggle" aria-label="Toggle theme">
+        <div class="sidebar-footer-buttons">
+            <button class="sidebar-footer-btn" aria-label="Sitemap" title="Sitemap" onclick="window.open('/sitemap/', '_blank')">
+                <i class="fa fa-sitemap"></i>
+            </button>
+            <button class="sidebar-footer-btn" aria-label="Toggle theme">
                 <i class="fa fa-sun-o light-icon"></i>
                 <i class="fa fa-moon-o dark-icon" style="display: none;"></i>
             </button>

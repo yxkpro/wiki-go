@@ -379,6 +379,15 @@ func SetupRoutes(cfg *config.Config) {
 		handlers.ImportStatusHandler(w, r, cfg)
 	})
 
+	// Sitemap routes
+	mux.HandleFunc("/sitemap/", func(w http.ResponseWriter, r *http.Request) {
+		handlers.SitemapHandler(w, r, cfg)
+	})
+
+	mux.HandleFunc("/sitemap.xml", func(w http.ResponseWriter, r *http.Request) {
+		handlers.SitemapHandler(w, r, cfg)
+	})
+
 	// Utility API endpoints
 	mux.HandleFunc("/api/utils/slugify", handlers.SlugifyHandler)
 

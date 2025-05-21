@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="{{.Config.Wiki.Language}}" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="user-role" content="{{.UserRole}}">
+    <!-- Link to stylesheets -->
+    <link rel="stylesheet" href="/static/css/theme.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/typography.css">
+    <link rel="stylesheet" href="/static/css/navigation.css">
+    <link rel="stylesheet" href="/static/css/buttons.css">
+    <link rel="stylesheet" href="/static/css/sitemap.css">
+    <!-- Theme manager script -->
+    <script src="/static/js/theme-manager.js"></script>
+</head>
+<body>
+    <div class="sitemap-container">
+        <div class="sitemap-header">
+            <h1>Sitemap</h1>
+            <div class="sitemap-format-links">
+                <a href="/sitemap.xml" title="XML format for search engines">XML Sitemap</a>
+                <a href="/" title="Return to homepage">Back to Home</a>
+            </div>
+        </div>
+
+        <!-- Display Home category first -->
+        {{if index .Categories "Home"}}
+            <div class="category-section">
+                <h2 class="category-title">Home</h2>
+                <ul class="page-list">
+                    {{range $page := index .Categories "Home"}}
+                        <li>
+                            <a href="{{$page.URL}}">{{$page.Title}}</a>
+                            <span class="last-modified">Last modified: {{$page.LastMod.Format "2006-01-02"}}</span>
+                        </li>
+                    {{end}}
+                </ul>
+            </div>
+        {{end}}
+
+        <!-- Display other categories in a grid layout -->
+        <div class="category-sections-container">
+            {{range $category, $pages := .Categories}}
+                {{if ne $category "Home"}}
+                    <div class="category-section">
+                        <h2 class="category-title">{{$category}}</h2>
+                        <ul class="page-list">
+                            {{range $page := $pages}}
+                                <li>
+                                    <a href="{{$page.URL}}">{{$page.Title}}</a>
+                                    <span class="last-modified">Last modified: {{$page.LastMod.Format "2006-01-02"}}</span>
+                                </li>
+                            {{end}}
+                        </ul>
+                    </div>
+                {{end}}
+            {{end}}
+        </div>
+    </div>
+</body>
+</html>

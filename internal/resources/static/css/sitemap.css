@@ -1,0 +1,129 @@
+/**
+ * Sitemap styles
+ */
+
+/* HTML Sitemap page styles */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.sitemap-container {
+    width: 80%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.sitemap-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.sitemap-header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+}
+
+.sitemap-format-links {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.sitemap-format-links a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.sitemap-format-links a:hover {
+    background-color: var(--primary-hover);
+}
+
+.category-section {
+    background-color: var(--box-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    padding: 0.75rem;
+    margin-top: 1rem;
+}
+
+.category-title {
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    color: var(--heading-color);
+}
+
+.page-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.page-list li {
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.page-list li:hover {
+    background-color: var(--hover-bg);
+}
+
+.page-list a {
+    display: block;
+    text-decoration: none;
+    color: var(--link-color);
+    font-weight: 500;
+}
+
+.page-list a:hover {
+    color: var(--primary-color);
+}
+
+.last-modified {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-left: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sitemap-container {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .sitemap-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .sitemap-format-links {
+        width: 100%;
+    }
+
+    .sitemap-format-links a {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .category-section {
+        padding: 1rem;
+    }
+}

@@ -15,31 +15,31 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     'use strict';
-    
+
     // DOM elements
-    const themeToggle = document.querySelector('.theme-toggle');
+    const themeToggle = document.querySelector('.sidebar-footer-buttons .sidebar-footer-btn[aria-label="Toggle theme"]');
     const root = document.documentElement;
     const lightIcon = document.querySelector('.light-icon');
     const darkIcon = document.querySelector('.dark-icon');
-    
+
     // Initialize theme
     initializeTheme();
-    
+
     // Add theme toggle event listener
     if (themeToggle) {
         themeToggle.addEventListener('click', toggleTheme);
     }
-    
+
     // Apply system preference changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', handleSystemThemeChange);
-    
+
     /**
      * Initialize theme based on saved preference or system preference
      */
     function initializeTheme() {
         const savedTheme = localStorage.getItem('theme');
         const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
+
         if (savedTheme) {
             applyTheme(savedTheme);
         } else if (systemPrefersDark) {
@@ -48,18 +48,18 @@ document.addEventListener('DOMContentLoaded', function() {
             applyTheme('light');
         }
     }
-    
+
     /**
      * Toggle between light and dark themes
      */
     function toggleTheme() {
         const currentTheme = root.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
+
         applyTheme(newTheme);
         localStorage.setItem('theme', newTheme);
     }
-    
+
     /**
      * Apply theme to document and update UI
      * @param {string} theme - 'light' or 'dark'
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
         root.setAttribute('data-theme', theme);
         updateThemeUI(theme);
     }
-    
+
     /**
      * Update UI elements based on current theme
      * @param {string} theme - 'light' or 'dark'
@@ -91,14 +91,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 prismTheme.href = '/static/libs/prism-1.30.0/prism.min.css';
             }
         }
-        
+
         // Dispatch theme change event for other components
-        const themeChangeEvent = new CustomEvent('themeChanged', { 
-            detail: { theme: theme } 
+        const themeChangeEvent = new CustomEvent('themeChanged', {
+            detail: { theme: theme }
         });
         document.dispatchEvent(themeChangeEvent);
     }
-    
+
     /**
      * Handle system theme preference changes
      * @param {MediaQueryListEvent} e - Media query change event
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
             applyTheme(newTheme);
         }
     }
-    
+
     // Export theme functions to global scope
     window.ThemeManager = {
         getCurrentTheme: function() {

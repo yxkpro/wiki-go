@@ -15,6 +15,7 @@ Wiki-Go provides several keyboard shortcuts to enhance productivity:
 - `Ctrl+H` - Toggle/cycle heading levels (# -> ## -> ### ... -> plain text)
 - `Ctrl+Q` - Toggle block quote
 - `Ctrl+/` - Toggle code formatting (inline code for single-line selections, code blocks for multi-line selections or current line when nothing is selected)
+- `Alt+Z` - Toggle word wrap
 
 ## Table Editing
 

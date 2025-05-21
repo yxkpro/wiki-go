@@ -482,6 +482,8 @@ function createToolbar(container) {
         { type: 'separator' },
         { icon: 'fa-ellipsis-h', action: 'horizontal-rule', title: 'Horizontal Rule' },
         { type: 'separator' },
+        { icon: 'fa-text-width', action: 'toggle-wordwrap', title: 'Toggle Word Wrap', id: 'toggle-wordwrap' },
+        { type: 'separator' },
         { icon: 'fa-clock-o', action: 'recent-edits', title: 'Insert Recent Edits' },
         { icon: 'fa-book', action: 'total', title: 'Insert Total Number of Documents' },
         { type: 'separator' },
@@ -771,6 +773,9 @@ function setupToolbarActions(toolbar) {
                 editor.execCommand('markdownTableAlignColumnNone');
                 editor.focus();
                 break;
+            case 'toggle-wordwrap':
+                toggleWordWrap();
+                break;
             default:
                 break;
         }
@@ -1028,7 +1033,8 @@ async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar
                 extraKeys: {
                     // Tab and Enter handling is now done directly in markdown-table-editor.js
                     // by overriding the CodeMirror commands
-                    "Ctrl-P": togglePreview
+                    "Ctrl-P": togglePreview,
+                    "Alt-Z": toggleWordWrap
                 },
                 placeholder: 'Write your markdown here...',
                 spellcheck: true,
@@ -1060,6 +1066,13 @@ async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar
                     updatePreview(editor.getValue());
                 }
             });
+
+            // Set initial state of the wordwrap button based on editor settings
+            const wrapButton = document.querySelector('.toggle-wordwrap-button');
+            if (wrapButton && editor.getOption('lineWrapping')) {
+                wrapButton.classList.add('active');
+                wrapButton.title = 'Disable Word Wrap';
+            }
         }
 
         // Set initial content
@@ -1930,4 +1943,32 @@ function hideAnchorPicker() {
             anchorPickerElement._closeHandler = null;
         }
     }
+}
+
+// Function to toggle word wrap
+function toggleWordWrap() {
+    if (!editor) return;
+
+    // Get current line wrapping state
+    const currentWrapping = editor.getOption('lineWrapping');
+
+    // Toggle line wrapping
+    editor.setOption('lineWrapping', !currentWrapping);
+
+    // Update button appearance
+    const wrapButton = document.querySelector('.toggle-wordwrap-button');
+    if (wrapButton) {
+        if (!currentWrapping) {
+            // Line wrapping was turned on
+            wrapButton.classList.add('active');
+            wrapButton.title = 'Disable Word Wrap';
+        } else {
+            // Line wrapping was turned off
+            wrapButton.classList.remove('active');
+            wrapButton.title = 'Enable Word Wrap';
+        }
+    }
+
+    // Refresh editor to apply changes
+    editor.refresh();
 }

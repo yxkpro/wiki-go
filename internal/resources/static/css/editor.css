@@ -97,7 +97,7 @@
 }
 
 .custom-toolbar button.active {
-    background: var(--bg-color-alt) !important;
+    background-color: var(--hover-bg) !important;
     border-color: var(--primary-color) !important;
     color: var(--primary-color) !important;
 }

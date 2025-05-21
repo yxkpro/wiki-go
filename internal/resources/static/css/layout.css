@@ -4,7 +4,8 @@
 .content {
     margin-left: var(--sidebar-width);
     padding: 32px 48px;
-    max-width: none;
+    max-width: 900px;
+    margin-bottom: 0.2em;
     width: calc(100% - var(--sidebar-width));
     min-height: 100vh;
     position: relative;
@@ -13,13 +14,7 @@
     flex-direction: column;
 }
 
-.content > *:not(.footer) {
-    max-width: 900px;
-    margin-bottom: 0.2em;
-}
-
 .footer {
-    max-width: 900px;
     margin-top: auto;
     padding: 20px 0;
     border-top: 1px solid var(--border-color);

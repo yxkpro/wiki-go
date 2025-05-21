@@ -58,6 +58,7 @@
   "settings.disable_comments": "Wyłącz komentarze w całym systemie",
   "settings.enable_link_embedding": "Włącz osadzanie linków ze schowka",
   "settings.hide_attachments": "Ukryj sekcję załączników w dokumentach",
+  "settings.disable_content_max_width": "Użyj pełnej szerokości dla treści na komputerze (wyłącz limit 900px)",
   "settings.security": "Bezpieczeństwo",
   "settings.login_ban_enabled": "Włącz blokadę logowania (ochrona przed atakami brute-force)",
   "settings.login_ban_max_failures": "Maksymalna liczba niepowodzeń przed blokadą",

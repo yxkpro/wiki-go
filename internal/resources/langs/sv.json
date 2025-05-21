@@ -58,6 +58,7 @@
   "settings.disable_comments": "Inaktivera kommentarer för hela systemet",
   "settings.enable_link_embedding": "Aktivera länkinbäddning från urklipp",
   "settings.hide_attachments": "Dölj bilagor i dokument",
+  "settings.disable_content_max_width": "Använd full bredd för innehåll på skrivbordet (inaktivera 900px-gräns)",
   "settings.security": "Säkerhet",
   "settings.login_ban_enabled": "Aktivera inloggningsspärr (skydd mot brutala angrepp)",
   "settings.login_ban_max_failures": "Max antal misslyckade försök innan spärr",

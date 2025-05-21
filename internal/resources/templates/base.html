@@ -6,6 +6,7 @@
     <meta name="user-role" content="{{.UserRole}}">
     <meta name="doc-path" content="{{.CurrentDir.Path}}">
     <meta name="enable-link-embedding" content="{{.Config.Wiki.EnableLinkEmbedding}}">
+    <meta name="disable-content-max-width" content="{{.Config.Wiki.DisableContentMaxWidth}}">
     <!-- Favicons -->
     {{if hasFavicon .Config.Wiki.RootDir "ico"}}<link rel="icon" href="/static/favicon.ico" type="image/x-icon">{{end}}
     {{if hasFavicon .Config.Wiki.RootDir "svg"}}<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">{{end}}
@@ -86,7 +87,7 @@
     <!-- Include sidebar template -->
     {{template "sidebar" .}}
 
-    <div class="content">
+    <div class="content{{if .Config.Wiki.DisableContentMaxWidth}} full-width-content{{end}}">
         <div class="breadcrumbs">
             <div class="breadcrumbs-container">
                 <div class="breadcrumbs-path">

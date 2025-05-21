@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
             disable_file_upload_checking: document.getElementById('wikiDisableFileUploadChecking').checked,
             enable_link_embedding: document.getElementById('wikiEnableLinkEmbedding').checked,
             hide_attachments: document.getElementById('wikiHideAttachments').checked,
+            disable_content_max_width: document.getElementById('wikiDisableContentMaxWidth').checked,
             max_versions: parseInt(document.getElementById('wikiMaxVersions').value, 10) || 0,
             max_upload_size: parseInt(document.getElementById('wikiMaxUploadSize').value, 10) || 20,
             language: document.getElementById('wikiLanguage').value
@@ -213,6 +214,11 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             if (response.ok) {
+                // Dispatch settings-updated event for other components to listen for
+                document.dispatchEvent(new CustomEvent('settings-updated', {
+                    detail: wikiSettings
+                }));
+
                 // If language changed, close settings and reload the page
                 if (languageChanged) {
                     // Close settings dialog
@@ -266,6 +272,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('wikiDisableFileUploadChecking').checked = settings.disable_file_upload_checking || false;
             document.getElementById('wikiEnableLinkEmbedding').checked = settings.enable_link_embedding || false;
             document.getElementById('wikiHideAttachments').checked = settings.hide_attachments || false;
+            document.getElementById('wikiDisableContentMaxWidth').checked = settings.disable_content_max_width || false;
 
             // Handle max_versions specifically to account for 0 value
             document.getElementById('wikiMaxVersions').value = settings.max_versions !== undefined ? settings.max_versions : 10;

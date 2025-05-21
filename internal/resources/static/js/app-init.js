@@ -1,13 +1,43 @@
 // Application Initialization Module
 
+// Apply content width setting immediately before DOM content is loaded to prevent flashing
+(function() {
+    const disableMaxWidth = document.querySelector('meta[name="disable-content-max-width"]')?.getAttribute('content') === 'true';
+    if (disableMaxWidth) {
+        // Apply a style immediately to prevent flashing
+        document.documentElement.style.setProperty('--content-max-width', 'none');
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
     'use strict';
 
     // Initialize Wiki configuration
     window.WikiConfig = {
         // Get config values from meta tags
-        enableLinkEmbedding: document.querySelector('meta[name="enable-link-embedding"]')?.getAttribute('content') === 'true'
+        enableLinkEmbedding: document.querySelector('meta[name="enable-link-embedding"]')?.getAttribute('content') === 'true',
+        disableContentMaxWidth: document.querySelector('meta[name="disable-content-max-width"]')?.getAttribute('content') === 'true'
     };
+
+    // Apply full width content if setting is enabled
+    if (window.WikiConfig.disableContentMaxWidth) {
+        document.querySelector('.content')?.classList.add('full-width-content');
+    }
+
+    // Update content width when settings change
+    // This will be triggered after settings are updated
+    document.addEventListener('settings-updated', function() {
+        const contentElement = document.querySelector('.content');
+        const disableMaxWidth = document.querySelector('meta[name="disable-content-max-width"]')?.getAttribute('content') === 'true';
+
+        if (disableMaxWidth) {
+            contentElement?.classList.add('full-width-content');
+            document.documentElement.style.setProperty('--content-max-width', 'none');
+        } else {
+            contentElement?.classList.remove('full-width-content');
+            document.documentElement.style.removeProperty('--content-max-width');
+        }
+    });
 
     // Initialize editor controls
     if (window.WikiEditor && typeof window.WikiEditor.initializeEditControls === 'function') {

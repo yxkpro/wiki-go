@@ -18,6 +18,7 @@
     --theme-toggle-color: #333;
     --danger-color: #dc3545;
     --danger-bg: #f8d7da;
+    --content-max-width: 900px;
 }
 
 :root[data-theme="dark"] {

@@ -58,6 +58,7 @@
   "settings.disable_comments": "Deaktiver kommentarer systembredt",
   "settings.enable_link_embedding": "Aktiver link-indlejring fra udklipsholder",
   "settings.hide_attachments": "Skjul vedhæftede filer i dokumenter",
+  "settings.disable_content_max_width": "Brug fuld bredde til indhold på desktop (deaktiver 900px grænse)",
   "settings.security": "Sikkerhed",
   "settings.login_ban_enabled": "Aktiver login-blokering (beskyttelse mod brute-force)",
   "settings.login_ban_max_failures": "Maks. mislykkede forsøg før blokering",

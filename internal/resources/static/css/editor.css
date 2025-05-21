@@ -615,6 +615,15 @@
     margin-bottom: 0.5em;
 }
 
+.editor-preview img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5rem auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 .editor-preview a          { color: var(--primary-color); text-decoration: none; }
 .editor-preview a:hover    { text-decoration: underline; }
 

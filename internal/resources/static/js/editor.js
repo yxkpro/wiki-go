@@ -484,6 +484,7 @@ function createToolbar(container) {
         { type: 'separator' },
         { icon: 'fa-text-width', action: 'toggle-wordwrap', title: 'Toggle Word Wrap', id: 'toggle-wordwrap' },
         { type: 'separator' },
+        { icon: 'fa-list-alt', action: 'insert-toc', title: 'Insert Table of Contents' },
         { icon: 'fa-clock-o', action: 'recent-edits', title: 'Insert Recent Edits' },
         { icon: 'fa-book', action: 'total', title: 'Insert Total Number of Documents' },
         { type: 'separator' },
@@ -775,6 +776,9 @@ function setupToolbarActions(toolbar) {
                 break;
             case 'toggle-wordwrap':
                 toggleWordWrap();
+                break;
+            case 'insert-toc':
+                insertTOC();
                 break;
             default:
                 break;
@@ -1971,4 +1975,16 @@ function toggleWordWrap() {
 
     // Refresh editor to apply changes
     editor.refresh();
+}
+
+// Function to insert TOC shortcode
+function insertTOC() {
+    if (!editor) return;
+
+    // Insert [toc] shortcode at cursor position with a newline after it
+    const cursor = editor.getCursor();
+    editor.replaceRange("[toc]\n", cursor);
+
+    // Ensure editor retains focus
+    editor.focus();
 }

@@ -446,16 +446,16 @@ function createToolbar(container) {
 
     // Define toolbar buttons
     const buttons = [
-        { icon: 'fa-header', action: 'heading', title: 'Heading' },
-        { icon: 'fa-bold', action: 'bold', title: 'Bold' },
-        { icon: 'fa-italic', action: 'italic', title: 'Italic' },
+        { icon: 'fa-header', action: 'heading', title: 'Heading (Ctrl+H)' },
+        { icon: 'fa-bold', action: 'bold', title: 'Bold (Ctrl+B)' },
+        { icon: 'fa-italic', action: 'italic', title: 'Italic (Ctrl+I)' },
         { icon: 'fa-paint-brush', action: 'highlight', title: 'Highlight Text' },
         { icon: 'fa-strikethrough', action: 'strikethrough', title: 'Strikethrough' },
         { icon: 'fa-subscript', action: 'subscript', title: 'Add Subscript' },
         { icon: 'fa-superscript', action: 'superscript', title: 'Add Superscript' },
         { type: 'separator' },
-        { icon: 'fa-code', action: 'code', title: 'Code' },
-        { icon: 'fa-quote-left', action: 'quote', title: 'Quote' },
+        { icon: 'fa-code', action: 'code', title: 'Code (Ctrl+/)' },
+        { icon: 'fa-quote-left', action: 'quote', title: 'Quote (Ctrl+Q)' },
         { icon: 'fa-list-ul', action: 'unordered-list', title: 'Unordered List' },
         { icon: 'fa-list-ol', action: 'ordered-list', title: 'Ordered List' },
         { type: 'separator' },
@@ -471,18 +471,18 @@ function createToolbar(container) {
         { icon: 'fa-plus-square', action: 'insert-column', title: 'Insert Column', style: 'position: relative;' },
         { icon: 'fa-minus-square', action: 'delete-row', title: 'Delete Row', style: 'position: relative;' },
         { icon: 'fa-minus-square', action: 'delete-column', title: 'Delete Column', style: 'position: relative;' },
-        { icon: 'fa-arrow-up', action: 'move-row-up', title: 'Move Row Up', style: 'position: relative;' },
-        { icon: 'fa-arrow-down', action: 'move-row-down', title: 'Move Row Down', style: 'position: relative;' },
-        { icon: 'fa-arrow-left', action: 'move-column-left', title: 'Move Column Left', style: 'position: relative;' },
-        { icon: 'fa-arrow-right', action: 'move-column-right', title: 'Move Column Right', style: 'position: relative;' },
-        { icon: 'fa-align-left', action: 'align-column-left', title: 'Align Column Left', style: 'position: relative;' },
-        { icon: 'fa-align-center', action: 'align-column-center', title: 'Align Column Center', style: 'position: relative;' },
-        { icon: 'fa-align-right', action: 'align-column-right', title: 'Align Column Right', style: 'position: relative;' },
-        { icon: 'fa-align-justify', action: 'align-column-none', title: 'Remove Column Alignment', style: 'position: relative;' },
+        { icon: 'fa-arrow-up', action: 'move-row-up', title: 'Move Row Up (Alt+Up Arrow)', style: 'position: relative;' },
+        { icon: 'fa-arrow-down', action: 'move-row-down', title: 'Move Row Down (Alt+Down Arrow)', style: 'position: relative;' },
+        { icon: 'fa-arrow-left', action: 'move-column-left', title: 'Move Column Left (Alt+Left Arrow)', style: 'position: relative;' },
+        { icon: 'fa-arrow-right', action: 'move-column-right', title: 'Move Column Right (Alt+Right Arrow)', style: 'position: relative;' },
+        { icon: 'fa-align-left', action: 'align-column-left', title: 'Align Column Left (Ctrl+Shift+Left Arrow)', style: 'position: relative;' },
+        { icon: 'fa-align-center', action: 'align-column-center', title: 'Align Column Center (Ctrl+Shift+Up Arrow)', style: 'position: relative;' },
+        { icon: 'fa-align-right', action: 'align-column-right', title: 'Align Column Right (Ctrl+Shift+Right Arrow)', style: 'position: relative;' },
+        { icon: 'fa-align-justify', action: 'align-column-none', title: 'Remove Column Alignment (Ctrl+Shift+Down Arrow)', style: 'position: relative;' },
         { type: 'separator' },
         { icon: 'fa-ellipsis-h', action: 'horizontal-rule', title: 'Horizontal Rule' },
         { type: 'separator' },
-        { icon: 'fa-text-width', action: 'toggle-wordwrap', title: 'Toggle Word Wrap', id: 'toggle-wordwrap' },
+        { icon: 'fa-text-width', action: 'toggle-wordwrap', title: 'Toggle Word Wrap (Alt+Z)', id: 'toggle-wordwrap' },
         { type: 'separator' },
         { icon: 'fa-list-alt', action: 'insert-toc', title: 'Insert Table of Contents' },
         { icon: 'fa-clock-o', action: 'recent-edits', title: 'Insert Recent Edits' },
@@ -491,7 +491,7 @@ function createToolbar(container) {
         { icon: 'fa-undo', action: 'undo', title: 'Undo' },
         { icon: 'fa-repeat', action: 'redo', title: 'Redo' },
         { type: 'separator' },
-        { icon: 'fa-eye', action: 'preview', title: 'Toggle Preview', id: 'toggle-preview' }
+        { icon: 'fa-eye', action: 'preview', title: 'Toggle Preview (Ctrl+Shift+P)', id: 'toggle-preview' }
     ];
 
     buttons.forEach(button => {
@@ -876,7 +876,7 @@ async function togglePreview() {
         const previewButton = toolbar.querySelector('.preview-button i');
         if (previewButton) {
             previewButton.className = 'fa fa-eye';
-            previewButton.parentElement.title = 'Toggle Preview';
+            previewButton.parentElement.title = 'Toggle Preview (Ctrl+Shift+P)';
         }
 
         // Make sure editor gets focus when returning from preview mode
@@ -1037,7 +1037,7 @@ async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar
                 extraKeys: {
                     // Tab and Enter handling is now done directly in markdown-table-editor.js
                     // by overriding the CodeMirror commands
-                    "Ctrl-P": togglePreview,
+                    "Ctrl-Shift-P": togglePreview,
                     "Alt-Z": toggleWordWrap
                 },
                 placeholder: 'Write your markdown here...',
@@ -1433,8 +1433,26 @@ window.addEventListener('resize', () => {
     }
 });
 
-// Add dedicated ESC key handler for exiting edit mode
+// Add a more aggressive event capture for Ctrl+Shift+P at document level
 document.addEventListener('keydown', function(e) {
+    // Handle Ctrl+Shift+P for preview toggle (capture it before browser handling)
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'p' || e.key === 'P')) {
+        // Prevent default browser action first
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Only process if we're in edit mode
+        const mainContent = document.querySelector('.content');
+        if (mainContent && mainContent.classList.contains('editing')) {
+            if (typeof togglePreview === 'function') {
+                togglePreview();
+            }
+        }
+
+        // Return false to ensure the event is completely handled
+        return false;
+    }
+
     if (e.key === 'Escape') {
         // Only handle if we're in edit mode and no dialogs are open
         const mainContent = document.querySelector('.content');
@@ -1460,6 +1478,12 @@ document.addEventListener('keydown', function(e) {
                 e.preventDefault();
             }
         }
+    }
+
+    // Add Ctrl+P handler that works even when editor is hidden
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'p' || e.key === 'P')) {
+        // This is now handled by the dedicated handler above
+        return;
     }
 });
 

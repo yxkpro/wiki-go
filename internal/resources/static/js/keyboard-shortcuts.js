@@ -225,7 +225,7 @@ function registerFormattingCommands() {
     CodeMirror.keyMap.default['Ctrl-B'] = 'formatBold';
     CodeMirror.keyMap.default['Ctrl-I'] = 'formatItalic';
     CodeMirror.keyMap.default['Ctrl-H'] = 'formatHeading';
-    CodeMirror.keyMap.default['Ctrl-Q'] = 'formatQuote';
+    CodeMirror.keyMap.default['Ctrl-K'] = 'formatQuote';
     CodeMirror.keyMap.default['Ctrl-/'] = 'formatCode';
 }
 

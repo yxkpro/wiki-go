@@ -15,6 +15,7 @@ Wiki-Go provides several keyboard shortcuts to enhance productivity:
 - `Ctrl+H` - Toggle/cycle heading levels (# -> ## -> ### ... -> plain text)
 - `Ctrl+Q` - Toggle block quote
 - `Ctrl+/` - Toggle code formatting (inline code for single-line selections, code blocks for multi-line selections or current line when nothing is selected)
+- `Ctrl+Shift+P` - Preview Toggle
 - `Alt+Z` - Toggle word wrap
 
 ## Table Editing
@@ -37,10 +38,10 @@ Wiki-Go includes powerful table editing capabilities with keyboard shortcuts:
 
 ### Column/Row Alignment
 
-- `Shift+Ctrl+Left` - Align column left
-- `Shift+Ctrl+Right` - Align column right
-- `Shift+Ctrl+Up` - Align column center
-- `Shift+Ctrl+Down` - Remove column alignment
+- `Ctrl+Shift+Left` - Align column left
+- `Ctrl+Shift+Right` - Align column right
+- `Ctrl+Shift+Up` - Align column center
+- `Ctrl+Shift+Down` - Remove column alignment
 
 ### Moving Columns/Rows
 

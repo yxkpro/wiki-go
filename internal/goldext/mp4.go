@@ -2,6 +2,7 @@ package goldext
 
 import (
 	"fmt"
+	"net/url"
 	"path/filepath"
 	"strings"
 )
@@ -16,14 +17,17 @@ func TransformMP4Path(videoPath string, docPath string) string {
 		return videoPath
 	}
 
+	// URL encode the filename to handle spaces and special characters
+	escapedPath := url.PathEscape(videoPath)
+
 	// Handle the homepage special case
 	if docPath == "" || docPath == "/" {
 		// Homepage files are stored in "pages/home"
-		return "/api/files/pages/home/" + videoPath
+		return "/api/files/pages/home/" + escapedPath
 	}
 
 	// Regular document files
-	return "/api/files/" + docPath + "/" + videoPath
+	return "/api/files/" + docPath + "/" + escapedPath
 }
 
 // MP4Preprocessor transforms MP4 code blocks into HTML video elements

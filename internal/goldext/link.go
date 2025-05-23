@@ -2,6 +2,7 @@ package goldext
 
 import (
 	"fmt"
+	"net/url"
 	"regexp"
 	"strings"
 )
@@ -189,12 +190,15 @@ func isLocalPath(path string) bool {
 
 // resolveLocalPath resolves a local path relative to the document path
 func resolveLocalPath(path, docPath string) string {
+	// URL encode the filename to handle spaces and special characters
+	escapedPath := url.PathEscape(path)
+
 	// Handle the homepage special case
 	if docPath == "" || docPath == "/" {
 		// Homepage files are stored in "pages/home"
-		return "/api/files/pages/home/" + path
+		return "/api/files/pages/home/" + escapedPath
 	}
 
 	// Regular document files
-	return "/api/files/" + docPath + "/" + path
+	return "/api/files/" + docPath + "/" + escapedPath
 }

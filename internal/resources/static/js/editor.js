@@ -739,12 +739,16 @@ function setupToolbarActions(toolbar) {
                 addTotal(editor);
                 break;
             case 'undo':
-                editor.undo();
-                editor.focus();
+                if (editor.historySize && editor.historySize().undo > 0) {
+                    editor.undo();
+                    editor.focus();
+                }
                 break;
             case 'redo':
-                editor.redo();
-                editor.focus();
+                if (editor.historySize && editor.historySize().redo > 0) {
+                    editor.redo();
+                    editor.focus();
+                }
                 break;
             case 'preview':
                 togglePreview();
@@ -1081,6 +1085,10 @@ async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar
 
         // Set initial content
         editor.setValue(markdown);
+        // Clear history so the loaded content is the initial undo boundary
+        if (editor && typeof editor.clearHistory === 'function') {
+            editor.clearHistory();
+        }
 
         // Make sure editor is visible (not in preview mode)
         document.querySelector('.CodeMirror').style.display = 'block';

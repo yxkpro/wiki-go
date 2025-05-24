@@ -21,9 +21,9 @@ func TypographyPreprocessor(markdown string, _ string) string {
 		"(p)":  "¶", // Paragraph symbol
 		"+-":   "±", // Plus-minus symbol
 		"...":  "…", // Ellipsis
-		"1/2":  "½", // One-half
-		"1/4":  "¼", // One-quarter
-		"3/4":  "¾", // Three-quarters
+		"(1/2)":  "½", // One-half
+		"(1/4)":  "¼", // One-quarter
+		"(3/4)":  "¾", // Three-quarters
 	}
 
 	for _, line := range lines {

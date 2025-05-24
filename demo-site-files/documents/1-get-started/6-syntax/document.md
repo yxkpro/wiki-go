@@ -178,9 +178,9 @@ To create strikethrough text in Markdown, use double tildes (`~~`). For example,
 - `(p)`: Replaced with (p) (Paragraph symbol).
 - `+-`: Replaced with +- (Plus-minus symbol).
 - `...`: Replaced with ... (Ellipsis).
-- `1/2`: Replaced with 1/2 (One-half).
-- `1/4`: Replaced with 1/4 (One-quarter).
-- `3/4`: Replaced with 3/4 (Three-quarters).
+- `(1/2)`: Replaced with (1/2) (One-half).
+- `(1/4)`: Replaced with (1/4) (One-quarter).
+- `(3/4)`: Replaced with (3/4) (Three-quarters).
 
 ## Tables
 

@@ -331,7 +331,35 @@ function handleEscapeKey(e) {
         const cancelButton = document.querySelector('.cancel-edit');
         if (cancelButton) {
             e.preventDefault();
-            cancelButton.click();
+            // Check if there are unsaved changes
+            if (window.WikiEditor && window.WikiEditor.hasUnsavedChanges && window.WikiEditor.hasUnsavedChanges()) {
+                // Show confirmation dialog
+                window.showConfirmDialog(
+                    window.i18n ? window.i18n.t('editor.unsaved_changes') : 'Unsaved Changes',
+                    window.i18n ? window.i18n.t('editor.unsaved_changes_save') : 'You have unsaved changes. Do you want to save them before exiting?',
+                    (confirmed) => {
+                        if (confirmed) {
+                            // User wants to save changes
+                            const saveButton = document.querySelector('.save-changes');
+                            if (saveButton) {
+                                saveButton.click();
+                            }
+                        } else {
+                            // User doesn't want to save, exit edit mode and discard changes
+                            // Use the WikiEditor's exitEditMode to properly clean up
+                            if (window.WikiEditor && typeof window.WikiEditor.exitEditMode === 'function') {
+                                window.WikiEditor.exitEditMode(mainContent, editorContainer, viewToolbar, editToolbar);
+                            } else {
+                                // Fallback to click if function isn't available
+                                cancelButton.click();
+                            }
+                        }
+                    }
+                );
+            } else {
+                // No unsaved changes, exit edit mode
+                cancelButton.click();
+            }
         } else {
             // Fallback to manual exit if cancel button isn't found
             e.preventDefault();

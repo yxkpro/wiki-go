@@ -31,6 +31,9 @@
   "editor.title": "Rediger dokument",
   "editor.save_success": "Dokumentet ble lagret",
   "editor.save_error": "Feil ved lagring av dokument",
+  "editor.unsaved_changes": "Ulagrede endringer",
+  "editor.unsaved_changes_leave": "Du har ulagrede endringer. Er du sikker på at du vil forlate?",
+  "editor.unsaved_changes_save": "Du har ulagrede endringer. Vil du lagre dem før du forlater?",
 
   "toolbar.history": "Historikk",
   "toolbar.attachments": "Vedlegg",

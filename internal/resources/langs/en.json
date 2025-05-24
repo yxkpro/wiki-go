@@ -31,6 +31,9 @@
   "editor.title": "Edit Document",
   "editor.save_success": "Document saved successfully",
   "editor.save_error": "Error saving document",
+  "editor.unsaved_changes": "Unsaved Changes",
+  "editor.unsaved_changes_leave": "You have unsaved changes. Are you sure you want to leave?",
+  "editor.unsaved_changes_save": "You have unsaved changes. Do you want to save them before exiting?",
 
   "toolbar.history": "History",
   "toolbar.attachments": "Attachments",

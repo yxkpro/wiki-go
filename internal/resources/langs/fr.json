@@ -31,6 +31,9 @@
   "editor.title": "Modifier le document",
   "editor.save_success": "Document enregistré avec succès",
   "editor.save_error": "Erreur lors de l'enregistrement du document",
+  "editor.unsaved_changes": "Modifications non enregistrées",
+  "editor.unsaved_changes_leave": "Vous avez des modifications non enregistrées. Êtes-vous sûr de vouloir quitter ?",
+  "editor.unsaved_changes_save": "Vous avez des modifications non enregistrées. Voulez-vous les enregistrer avant de quitter ?",
 
   "toolbar.history": "Historique",
   "toolbar.attachments": "Pièces jointes",

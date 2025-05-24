@@ -31,6 +31,9 @@
   "editor.title": "Document bewerken",
   "editor.save_success": "Document succesvol opgeslagen",
   "editor.save_error": "Fout bij opslaan document",
+  "editor.unsaved_changes": "Niet-opgeslagen wijzigingen",
+  "editor.unsaved_changes_leave": "Je hebt niet-opgeslagen wijzigingen. Weet je zeker dat je wilt verlaten?",
+  "editor.unsaved_changes_save": "Je hebt niet-opgeslagen wijzigingen. Wil je deze opslaan voordat je vertrekt?",
 
   "toolbar.history": "Geschiedenis",
   "toolbar.attachments": "Bijlagen",

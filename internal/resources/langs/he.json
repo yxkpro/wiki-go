@@ -31,6 +31,9 @@
   "editor.title": "עריכת מסמך",
   "editor.save_success": "המסמך נשמר בהצלחה",
   "editor.save_error": "שגיאה בשמירת המסמך",
+  "editor.unsaved_changes": "שינויים שלא נשמרו",
+  "editor.unsaved_changes_leave": "יש לך שינויים שלא נשמרו. האם אתה בטוח שברצונך לעזוב?",
+  "editor.unsaved_changes_save": "יש לך שינויים שלא נשמרו. האם לשמור אותם לפני היציאה?",
 
   "toolbar.history": "היסטוריה",
   "toolbar.attachments": "קבצים מצורפים",

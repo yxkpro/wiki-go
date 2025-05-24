@@ -31,6 +31,9 @@
   "editor.title": "Muokkaa dokumenttia",
   "editor.save_success": "Dokumentti tallennettu onnistuneesti",
   "editor.save_error": "Virhe dokumentin tallennuksessa",
+  "editor.unsaved_changes": "Tallentamattomat muutokset",
+  "editor.unsaved_changes_leave": "Sinulla on tallentamattomia muutoksia. Haluatko varmasti poistua?",
+  "editor.unsaved_changes_save": "Sinulla on tallentamattomia muutoksia. Haluatko tallentaa ne ennen poistumista?",
 
   "toolbar.history": "Historia",
   "toolbar.attachments": "Liitteet",

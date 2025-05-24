@@ -31,6 +31,9 @@
   "editor.title": "Redigera dokument",
   "editor.save_success": "Dokumentet har sparats",
   "editor.save_error": "Fel vid sparande av dokumentet",
+  "editor.unsaved_changes": "Osparade ändringar",
+  "editor.unsaved_changes_leave": "Du har osparade ändringar. Är du säker på att du vill lämna?",
+  "editor.unsaved_changes_save": "Du har osparade ändringar. Vill du spara dem innan du lämnar?",
 
   "toolbar.history": "Historik",
   "toolbar.attachments": "Bilagor",

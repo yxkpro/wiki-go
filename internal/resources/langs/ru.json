@@ -31,6 +31,9 @@
   "editor.title": "Редактировать документ",
   "editor.save_success": "Документ успешно сохранен",
   "editor.save_error": "Ошибка при сохранении документа",
+  "editor.unsaved_changes": "Несохранённые изменения",
+  "editor.unsaved_changes_leave": "У вас есть несохранённые изменения. Вы уверены, что хотите выйти?",
+  "editor.unsaved_changes_save": "У вас есть несохранённые изменения. Сохранить их перед выходом?",
 
   "toolbar.history": "История",
   "toolbar.attachments": "Вложения",

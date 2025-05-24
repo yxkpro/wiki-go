@@ -31,6 +31,9 @@
   "editor.title": "Belgeyi Düzenle",
   "editor.save_success": "Belge başarıyla kaydedildi",
   "editor.save_error": "Belge kaydedilirken hata oluştu",
+  "editor.unsaved_changes": "Kaydedilmemiş değişiklikler",
+  "editor.unsaved_changes_leave": "Kaydedilmemiş değişiklikleriniz var. Gerçekten çıkmak istiyor musunuz?",
+  "editor.unsaved_changes_save": "Kaydedilmemiş değişiklikleriniz var. Çıkmadan önce kaydetmek ister misiniz?",
 
   "toolbar.history": "Geçmiş",
   "toolbar.attachments": "Ekler",

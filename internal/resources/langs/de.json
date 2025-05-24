@@ -31,6 +31,9 @@
   "editor.title": "Dokument bearbeiten",
   "editor.save_success": "Dokument erfolgreich gespeichert",
   "editor.save_error": "Fehler beim Speichern des Dokuments",
+  "editor.unsaved_changes": "Ungespeicherte Änderungen",
+  "editor.unsaved_changes_leave": "Sie haben ungespeicherte Änderungen. Möchten Sie die Seite wirklich verlassen?",
+  "editor.unsaved_changes_save": "Sie haben ungespeicherte Änderungen. Möchten Sie diese vor dem Verlassen speichern?",
 
   "toolbar.history": "Verlauf",
   "toolbar.attachments": "Anhänge",

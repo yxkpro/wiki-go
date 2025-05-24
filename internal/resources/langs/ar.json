@@ -31,6 +31,9 @@
   "editor.title": "تعديل المستند",
   "editor.save_success": "تم حفظ المستند بنجاح",
   "editor.save_error": "خطأ في حفظ المستند",
+  "editor.unsaved_changes": "تغييرات غير محفوظة",
+  "editor.unsaved_changes_leave": "لديك تغييرات غير محفوظة. هل أنت متأكد أنك تريد المغادرة؟",
+  "editor.unsaved_changes_save": "لديك تغييرات غير محفوظة. هل تريد حفظها قبل الخروج؟",
 
   "toolbar.history": "التاريخ",
   "toolbar.attachments": "المرفقات",

@@ -31,6 +31,9 @@
   "editor.title": "Edytuj dokument",
   "editor.save_success": "Dokument zapisany pomyślnie",
   "editor.save_error": "Błąd podczas zapisywania dokumentu",
+  "editor.unsaved_changes": "Niezapisane zmiany",
+  "editor.unsaved_changes_leave": "Masz niezapisane zmiany. Czy na pewno chcesz opuścić?",
+  "editor.unsaved_changes_save": "Masz niezapisane zmiany. Czy chcesz je zapisać przed opuszczeniem?",
 
   "toolbar.history": "Historia",
   "toolbar.attachments": "Załączniki",

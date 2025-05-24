@@ -31,6 +31,9 @@
   "editor.title": "Editar Documento",
   "editor.save_success": "Documento guardado con éxito",
   "editor.save_error": "Error al guardar el documento",
+  "editor.unsaved_changes": "Cambios no guardados",
+  "editor.unsaved_changes_leave": "Tienes cambios no guardados. ¿Estás seguro de que quieres salir?",
+  "editor.unsaved_changes_save": "Tienes cambios no guardados. ¿Quieres guardarlos antes de salir?",
 
   "toolbar.history": "Historial",
   "toolbar.attachments": "Adjuntos",

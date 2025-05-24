@@ -31,6 +31,9 @@
   "editor.title": "दस्तावेज़ संपादित करें",
   "editor.save_success": "दस्तावेज़ सफलतापूर्वक सहेजा गया",
   "editor.save_error": "दस्तावेज़ सहेजने में त्रुटि",
+  "editor.unsaved_changes": "असहेजे गए परिवर्तन",
+  "editor.unsaved_changes_leave": "आपके पास असहेजे गए परिवर्तन हैं। क्या आप वाकई बाहर निकलना चाहते हैं?",
+  "editor.unsaved_changes_save": "आपके पास असहेजे गए परिवर्तन हैं। क्या आप बाहर निकलने से पहले उन्हें सहेजना चाहते हैं?",
 
   "toolbar.history": "इतिहास",
   "toolbar.attachments": "अटैचमेंट",

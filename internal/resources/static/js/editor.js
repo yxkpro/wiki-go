@@ -63,6 +63,9 @@ const EmojiCache = {
     }
 };
 
+// Variable to store original content for comparison
+let originalContent = '';
+
 // Helper functions for editor toolbar actions
 function wrapText(cm, prefix = '', suffix = '', placeholder = '') {
     const selection = cm.getSelection();
@@ -969,6 +972,34 @@ async function updatePreview(content) {
     }
 }
 
+// Add function to handle beforeunload event
+function setupBeforeUnloadHandler() {
+    // Only add the handler if it doesn't already exist
+    if (!window._beforeUnloadHandler) {
+        window._beforeUnloadHandler = function(e) {
+            if (hasUnsavedChanges()) {
+                // Standard way to show a confirmation dialog when leaving page
+                e.preventDefault();
+                // Custom message (note: most modern browsers no longer show this message, just a generic one)
+                const leaveMsg = window.i18n ? window.i18n.t('editor.unsaved_changes_leave') : 'You have unsaved changes. Are you sure you want to leave?';
+                e.returnValue = leaveMsg;
+                return leaveMsg;
+            }
+        };
+
+        // Add the event listener
+        window.addEventListener('beforeunload', window._beforeUnloadHandler);
+    }
+}
+
+// Function to remove the beforeunload handler
+function removeBeforeUnloadHandler() {
+    if (window._beforeUnloadHandler) {
+        window.removeEventListener('beforeunload', window._beforeUnloadHandler);
+        window._beforeUnloadHandler = null;
+    }
+}
+
 // Main editor functions
 async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar) {
     try {
@@ -979,6 +1010,9 @@ async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar
         if (!response.ok) throw new Error('Failed to fetch content');
 
         const markdown = await response.text();
+
+        // Store original content for change detection
+        originalContent = markdown;
 
         // Show editor and switch toolbars
         mainContent.classList.add('editing');
@@ -1073,6 +1107,9 @@ async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar
                 if (previewElement.classList.contains('editor-preview-active')) {
                     updatePreview(editor.getValue());
                 }
+
+                // Set up beforeunload handler when changes occur
+                setupBeforeUnloadHandler();
             });
 
             // Set initial state of the wordwrap button based on editor settings
@@ -1123,6 +1160,9 @@ function refreshEditor(statusbar) {
 }
 
 function exitEditMode(mainContent, editorContainer, viewToolbar, editToolbar) {
+    // Remove beforeunload handler first
+    removeBeforeUnloadHandler();
+
     // Make sure to update UI state classes first
     if (mainContent) mainContent.classList.remove('editing');
     if (editorContainer) editorContainer.classList.remove('active');
@@ -1130,6 +1170,9 @@ function exitEditMode(mainContent, editorContainer, viewToolbar, editToolbar) {
     // Update toolbar visibility
     if (viewToolbar) viewToolbar.style.display = 'flex';
     if (editToolbar) editToolbar.style.display = 'none';
+
+    // Reset original content
+    originalContent = '';
 
     // Completely destroy the editor instance
     if (editor) {
@@ -1227,6 +1270,7 @@ window.WikiEditor = {
     insertIntoEditor,
     insertRawContent,
     isEditorActive,
+    hasUnsavedChanges,
     // Adding functions for edit button and save button functionality
     initializeEditControls
 };
@@ -1309,6 +1353,12 @@ function initializeEditControls() {
 
                 if (!response.ok) throw new Error('Failed to save content');
 
+                // Update originalContent to match what was just saved
+                originalContent = content;
+
+                // Remove the beforeunload handler since we just saved
+                removeBeforeUnloadHandler();
+
                 window.location.reload();
 
             } catch (error) {
@@ -1321,7 +1371,29 @@ function initializeEditControls() {
     // Cancel button functionality
     if (cancelButton) {
         cancelButton.addEventListener('click', function() {
-            exitEditMode(mainContent, editorContainer, viewToolbar, editToolbar);
+            // Check if there are unsaved changes
+            if (hasUnsavedChanges()) {
+                // Show confirmation dialog
+                window.showConfirmDialog(
+                    window.i18n ? window.i18n.t('editor.unsaved_changes') : 'Unsaved Changes',
+                    window.i18n ? window.i18n.t('editor.unsaved_changes_save') : 'You have unsaved changes. Do you want to save them before exiting?',
+                    (confirmed) => {
+                        if (confirmed) {
+                            // User wants to save changes
+                            const saveButton = document.querySelector('.save-changes');
+                            if (saveButton) {
+                                saveButton.click();
+                            }
+                        } else {
+                            // User doesn't want to save, exit edit mode directly
+                            exitEditMode(mainContent, editorContainer, viewToolbar, editToolbar);
+                        }
+                    }
+                );
+            } else {
+                // No unsaved changes, exit edit mode
+                exitEditMode(mainContent, editorContainer, viewToolbar, editToolbar);
+            }
         });
     }
 }
@@ -1441,6 +1513,19 @@ window.addEventListener('resize', () => {
     }
 });
 
+// Function to check if document has unsaved changes
+function hasUnsavedChanges() {
+    if (!editor) return false;
+
+    // Compare current content with original content
+    const currentContent = editor.getValue();
+    if (currentContent !== originalContent) {
+        return true;
+    }
+
+    return false;
+}
+
 // Add a more aggressive event capture for Ctrl+Shift+P at document level
 document.addEventListener('keydown', function(e) {
     // Handle Ctrl+Shift+P for preview toggle (capture it before browser handling)
@@ -1459,33 +1544,6 @@ document.addEventListener('keydown', function(e) {
 
         // Return false to ensure the event is completely handled
         return false;
-    }
-
-    if (e.key === 'Escape') {
-        // Only handle if we're in edit mode and no dialogs are open
-        const mainContent = document.querySelector('.content');
-        const editorContainer = document.querySelector('.editor-container');
-        const viewToolbar = document.querySelector('.view-toolbar');
-        const editToolbar = document.querySelector('.edit-toolbar');
-
-        if (mainContent && mainContent.classList.contains('editing')) {
-            // Check if any dialogs are open - we shouldn't exit edit mode if dialogs are open
-            const hasOpenDialog =
-                document.querySelector('.version-history-dialog')?.classList.contains('active') ||
-                document.querySelector('.file-upload-dialog')?.classList.contains('active') ||
-                document.querySelector('.login-dialog')?.classList.contains('active') ||
-                document.querySelector('.message-dialog')?.classList.contains('active') ||
-                document.querySelector('.confirmation-dialog')?.classList.contains('active') ||
-                document.querySelector('.user-confirmation-dialog')?.classList.contains('active') ||
-                document.querySelector('.new-document-dialog')?.classList.contains('active') ||
-                document.querySelector('.settings-dialog')?.classList.contains('active') ||
-                document.querySelector('.move-document-dialog')?.classList.contains('active');
-
-            if (!hasOpenDialog) {
-                exitEditMode(mainContent, editorContainer, viewToolbar, editToolbar);
-                e.preventDefault();
-            }
-        }
     }
 });
 

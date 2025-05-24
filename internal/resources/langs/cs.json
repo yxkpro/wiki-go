@@ -31,6 +31,9 @@
   "editor.title": "Upravit dokument",
   "editor.save_success": "Dokument byl úspěšně uložen",
   "editor.save_error": "Chyba při ukládání dokumentu",
+  "editor.unsaved_changes": "Neuložené změny",
+  "editor.unsaved_changes_leave": "Máte neuložené změny. Opravdu chcete odejít?",
+  "editor.unsaved_changes_save": "Máte neuložené změny. Chcete je uložit před odchodem?",
 
   "toolbar.history": "Historie",
   "toolbar.attachments": "Přílohy",

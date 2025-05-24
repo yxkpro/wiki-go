@@ -31,6 +31,9 @@
   "editor.title": "Rediger dokument",
   "editor.save_success": "Dokumentet blev gemt",
   "editor.save_error": "Fejl ved gemning af dokument",
+  "editor.unsaved_changes": "Ikke-gemte ændringer",
+  "editor.unsaved_changes_leave": "Du har ikke-gemte ændringer. Er du sikker på, at du vil forlade?",
+  "editor.unsaved_changes_save": "Du har ikke-gemte ændringer. Vil du gemme dem, før du forlader?",
 
   "toolbar.history": "Historik",
   "toolbar.attachments": "Vedhæftninger",

@@ -31,6 +31,9 @@
   "editor.title": "文書を編集",
   "editor.save_success": "文書が正常に保存されました",
   "editor.save_error": "文書の保存中にエラーが発生しました",
+  "editor.unsaved_changes": "未保存の変更",
+  "editor.unsaved_changes_leave": "未保存の変更があります。本当に終了しますか？",
+  "editor.unsaved_changes_save": "未保存の変更があります。終了する前に保存しますか？",
 
   "toolbar.history": "履歴",
   "toolbar.attachments": "添付ファイル",

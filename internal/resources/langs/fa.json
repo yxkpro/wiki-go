@@ -31,6 +31,9 @@
   "editor.title": "ویرایش سند",
   "editor.save_success": "سند با موفقیت ذخیره شد",
   "editor.save_error": "خطا در ذخیره سند",
+  "editor.unsaved_changes": "تغییرات ذخیره‌نشده",
+  "editor.unsaved_changes_leave": "شما تغییرات ذخیره‌نشده دارید. آیا مطمئن هستید که می‌خواهید خارج شوید؟",
+  "editor.unsaved_changes_save": "شما تغییرات ذخیره‌نشده دارید. آیا می‌خواهید قبل از خروج آن‌ها را ذخیره کنید؟",
 
   "toolbar.history": "تاریخچه",
   "toolbar.attachments": "پیوست‌ها",

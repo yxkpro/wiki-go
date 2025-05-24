@@ -31,6 +31,9 @@
   "editor.title": "编辑文档",
   "editor.save_success": "文档保存成功",
   "editor.save_error": "保存文档时出错",
+  "editor.unsaved_changes": "未保存的更改",
+  "editor.unsaved_changes_leave": "您有未保存的更改。确定要离开吗？",
+  "editor.unsaved_changes_save": "您有未保存的更改。要在离开前保存吗？",
 
   "toolbar.history": "历史",
   "toolbar.attachments": "附件",

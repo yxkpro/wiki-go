@@ -31,6 +31,9 @@
   "editor.title": "編輯文件",
   "editor.save_success": "文件儲存成功",
   "editor.save_error": "儲存文件時出錯",
+  "editor.unsaved_changes": "未儲存的變更",
+  "editor.unsaved_changes_leave": "您有未儲存的變更。確定要離開嗎？",
+  "editor.unsaved_changes_save": "您有未儲存的變更。要在離開前儲存嗎？",
 
   "toolbar.history": "歷史",
   "toolbar.attachments": "附件",

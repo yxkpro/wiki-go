@@ -31,6 +31,9 @@
   "editor.title": "문서 편집",
   "editor.save_success": "문서가 성공적으로 저장되었습니다",
   "editor.save_error": "문서 저장 중 오류가 발생했습니다",
+  "editor.unsaved_changes": "저장되지 않은 변경사항",
+  "editor.unsaved_changes_leave": "저장되지 않은 변경사항이 있습니다. 정말로 나가시겠습니까?",
+  "editor.unsaved_changes_save": "저장되지 않은 변경사항이 있습니다. 나가기 전에 저장하시겠습니까?",
 
   "toolbar.history": "역사",
   "toolbar.attachments": "첨부 파일",

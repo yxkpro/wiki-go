@@ -20,14 +20,14 @@ jobs:
     if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.docker == 'true' }}
 
     steps:
-      - name: Disable DEBUG_MODE in debug-toggle.js for release
-        run: |
-          sed -i 's/const DEBUG_MODE = true;/const DEBUG_MODE = false;/' internal/resources/static/js/debug-toggle.js
-
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Fetch all history for proper versioning
+
+      - name: Disable DEBUG_MODE in debug-toggle.js for release
+        run: |
+          sed -i 's/const DEBUG_MODE = true;/const DEBUG_MODE = false;/' internal/resources/static/js/debug-toggle.js
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2

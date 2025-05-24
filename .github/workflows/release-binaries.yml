@@ -24,14 +24,14 @@ jobs:
       GOFLAGS: -mod=vendor
 
     steps:
-      - name: Disable DEBUG_MODE in debug-toggle.js for release
-        run: |
-          sed -i 's/const DEBUG_MODE = true;/const DEBUG_MODE = false;/' internal/resources/static/js/debug-toggle.js
-
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Fetch all history for proper versioning
+
+      - name: Disable DEBUG_MODE in debug-toggle.js for release
+        run: |
+          sed -i 's/const DEBUG_MODE = true;/const DEBUG_MODE = false;/' internal/resources/static/js/debug-toggle.js
 
       - name: Set up Go
         uses: actions/setup-go@v4

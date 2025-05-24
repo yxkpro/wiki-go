@@ -24,6 +24,10 @@ jobs:
       GOFLAGS: -mod=vendor
 
     steps:
+      - name: Disable DEBUG_MODE in debug-toggle.js for release
+        run: |
+          sed -i 's/const DEBUG_MODE = true;/const DEBUG_MODE = false;/' internal/resources/static/js/debug-toggle.js
+
       - name: Checkout code
         uses: actions/checkout@v3
         with:

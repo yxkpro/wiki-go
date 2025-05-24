@@ -31,8 +31,8 @@
   "editor.title": "दस्तावेज़ संपादित करें",
   "editor.save_success": "दस्तावेज़ सफलतापूर्वक सहेजा गया",
   "editor.save_error": "दस्तावेज़ सहेजने में त्रुटि",
-  "editor.unsaved_changes": "असहेजे गए परिवर्तन",
-  "editor.unsaved_changes_leave": "आपके पास असहेजे गए परिवर्तन हैं। क्या आप वाकई बाहर निकलना चाहते हैं?",
+  "editor.unsaved_changes": "आपके पास असहेजे गए परिवर्तन हैं",
+  "editor.unsaved_changes_leave": "आपके पास असहेजे गए परिवर्तन हैं। बिना सहेजे बाहर निकलना है?",
   "editor.unsaved_changes_save": "आपके पास असहेजे गए परिवर्तन हैं। क्या आप बाहर निकलने से पहले उन्हें सहेजना चाहते हैं?",
 
   "toolbar.history": "इतिहास",
@@ -100,7 +100,7 @@
   "attachments.upload_tab": "अपलोड",
   "attachments.select_file": "फाइल चुनें",
   "attachments.choose_file": "फाइल चुनें",
-  "attachments.no_file_chosen": "कोई फाइल नहीं चुनी गई",
+  "attachments.no_file_chosen": "कोई फाइल चयनित नहीं की गई",
   "attachments.allowed_types": "अनुमत फाइल प्रकार: {{allowedTypes}} (अधिकतम: {{maxFileSize}})",
   "attachments.file_type_checking_disabled": "फ़ाइल प्रकार की जांच अक्षम है। सभी फ़ाइल प्रकार अनुमत हैं।",
   "attachments.files_tab": "फाइलें",
@@ -114,19 +114,23 @@
   "delete_file.title": "फाइल हटाएं",
   "delete_file.confirm_message": "क्या आप वाकई इस फाइल को हटाना चाहते हैं? यह क्रिया वापस नहीं ली जा सकती।",
 
+  "file_renamed.success": "फ़ाइल का नाम सफलतापूर्वक बदला गया",
+  "file_renamed.error_title": "नाम बदलना विफल रहा",
+  "file_renamed.error_message": "त्रुटि",
+
   "move.title": "दस्तावेज़ स्थानांतरित करें/नाम बदलें",
   "move.current_path": "वर्तमान पथ",
   "move.current_path_description": "दस्तावेज़ का वर्तमान स्थान",
   "move.new_path": "नया पथ",
   "move.new_path_help": "दस्तावेज़ के लिए नया पथ (स्लग सहित)",
-  "move.note": "यह केवल दस्तावेज़ के पथ को बदलता है। यह दस्तावेज़ के शीर्षक (H1 हेडिंग) को संशोधित नहीं करता है।",
+  "move.note": "यह केवल दस्तावेज़ के पथ को बदलता है, शीर्षक (H1 हेडिंग) को नहीं बदलता।",
   "move.button": "स्थानांतरित करें/नाम बदलें",
   "move.target_exists": "लक्ष्य पहले से मौजूद है",
 
   "login.title": "लॉगिन",
   "login.username": "उपयोगकर्ता नाम",
   "login.password": "पासवर्ड",
-  "login.keep_logged_in": "मुझे लॉग इन रखें (30 दिन)",
+  "login.keep_logged_in": "मुझे याद रखें (30 दिन)",
   "login.button": "लॉगिन",
   "login.error": "अमान्य उपयोगकर्ता नाम या पासवर्ड",
   "login.ban": "बहुत अधिक असफल लॉगिन प्रयास; बाद में पुनः प्रयास करें",
@@ -187,15 +191,10 @@
 
   "import.description": "ZIP आर्काइव से मार्कडाउन फ़ाइलें आयात करें। फ़ाइलों को संसाधित किया जाएगा और उपयुक्त दस्तावेज़ संरचना में संग्रहीत किया जाएगा। ZIP में निर्देशिका संरचना (श्रेणी/उपश्रेणी) विकी में संरक्षित रहेगी।",
   "import.select_zip": "ZIP आर्काइव चुनें",
-  "import.zip_help": "आयात करने के लिए मार्कडाउन (.md) फ़ाइलों वाली ZIP फ़ाइल अपलोड करें।",
+  "import.zip_help": "आयात के लिए मार्कडाउन (.md) फ़ाइलों वाली ZIP आर्काइव (कंप्रेस्ड फ़ाइल) अपलोड करें।",
   "import.start_button": "आयात करें",
   "import.importing": "आयात हो रहा है...",
   "import.results_title": "आयात परिणाम",
   "import.success": "आयात सफलतापूर्वक पूरा हुआ।",
-  "import.error": "आयात विफल: {0}",
-
-  "file_renamed.success": "फ़ाइल का नाम सफलतापूर्वक बदला गया",
-  "file_renamed.error_title": "नाम बदलना विफल रहा",
-  "file_renamed.error_message": "त्रुटि",
-  "file_renamed.check_console": "कृपया अधिक जानकारी के लिए कंसोल जांचें।"
+  "import.error": "आयात विफल: {0}"
 }

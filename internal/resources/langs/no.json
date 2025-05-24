@@ -31,8 +31,8 @@
   "editor.title": "Rediger dokument",
   "editor.save_success": "Dokumentet ble lagret",
   "editor.save_error": "Feil ved lagring av dokument",
-  "editor.unsaved_changes": "Ulagrede endringer",
-  "editor.unsaved_changes_leave": "Du har ulagrede endringer. Er du sikker på at du vil forlate?",
+  "editor.unsaved_changes": "Du har ulagrede endringer",
+  "editor.unsaved_changes_leave": "Du har ulagrede endringer. Forlate uten å lagre?",
   "editor.unsaved_changes_save": "Du har ulagrede endringer. Vil du lagre dem før du forlater?",
 
   "toolbar.history": "Historikk",
@@ -100,7 +100,7 @@
   "attachments.upload_tab": "Last opp",
   "attachments.select_file": "Velg fil",
   "attachments.choose_file": "Velg fil",
-  "attachments.no_file_chosen": "Ingen filer valgt",
+  "attachments.no_file_chosen": "Ingen fil valgt",
   "attachments.allowed_types": "Tillatte filtyper: {{allowedTypes}} (Maks: {{maxFileSize}})",
   "attachments.file_type_checking_disabled": "Filtype-sjekking er deaktivert. Alle filtyper er tillatt.",
   "attachments.files_tab": "Filer",
@@ -114,19 +114,23 @@
   "delete_file.title": "Slett fil",
   "delete_file.confirm_message": "Er du sikker på at du vil slette denne filen? Denne handlingen kan ikke angres.",
 
+  "file_renamed.success": "Fil omdøpt med suksess",
+  "file_renamed.error_title": "Omdøping mislyktes",
+  "file_renamed.error_message": "Feil",
+
   "move.title": "Flytt/Endre navn på dokument",
   "move.current_path": "Nåværende sti",
   "move.current_path_description": "Dokumentets nåværende plassering",
   "move.new_path": "Ny sti",
   "move.new_path_help": "Ny sti for dokumentet (inkludert slug)",
-  "move.note": "Dette endrer bare dokumentets sti. Det endrer ikke dokumentets tittel (H1-overskrift).",
+  "move.note": "Dette endrer bare dokumentets sti og ikke dokumentets tittel (H1-overskrift).",
   "move.button": "Flytt/Endre navn",
   "move.target_exists": "Målet finnes allerede",
 
   "login.title": "Logg inn",
   "login.username": "Brukernavn",
   "login.password": "Passord",
-  "login.keep_logged_in": "Hold meg innlogget (30 dager)",
+  "login.keep_logged_in": "Husk meg (30 dager)",
   "login.button": "Logg inn",
   "login.error": "Ugyldig brukernavn eller passord",
   "login.ban": "For mange mislykkede påloggingsforsøk; prøv igjen senere",
@@ -187,15 +191,10 @@
 
   "import.description": "Importer markdown-filer fra et ZIP-arkiv. Filene vil bli behandlet og lagret i den passende dokumentstrukturen. Mappestrukturen i ZIP-filen (kategori/underkategori) vil bli bevart i wikien.",
   "import.select_zip": "Velg ZIP-arkiv",
-  "import.zip_help": "Last opp en ZIP-fil som inneholder markdown (.md) filer for import.",
+  "import.zip_help": "Last opp et ZIP-arkiv (komprimert fil) som inneholder markdown (.md) filer for import.",
   "import.start_button": "Importer",
   "import.importing": "Importerer...",
   "import.results_title": "Importresultater",
   "import.success": "Import fullført.",
-  "import.error": "Import mislyktes: {0}",
-
-  "file_renamed.success": "Fil omdøpt med suksess",
-  "file_renamed.error_title": "Omdøping mislyktes",
-  "file_renamed.error_message": "Feil",
-  "file_renamed.check_console": "Vennligst sjekk konsollen for mer informasjon."
+  "import.error": "Import mislyktes: {0}"
 }

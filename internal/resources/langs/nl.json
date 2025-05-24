@@ -31,8 +31,8 @@
   "editor.title": "Document bewerken",
   "editor.save_success": "Document succesvol opgeslagen",
   "editor.save_error": "Fout bij opslaan document",
-  "editor.unsaved_changes": "Niet-opgeslagen wijzigingen",
-  "editor.unsaved_changes_leave": "Je hebt niet-opgeslagen wijzigingen. Weet je zeker dat je wilt verlaten?",
+  "editor.unsaved_changes": "Je hebt niet-opgeslagen wijzigingen",
+  "editor.unsaved_changes_leave": "Je hebt niet-opgeslagen wijzigingen. Verlaten zonder op te slaan?",
   "editor.unsaved_changes_save": "Je hebt niet-opgeslagen wijzigingen. Wil je deze opslaan voordat je vertrekt?",
 
   "toolbar.history": "Geschiedenis",
@@ -100,7 +100,7 @@
   "attachments.upload_tab": "Uploaden",
   "attachments.select_file": "Bestand selecteren",
   "attachments.choose_file": "Bestand kiezen",
-  "attachments.no_file_chosen": "Geen bestanden gekozen",
+  "attachments.no_file_chosen": "Geen bestand geselecteerd",
   "attachments.allowed_types": "Toegestane bestandstypen: {{allowedTypes}} (Max: {{maxFileSize}})",
   "attachments.file_type_checking_disabled": "Bestandstype controle is uitgeschakeld. Alle bestandstypen zijn toegestaan.",
   "attachments.files_tab": "Bestanden",
@@ -114,19 +114,23 @@
   "delete_file.title": "Bestand verwijderen",
   "delete_file.confirm_message": "Weet je zeker dat je dit bestand wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
 
+  "file_renamed.success": "Bestand succesvol hernoemd",
+  "file_renamed.error_title": "Hernoemen mislukt",
+  "file_renamed.error_message": "Fout",
+
   "move.title": "Document verplaatsen/hernoemen",
   "move.current_path": "Huidig pad",
   "move.current_path_description": "Huidige locatie van het document",
   "move.new_path": "Nieuw pad",
   "move.new_path_help": "Nieuw pad voor het document (inclusief de slug)",
-  "move.note": "Dit wijzigt alleen het pad van het document. Het wijzigt niet de titel van het document (H1-kop).",
+  "move.note": "Dit wijzigt alleen het pad van het document en niet de titel van het document (H1-kop).",
   "move.button": "Verplaatsen/hernoemen",
   "move.target_exists": "Doel bestaat al",
 
   "login.title": "Inloggen",
   "login.username": "Gebruikersnaam",
   "login.password": "Wachtwoord",
-  "login.keep_logged_in": "Ingelogd blijven (30 dagen)",
+  "login.keep_logged_in": "Onthoud mij (30 dagen)",
   "login.button": "Inloggen",
   "login.error": "Ongeldige gebruikersnaam of wachtwoord",
   "login.ban": "Te veel mislukte inlogpogingen; probeer het later opnieuw",
@@ -187,15 +191,10 @@
 
   "import.description": "Importeer markdown-bestanden uit een ZIP-archief. Bestanden worden verwerkt en opgeslagen in de juiste documentstructuur. De mapstructuur in de ZIP (categorie/subcategorie) blijft behouden in de wiki.",
   "import.select_zip": "ZIP-archief selecteren",
-  "import.zip_help": "Upload een ZIP-bestand met markdown (.md) bestanden om te importeren.",
+  "import.zip_help": "Upload een ZIP-archief (gecomprimeerd bestand) met markdown (.md) bestanden om te importeren.",
   "import.start_button": "Importeren",
   "import.importing": "Importeren...",
   "import.results_title": "Importeerresultaten",
   "import.success": "Importeren succesvol voltooid.",
-  "import.error": "Importeren mislukt: {0}",
-
-  "file_renamed.success": "Bestand succesvol hernoemd",
-  "file_renamed.error_title": "Hernoemen mislukt",
-  "file_renamed.error_message": "Fout",
-  "file_renamed.check_console": "Controleer de console voor meer details."
+  "import.error": "Importeren mislukt: {0}"
 }

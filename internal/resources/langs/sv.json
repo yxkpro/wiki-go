@@ -31,8 +31,8 @@
   "editor.title": "Redigera dokument",
   "editor.save_success": "Dokumentet har sparats",
   "editor.save_error": "Fel vid sparande av dokumentet",
-  "editor.unsaved_changes": "Osparade ändringar",
-  "editor.unsaved_changes_leave": "Du har osparade ändringar. Är du säker på att du vill lämna?",
+  "editor.unsaved_changes": "Du har osparade ändringar",
+  "editor.unsaved_changes_leave": "Du har osparade ändringar. Lämna utan att spara?",
   "editor.unsaved_changes_save": "Du har osparade ändringar. Vill du spara dem innan du lämnar?",
 
   "toolbar.history": "Historik",
@@ -100,7 +100,7 @@
   "attachments.upload_tab": "Ladda upp",
   "attachments.select_file": "Välj fil",
   "attachments.choose_file": "Välj fil",
-  "attachments.no_file_chosen": "Ingen fil vald",
+  "attachments.no_file_chosen": "Ingen fil har valts",
   "attachments.allowed_types": "Tillåtna filtyper: {{allowedTypes}} (Max: {{maxFileSize}})",
   "attachments.file_type_checking_disabled": "Kontroll av filtyp är inaktiverad. Alla filtyper är tillåtna.",
   "attachments.files_tab": "Filer",
@@ -114,19 +114,23 @@
   "delete_file.title": "Ta bort fil",
   "delete_file.confirm_message": "Är du säker på att du vill ta bort denna fil? Denna åtgärd kan inte ångras.",
 
+  "file_renamed.success": "Filen har bytt namn",
+  "file_renamed.error_title": "Namnbyte misslyckades",
+  "file_renamed.error_message": "Fel",
+
   "move.title": "Flytta/Byt namn på dokument",
   "move.current_path": "Aktuell sökväg",
   "move.current_path_description": "Dokumentets aktuella plats",
   "move.new_path": "Ny sökväg",
   "move.new_path_help": "Ny sökväg för dokumentet (inklusive sluggen)",
-  "move.note": "Detta ändrar bara dokumentets sökväg. Det ändrar inte dokumentets titel (H1-rubrik).",
+  "move.note": "Detta ändrar bara dokumentets sökväg och inte dokumentets titel (H1-rubrik).",
   "move.button": "Flytta/Byt namn",
   "move.target_exists": "Målet finns redan",
 
   "login.title": "Logga in",
   "login.username": "Användarnamn",
   "login.password": "Lösenord",
-  "login.keep_logged_in": "Håll mig inloggad (30 dagar)",
+  "login.keep_logged_in": "Kom ihåg mig (30 dagar)",
   "login.button": "Logga in",
   "login.error": "Ogiltigt användarnamn eller lösenord",
   "login.ban": "För många misslyckade inloggningsförsök; försök igen senare",
@@ -187,15 +191,10 @@
 
   "import.description": "Importera markdown-filer från ett ZIP-arkiv. Filerna kommer att bearbetas och lagras i lämplig dokumentstruktur. Katalogstrukturen i ZIP-filen (kategori/underkategori) kommer att bevaras i wikin.",
   "import.select_zip": "Välj ZIP-arkiv",
-  "import.zip_help": "Ladda upp en ZIP-fil som innehåller markdown (.md) filer för import.",
+  "import.zip_help": "Ladda upp ett ZIP-arkiv (komprimerad fil) som innehåller markdown (.md) filer för import.",
   "import.start_button": "Importera",
   "import.importing": "Importerar...",
   "import.results_title": "Importresultat",
   "import.success": "Importen slutfördes framgångsrikt.",
-  "import.error": "Importen misslyckades: {0}",
-
-  "file_renamed.success": "Filen har bytt namn",
-  "file_renamed.error_title": "Namnbyte misslyckades",
-  "file_renamed.error_message": "Fel",
-  "file_renamed.check_console": "Kontrollera konsolen för mer information."
+  "import.error": "Importen misslyckades: {0}"
 }

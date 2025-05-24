@@ -31,8 +31,8 @@
   "editor.title": "编辑文档",
   "editor.save_success": "文档保存成功",
   "editor.save_error": "保存文档时出错",
-  "editor.unsaved_changes": "未保存的更改",
-  "editor.unsaved_changes_leave": "您有未保存的更改。确定要离开吗？",
+  "editor.unsaved_changes": "您有未保存的更改",
+  "editor.unsaved_changes_leave": "您有未保存的更改。离开且不保存？",
   "editor.unsaved_changes_save": "您有未保存的更改。要在离开前保存吗？",
 
   "toolbar.history": "历史",
@@ -100,7 +100,7 @@
   "attachments.upload_tab": "上传",
   "attachments.select_file": "选择文件",
   "attachments.choose_file": "选择文件",
-  "attachments.no_file_chosen": "未选择文件",
+  "attachments.no_file_chosen": "尚未选择文件",
   "attachments.allowed_types": "允许的文件类型：{{allowedTypes}}（最大：{{maxFileSize}}）",
   "attachments.file_type_checking_disabled": "文件类型检查已禁用。允许所有文件类型。",
   "attachments.files_tab": "文件",
@@ -114,19 +114,23 @@
   "delete_file.title": "删除文件",
   "delete_file.confirm_message": "您确定要删除此文件吗？此操作无法撤消。",
 
+  "file_renamed.success": "文件重命名成功",
+  "file_renamed.error_title": "重命名失败",
+  "file_renamed.error_message": "错误",
+
   "move.title": "移动/重命名文档",
   "move.current_path": "当前路径",
   "move.current_path_description": "文档的当前位置",
   "move.new_path": "新路径",
   "move.new_path_help": "文档的新路径（包括别名）",
-  "move.note": "这只会更改文档的路径。不会修改文档的标题（H1 标题）。",
+  "move.note": "这只会更改文档的路径，不会修改文档的标题（H1 标题）。",
   "move.button": "移动/重命名",
   "move.target_exists": "目标已存在",
 
   "login.title": "登录",
   "login.username": "用户名",
   "login.password": "密码",
-  "login.keep_logged_in": "保持登录状态（30天）",
+  "login.keep_logged_in": "记住我（30天）",
   "login.button": "登录",
   "login.error": "用户名或密码无效",
   "login.ban": "登录失败次数过多；请稍后再试",
@@ -187,15 +191,10 @@
 
   "import.description": "从ZIP归档文件导入Markdown文件。文件将被处理并存储在适当的文档结构中。ZIP中的目录结构（类别/子类别）将在wiki中保留。",
   "import.select_zip": "选择ZIP归档",
-  "import.zip_help": "上传包含要导入的Markdown（.md）文件的ZIP文件。",
+  "import.zip_help": "上传包含要导入的Markdown（.md）文件的ZIP归档（压缩包）。",
   "import.start_button": "导入",
   "import.importing": "导入中...",
   "import.results_title": "导入结果",
   "import.success": "导入成功完成。",
-  "import.error": "导入失败：{0}",
-
-  "file_renamed.success": "文件重命名成功",
-  "file_renamed.error_title": "重命名失败",
-  "file_renamed.error_message": "错误",
-  "file_renamed.check_console": "请查看控制台获取更多详情。"
+  "import.error": "导入失败：{0}"
 }

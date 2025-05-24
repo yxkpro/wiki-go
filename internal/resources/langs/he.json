@@ -31,8 +31,8 @@
   "editor.title": "עריכת מסמך",
   "editor.save_success": "המסמך נשמר בהצלחה",
   "editor.save_error": "שגיאה בשמירת המסמך",
-  "editor.unsaved_changes": "שינויים שלא נשמרו",
-  "editor.unsaved_changes_leave": "יש לך שינויים שלא נשמרו. האם אתה בטוח שברצונך לעזוב?",
+  "editor.unsaved_changes": "יש לך שינויים שלא נשמרו",
+  "editor.unsaved_changes_leave": "יש לך שינויים שלא נשמרו. לעזוב בלי לשמור?",
   "editor.unsaved_changes_save": "יש לך שינויים שלא נשמרו. האם לשמור אותם לפני היציאה?",
 
   "toolbar.history": "היסטוריה",
@@ -100,7 +100,7 @@
   "attachments.upload_tab": "העלאה",
   "attachments.select_file": "בחר קובץ",
   "attachments.choose_file": "בחר קובץ",
-  "attachments.no_file_chosen": "לא נבחר קובץ",
+  "attachments.no_file_chosen": "לא נבחרו קבצים",
   "attachments.allowed_types": "סוגי קבצים מותרים: {{allowedTypes}} (מקס: {{maxFileSize}})",
   "attachments.file_type_checking_disabled": "בדיקת סוג הקובץ מושבתת. כל סוגי הקבצים מותרים.",
   "attachments.files_tab": "קבצים",
@@ -114,19 +114,23 @@
   "delete_file.title": "מחק קובץ",
   "delete_file.confirm_message": "האם אתה בטוח שברצונך למחוק קובץ זה? פעולה זו אינה ניתנת לביטול.",
 
+  "file_renamed.success": "שם הקובץ שונה בהצלחה",
+  "file_renamed.error_title": "שינוי השם נכשל",
+  "file_renamed.error_message": "שגיאה",
+
   "move.title": "העברה/שינוי שם של מסמך",
   "move.current_path": "נתיב נוכחי",
   "move.current_path_description": "המיקום הנוכחי של המסמך",
   "move.new_path": "נתיב חדש",
   "move.new_path_help": "נתיב חדש עבור המסמך (כולל ה-slug)",
-  "move.note": "פעולה זו משנה רק את נתיב המסמך. היא אינה משנה את כותרת המסמך (כותרת H1).",
+  "move.note": "פעולה זו משנה רק את נתיב המסמך ולא משנה את כותרת המסמך (כותרת H1).",
   "move.button": "העברה/שינוי שם",
   "move.target_exists": "היעד כבר קיים",
 
   "login.title": "התחברות",
   "login.username": "שם משתמש",
   "login.password": "סיסמה",
-  "login.keep_logged_in": "השאר אותי מחובר (30 ימים)",
+  "login.keep_logged_in": "זכור אותי (30 ימים)",
   "login.button": "התחברות",
   "login.error": "שם משתמש או סיסמה שגויים",
   "login.ban": "יותר מדי ניסיונות התחברות כושלים; נסה שוב מאוחר יותר",
@@ -187,15 +191,10 @@
 
   "import.description": "ייבוא קבצי מרקדאון מארכיון ZIP. הקבצים יעובדו ויאוחסנו במבנה המסמכים המתאים. מבנה התיקיות ב-ZIP (קטגוריה/תת-קטגוריה) יישמר בוויקי.",
   "import.select_zip": "בחר ארכיון ZIP",
-  "import.zip_help": "העלה קובץ ZIP המכיל קבצי מרקדאון (.md) לייבוא.",
+  "import.zip_help": "העלה ארכיון ZIP (קובץ דחוס) המכיל קבצי מרקדאון (.md) לייבוא.",
   "import.start_button": "ייבוא",
   "import.importing": "מייבא...",
   "import.results_title": "תוצאות ייבוא",
   "import.success": "הייבוא הושלם בהצלחה.",
-  "import.error": "הייבוא נכשל: {0}",
-
-  "file_renamed.success": "שם הקובץ שונה בהצלחה",
-  "file_renamed.error_title": "שינוי השם נכשל",
-  "file_renamed.error_message": "שגיאה",
-  "file_renamed.check_console": "אנא בדוק את המסוף לפרטים נוספים."
+  "import.error": "הייבוא נכשל: {0}"
 }

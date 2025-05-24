@@ -31,8 +31,8 @@
   "editor.title": "文書を編集",
   "editor.save_success": "文書が正常に保存されました",
   "editor.save_error": "文書の保存中にエラーが発生しました",
-  "editor.unsaved_changes": "未保存の変更",
-  "editor.unsaved_changes_leave": "未保存の変更があります。本当に終了しますか？",
+  "editor.unsaved_changes": "未保存の変更があります",
+  "editor.unsaved_changes_leave": "未保存の変更があります。保存せずに終了しますか？",
   "editor.unsaved_changes_save": "未保存の変更があります。終了する前に保存しますか？",
 
   "toolbar.history": "履歴",
@@ -100,7 +100,7 @@
   "attachments.upload_tab": "アップロード",
   "attachments.select_file": "ファイルを選択",
   "attachments.choose_file": "ファイルを選ぶ",
-  "attachments.no_file_chosen": "ファイルが選択されていません",
+  "attachments.no_file_chosen": "選択されたファイルはありません",
   "attachments.allowed_types": "許可されているファイルタイプ: {{allowedTypes}} (最大: {{maxFileSize}})",
   "attachments.file_type_checking_disabled": "ファイルタイプチェックが無効になっています。すべてのファイルタイプが許可されています。",
   "attachments.files_tab": "ファイル",
@@ -114,19 +114,23 @@
   "delete_file.title": "ファイルを削除",
   "delete_file.confirm_message": "このファイルを削除してもよろしいですか？この操作は元に戻せません。",
 
+  "file_renamed.success": "ファイル名の変更に成功しました",
+  "file_renamed.error_title": "名前の変更に失敗しました",
+  "file_renamed.error_message": "エラー",
+
   "move.title": "文書の移動/名前変更",
   "move.current_path": "現在のパス",
   "move.current_path_description": "文書の現在の場所",
   "move.new_path": "新しいパス",
   "move.new_path_help": "文書の新しいパス（スラグを含む）",
-  "move.note": "これは文書のパスのみを変更します。文書のタイトル（H1見出し）は変更されません。",
+  "move.note": "これは文書のパスのみを変更し、タイトル（H1見出し）は変更されません。",
   "move.button": "移動/名前変更",
   "move.target_exists": "対象が既に存在します",
 
   "login.title": "ログイン",
   "login.username": "ユーザー名",
   "login.password": "パスワード",
-  "login.keep_logged_in": "ログイン状態を保持する（30日間）",
+  "login.keep_logged_in": "ログイン状態を記憶する（30日間）",
   "login.button": "ログイン",
   "login.error": "ユーザー名またはパスワードが無効です",
   "login.ban": "ログイン失敗が多すぎます。後でもう一度お試しください",
@@ -187,15 +191,10 @@
 
   "import.description": "ZIPアーカイブからMarkdownファイルをインポートします。ファイルは処理され、適切な文書構造に保存されます。ZIP内のディレクトリ構造（カテゴリ/サブカテゴリ）はウィキ内で保持されます。",
   "import.select_zip": "ZIPアーカイブを選択",
-  "import.zip_help": "インポートするMarkdown（.md）ファイルを含むZIPファイルをアップロードしてください。",
+  "import.zip_help": "インポート用のMarkdown（.md）ファイルを含むZIPアーカイブ（圧縮ファイル）をアップロードしてください。",
   "import.start_button": "インポート",
   "import.importing": "インポート中...",
   "import.results_title": "インポート結果",
   "import.success": "インポートが正常に完了しました。",
-  "import.error": "インポートに失敗しました: {0}",
-
-  "file_renamed.success": "ファイル名の変更に成功しました",
-  "file_renamed.error_title": "名前の変更に失敗しました",
-  "file_renamed.error_message": "エラー",
-  "file_renamed.check_console": "詳細はコンソールを確認してください。"
+  "import.error": "インポートに失敗しました: {0}"
 }

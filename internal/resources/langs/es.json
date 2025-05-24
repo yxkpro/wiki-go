@@ -31,7 +31,7 @@
   "editor.title": "Editar Documento",
   "editor.save_success": "Documento guardado con éxito",
   "editor.save_error": "Error al guardar el documento",
-  "editor.unsaved_changes": "Cambios no guardados",
+  "editor.unsaved_changes": "Tienes cambios no guardados",
   "editor.unsaved_changes_leave": "Tienes cambios no guardados. ¿Estás seguro de que quieres salir?",
   "editor.unsaved_changes_save": "Tienes cambios no guardados. ¿Quieres guardarlos antes de salir?",
 
@@ -117,7 +117,6 @@
   "file_renamed.success": "Archivo renombrado con éxito",
   "file_renamed.error_title": "Error al renombrar",
   "file_renamed.error_message": "Error",
-  "file_renamed.check_console": "Por favor, revise la consola para más detalles.",
 
   "move.title": "Mover/Renombrar Documento",
   "move.current_path": "Ruta Actual",
@@ -192,7 +191,7 @@
 
   "import.description": "Importar archivos markdown desde un archivo ZIP. Los archivos serán procesados y almacenados en la estructura de documentos apropiada. La estructura de directorios en el ZIP (categoría/subcategoría) se conservará en la wiki.",
   "import.select_zip": "Seleccionar Archivo ZIP",
-  "import.zip_help": "Sube un archivo ZIP que contenga archivos markdown (.md) para importar.",
+  "import.zip_help": "Sube un archivo ZIP (archivo comprimido) que contenga archivos markdown (.md) para importar.",
   "import.start_button": "Importar",
   "import.importing": "Importando...",
   "import.results_title": "Resultados de la Importación",

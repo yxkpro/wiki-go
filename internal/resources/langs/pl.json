@@ -31,8 +31,8 @@
   "editor.title": "Edytuj dokument",
   "editor.save_success": "Dokument zapisany pomyślnie",
   "editor.save_error": "Błąd podczas zapisywania dokumentu",
-  "editor.unsaved_changes": "Niezapisane zmiany",
-  "editor.unsaved_changes_leave": "Masz niezapisane zmiany. Czy na pewno chcesz opuścić?",
+  "editor.unsaved_changes": "Masz niezapisane zmiany",
+  "editor.unsaved_changes_leave": "Masz niezapisane zmiany. Opuścić bez zapisywania?",
   "editor.unsaved_changes_save": "Masz niezapisane zmiany. Czy chcesz je zapisać przed opuszczeniem?",
 
   "toolbar.history": "Historia",
@@ -100,7 +100,7 @@
   "attachments.upload_tab": "Prześlij",
   "attachments.select_file": "Wybierz plik",
   "attachments.choose_file": "Wybierz plik",
-  "attachments.no_file_chosen": "Nie wybrano plików",
+  "attachments.no_file_chosen": "Nie wybrano pliku",
   "attachments.allowed_types": "Dozwolone typy plików: {{allowedTypes}} (Maks: {{maxFileSize}})",
   "attachments.file_type_checking_disabled": "Sprawdzanie typu pliku jest wyłączone. Wszystkie typy plików są dozwolone.",
   "attachments.files_tab": "Pliki",
@@ -114,19 +114,23 @@
   "delete_file.title": "Usuń plik",
   "delete_file.confirm_message": "Czy na pewno chcesz usunąć ten plik? Tej operacji nie można cofnąć.",
 
+  "file_renamed.success": "Plik został pomyślnie przemianowany",
+  "file_renamed.error_title": "Zmiana nazwy nie powiodła się",
+  "file_renamed.error_message": "Błąd",
+
   "move.title": "Przenieś/Zmień nazwę dokumentu",
   "move.current_path": "Obecna ścieżka",
   "move.current_path_description": "Obecna lokalizacja dokumentu",
   "move.new_path": "Nowa ścieżka",
   "move.new_path_help": "Nowa ścieżka dla dokumentu (w tym slug)",
-  "move.note": "To zmienia tylko ścieżkę dokumentu. Nie zmienia tytułu dokumentu (nagłówka H1).",
+  "move.note": "To zmienia tylko ścieżkę dokumentu i nie zmienia tytułu dokumentu (nagłówka H1).",
   "move.button": "Przenieś/Zmień nazwę",
   "move.target_exists": "Cel już istnieje",
 
   "login.title": "Logowanie",
   "login.username": "Nazwa użytkownika",
   "login.password": "Hasło",
-  "login.keep_logged_in": "Pozostań zalogowany (30 dni)",
+  "login.keep_logged_in": "Zapamiętaj mnie (30 dni)",
   "login.button": "Zaloguj się",
   "login.error": "Nieprawidłowa nazwa użytkownika lub hasło",
   "login.ban": "Zbyt wiele nieudanych prób logowania; spróbuj ponownie później",
@@ -187,15 +191,10 @@
 
   "import.description": "Importuj pliki markdown z archiwum ZIP. Pliki zostaną przetworzone i zapisane w odpowiedniej strukturze dokumentów. Struktura katalogów w ZIP (kategoria/podkategoria) zostanie zachowana w wiki.",
   "import.select_zip": "Wybierz archiwum ZIP",
-  "import.zip_help": "Prześlij plik ZIP zawierający pliki markdown (.md) do zaimportowania.",
+  "import.zip_help": "Prześlij archiwum ZIP (skompresowany plik) zawierające pliki markdown (.md) do zaimportowania.",
   "import.start_button": "Importuj",
   "import.importing": "Importowanie...",
   "import.results_title": "Wyniki importu",
   "import.success": "Import zakończony pomyślnie.",
-  "import.error": "Import nie powiódł się: {0}",
-
-  "file_renamed.success": "Plik został pomyślnie przemianowany",
-  "file_renamed.error_title": "Zmiana nazwy nie powiodła się",
-  "file_renamed.error_message": "Błąd",
-  "file_renamed.check_console": "Sprawdź konsolę, aby uzyskać więcej szczegółów."
+  "import.error": "Import nie powiódł się: {0}"
 }

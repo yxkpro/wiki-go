@@ -31,8 +31,8 @@
   "editor.title": "Editar Documento",
   "editor.save_success": "Documento salvo com sucesso",
   "editor.save_error": "Erro ao salvar documento",
-  "editor.unsaved_changes": "Alterações não salvas",
-  "editor.unsaved_changes_leave": "Você tem alterações não salvas. Tem certeza de que deseja sair?",
+  "editor.unsaved_changes": "Você tem alterações não salvas",
+  "editor.unsaved_changes_leave": "Você tem alterações não salvas. Sair sem salvar?",
   "editor.unsaved_changes_save": "Você tem alterações não salvas. Deseja salvá-las antes de sair?",
 
   "toolbar.history": "Histórico",
@@ -100,7 +100,7 @@
   "attachments.upload_tab": "Enviar",
   "attachments.select_file": "Selecionar arquivo",
   "attachments.choose_file": "Escolher arquivo",
-  "attachments.no_file_chosen": "Nenhum arquivo escolhido",
+  "attachments.no_file_chosen": "Nenhum arquivo selecionado",
   "attachments.allowed_types": "Tipos de arquivo permitidos: {{allowedTypes}} (Máx: {{maxFileSize}})",
   "attachments.file_type_checking_disabled": "A verificação de tipo de arquivo está desativada. Todos os tipos de arquivo são permitidos.",
   "attachments.files_tab": "Arquivos",
@@ -114,19 +114,23 @@
   "delete_file.title": "Excluir Arquivo",
   "delete_file.confirm_message": "Tem certeza de que deseja excluir este arquivo? Esta ação não pode ser desfeita.",
 
+  "file_renamed.success": "Arquivo renomeado com sucesso",
+  "file_renamed.error_title": "Falha ao renomear",
+  "file_renamed.error_message": "Erro",
+
   "move.title": "Mover/Renomear Documento",
   "move.current_path": "Caminho Atual",
   "move.current_path_description": "Localização atual do documento",
   "move.new_path": "Novo Caminho",
   "move.new_path_help": "Novo caminho para o documento (incluindo o slug)",
-  "move.note": "Isso altera apenas o caminho do documento. Não modifica o título do documento (cabeçalho H1).",
+  "move.note": "Isso altera apenas o caminho do documento e não modifica o título do documento (cabeçalho H1).",
   "move.button": "Mover/Renomear",
   "move.target_exists": "O destino já existe",
 
   "login.title": "Entrar",
   "login.username": "Nome de usuário",
   "login.password": "Senha",
-  "login.keep_logged_in": "Manter-me conectado (30 dias)",
+  "login.keep_logged_in": "Lembrar de mim (30 dias)",
   "login.button": "Entrar",
   "login.error": "Nome de usuário ou senha inválidos",
   "login.ban": "Muitas tentativas de login malsucedidas; tente novamente mais tarde",
@@ -187,15 +191,10 @@
 
   "import.description": "Importar arquivos markdown de um arquivo ZIP. Os arquivos serão processados e armazenados na estrutura de documentos apropriada. A estrutura de diretórios no ZIP (categoria/subcategoria) será preservada na wiki.",
   "import.select_zip": "Selecionar Arquivo ZIP",
-  "import.zip_help": "Envie um arquivo ZIP contendo arquivos markdown (.md) para importar.",
+  "import.zip_help": "Envie um arquivo ZIP (compactado) contendo arquivos markdown (.md) para importar.",
   "import.start_button": "Importar",
   "import.importing": "Importando...",
   "import.results_title": "Resultados da Importação",
   "import.success": "Importação concluída com sucesso.",
-  "import.error": "Falha na importação: {0}",
-
-  "file_renamed.success": "Arquivo renomeado com sucesso",
-  "file_renamed.error_title": "Falha ao renomear",
-  "file_renamed.error_message": "Erro",
-  "file_renamed.check_console": "Por favor, verifique o console para mais detalhes."
+  "import.error": "Falha na importação: {0}"
 }

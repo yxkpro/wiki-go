@@ -31,8 +31,8 @@
   "editor.title": "Modifica Documento",
   "editor.save_success": "Documento salvato con successo",
   "editor.save_error": "Errore durante il salvataggio del documento",
-  "editor.unsaved_changes": "Modifiche non salvate",
-  "editor.unsaved_changes_leave": "Hai modifiche non salvate. Sei sicuro di voler uscire?",
+  "editor.unsaved_changes": "Hai delle modifiche non salvate",
+  "editor.unsaved_changes_leave": "Hai delle modifiche non salvate. Uscire senza salvare?",
   "editor.unsaved_changes_save": "Hai modifiche non salvate. Vuoi salvarle prima di uscire?",
 
   "toolbar.history": "Cronologia",
@@ -100,7 +100,7 @@
   "attachments.upload_tab": "Carica",
   "attachments.select_file": "Seleziona file",
   "attachments.choose_file": "Scegli file",
-  "attachments.no_file_chosen": "Nessun file scelto",
+  "attachments.no_file_chosen": "Nessun file selezionato",
   "attachments.allowed_types": "Tipi di file consentiti: {{allowedTypes}} (Max: {{maxFileSize}})",
   "attachments.file_type_checking_disabled": "Il controllo del tipo di file è disabilitato. Tutti i tipi di file sono consentiti.",
   "attachments.files_tab": "File",
@@ -114,19 +114,23 @@
   "delete_file.title": "Elimina File",
   "delete_file.confirm_message": "Sei sicuro di voler eliminare questo file? Questa azione non può essere annullata.",
 
+  "file_renamed.success": "File rinominato con successo",
+  "file_renamed.error_title": "Rinomina fallita",
+  "file_renamed.error_message": "Errore",
+
   "move.title": "Sposta/Rinomina Documento",
   "move.current_path": "Percorso Attuale",
   "move.current_path_description": "Posizione attuale del documento",
   "move.new_path": "Nuovo Percorso",
   "move.new_path_help": "Nuovo percorso per il documento (incluso lo slug)",
-  "move.note": "Questo cambia solo il percorso del documento. Non modifica il titolo del documento (intestazione H1).",
+  "move.note": "Questo cambia solo il percorso del documento e non modifica il titolo del documento (intestazione H1).",
   "move.button": "Sposta/Rinomina",
   "move.target_exists": "La destinazione esiste già",
 
   "login.title": "Accedi",
   "login.username": "Nome utente",
   "login.password": "Password",
-  "login.keep_logged_in": "Mantieni l'accesso (30 giorni)",
+  "login.keep_logged_in": "Ricordami (30 giorni)",
   "login.button": "Accedi",
   "login.error": "Nome utente o password non validi",
   "login.ban": "Troppi tentativi di accesso falliti; riprova più tardi",
@@ -187,15 +191,10 @@
 
   "import.description": "Importa file markdown da un archivio ZIP. I file verranno elaborati e archiviati nella struttura di documenti appropriata. La struttura delle directory nel ZIP (categoria/sottocategoria) sarà preservata nel wiki.",
   "import.select_zip": "Seleziona Archivio ZIP",
-  "import.zip_help": "Carica un file ZIP contenente file markdown (.md) da importare.",
+  "import.zip_help": "Carica un archivio ZIP (file compresso) contenente file markdown (.md) da importare.",
   "import.start_button": "Importa",
   "import.importing": "Importazione in corso...",
   "import.results_title": "Risultati dell'importazione",
   "import.success": "Importazione completata con successo.",
-  "import.error": "Importazione fallita: {0}",
-
-  "file_renamed.success": "File rinominato con successo",
-  "file_renamed.error_title": "Rinomina fallita",
-  "file_renamed.error_message": "Errore",
-  "file_renamed.check_console": "Controlla la console per maggiori dettagli."
+  "import.error": "Importazione fallita: {0}"
 }

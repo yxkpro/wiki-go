@@ -31,8 +31,8 @@
   "editor.title": "Belgeyi Düzenle",
   "editor.save_success": "Belge başarıyla kaydedildi",
   "editor.save_error": "Belge kaydedilirken hata oluştu",
-  "editor.unsaved_changes": "Kaydedilmemiş değişiklikler",
-  "editor.unsaved_changes_leave": "Kaydedilmemiş değişiklikleriniz var. Gerçekten çıkmak istiyor musunuz?",
+  "editor.unsaved_changes": "Kaydedilmemiş değişiklikleriniz var",
+  "editor.unsaved_changes_leave": "Kaydedilmemiş değişiklikleriniz var. Kaydetmeden çıkılsın mı?",
   "editor.unsaved_changes_save": "Kaydedilmemiş değişiklikleriniz var. Çıkmadan önce kaydetmek ister misiniz?",
 
   "toolbar.history": "Geçmiş",
@@ -100,7 +100,7 @@
   "attachments.upload_tab": "Yükle",
   "attachments.select_file": "Dosya seç",
   "attachments.choose_file": "Dosya seç",
-  "attachments.no_file_chosen": "Dosya seçilmedi",
+  "attachments.no_file_chosen": "Hiçbir dosya seçilmedi",
   "attachments.allowed_types": "İzin verilen dosya türleri: {{allowedTypes}} (Maks: {{maxFileSize}})",
   "attachments.file_type_checking_disabled": "Dosya türü kontrolü devre dışı bırakıldı. Tüm dosya türlerine izin verilir.",
   "attachments.files_tab": "Dosyalar",
@@ -114,19 +114,23 @@
   "delete_file.title": "Dosyayı Sil",
   "delete_file.confirm_message": "Bu dosyayı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
 
+  "file_renamed.success": "Dosya başarıyla yeniden adlandırıldı",
+  "file_renamed.error_title": "Yeniden adlandırma başarısız oldu",
+  "file_renamed.error_message": "Hata",
+
   "move.title": "Belgeyi Taşı/Yeniden Adlandır",
   "move.current_path": "Mevcut Yol",
   "move.current_path_description": "Belgenin mevcut konumu",
   "move.new_path": "Yeni Yol",
   "move.new_path_help": "Belgenin yeni yolu (URL parçasını içeren)",
-  "move.note": "Bu sadece belgenin yolunu değiştirir. Belgenin başlığını (H1 başlığı) değiştirmez.",
+  "move.note": "Bu sadece belgenin yolunu değiştirir ve belgenin başlığını (H1 başlığı) değiştirmez.",
   "move.button": "Taşı/Yeniden Adlandır",
   "move.target_exists": "Hedef zaten mevcut",
 
   "login.title": "Giriş",
   "login.username": "Kullanıcı Adı",
   "login.password": "Şifre",
-  "login.keep_logged_in": "Oturumu açık tut (30 gün)",
+  "login.keep_logged_in": "Beni hatırla (30 gün)",
   "login.button": "Giriş",
   "login.error": "Geçersiz kullanıcı adı veya şifre",
   "login.ban": "Çok fazla başarısız giriş denemesi; daha sonra tekrar deneyin",
@@ -187,15 +191,10 @@
 
   "import.description": "ZIP arşivinden markdown dosyalarını içe aktarın. Dosyalar işlenecek ve uygun belge yapısında saklanacaktır. ZIP'teki dizin yapısı (kategori/alt kategori) wiki'de korunacaktır.",
   "import.select_zip": "ZIP Arşivi Seç",
-  "import.zip_help": "İçe aktarılacak markdown (.md) dosyaları içeren bir ZIP dosyası yükleyin.",
+  "import.zip_help": "İçe aktarılacak markdown (.md) dosyaları içeren bir ZIP arşivi (sıkıştırılmış dosya) yükleyin.",
   "import.start_button": "İçe Aktar",
   "import.importing": "İçe Aktarılıyor...",
   "import.results_title": "İçe Aktarma Sonuçları",
   "import.success": "İçe aktarma başarıyla tamamlandı.",
-  "import.error": "İçe aktarma başarısız oldu: {0}",
-
-  "file_renamed.success": "Dosya başarıyla yeniden adlandırıldı",
-  "file_renamed.error_title": "Yeniden adlandırma başarısız oldu",
-  "file_renamed.error_message": "Hata",
-  "file_renamed.check_console": "Daha fazla ayrıntı için lütfen konsolu kontrol edin."
+  "import.error": "İçe aktarma başarısız oldu: {0}"
 }

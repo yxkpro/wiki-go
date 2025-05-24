@@ -31,8 +31,8 @@
   "editor.title": "Редактировать документ",
   "editor.save_success": "Документ успешно сохранен",
   "editor.save_error": "Ошибка при сохранении документа",
-  "editor.unsaved_changes": "Несохранённые изменения",
-  "editor.unsaved_changes_leave": "У вас есть несохранённые изменения. Вы уверены, что хотите выйти?",
+  "editor.unsaved_changes": "У вас есть несохранённые изменения",
+  "editor.unsaved_changes_leave": "У вас есть несохранённые изменения. Выйти без сохранения?",
   "editor.unsaved_changes_save": "У вас есть несохранённые изменения. Сохранить их перед выходом?",
 
   "toolbar.history": "История",
@@ -100,7 +100,7 @@
   "attachments.upload_tab": "Загрузить",
   "attachments.select_file": "Выбрать файл",
   "attachments.choose_file": "Выбрать файл",
-  "attachments.no_file_chosen": "Файлы не выбраны",
+  "attachments.no_file_chosen": "Файл не выбран",
   "attachments.allowed_types": "Разрешенные типы файлов: {{allowedTypes}} (Макс: {{maxFileSize}})",
   "attachments.file_type_checking_disabled": "Проверка типа файла отключена. Разрешены все типы файлов.",
   "attachments.files_tab": "Файлы",
@@ -114,19 +114,23 @@
   "delete_file.title": "Удалить файл",
   "delete_file.confirm_message": "Вы уверены, что хотите удалить этот файл? Это действие нельзя отменить.",
 
+  "file_renamed.success": "Файл успешно переименован",
+  "file_renamed.error_title": "Ошибка переименования",
+  "file_renamed.error_message": "Ошибка",
+
   "move.title": "Переместить/Переименовать документ",
   "move.current_path": "Текущий путь",
   "move.current_path_description": "Текущее расположение документа",
   "move.new_path": "Новый путь",
   "move.new_path_help": "Новый путь для документа (включая слаг)",
-  "move.note": "Это изменяет только путь документа. Заголовок документа (заголовок H1) не изменяется.",
+  "move.note": "Это изменяет только путь документа и не изменяет заголовок документа (заголовок H1).",
   "move.button": "Переместить/Переименовать",
   "move.target_exists": "Цель уже существует",
 
   "login.title": "Вход",
   "login.username": "Имя пользователя",
   "login.password": "Пароль",
-  "login.keep_logged_in": "Оставаться в системе (30 дней)",
+  "login.keep_logged_in": "Запомнить меня (30 дней)",
   "login.button": "Вход",
   "login.error": "Неверное имя пользователя или пароль",
   "login.ban": "Слишком много неудачных попыток входа; попробуйте позже",
@@ -187,15 +191,10 @@
 
   "import.description": "Импорт файлов markdown из ZIP-архива. Файлы будут обработаны и сохранены в соответствующей структуре документов. Структура каталогов в ZIP (категория/подкатегория) будет сохранена в вики.",
   "import.select_zip": "Выбрать ZIP-архив",
-  "import.zip_help": "Загрузите ZIP-файл, содержащий файлы markdown (.md) для импорта.",
+  "import.zip_help": "Загрузите ZIP-архив (сжатый файл), содержащий файлы markdown (.md) для импорта.",
   "import.start_button": "Импортировать",
   "import.importing": "Импортирование...",
   "import.results_title": "Результаты импорта",
   "import.success": "Импорт успешно завершен.",
-  "import.error": "Ошибка импорта: {0}",
-
-  "file_renamed.success": "Файл успешно переименован",
-  "file_renamed.error_title": "Ошибка переименования",
-  "file_renamed.error_message": "Ошибка",
-  "file_renamed.check_console": "Пожалуйста, проверьте консоль для получения дополнительной информации."
+  "import.error": "Ошибка импорта: {0}"
 }

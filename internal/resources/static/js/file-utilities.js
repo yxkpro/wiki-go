@@ -507,7 +507,7 @@ async function renameFile(path, newName) {
         if (window.DialogSystem && window.DialogSystem.showMessageDialog) {
             window.DialogSystem.showMessageDialog(
                 window.i18n ? window.i18n.t('file_renamed.error_title') : "Rename Failed",
-                `${window.i18n ? window.i18n.t('file_renamed.error_message') : "Error"}: ${error.message || 'Failed to rename file'}. ${window.i18n ? window.i18n.t('file_renamed.check_console') : "Please check the console for more details."}`
+                `${window.i18n ? window.i18n.t('file_renamed.error_message') : "Error"}: ${error.message || 'Failed to rename file'}.`
             );
         } else {
             alert("Error renaming file: " + (error.message || "Unknown error"));

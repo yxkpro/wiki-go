@@ -1487,12 +1487,6 @@ document.addEventListener('keydown', function(e) {
             }
         }
     }
-
-    // Add Ctrl+P handler that works even when editor is hidden
-    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'p' || e.key === 'P')) {
-        // This is now handled by the dedicated handler above
-        return;
-    }
 });
 
 // Preload emoji data when the page loads to avoid AJAX delay when editor is opened

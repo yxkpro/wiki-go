@@ -255,6 +255,15 @@ function handleKeyDown(e) {
             saveButton.click();
         }
     }
+    
+    // Ctrl+Shift+F to focus search box
+    else if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'f') {
+        e.preventDefault(); // Prevent browser's find dialog
+        const searchBox = document.querySelector('.search-box');
+        if (searchBox) {
+            searchBox.focus();
+        }
+    }
 
     // Escape key for closing dialogs and exiting edit mode
     else if (e.key === 'Escape') {

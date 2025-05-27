@@ -6,6 +6,7 @@ Wiki-Go provides several keyboard shortcuts to enhance productivity:
 
 - `Ctrl+E` - Enter edit mode
 - `Ctrl+S` - Save document when in edit mode
+- `Ctrl+Shift+F` - Focus the search box
 - `Escape` - Exit edit mode or close dialogs
 
 ### Formatting Shortcuts (in edit mode)

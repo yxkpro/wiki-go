@@ -254,6 +254,10 @@ wiki:
     timezone: America/Vancouver
     private: false
     disable_comments: false
+    disable_file_upload_checking: false
+    enable_link_embedding: false
+    hide_attachments: false
+    disable_content_max_width: false
     max_versions: 10
     # Maximum file upload size in MB
     max_upload_size: 10

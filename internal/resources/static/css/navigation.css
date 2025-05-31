@@ -190,8 +190,8 @@
 }
 
 .nav-item a:hover {
+    color: var(--primary-hover);
     background-color: var(--hover-bg);
-    color: var(--primary-color);
 }
 
 /* Arrow indicator */
@@ -259,6 +259,7 @@
 }
 
 .breadcrumbs a:hover {
+    color: var(--primary-hover);
     text-decoration: underline;
 }
 

@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/static/css/buttons.css?={{getVersion}}">
     <link rel="stylesheet" href="/static/css/dialog.css?={{getVersion}}">
     <link rel="stylesheet" href="/static/css/forms.css?={{getVersion}}">
+    <link rel="stylesheet" href="/static/custom.css?={{getVersion}}">
     <style>
         /* Adapt login dialog to full page context */
         body {
@@ -27,16 +28,33 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             background-color: var(--bg-color);
+            overflow: hidden;
+        }
+
+        html {
+            height: 100%;
+            overflow: hidden;
         }
 
         /* Make the login dialog behave like a standalone component */
         .login-dialog {
             position: relative;
             display: block;
-            z-index: 1;
             max-width: 400px;
+            width: 100%;
+            margin: 20px;
+            overflow: hidden;
+        }
+
+        .login-container {
+            padding: 30px;
+            overflow: visible;
+        }
+
+        /* Ensure proper form sizing */
+        .login-form {
             width: 100%;
         }
 
@@ -57,7 +75,7 @@
             <form class="login-form" id="loginForm">
                 <div class="form-group">
                     <label for="username">{{t "login.username"}}</label>
-                    <input type="text" id="username" name="username" autocomplete="username" required>
+                    <input type="text" id="username" name="username" autocomplete="username" autofocus required>
                 </div>
                 <div class="form-group">
                     <label for="password">{{t "login.password"}}</label>

@@ -192,6 +192,7 @@ pre[class*="language-"] > code {
 }
 
 .markdown-content a:hover {
+    color: var(--primary-hover);
     text-decoration: underline;
 }
 

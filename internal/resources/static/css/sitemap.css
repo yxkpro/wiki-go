@@ -86,12 +86,12 @@ body {
 .page-list a {
     display: block;
     text-decoration: none;
-    color: var(--link-color);
+    color: var(--primary-color);
     font-weight: 500;
 }
 
 .page-list a:hover {
-    color: var(--primary-color);
+    color: var(--primary-hover);
 }
 
 .last-modified {

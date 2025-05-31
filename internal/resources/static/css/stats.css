@@ -6,15 +6,8 @@
     padding: 12px;
     margin: 10px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-    background-color: #f5f5f5;
-    color: #333333;
-}
-
-/* Dark theme base */
-:root[data-theme="dark"] .wiki-stats {
-    background-color: #2a2e33;
-    color: #e0e0e0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background-color: var(--code-bg);
+    color: var(--text-color);
 }
 
 /* When multiple stats components are placed consecutively */
@@ -29,13 +22,8 @@
     font-size: 1.1rem;
     font-weight: 600;
     padding-bottom: 4px;
-    color: #333;
-    border-bottom: 1px solid #ddd;
-}
-
-:root[data-theme="dark"] .wiki-stats h4 {
-    color: #ffffff;
-    border-bottom: 1px solid #3e464f;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
 /* Document Count stats */
@@ -55,20 +43,12 @@
     font-weight: 700;
     line-height: 1;
     margin-bottom: 4px;
-    color: #2196f3;
-}
-
-:root[data-theme="dark"] .wiki-stats .count-number {
-    color: #64b5f6;
+    color: var(--text-color);
 }
 
 .wiki-stats .count-description {
     font-size: 0.85rem;
-    color: #666;
-}
-
-:root[data-theme="dark"] .wiki-stats .count-description {
-    color: #b0bec5;
+    color: var(--text-color);
 }
 
 /* Recent Edits stats */
@@ -85,11 +65,7 @@
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 4px;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-:root[data-theme="dark"] .wiki-stats.recent-edits li {
-    border-bottom: 1px solid #3e464f;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .wiki-stats.recent-edits li:last-child {
@@ -116,7 +92,7 @@
 .wiki-stats.recent-edits .doc-path {
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #757575;
+    color: var(--breadcrumb-color);
     flex: 1;
     text-align: left;
     padding-left: 4px;
@@ -124,15 +100,7 @@
 }
 
 .wiki-stats.recent-edits .edit-date {
-    color: #757575;
-}
-
-:root[data-theme="dark"] .wiki-stats.recent-edits .doc-path {
-    color: #9e9e9e;
-}
-
-:root[data-theme="dark"] .wiki-stats.recent-edits .edit-date {
-    color: #b0bec5;
+    color: var(--breadcrumb-color);
 }
 
 /* Links in stats components */
@@ -142,16 +110,13 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #2196f3;
+    color: var(--primary-color);
     max-width: 100%;
     flex-shrink: 0;
 }
 
-:root[data-theme="dark"] .wiki-stats.recent-edits a {
-    color: #64b5f6;
-}
-
 .wiki-stats.recent-edits a:hover {
+    color: var(--primary-hover);
     text-decoration: underline;
 }
 

@@ -138,11 +138,12 @@
 }
 
 .imported-files-list a {
-    color: var(--link-color);
+    color: var(--primary-color);
     text-decoration: none;
 }
 
 .imported-files-list a:hover {
+    color: var(--primary-hover);
     text-decoration: underline;
 }
 
@@ -169,10 +170,16 @@
     color: #ff6b6b;
 }
 
-[data-theme="dark"] .imported-files-list a,
+/* [data-theme="dark"] .imported-files-list a,
 .dark-mode .imported-files-list a {
-    color: #64b5f6;
+    color: var(--primary-color);
 }
+
+[data-theme="dark"] .imported-files-list a,
+.dark-mode .imported-files-list a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+} */
 
 /* Common dialog container styles */
 .login-container,
@@ -206,7 +213,7 @@
 }
 
 .close-dialog:hover {
-    color: var(--primary-color);
+    color: var(--primary-hover);
 }
 
 /* Error message styles */

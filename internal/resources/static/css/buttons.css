@@ -37,8 +37,8 @@
 .toolbar-button:hover,
 .dialog-button:hover {
     background: var(--hover-bg);
-    border-color: var(--primary-color);
-    color: var(--primary-color);
+    border-color: var(--primary-hover);
+    color: var(--primary-hover);
 }
 
 .page-actions-button svg,

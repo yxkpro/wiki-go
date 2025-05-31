@@ -66,6 +66,7 @@
 }
 
 .login-prompt a:hover {
+    color: var(--primary-hover);
     text-decoration: underline;
 }
 
@@ -98,7 +99,7 @@
 
 .comment-author {
     font-weight: bold;
-    color: var(--primary-color);
+    color: var(--text-color);
     margin-right: 0.8rem;
 }
 

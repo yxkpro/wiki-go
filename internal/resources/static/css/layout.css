@@ -66,10 +66,15 @@
 }
 
 .directory-item a {
-    color: var(--text-color);
+    color: var(--primary-color);
     text-decoration: none;
     display: block;
     flex: 1;
+}
+
+.directory-item a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
 }
 
 .directory-item.is-dir:before {

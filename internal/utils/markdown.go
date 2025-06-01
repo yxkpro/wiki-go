@@ -83,16 +83,13 @@ func RenderMarkdownWithPath(md string, docPath string) []byte {
 		return errMsg
 	}
 
-	// Get the HTML result
-	htmlResult := buf.String()
-
 	// Post-process: Restore Mermaid blocks that were replaced with placeholders
-	htmlResult = goldext.RestoreMermaidBlocks(htmlResult)
+	htmlResult := goldext.RestoreMermaidBlocks(buf.String())
 
 	// Post-process: Restore Direction blocks that were replaced with placeholders
 	// This ensures RTL/LTR content is properly rendered with Markdown formatting
 	htmlResult = goldext.RestoreDirectionBlocks(htmlResult)
 
-	// Return the HTML
+	// Return the post-processed HTML
 	return []byte(htmlResult)
 }

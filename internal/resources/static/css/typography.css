@@ -209,7 +209,6 @@ pre[class*="language-"] > code {
 .footnotes {
     margin-top: 40px;
     padding-top: 20px;
-    border-top: 1px solid var(--border-color);
     font-size: 0.9em;
     color: var(--text-color);
 }

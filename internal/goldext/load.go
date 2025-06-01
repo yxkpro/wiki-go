@@ -22,6 +22,7 @@ var (
 	_ = HeadingAnchorPreprocessor
 	_ = SuperscriptPreprocessor
 	_ = SubscriptPreprocessor
+	_ = ScriptSanitizePreprocessor
 )
 
 func init() {
@@ -52,4 +53,7 @@ func init() {
 	// These preprocessors will skip content inside MathJax blocks ($ and $$)
 	RegisterPreprocessor(SuperscriptPreprocessor) // Process superscript (avoids MathJax content)
 	RegisterPreprocessor(SubscriptPreprocessor)   // Process subscript (avoids MathJax content)
+	
+	// Register script sanitizer - it will handle post-processing in its Process method
+	RegisterPreprocessor(ScriptSanitizePreprocessor)
 }

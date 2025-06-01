@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"wiki-go/internal/goldext"
 
@@ -46,9 +45,6 @@ func RenderMarkdown(md string) []byte {
 
 // RenderMarkdownWithPath converts markdown text to HTML with the current document path
 func RenderMarkdownWithPath(md string, docPath string) []byte {
-	// Remove potentially dangerous script tags before processing
-	md = sanitizeScriptTags(md)
-
 	// Apply any custom extensions via pre-processing
 	md = goldext.ProcessMarkdown(md, docPath)
 
@@ -97,16 +93,6 @@ func RenderMarkdownWithPath(md string, docPath string) []byte {
 	// This ensures RTL/LTR content is properly rendered with Markdown formatting
 	htmlResult = goldext.RestoreDirectionBlocks(htmlResult)
 
-	// Remove any script tags that might have been added during processing
-	htmlResult = sanitizeScriptTags(htmlResult)
-
-	// Return the sanitized HTML
+	// Return the HTML
 	return []byte(htmlResult)
-}
-
-// sanitizeScriptTags removes potentially dangerous script tags from content
-func sanitizeScriptTags(content string) string {
-	// Regex to match both inline and multi-line script tags with any attributes
-	scriptPattern := regexp.MustCompile(`(?i)<script[\s\S]*?>([\s\S]*?)<\/script>`)
-	return scriptPattern.ReplaceAllString(content, "")
 }

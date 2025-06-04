@@ -76,7 +76,6 @@ mark {
     background-color: var(--hover-bg);
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    max-width: 900px !important;
 }
 
 .toc-title {
@@ -137,6 +136,55 @@ mark {
     background-color: transparent;
     border-radius: 4px;
     padding: 10px 0;
+    transition: opacity 0.2s ease;
+    color: transparent; /* Hide raw text content */
+    font-size: 0; /* Hide text completely */
+    line-height: 0;
+}
+
+/* Show the SVG once rendered */
+.mermaid svg {
+    transition: opacity 0.15s ease;
+    color: initial;
+    font-size: initial;
+    line-height: initial;
+}
+
+/* Override text hiding when SVG is present */
+.mermaid:has(svg) {
+    color: initial;
+    font-size: initial;
+    line-height: initial;
+}
+
+/* Fallback for browsers that don't support :has() */
+.mermaid.mermaid-rendered {
+    color: initial;
+    font-size: initial;
+    line-height: initial;
+}
+
+/* Mermaid diagram loading states for theme switching */
+.mermaid-rerendering {
+    position: relative;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.mermaid-rerendering::after {
+    content: "Switching theme...";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--background-color);
+    color: var(--text-color);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    border: 1px solid var(--border-color);
+    z-index: 10;
+    pointer-events: none;
 }
 
 /* Screen-specific styles */

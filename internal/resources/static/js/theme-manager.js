@@ -3,6 +3,20 @@
  * Handles theme switching, initialization, and UI updates
  */
 
+// Global print state - set this early
+window.isPrintActive = false;
+
+// Track print events globally and early
+window.addEventListener('beforeprint', function() {
+    window.isPrintActive = true;
+});
+
+window.addEventListener('afterprint', function() {
+    setTimeout(() => {
+        window.isPrintActive = false;
+    }, 100);
+});
+
 // Immediately set theme before page renders to prevent flash
 (function() {
     var savedTheme = localStorage.getItem('theme');
@@ -53,6 +67,11 @@ document.addEventListener('DOMContentLoaded', function() {
      * Toggle between light and dark themes
      */
     function toggleTheme() {
+        // Don't change theme during print
+        if (window.isPrintActive) {
+            return;
+        }
+
         const currentTheme = root.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
@@ -65,6 +84,11 @@ document.addEventListener('DOMContentLoaded', function() {
      * @param {string} theme - 'light' or 'dark'
      */
     function applyTheme(theme) {
+        // Don't apply theme changes during print
+        if (window.isPrintActive) {
+            return;
+        }
+
         root.setAttribute('data-theme', theme);
         updateThemeUI(theme);
     }
@@ -104,11 +128,12 @@ document.addEventListener('DOMContentLoaded', function() {
      * @param {MediaQueryListEvent} e - Media query change event
      */
     function handleSystemThemeChange(e) {
-        // Only apply system preference if user hasn't set a preference
-        if (!localStorage.getItem('theme')) {
-            const newTheme = e.matches ? 'dark' : 'light';
-            applyTheme(newTheme);
+        // Don't change theme during print or if user has set preference
+        if (window.isPrintActive || localStorage.getItem('theme')) {
+            return;
         }
+        const newTheme = e.matches ? 'dark' : 'light';
+        applyTheme(newTheme);
     }
 
     // Export theme functions to global scope

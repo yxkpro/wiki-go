@@ -953,6 +953,16 @@ async function updatePreview(content) {
         const html = await response.text();
         previewElement.innerHTML = html;
 
+        // Store Mermaid sources BEFORE any rendering happens
+        const mermaidDiagrams = previewElement.querySelectorAll('.mermaid');
+        mermaidDiagrams.forEach((diagram) => {
+            // Extract the original source from the rendered content
+            const textContent = diagram.textContent || diagram.innerText;
+            if (textContent && textContent.trim()) {
+                diagram.dataset.mermaidSource = textContent.trim();
+            }
+        });
+
         // Initialize any client-side renderers (Prism, MathJax, etc)
         if (window.Prism) {
             Prism.highlightAllUnder(previewElement);

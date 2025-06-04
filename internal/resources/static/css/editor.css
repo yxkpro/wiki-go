@@ -66,7 +66,7 @@
     border-bottom: 1px solid var(--border-color) !important;
     padding: 4px 8px !important;
     margin-top: 0 !important;
-    background: var(--bg-color-alt) !important;
+    background: var(--sidebar-bg) !important;
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
@@ -109,7 +109,7 @@
     font-size: 10px;
     bottom: 1px;
     right: 1px;
-    color: var(--text-color-secondary);
+    color: var(--breadcrumb-color);
     font-weight: bold;
     text-shadow: 0 0 1px var(--bg-color);
 }
@@ -120,7 +120,7 @@
     font-size: 10px;
     bottom: 1px;
     right: 1px;
-    color: var(--text-color-secondary);
+    color: var(--breadcrumb-color);
     font-weight: bold;
     text-shadow: 0 0 1px var(--bg-color);
 }
@@ -131,7 +131,7 @@
     font-size: 10px;
     bottom: 1px;
     right: 1px;
-    color: var(--text-color-secondary);
+    color: var(--breadcrumb-color);
     font-weight: bold;
     text-shadow: 0 0 1px var(--bg-color);
 }
@@ -142,7 +142,7 @@
     font-size: 10px;
     bottom: 1px;
     right: 1px;
-    color: var(--text-color-secondary);
+    color: var(--breadcrumb-color);
     font-weight: bold;
     text-shadow: 0 0 1px var(--bg-color);
 }
@@ -159,7 +159,7 @@
     font-size: 10px;
     bottom: 1px;
     right: 1px;
-    color: var(--text-color-secondary);
+    color: var(--breadcrumb-color);
     font-weight: bold;
     text-shadow: 0 0 1px var(--bg-color);
 }
@@ -176,7 +176,7 @@
     font-size: 10px;
     bottom: 1px;
     right: 1px;
-    color: var(--text-color-secondary);
+    color: var(--breadcrumb-color);
     font-weight: bold;
     text-shadow: 0 0 1px var(--bg-color);
 }
@@ -198,7 +198,7 @@
     font-size: 10px;
     bottom: 1px;
     right: 1px;
-    color: var(--text-color-secondary);
+    color: var(--breadcrumb-color);
     font-weight: bold;
     text-shadow: 0 0 1px var(--bg-color);
 }
@@ -217,11 +217,6 @@
 .custom-toolbar button.align-column-right-button:hover::after,
 .custom-toolbar button.align-column-none-button:hover::after {
     color: var(--primary-color);
-}
-
-/* Dark mode adjustments */
-:root[data-theme="dark"] .custom-toolbar button::after {
-    text-shadow: 0 0 1px #111;
 }
 
 .custom-toolbar i.separator {
@@ -280,7 +275,7 @@
 
 /* Preview loading indicator */
 .preview-loading {
-    color: var(--text-color-secondary);
+    color: var(--breadcrumb-color);
     text-align: center;
     padding: 20px;
     font-style: italic;
@@ -297,25 +292,18 @@
 
 /* Ensure proper styling for code blocks in preview */
 .editor-preview pre {
-    background-color: #f5f5f5;
-    border: 1px solid #ddd;
+    background-color: var(--code-bg);
+    border: 1px solid var(--border-color);
     border-radius: 3px;
     padding: 0.5em;
     margin: 0.5em 0;
     overflow: auto;
 }
 
-/* Dark theme for code blocks in preview */
-:root[data-theme="dark"] .editor-preview pre {
-    background-color: #23241F;
-    border-color: #333;
-    color: #ccc;
-}
-
 /* Editor status bar */
 .editor-statusbar {
     color: var(--text-color) !important;
-    background: var(--bg-color-alt) !important;
+    background: var(--sidebar-bg) !important;
     border-top: 1px solid var(--border-color) !important;
     padding: 8px 10px;
     font-size: 12px;
@@ -363,113 +351,62 @@
     min-height: 100%;
 }
 
-/* Fix for line numbers and line highlighting in light mode */
+/* Fix for line numbers and line highlighting */
 .custom-editor-wrapper .CodeMirror-gutters {
-    background-color: #f7f7f7;
-    border-right: 1px solid #e0e0e0;
+    background-color: var(--hover-bg);
+    border-right: 1px solid var(--border-color);
     width: 50px;
 }
 
 .custom-editor-wrapper .CodeMirror-linenumber {
-    color: #999;
+    color: var(--breadcrumb-color);
     padding: 0 5px 0 5px;
 }
 
 .custom-editor-wrapper .CodeMirror-activeline-background {
-    background: rgba(0, 0, 0, 0.03);
+    background: rgba(var(--primary-rgb), 0.03);
 }
 
 .custom-editor-wrapper .CodeMirror-activeline-gutter {
-    background-color: #f0f0f0;
+    background-color: var(--code-bg);
 }
 
 /* Cursor styles */
 .custom-editor-wrapper .CodeMirror-cursor {
-    border-left: 2px solid rgba(0, 0, 0, 0.4) !important;
+    border-left: 2px solid rgba(var(--primary-rgb), 0.4) !important;
     margin-left: 0 !important;
 }
 
 /* Selection styles */
 .CodeMirror-selected {
-    background-color: rgba(0, 0, 0, 0.05) !important;
+    background-color: rgba(var(--primary-rgb), 0.15) !important;
 }
 
-/* Dark mode overrides */
-:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror {
-    color: #ccc;
-    border-color: #444;
-    background-color: #1e1e1e;
+.CodeMirror-selectedtext {
+    background-color: rgba(var(--primary-rgb), 0.2) !important;
+    color: var(--text-color) !important;
 }
 
-:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror-gutters {
-    background-color: #2a2a2a;
-    border-right: 1px solid #3a3a3a;
+::selection {
+    background-color: rgba(var(--primary-rgb), 0.2) !important;
+    color: var(--text-color) !important;
 }
 
-:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror-linenumber {
-    color: #777;
+::-moz-selection {
+    background-color: rgba(var(--primary-rgb), 0.2) !important;
+    color: var(--text-color) !important;
 }
 
-:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror-activeline-background {
-    background: rgba(255, 255, 255, 0.04);
+.custom-editor-wrapper .CodeMirror .cm-header {
+    color: var(--text-color);
 }
 
-:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror-activeline-gutter {
-    background-color: #323232;
+.custom-editor-wrapper .CodeMirror .cm-header-2 {
+    border-bottom-color: var(--border-color);
 }
 
-:root[data-theme="dark"] .custom-toolbar button.active,
-:root[data-theme="dark"] .custom-toolbar button:hover {
-    color: #ddd !important;
-    background-color: #444 !important;
-}
-
-:root[data-theme="dark"] .preview-loading {
-    color: #aaa;
-}
-
-:root[data-theme="dark"] .editor-preview h1,
-:root[data-theme="dark"] .editor-preview h2,
-:root[data-theme="dark"] .editor-preview h3,
-:root[data-theme="dark"] .editor-preview h4,
-:root[data-theme="dark"] .editor-preview h5,
-:root[data-theme="dark"] .editor-preview h6 {
-    color: #ddd;
-}
-
-:root[data-theme="dark"] .CodeMirror-selectedtext {
-    background-color: #666 !important;
-    color: #fff !important;
-}
-
-:root[data-theme="dark"] ::selection {
-    background-color: #666 !important;
-    color: #fff !important;
-}
-
-:root[data-theme="dark"] ::-moz-selection {
-    background-color: #666 !important;
-    color: #fff !important;
-}
-
-:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror-cursor {
-    border-left: 2px solid rgba(255, 255, 255, 0.4) !important;
-}
-
-:root[data-theme="dark"] .CodeMirror-selected {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror .cm-header {
-    color: #ddd;
-}
-
-:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror .cm-header-2 {
-    border-bottom-color: #444;
-}
-
-:root[data-theme="dark"] .custom-editor-wrapper .CodeMirror .CodeMirror-line .cm-header-2:after {
-    background-color: #444;
+.custom-editor-wrapper .CodeMirror .CodeMirror-line .cm-header-2:after {
+    background-color: var(--border-color);
 }
 
 /* Heading styles for CodeMirror editor */
@@ -615,6 +552,15 @@
     margin-bottom: 0.5em;
 }
 
+.editor-preview h1,
+.editor-preview h2,
+.editor-preview h3,
+.editor-preview h4,
+.editor-preview h5,
+.editor-preview h6 {
+    color: var(--text-color);
+}
+
 .editor-preview img {
     max-width: 100%;
     height: auto;
@@ -652,15 +598,6 @@
 .table-picker .cell.active {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
-}
-
-:root[data-theme="dark"] .table-picker {
-    background: #333;
-    border-color: #444;
-}
-
-:root[data-theme="dark"] .table-picker .cell {
-    border-color: #555;
 }
 
 /* Emoji picker styles */
@@ -748,7 +685,7 @@
 .docs-loading {
     padding: 20px;
     text-align: center;
-    color: var(--text-color-secondary);
+    color: var(--breadcrumb-color);
 }
 
 .doc-btn, .anchor-btn {
@@ -783,7 +720,7 @@
 
 .doc-path {
     font-size: 12px;
-    color: var(--text-color-secondary);
+    color: var(--breadcrumb-color);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -793,7 +730,7 @@
 .no-results {
     padding: 15px;
     text-align: center;
-    color: var(--text-color-secondary);
+    color: var(--breadcrumb-color);
     font-style: italic;
 }
 
@@ -801,20 +738,6 @@
 .emoji-btn:hover, .doc-btn:hover, .anchor-btn:hover {
     background: var(--hover-bg);
     border-color: var(--primary-color);
-}
-
-:root[data-theme="dark"] .emoji-picker, :root[data-theme="dark"] .doc-picker, :root[data-theme="dark"] .anchor-picker {
-    background: #333;
-    border-color: #444;
-}
-
-:root[data-theme="dark"] .doc-btn, :root[data-theme="dark"] .anchor-btn {
-    border-color: #444;
-}
-
-:root[data-theme="dark"] .emoji-picker .emoji-btn:hover, :root[data-theme="dark"] .doc-btn:hover, :root[data-theme="dark"] .anchor-btn:hover {
-    background-color: #444;
-    border-color: #555;
 }
 
 .anchor-picker-header {
@@ -838,11 +761,6 @@
 .anchor-back-btn:hover {
     background: var(--hover-bg);
     color: var(--primary-color);
-}
-
-/* Dark theme adjustments */
-:root[data-theme="dark"] .anchor-back-btn:hover {
-    background: #444;
 }
 
 /* Prevent double scrollbars in anchor picker */
@@ -938,11 +856,7 @@
 
     /* Fix for the cursor being visible */
     .custom-editor-wrapper .CodeMirror-cursor {
-        border-left: 2px solid rgba(0, 0, 0, 0.7) !important;
-    }
-
-    :root[data-theme="dark"] .custom-editor-wrapper .CodeMirror-cursor {
-        border-left: 2px solid rgba(255, 255, 255, 0.7) !important;
+        border-left: 2px solid rgba(var(--primary-rgb), 0.7) !important;
     }
 
     /* Editor sidebar blur behavior */

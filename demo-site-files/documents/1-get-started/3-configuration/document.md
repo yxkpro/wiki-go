@@ -29,6 +29,8 @@ wiki:
     disable_comments: false
     disable_file_upload_checking: false
     enable_link_embedding: true
+    hide_attachments: false
+    disable_content_max_width: false
     max_versions: 10
     # Maximum file upload size in MB
     max_upload_size: 10
@@ -39,9 +41,9 @@ security:
         # Enable protection against brute force login attacks
         enabled: true
         # Number of failed attempts before triggering a ban
-        max_failures: 3
+        max_failures: 5
         # Time window in seconds for counting failures
-        window_seconds: 30
+        window_seconds: 180
         # Duration in seconds for the first ban
         initial_ban_seconds: 60
         # Maximum ban duration in seconds (24 hours)
@@ -49,7 +51,7 @@ security:
 users:
     - username: admin
       password: <bcrypt-hashed-password>
-      is_admin: true
+      role: admin
 ```
 
 ## Customization
@@ -110,7 +112,8 @@ You can add a banner image that will appear at the top of all documents:
 LeoMoon Wiki-Go includes a user management system with different permission levels:
 
 - **Admin users**: Can create, edit, and delete content, manage users, and change settings
-- **Regular users**: Can view content (when in private mode)
+- **Editor users**: Can create, edit, and delete content
+- **Regular users**: Can view content (useful when in private mode)
 
 The default admin credentials are:
 - Username: `admin`

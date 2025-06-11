@@ -1,4 +1,4 @@
-# Get Started
+# Install
 
 ## Important Configuration Note with Non-SSL Setups
 
@@ -9,6 +9,26 @@ If you're running LeoMoon Wiki-Go without SSL/HTTPS and experiencing login issue
 3. This prevents login from working properly on HTTP-only setups
 
 > **Security Note**: Only use this setting in development or in trusted internal networks. For public-facing wikis, always use HTTPS.
+
+## Native TLS Configuration
+
+In `data/config.yaml` set:
+
+```yaml
+server:
+  host: 0.0.0.0
+  port: 443            # container listens on 443
+  allow_insecure_cookies: false
+  ssl: true            # enable built-in HTTPS
+  ssl_cert: /path/to/certificate.crt
+  ssl_key:  /path/to/private.key
+```
+
+If `ssl: false` (default) the app serves plain HTTP on `port` (8080 by default) and you can run it behind a reverse proxy instead.
+
+The Docker image published by GitHub exposes **both** 8080 and 443 so you can choose either scenario at runtime (see below).
+
+---
 
 ## Native TLS Configuration
 
@@ -114,7 +134,7 @@ mkdir -p ssl
 docker-compose -f docker-compose-ssl.yml up -d
 ```
 
-`docker-compose-ssl.yml` maps host port 443 → container port 443 and mounts your certificate/key. Enable TLS in the application config (see below).
+`docker-compose-ssl.yml` maps host port 443 → container port 443 and mounts your certificate/key. Enable TLS in the application config.
 
 ---
 

@@ -1,0 +1,106 @@
+name: Development Binary Builds
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*-dev*"
+      - "v*-rc*"
+      - "v*-beta*"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build Dev Binaries
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Needed for creating releases
+
+    env:
+      GOFLAGS: -mod=vendor
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history for proper versioning
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: go.mod  # Use version from go.mod
+          check-latest: true
+
+      - name: Set up Node.js (for minifying CSS and JS)
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install minifiers
+        run: |
+          npm install -g clean-css-cli uglify-js
+
+      - name: Minify all CSS and JS
+        run: |
+          find internal/resources/static/css -name '*.css' -type f -print -exec cleancss -o {} {} \;
+          find internal/resources/static/js -name '*.js' -type f -print -exec uglifyjs {} -o {} \;
+
+      - name: Get the version
+        id: get_version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+          if [[ $VERSION == v* ]]; then
+            VERSION=${VERSION:1}
+          fi
+          echo "VERSION_NUM=${VERSION}" >> $GITHUB_OUTPUT
+          # For development versions, keep the full tag as version
+          echo "DEV_VERSION=true" >> $GITHUB_OUTPUT
+
+      - name: Create Build Directory
+        run: mkdir -p build
+
+      - name: Build for Linux (amd64)
+        run: GOOS=linux GOARCH=amd64 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-linux-amd64 .
+
+      - name: Build for Linux (arm64)
+        run: GOOS=linux GOARCH=arm64 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-linux-arm64 .
+
+      - name: Build for Windows (amd64)
+        run: GOOS=windows GOARCH=amd64 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-windows-amd64.exe .
+
+      - name: Build for macOS (amd64)
+        run: GOOS=darwin GOARCH=amd64 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-mac-amd64 .
+
+      - name: Get commits since last stable tag
+        id: changelog
+        run: |
+          # Find the most recent non-dev tag
+          STABLE_TAGS=$(git tag --sort=-v:refname | grep -v -E '(dev|rc|beta|alpha)')
+          PREV_TAG=$(echo "$STABLE_TAGS" | head -n1)
+          echo "Previous stable tag: $PREV_TAG"
+          LOG=$(git log "$PREV_TAG"..HEAD --pretty=format:"- %s (%h by %an)")
+          echo "$LOG"
+          echo "CHANGELOG<<EOF" >> $GITHUB_ENV
+          echo "⚠️ **This is a development build and may contain bugs or incomplete features**" >> $GITHUB_ENV
+          echo "" >> $GITHUB_ENV
+          echo "Changes since $PREV_TAG:" >> $GITHUB_ENV
+          echo "$LOG" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Development Build ${{ steps.get_version.outputs.VERSION }}
+          body: ${{ env.CHANGELOG }}
+          draft: false
+          prerelease: true
+          files: |
+            build/wiki-go-linux-amd64
+            build/wiki-go-linux-arm64
+            build/wiki-go-windows-amd64.exe
+            build/wiki-go-mac-amd64

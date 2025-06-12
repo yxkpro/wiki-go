@@ -21,10 +21,10 @@ wiki:
     private: false
     disable_comments: false
     disable_file_upload_checking: false
-    enable_link_embedding: true
+    enable_link_embedding: false
     max_versions: 10
     # Maximum file upload size in MB
-    max_upload_size: 10
+    max_upload_size: 1
     # Default language for the wiki interface (en, es, etc.)
     language: en
 security:

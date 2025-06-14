@@ -8,6 +8,7 @@
     overflow: hidden;
     border: 1px solid var(--border-color);
     margin-top: 0;
+    min-height: 300px; /* Ensure minimum height for very small screens */
 }
 
 .editor-area {

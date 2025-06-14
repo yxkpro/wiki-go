@@ -51,12 +51,19 @@ function getFileIcon(fileType) {
 }
 
 // Render files list HTML
-function renderFilesList(files) {
+function renderFilesList(files, mentionedFiles) {
     // Get filesList element first to prevent reference references
     const filesList = document.querySelector('.files-list');
     if (!filesList) {
         console.error('Files list element not found');
         return;
+    }
+
+    // Normalize mentionedFiles to a Set for fast lookup
+    let mentionedSet = null;
+    if (Array.isArray(mentionedFiles)) {
+        mentionedSet = new Set(mentionedFiles.map(f => f.toLowerCase()));
+        console.log('Mentioned files set:', mentionedSet);
     }
 
     console.log("Rendering files list:", files);
@@ -114,8 +121,15 @@ function renderFilesList(files) {
         // Determine if file is an image
         const isImage = safeFile.Type && safeFile.Type.startsWith('image/');
 
+        // Check if file is mentioned in document
+        let highlightClass = '';
+        if (mentionedSet && mentionedSet.has(filename.toLowerCase())) {
+            highlightClass = ' mentioned-in-doc';
+            console.log('File is mentioned:', filename);
+        }
+
         return `
-            <div class="file-item" data-file-url="${safeFile.URL}">
+            <div class="file-item${highlightClass}" data-file-url="${safeFile.URL}">
                 <div class="file-info">
                     <div class="file-icon">${getFileIcon(safeFile.Type)}</div>
                     <div class="file-name" data-path="${filePath}" data-current-name="${safeFile.Name}">
@@ -280,7 +294,27 @@ async function loadDocumentFiles() {
             throw new Error(data.message || 'Failed to fetch files');
         }
 
-        renderFilesList(data.files || []);
+        // Get markdown content and extract mentioned files
+        let markdown = '';
+        if (typeof editor !== 'undefined' && editor && editor.getValue) {
+            markdown = editor.getValue();
+        } else {
+            const codeMirrorElement = document.querySelector('.CodeMirror');
+            if (codeMirrorElement && codeMirrorElement.CodeMirror) {
+                markdown = codeMirrorElement.CodeMirror.getValue();
+            } else {
+                const textareas = document.querySelectorAll('textarea');
+                for (const textarea of textareas) {
+                    if (textarea.value && textarea.value.length > 0) {
+                        markdown = textarea.value;
+                        break;
+                    }
+                }
+            }
+        }
+
+        const mentionedFiles = extractMentionedFilenamesFromMarkdown(markdown);
+        renderFilesList(data.files || [], mentionedFiles);
 
         // Also update the file attachments section if it exists
         updateFileAttachments(data.files || []);
@@ -417,6 +451,18 @@ function handleFileInsertion(url, isImage, name) {
             window.DialogSystem.showMessageDialog("Error", "Cannot insert file - editor is not active. Try opening the editor first.");
             return;
         }
+        
+        // Close the file upload dialog after successful insertion
+        // if (window.FileUpload && window.FileUpload.hideFileUploadDialog) {
+        //     window.FileUpload.hideFileUploadDialog();
+        // }
+        
+        // Refresh the files list after a short delay to show the link icon for newly inserted files
+        if (document.querySelector('.file-upload-dialog.active')) {
+            // Only refresh if dialog is still open (shouldn't be, but just in case)
+            loadAndHighlightFilesTab();
+        }
+        
     } else {
         window.DialogSystem.showMessageDialog("Error", "Cannot insert file - editor interface not available.");
         return;
@@ -517,6 +563,34 @@ async function renameFile(path, newName) {
     }
 }
 
+// Helper to extract mentioned filenames from markdown content
+function extractMentionedFilenamesFromMarkdown(markdown) {
+    if (!markdown) return [];
+    
+    // Updated regex to capture filenames with spaces: matches [text](filename with spaces.ext) and ![alt](filename with spaces.ext)
+    const linkRegex = /!?\[[^\]]*\]\(([^)]+)\)/g;
+    const matches = [];
+    let match;
+    
+    console.log('Extracting from markdown:', markdown.substring(0, 500));
+    
+    while ((match = linkRegex.exec(markdown)) !== null) {
+        const url = match[1].trim(); // Trim whitespace
+        console.log('Found markdown link:', url);
+        
+        if (url && !url.startsWith('http') && !url.includes('://')) {
+            // If it's just a filename or relative path
+            const parts = url.split('/');
+            const filename = parts[parts.length - 1];
+            console.log('Extracted filename:', filename);
+            matches.push(filename);
+        }
+    }
+    
+    console.log('All extracted filenames:', matches);
+    return matches;
+}
+
 // Use the global getCurrentDocPath function from utilities.js
 
 // Export functions
@@ -528,5 +602,6 @@ window.FileUtilities = {
     deleteFile,
     renameFile,
     handleFileInsertion,
-    updateFileAttachments
+    updateFileAttachments,
+    extractMentionedFilenamesFromMarkdown
 };

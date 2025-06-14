@@ -190,6 +190,58 @@ async function handleFileUpload(e) {
     }
 }
 
+// Helper to load and highlight mentioned files in the files tab
+async function loadAndHighlightFilesTab() {
+    // Load files from API
+    const docPath = getCurrentDocPath();
+    const response = await fetch(`/api/files/list/${docPath}`);
+    const data = await response.json();
+    const files = data.files || [];
+
+    // Get markdown content directly from the editor
+    let markdown = '';
+    
+    // Try multiple ways to get the editor content
+    // Method 1: Global editor variable (CodeMirror)
+    if (typeof editor !== 'undefined' && editor && editor.getValue) {
+        markdown = editor.getValue();
+        console.log('Got markdown from global editor variable');
+    }
+    // Method 2: Find CodeMirror instance in DOM
+    else {
+        const codeMirrorElement = document.querySelector('.CodeMirror');
+        if (codeMirrorElement && codeMirrorElement.CodeMirror) {
+            markdown = codeMirrorElement.CodeMirror.getValue();
+            console.log('Got markdown from CodeMirror DOM instance');
+        }
+        // Method 3: Try textarea elements
+        else {
+            const textareas = document.querySelectorAll('textarea');
+            for (const textarea of textareas) {
+                if (textarea.value && textarea.value.length > 0) {
+                    markdown = textarea.value;
+                    console.log('Got markdown from textarea');
+                    break;
+                }
+            }
+        }
+    }
+    
+    if (!markdown) {
+        console.warn('Could not find editor content');
+    }
+    
+    console.log('Extracted markdown length:', markdown.length);
+    console.log('Markdown sample:', markdown.substring(0, 300));
+    
+    // Extract mentioned filenames from markdown
+    const mentionedFiles = window.FileUtilities.extractMentionedFilenamesFromMarkdown(markdown);
+    console.log('Mentioned files found:', mentionedFiles);
+    
+    // Render files list with highlighting
+    window.FileUtilities.renderFilesList(files, mentionedFiles);
+}
+
 // Initialize file upload module
 function initFileUpload() {
     const uploadFileButton = document.querySelector('.upload-file');
@@ -226,9 +278,9 @@ function initFileUpload() {
             this.classList.add('active');
             document.getElementById(tabId).classList.add('active');
 
-            // If switching to files tab, load files
+            // If switching to files tab, load files with highlighting
             if (tabId === 'files-tab') {
-                window.FileUtilities.loadDocumentFiles();
+                loadAndHighlightFilesTab();
             }
         });
     });

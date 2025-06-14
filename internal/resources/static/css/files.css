@@ -118,6 +118,31 @@
     font-size: 0.95em;
 }
 
+/* Indicator for files mentioned in document - link icon on insert button */
+.file-item.mentioned-in-doc .insert-file-btn {
+    position: relative;
+}
+
+.file-item.mentioned-in-doc .insert-file-btn:before {
+    content: '\f0c1'; /* FontAwesome link icon */
+    font-family: 'FontAwesome';
+    color: #4caf50;
+    font-size: 0.7em;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Remove the checkmark after filename since we're using the button indicator */
+.file-item.mentioned-in-doc .file-name:after {
+    display: none;
+}
+
 .file-size {
     font-size: 0.8em;
     color: var(--text-secondary);

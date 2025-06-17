@@ -288,7 +288,7 @@ func getDocumentTitle(filePath string) string {
 // getBaseURL constructs the base URL from request and config
 func getBaseURL(r *http.Request, cfg *config.Config) string {
 	scheme := "http"
-	if cfg.Server.SSL || r.TLS != nil {
+	if cfg.Server.SSL || r.TLS != nil || r.Header.Get("X-Forwarded-Proto") == "https" {
 		scheme = "https"
 	}
 

@@ -490,6 +490,7 @@ function createToolbar(container) {
         { icon: 'fa-list-alt', action: 'insert-toc', title: 'Insert Table of Contents' },
         { icon: 'fa-clock-o', action: 'recent-edits', title: 'Insert Recent Edits' },
         { icon: 'fa-book', action: 'total', title: 'Insert Total Number of Documents' },
+        { icon: 'fa-tasks', action: 'kanban', title: 'Insert Kanban Board Template' },
         { type: 'separator' },
         { icon: 'fa-undo', action: 'undo', title: 'Undo' },
         { icon: 'fa-repeat', action: 'redo', title: 'Redo' },
@@ -787,6 +788,9 @@ function setupToolbarActions(toolbar) {
             case 'insert-toc':
                 insertTOC();
                 break;
+            case 'kanban':
+                insertKanbanFrontmatter(editor);
+                break;
             default:
                 break;
         }
@@ -937,6 +941,9 @@ async function updatePreview(content) {
         const isHomepage = window.location.pathname === '/';
         const path = isHomepage ? '/' : window.location.pathname;
 
+        // Check for frontmatter to add special styling if needed
+        const hasFrontmatter = content.startsWith('---\n');
+
         // Call the server-side renderer
         const response = await fetch(`/api/render-markdown?path=${encodeURIComponent(path)}`, {
             method: 'POST',
@@ -951,6 +958,14 @@ async function updatePreview(content) {
         }
 
         const html = await response.text();
+
+        // If the content has kanban board, add a class to the preview element
+        if (hasFrontmatter && html.includes('kanban-board')) {
+            previewElement.classList.add('kanban-preview');
+        } else {
+            previewElement.classList.remove('kanban-preview');
+        }
+
         previewElement.innerHTML = html;
 
         // Store Mermaid sources BEFORE any rendering happens
@@ -2216,4 +2231,43 @@ function insertTOC() {
 
     // Ensure editor retains focus
     editor.focus();
+}
+
+// Function to insert kanban frontmatter template
+function insertKanbanFrontmatter(cm) {
+    // Check if the document already has frontmatter
+    const content = cm.getValue();
+    if (content.startsWith('---\n')) {
+        // Document already has frontmatter, show a message or modify existing
+        alert('Document already has frontmatter. Please edit it manually.');
+        return;
+    }
+
+    // Create the kanban frontmatter template
+    const kanbanTemplate = `---
+layout: kanban
+---
+
+# Kanban Board Title
+
+## Todo
+- [ ] Task 1
+- [ ] Task 2
+- [ ] Task 3
+
+## In Progress
+- [ ] Task 4
+- [ ] Task 5
+
+## Done
+- [x] Task 6
+- [x] Task 7
+
+`;
+
+    // Insert at the beginning of the document
+    cm.replaceRange(kanbanTemplate, {line: 0, ch: 0});
+
+    // Focus the editor
+    cm.focus();
 }

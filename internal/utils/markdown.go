@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"wiki-go/internal/frontmatter"
 	"wiki-go/internal/goldext"
 
 	"github.com/yuin/goldmark"
@@ -45,6 +46,20 @@ func RenderMarkdown(md string) []byte {
 
 // RenderMarkdownWithPath converts markdown text to HTML with the current document path
 func RenderMarkdownWithPath(md string, docPath string) []byte {
+	// Check for frontmatter
+	metadata, contentWithoutFrontmatter, hasFrontmatter := frontmatter.Parse(md)
+
+	// If this has kanban layout, render as kanban
+	if hasFrontmatter && metadata.Layout == "kanban" {
+		kanbanHTML := frontmatter.RenderKanban(contentWithoutFrontmatter)
+		return []byte(kanbanHTML)
+	}
+
+	// If there's frontmatter but not kanban layout, use content without frontmatter
+	if hasFrontmatter {
+		md = contentWithoutFrontmatter
+	}
+
 	// Apply any custom extensions via pre-processing
 	md = goldext.ProcessMarkdown(md, docPath)
 

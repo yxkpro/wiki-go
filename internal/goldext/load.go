@@ -23,11 +23,15 @@ var (
 	_ = SuperscriptPreprocessor
 	_ = SubscriptPreprocessor
 	_ = ScriptSanitizePreprocessor
+	_ = FrontmatterPreprocessor
 )
 
 func init() {
 	// Clear any previously registered preprocessors to ensure consistent ordering
 	RegisteredPreprocessors = nil
+
+	// Step 0: Process frontmatter FIRST, before any other processors
+	RegisterPreprocessor(FrontmatterPreprocessor) // Process frontmatter
 
 	// Step 1: Process Mermaid FIRST, before any other processors can touch the content
 	RegisterPreprocessor(MermaidPreprocessor) // Process mermaid diagrams first

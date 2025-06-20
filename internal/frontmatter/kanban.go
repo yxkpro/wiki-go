@@ -34,11 +34,17 @@ func RenderKanban(content string) string {
 		html += headerContent
 	}
 
+	// Add kanban-container class to make it selectable by the drag-and-drop script
+	html += `<div class="kanban-container">`
 	html += `<div class="kanban-board">`
 
 	for _, column := range columns {
 		html += fmt.Sprintf(`<div class="kanban-column">
-			<div class="kanban-column-header">%s</div>
+			<div class="kanban-column-header">
+				<span class="column-title">%s</span>
+				<span class="kanban-status-container"></span>
+				<button class="add-task-btn editor-admin-only" title="Add task">+</button>
+			</div>
 			<div class="kanban-column-content">`, column.Title)
 
 		// Add a task list for each column
@@ -70,7 +76,7 @@ func RenderKanban(content string) string {
 		html += `</ul></div></div>`
 	}
 
-	html += `</div>`
+	html += `</div></div>` // Close both kanban-board and kanban-container
 	return html
 }
 

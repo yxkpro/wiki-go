@@ -34,6 +34,80 @@
     font-size: 18px;
     font-weight: 600;
     border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.kanban-column-header .column-title {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kanban-status-container {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 8px;
+    min-width: 80px;
+    justify-content: flex-end;
+    height: 20px; /* Fixed height to prevent layout shifts */
+}
+
+/* Save state indicator */
+.kanban-status {
+    font-size: 14px;
+    font-weight: normal;
+    color: var(--text-muted);
+}
+
+.kanban-status.saving {
+    color: var(--text-muted);
+}
+
+.kanban-status.saved {
+    color: var(--success-color, #28a745);
+}
+
+.kanban-status.error {
+    color: var(--error-color, #dc3545);
+}
+
+/* Add task button */
+.add-task-btn {
+    cursor: pointer;
+    background-color: var(--accent-color, #3498db);
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    opacity: 0.8;
+    transition: opacity 0.2s, transform 0.2s;
+    border: none;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.add-task-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Hide editor/admin only elements for viewers */
+body:not(.role-admin):not(.role-editor) .editor-admin-only {
+    display: none !important;
+}
+
+/* Show editor/admin only elements for appropriate roles */
+body.role-admin .editor-admin-only,
+body.role-editor .editor-admin-only {
+    display: flex;
 }
 
 .kanban-column-content {
@@ -54,6 +128,119 @@
     padding: 12px;
     margin-bottom: 10px;
     border: 1px solid var(--border-color);
+    position: relative;
+}
+
+/* Drag handle */
+.task-drag-handle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: grab;
+    color: var(--text-muted);
+    font-size: 16px;
+    opacity: 0.5;
+}
+
+.task-list-item-container:hover .task-drag-handle {
+    opacity: 1;
+}
+
+/* Drag and drop styles */
+.kanban-column .task-list-item-container[draggable="true"]:hover {
+    cursor: grab;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border-color: var(--accent-color, #3498db);
+}
+
+.kanban-column .task-list-item-container.dragging {
+    opacity: 0.5;
+    border: 1px dashed var(--accent-color, #3498db);
+}
+
+/* Indentation for nested tasks using classes instead of inline styles */
+.kanban-column .task-list-item-container.indent-0 {
+    margin-left: 0;
+}
+
+.kanban-column .task-list-item-container.indent-1 {
+    margin-left: 20px;
+}
+
+.kanban-column .task-list-item-container.indent-2 {
+    margin-left: 40px;
+}
+
+.kanban-column .task-list-item-container.indent-3 {
+    margin-left: 60px;
+}
+
+.kanban-column .task-list-item-container.indent-4 {
+    margin-left: 80px;
+}
+
+.kanban-column .task-list-item-container.indent-5 {
+    margin-left: 100px;
+}
+
+/* Drop indicators */
+.drop-indicator {
+    height: 6px;
+    background-color: var(--accent-color, #3498db);
+    margin: 8px 0;
+    border-radius: 3px;
+    animation: pulse 1.5s infinite;
+    position: relative;
+    z-index: 100;
+}
+
+.drop-indicator::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    height: 26px;
+    background-color: transparent;
+    z-index: -1;
+}
+
+.task-drop-target {
+    border: 2px dashed var(--accent-color, #3498db) !important;
+    background-color: rgba(52, 152, 219, 0.1);
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
+    z-index: 10;
+}
+
+.drop-child-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--accent-color, #3498db);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+/* Visual feedback for drag operations */
+.drag-over {
+    background-color: rgba(52, 152, 219, 0.05);
+    border-radius: 6px;
+}
+
+/* Empty column drop target */
+.kanban-column-content.drag-over {
+    background-color: rgba(52, 152, 219, 0.1);
+    border: 2px dashed rgba(52, 152, 219, 0.3);
+    border-radius: 6px;
+    min-height: 100px;
 }
 
 /* Mobile view */
@@ -61,4 +248,26 @@
     .kanban-board {
         flex-direction: column;
     }
+}
+
+/* New task input */
+.new-task-input-container {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.new-task-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.new-task-input:focus {
+    outline: none;
+    border-color: var(--accent-color, #3498db);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }

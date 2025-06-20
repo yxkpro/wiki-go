@@ -99,16 +99,136 @@
     function addDragHandle(item) {
       const taskItem = item.querySelector('.task-list-item');
       if (taskItem) {
-        // Check if drag handle already exists
-        if (taskItem.querySelector('.task-drag-handle')) {
+        // Check if action buttons already exist
+        if (taskItem.querySelector('.task-action-buttons')) {
           return;
         }
 
+        // Create action buttons container
+        const actionButtons = document.createElement('div');
+        actionButtons.className = 'task-action-buttons editor-admin-only';
+
+        // Add rename button
+        const renameBtn = document.createElement('button');
+        renameBtn.className = 'task-action-btn task-rename-btn';
+        renameBtn.title = 'Rename task';
+        renameBtn.innerHTML = '✎'; // Edit/pencil icon
+        renameBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          renameTask(item);
+        });
+
+        // Add delete button
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'task-action-btn task-delete-btn';
+        deleteBtn.title = 'Delete task';
+        deleteBtn.innerHTML = '×'; // Times/cross icon
+        deleteBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          deleteTask(item);
+        });
+
+        // Add drag handle
         const dragHandle = document.createElement('span');
         dragHandle.className = 'task-drag-handle';
         dragHandle.innerHTML = '≡'; // Triple bar symbol
-        taskItem.appendChild(dragHandle);
+
+        // Add buttons to container
+        actionButtons.appendChild(renameBtn);
+        actionButtons.appendChild(deleteBtn);
+        actionButtons.appendChild(dragHandle);
+
+        // Add container to task item
+        taskItem.appendChild(actionButtons);
       }
+    }
+
+    /**
+     * Rename a task
+     */
+    function renameTask(taskItem) {
+      const taskTextElement = taskItem.querySelector('.task-text');
+      if (!taskTextElement) return;
+
+      const originalText = taskTextElement.textContent;
+      const taskListItem = taskItem.querySelector('.task-list-item');
+
+      // Create input field
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'task-rename-input';
+      input.value = originalText;
+
+      // Hide the task text and show input
+      taskTextElement.style.display = 'none';
+      taskListItem.insertBefore(input, taskTextElement.nextSibling);
+
+      // Focus the input
+      input.focus();
+      input.select();
+
+      // Handle input events
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const newText = input.value.trim();
+
+          if (newText && newText !== originalText) {
+            // Update task text
+            taskTextElement.innerHTML = processMarkdown(newText);
+
+            // Save changes
+            saveKanbanChanges(docPath);
+          }
+
+          // Restore display
+          taskTextElement.style.display = '';
+          input.remove();
+        } else if (e.key === 'Escape') {
+          // Cancel on escape
+          taskTextElement.style.display = '';
+          input.remove();
+        }
+      });
+
+      // Also handle blur event to cancel
+      input.addEventListener('blur', () => {
+        // Small delay to allow for Enter key processing
+        setTimeout(() => {
+          if (input.parentNode) {
+            taskTextElement.style.display = '';
+            input.remove();
+          }
+        }, 200);
+      });
+    }
+
+    /**
+     * Delete a task
+     */
+    function deleteTask(taskItem) {
+      // Ask for confirmation using the DialogSystem
+      window.DialogSystem.showConfirmDialog(
+        "Delete Task",
+        "Are you sure you want to delete this task?",
+        (confirmed) => {
+          if (!confirmed) return;
+
+          // Find all descendants
+          const descendants = findAllDescendants(taskItem);
+
+          // Remove descendants first
+          descendants.forEach(descendant => {
+            descendant.remove();
+          });
+
+          // Remove the task
+          taskItem.remove();
+
+          // Save changes
+          saveKanbanChanges(docPath);
+        }
+      );
     }
 
     /**
@@ -996,7 +1116,7 @@
         </span>
       `;
 
-      // Add drag handle
+      // Add drag handle and action buttons
       addDragHandle(taskContainer);
 
       // Add drag events

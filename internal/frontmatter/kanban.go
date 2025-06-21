@@ -43,7 +43,7 @@ func RenderKanban(content string) string {
 			<div class="kanban-column-header">
 				<span class="column-title">%s</span>
 				<span class="kanban-status-container"></span>
-				<button class="add-task-btn editor-admin-only" title="Add task">+</button>
+				<button class="add-task-btn editor-admin-only" title="Add task"><i class="fa fa-plus"></i></button>
 			</div>
 			<div class="kanban-column-content">`, column.Title)
 

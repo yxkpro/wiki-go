@@ -112,7 +112,7 @@
         const renameBtn = document.createElement('button');
         renameBtn.className = 'task-action-btn task-rename-btn';
         renameBtn.title = 'Rename task';
-        renameBtn.innerHTML = '✎'; // Edit/pencil icon
+        renameBtn.innerHTML = '<i class="fa fa-pencil"></i>'; // Edit/pencil icon
         renameBtn.addEventListener('click', (e) => {
           e.stopPropagation();
           renameTask(item);
@@ -122,7 +122,7 @@
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'task-action-btn task-delete-btn';
         deleteBtn.title = 'Delete task';
-        deleteBtn.innerHTML = '×'; // Times/cross icon
+        deleteBtn.innerHTML = '<i class="fa fa-times"></i>'; // Times/cross icon
         deleteBtn.addEventListener('click', (e) => {
           e.stopPropagation();
           deleteTask(item);
@@ -131,7 +131,7 @@
         // Add drag handle
         const dragHandle = document.createElement('span');
         dragHandle.className = 'task-drag-handle';
-        dragHandle.innerHTML = '≡'; // Triple bar symbol
+        dragHandle.innerHTML = '<i class="fa fa-bars"></i>'; // Triple bar symbol
 
         // Add buttons to container
         actionButtons.appendChild(renameBtn);

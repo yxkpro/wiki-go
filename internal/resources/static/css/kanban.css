@@ -75,28 +75,29 @@
 }
 
 /* Add task button */
-.add-task-btn {
+.add-task-btn, .rename-column-btn {
     cursor: pointer;
-    background-color: var(--accent-color, #3498db);
-    color: white;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-    font-size: 16px;
-    opacity: 0.8;
-    transition: opacity 0.2s, transform 0.2s;
+    background-color: transparent;
+    color: var(--text-muted);
     border: none;
-    padding: 0;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    margin-left: 8px;
     flex-shrink: 0;
 }
 
-.add-task-btn:hover {
-    opacity: 1;
-    transform: scale(1.1);
+.add-task-btn:hover, .rename-column-btn:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.add-task-btn {
+    font-size: 16px;
 }
 
 /* Hide editor/admin only elements for viewers */
@@ -164,21 +165,22 @@ body.role-editor .editor-admin-only {
 .task-action-btn {
     cursor: pointer;
     color: var(--text-muted);
-    font-size: 14px;
     opacity: 0.7;
-    transition: opacity 0.2s, color 0.2s;
+    transition: opacity 0.2s, color 0.2s, background-color 0.2s;
     background: none;
     border: none;
-    padding: 0;
+    padding: 4px;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
 }
 
 .task-action-btn:hover {
     opacity: 1;
+    background-color: var(--hover-bg);
 }
 
 .task-rename-btn {
@@ -186,7 +188,7 @@ body.role-editor .editor-admin-only {
 }
 
 .task-rename-btn:hover {
-    color: var(--accent-color, #3498db);
+    color: var(--primary-color);
 }
 
 .task-delete-btn {
@@ -201,8 +203,12 @@ body.role-editor .editor-admin-only {
 .task-drag-handle {
     cursor: grab;
     color: var(--text-muted);
-    font-size: 16px;
     opacity: 0.7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
 }
 
 .task-list-item-container:hover .task-action-buttons {

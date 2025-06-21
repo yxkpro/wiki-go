@@ -58,6 +58,12 @@
     // Setup add task buttons
     setupAddTaskButtons();
 
+    // Setup rename column buttons
+    setupRenameColumnButtons();
+
+    // Setup add board button
+    setupAddBoardButton();
+
     // Setup global dragend event
     document.addEventListener('dragend', cleanupDragVisuals);
 
@@ -878,6 +884,9 @@
       // Track processed headers to avoid duplicates
       const processedHeaders = new Set();
 
+      // Track renamed columns to avoid duplicates
+      const renamedColumns = new Map();
+
       // First pass: collect original section headers and task formatting
       collectOriginalFormatting(lines, frontmatterEndIndex, originalSectionHeaders, originalTaskFormatting);
 
@@ -916,6 +925,18 @@
 
           console.log(`Processing column: ${headerText}`);
 
+          // Check if this column was renamed
+          const originalTitle = header.getAttribute('data-original-title');
+          if (originalTitle && originalTitle !== headerText) {
+            console.log(`Column was renamed from "${originalTitle}" to "${headerText}"`);
+
+            // Store the mapping between original and new title
+            renamedColumns.set(originalTitle.toLowerCase(), headerText);
+
+            // Mark the original title as processed to avoid duplication
+            processedHeaders.add(originalTitle.toLowerCase());
+          }
+
           // Skip if already processed
           const headerKey = headerText.toLowerCase();
           if (processedHeaders.has(headerKey)) {
@@ -939,7 +960,7 @@
       });
 
       // Add any sections from the original that weren't processed
-      addRemainingOriginalSections(lines, currentIndex, updatedLines, processedHeaders);
+      addRemainingOriginalSections(lines, currentIndex, updatedLines, processedHeaders, renamedColumns);
 
       // Log the first few lines of the updated markdown for debugging
       console.log('Updated markdown first few lines:', updatedLines.slice(0, Math.min(10, updatedLines.length)).join('\n'));
@@ -1099,7 +1120,7 @@
     /**
      * Add remaining original sections that weren't processed
      */
-    function addRemainingOriginalSections(lines, startIndex, updatedLines, processedHeaders) {
+    function addRemainingOriginalSections(lines, startIndex, updatedLines, processedHeaders, renamedColumns) {
       let skipSection = false;
 
       for (let i = startIndex; i < lines.length; i++) {
@@ -1116,8 +1137,17 @@
                                        .replace(/\s*\(Error saving\)\s*/g, '')
                                        .replace(/\+/g, ''); // Remove + signs
 
+          const headerKey = cleanHeader.toLowerCase();
+
           // Check if already processed
-          if (processedHeaders.has(cleanHeader.toLowerCase())) {
+          if (processedHeaders.has(headerKey)) {
+            skipSection = true;
+            continue;
+          }
+
+          // Check if this column was renamed
+          if (renamedColumns.has(headerKey)) {
+            console.log(`Skipping original column "${cleanHeader}" because it was renamed to "${renamedColumns.get(headerKey)}"`);
             skipSection = true;
             continue;
           } else {
@@ -1280,6 +1310,368 @@
       const div = document.createElement('div');
       div.textContent = text;
       return div.innerHTML;
+    }
+
+    /**
+     * Set up rename column buttons
+     */
+    function setupRenameColumnButtons() {
+      const renameButtons = document.querySelectorAll('.rename-column-btn');
+      console.log('Rename column buttons found:', renameButtons.length);
+
+      renameButtons.forEach(button => {
+        button.addEventListener('click', e => {
+          e.preventDefault();
+
+          // Find the column header and title
+          const columnHeader = button.closest('.kanban-column-header');
+          const columnTitle = columnHeader.querySelector('.column-title');
+
+          if (!columnTitle) return;
+
+          // Store the original title text
+          const originalTitle = columnTitle.textContent;
+
+          // Create input field
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.className = 'column-rename-input';
+          input.value = originalTitle;
+          input.style.width = '100%';
+          input.style.padding = '4px';
+          input.style.border = '1px solid var(--border-color)';
+          input.style.borderRadius = '4px';
+          input.style.backgroundColor = 'var(--bg-color)';
+          input.style.color = 'var(--text-color)';
+
+          // Hide the title and show input
+          columnTitle.style.display = 'none';
+          columnHeader.insertBefore(input, columnTitle);
+
+          // Focus the input
+          input.focus();
+          input.select();
+
+          // Store the original column title as a data attribute to prevent duplication
+          columnHeader.setAttribute('data-original-title', originalTitle);
+
+          // Handle input events
+          input.addEventListener('keydown', e => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              const newTitle = input.value.trim();
+
+              if (newTitle && newTitle !== originalTitle) {
+                // Update the column title
+                columnTitle.textContent = newTitle;
+
+                // Save changes
+                saveKanbanChanges(docPath);
+              }
+
+              // Restore display
+              columnTitle.style.display = '';
+              input.remove();
+            } else if (e.key === 'Escape') {
+              // Cancel on escape
+              columnTitle.style.display = '';
+              input.remove();
+            }
+          });
+
+          // Also handle blur event to cancel
+          input.addEventListener('blur', () => {
+            // Small delay to allow for Enter key processing
+            setTimeout(() => {
+              if (input.parentNode) {
+                columnTitle.style.display = '';
+                input.remove();
+              }
+            }, 200);
+          });
+        });
+      });
+    }
+
+    /**
+     * Set up add board button
+     */
+    function setupAddBoardButton() {
+      const addBoardBtn = document.querySelector('.add-board-btn');
+      if (!addBoardBtn) return;
+
+      console.log('Add board button found');
+
+      addBoardBtn.addEventListener('click', e => {
+        e.preventDefault();
+
+        // Find the kanban board container
+        const kanbanBoard = document.querySelector('.kanban-board');
+        if (!kanbanBoard) return;
+
+        // Remove any existing input containers first
+        document.querySelectorAll('.new-board-input-container').forEach(container => {
+          container.remove();
+        });
+
+        // Create input container
+        const inputContainer = document.createElement('div');
+        inputContainer.className = 'new-board-input-container';
+        inputContainer.style.margin = '10px 0';
+
+        // Create input field
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'new-board-input';
+        input.placeholder = 'Enter board name and press Enter';
+        input.style.padding = '8px';
+        input.style.borderRadius = '4px';
+        input.style.border = '1px solid var(--border-color)';
+        input.style.backgroundColor = 'var(--bg-color)';
+        input.style.color = 'var(--text-color)';
+        input.style.width = '200px';
+
+        // Add input to container
+        inputContainer.appendChild(input);
+
+        // Add container after the add board button
+        addBoardBtn.parentNode.insertBefore(inputContainer, addBoardBtn.nextSibling);
+
+        // Focus the input
+        input.focus();
+
+        // Handle input events
+        input.addEventListener('keydown', async e => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const boardName = input.value.trim();
+
+            if (boardName) {
+              // Create new board
+              await addNewBoard(boardName, docPath);
+
+              // Remove input
+              inputContainer.remove();
+            }
+          } else if (e.key === 'Escape') {
+            // Cancel on escape
+            inputContainer.remove();
+          }
+        });
+
+        // Also handle blur event to cancel
+        input.addEventListener('blur', () => {
+          // Small delay to allow for Enter key processing
+          setTimeout(() => {
+            if (inputContainer.parentNode) {
+              inputContainer.remove();
+            }
+          }, 200);
+        });
+      });
+    }
+
+    /**
+     * Add a new board to the kanban
+     */
+    async function addNewBoard(boardName, docPath) {
+      // Create the new column
+      const newColumn = document.createElement('div');
+      newColumn.className = 'kanban-column';
+
+      // Create column header
+      const columnHeader = document.createElement('div');
+      columnHeader.className = 'kanban-column-header';
+
+      // Create column title
+      const columnTitle = document.createElement('span');
+      columnTitle.className = 'column-title';
+      columnTitle.textContent = boardName;
+
+      // Create status container
+      const statusContainer = document.createElement('span');
+      statusContainer.className = 'kanban-status-container';
+
+      // Create rename button
+      const renameBtn = document.createElement('button');
+      renameBtn.className = 'rename-column-btn editor-admin-only';
+      renameBtn.title = 'Rename column';
+      renameBtn.innerHTML = '<i class="fa fa-pencil"></i>';
+      renameBtn.addEventListener('click', e => {
+        e.preventDefault();
+
+        // Find the column title
+        const columnTitle = columnHeader.querySelector('.column-title');
+        if (!columnTitle) return;
+
+        // Store the original title text
+        const originalTitle = columnTitle.textContent;
+
+        // Create input field
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'column-rename-input';
+        input.value = originalTitle;
+        input.style.width = '100%';
+        input.style.padding = '4px';
+        input.style.border = '1px solid var(--border-color)';
+        input.style.borderRadius = '4px';
+        input.style.backgroundColor = 'var(--bg-color)';
+        input.style.color = 'var(--text-color)';
+
+        // Hide the title and show input
+        columnTitle.style.display = 'none';
+        columnHeader.insertBefore(input, columnTitle);
+
+        // Focus the input
+        input.focus();
+        input.select();
+
+        // Store the original column title as a data attribute to prevent duplication
+        columnHeader.setAttribute('data-original-title', originalTitle);
+
+        // Handle input events
+        input.addEventListener('keydown', e => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const newTitle = input.value.trim();
+
+            if (newTitle && newTitle !== originalTitle) {
+              // Update the column title
+              columnTitle.textContent = newTitle;
+
+              // Save changes
+              saveKanbanChanges(docPath);
+            }
+
+            // Restore display
+            columnTitle.style.display = '';
+            input.remove();
+          } else if (e.key === 'Escape') {
+            // Cancel on escape
+            columnTitle.style.display = '';
+            input.remove();
+          }
+        });
+
+        // Also handle blur event to cancel
+        input.addEventListener('blur', () => {
+          // Small delay to allow for Enter key processing
+          setTimeout(() => {
+            if (input.parentNode) {
+              columnTitle.style.display = '';
+              input.remove();
+            }
+          }, 200);
+        });
+      });
+
+      // Create add task button
+      const addTaskBtn = document.createElement('button');
+      addTaskBtn.className = 'add-task-btn editor-admin-only';
+      addTaskBtn.title = 'Add task';
+      addTaskBtn.innerHTML = '<i class="fa fa-plus"></i>';
+      addTaskBtn.addEventListener('click', e => {
+        e.preventDefault();
+        addTaskToColumn(newColumn);
+      });
+
+      // Assemble column header
+      columnHeader.appendChild(columnTitle);
+      columnHeader.appendChild(statusContainer);
+      columnHeader.appendChild(renameBtn);
+      columnHeader.appendChild(addTaskBtn);
+
+      // Create column content
+      const columnContent = document.createElement('div');
+      columnContent.className = 'kanban-column-content';
+
+      // Create task list
+      const taskList = document.createElement('ul');
+      taskList.className = 'task-list';
+
+      // Add task list to column content
+      columnContent.appendChild(taskList);
+
+      // Add header and content to column
+      newColumn.appendChild(columnHeader);
+      newColumn.appendChild(columnContent);
+
+      // Add column to board
+      const kanbanBoard = document.querySelector('.kanban-board');
+      kanbanBoard.appendChild(newColumn);
+
+      // Make the column a drop target
+      setupColumnDropTargets();
+
+      // Save changes
+      await saveKanbanChanges(docPath);
+
+      console.log('New board added:', boardName);
+    }
+
+    /**
+     * Add a task to a column
+     */
+    function addTaskToColumn(column) {
+      const columnContent = column.querySelector('.kanban-column-content');
+      const taskList = columnContent.querySelector('.task-list');
+
+      // Check if there's already an input field
+      if (columnContent.querySelector('.new-task-input-container')) {
+        return; // Don't add another input if one already exists
+      }
+
+      // Create input container
+      const inputContainer = document.createElement('div');
+      inputContainer.className = 'new-task-input-container';
+
+      // Create input field
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'new-task-input';
+      input.placeholder = 'Type task and press Enter';
+
+      // Add input to container
+      inputContainer.appendChild(input);
+
+      // Insert at the top of the column
+      columnContent.insertBefore(inputContainer, columnContent.firstChild);
+
+      // Focus the input
+      input.focus();
+
+      // Handle input events
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const taskText = input.value.trim();
+
+          if (taskText) {
+            // Create new task
+            createNewTask(taskText, taskList);
+
+            // Save changes
+            saveKanbanChanges(docPath);
+
+            // Remove input
+            inputContainer.remove();
+          }
+        } else if (e.key === 'Escape') {
+          // Cancel on escape
+          inputContainer.remove();
+        }
+      });
+
+      // Also handle blur event to cancel
+      input.addEventListener('blur', () => {
+        // Small delay to allow for Enter key processing
+        setTimeout(() => {
+          if (inputContainer.parentNode) {
+            inputContainer.remove();
+          }
+        }, 200);
+      });
     }
   }
 })();

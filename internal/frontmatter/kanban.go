@@ -43,6 +43,7 @@ func RenderKanban(content string) string {
 			<div class="kanban-column-header">
 				<span class="column-title">%s</span>
 				<span class="kanban-status-container"></span>
+				<button class="rename-column-btn editor-admin-only" title="Rename column"><i class="fa fa-pencil"></i></button>
 				<button class="add-task-btn editor-admin-only" title="Add task"><i class="fa fa-plus"></i></button>
 			</div>
 			<div class="kanban-column-content">`, column.Title)
@@ -77,6 +78,14 @@ func RenderKanban(content string) string {
 	}
 
 	html += `</div></div>` // Close both kanban-board and kanban-container
+
+	// Add the "Add Board" button
+	html += `<div class="add-board-container">
+		<button class="add-board-btn editor-admin-only" title="Add new board">
+			<i class="fa fa-plus"></i> Add Board
+		</button>
+	</div>`
+
 	return html
 }
 

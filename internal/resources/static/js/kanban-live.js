@@ -68,29 +68,107 @@
       const allTaskItems = document.querySelectorAll('.kanban-column-content .task-list-item-container');
       console.log('Task items found:', allTaskItems.length);
 
-      allTaskItems.forEach((item, index) => {
-        // Initialize indentation classes
-        const indentLevel = parseInt(item.getAttribute('data-indent-level') || '0');
-        item.classList.add(`indent-${indentLevel}`);
+      // Fetch the original markdown to preserve formatting
+      fetch(`/api/source/${docPath}`)
+        .then(response => response.text())
+        .then(markdown => {
+          // Extract task content from the markdown
+          const taskMap = extractTasksFromMarkdown(markdown);
 
-        // Remove any inline margin-left that might have been set by the server
-        if (item.style.marginLeft) {
-          item.style.removeProperty('margin-left');
-        }
+          // Set up each task item
+          allTaskItems.forEach((item, index) => {
+            // Initialize indentation classes
+            const indentLevel = parseInt(item.getAttribute('data-indent-level') || '0');
+            item.classList.add(`indent-${indentLevel}`);
 
-        // Make item draggable
-        item.setAttribute('draggable', 'true');
+            // Remove any inline margin-left that might have been set by the server
+            if (item.style.marginLeft) {
+              item.style.removeProperty('margin-left');
+            }
 
-        // Add drag handle
-        addDragHandle(item);
+            // Make item draggable
+            item.setAttribute('draggable', 'true');
 
-        // Add drag events
-        setupDragEvents(item);
+            // Try to match with original markdown
+            const taskTextElement = item.querySelector('.task-text');
+            if (taskTextElement) {
+              const displayedText = taskTextElement.textContent.trim();
+              const originalMarkdown = taskMap.get(displayedText);
 
-        if (index === 0) {
-          console.log('First task setup complete:', item.outerHTML);
+              if (originalMarkdown) {
+                // Store the original markdown for later use
+                item.setAttribute('data-original-markdown', originalMarkdown);
+              }
+            }
+
+            // Add drag handle
+            addDragHandle(item);
+
+            // Add drag events
+            setupDragEvents(item);
+
+            if (index === 0) {
+              console.log('First task setup complete:', item.outerHTML);
+            }
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching original markdown:', error);
+
+          // Set up basic functionality even if we couldn't fetch the markdown
+          allTaskItems.forEach((item, index) => {
+            // Initialize indentation classes
+            const indentLevel = parseInt(item.getAttribute('data-indent-level') || '0');
+            item.classList.add(`indent-${indentLevel}`);
+
+            // Remove any inline margin-left that might have been set by the server
+            if (item.style.marginLeft) {
+              item.style.removeProperty('margin-left');
+            }
+
+            // Make item draggable
+            item.setAttribute('draggable', 'true');
+
+            // Add drag handle
+            addDragHandle(item);
+
+            // Add drag events
+            setupDragEvents(item);
+          });
+        });
+    }
+
+    /**
+     * Extract tasks from markdown content
+     */
+    function extractTasksFromMarkdown(markdown) {
+      const taskMap = new Map();
+      const lines = markdown.split(/\r?\n/);
+
+      // Regular expression to match task items
+      const taskRegex = /^\s*([-*+])\s+\[([ xX])\]\s+(.+)$/;
+
+      lines.forEach(line => {
+        const match = line.match(taskRegex);
+        if (match) {
+          const taskContent = match[3]; // Original markdown content
+
+          // Create a plain text version for matching with rendered HTML
+          const plainText = taskContent
+            .replace(/\*\*([^*]+)\*\*/g, '$1') // Remove bold
+            .replace(/__([^_]+)__/g, '$1')     // Remove bold with underscore
+            .replace(/\*([^*]+)\*/g, '$1')     // Remove italic
+            .replace(/_([^_]+)_/g, '$1')       // Remove italic with underscore
+            .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links
+            .replace(/`([^`]+)`/g, '$1')       // Remove code
+            .trim();
+
+          // Store the mapping between plain text and original markdown
+          taskMap.set(plainText, taskContent);
         }
       });
+
+      return taskMap;
     }
 
     /**
@@ -150,14 +228,21 @@
       const taskTextElement = taskItem.querySelector('.task-text');
       if (!taskTextElement) return;
 
-      const originalText = taskTextElement.textContent;
+      // Check if we have the original markdown stored as a data attribute
+      let originalMarkdown = taskItem.getAttribute('data-original-markdown');
+
+      // If no stored original markdown, fall back to the displayed text
+      if (!originalMarkdown) {
+        originalMarkdown = taskTextElement.textContent;
+      }
+
       const taskListItem = taskItem.querySelector('.task-list-item');
 
       // Create input field
       const input = document.createElement('input');
       input.type = 'text';
       input.className = 'task-rename-input';
-      input.value = originalText;
+      input.value = originalMarkdown; // Use the original markdown for editing
 
       // Hide the task text and show input
       taskTextElement.style.display = 'none';
@@ -173,8 +258,11 @@
           e.preventDefault();
           const newText = input.value.trim();
 
-          if (newText && newText !== originalText) {
-            // Update task text
+          if (newText && newText !== originalMarkdown) {
+            // Store the new markdown as a data attribute for reference
+            taskItem.setAttribute('data-original-markdown', newText);
+
+            // Update task text with processed markdown
             taskTextElement.innerHTML = processMarkdown(newText);
 
             // Save changes
@@ -896,13 +984,19 @@
         const taskTextElement = task.querySelector('.task-text');
         if (!taskTextElement) return;
 
+        // Get the displayed text content
         const taskText = taskTextElement.textContent.trim();
+
+        // Check if we have the original markdown stored as a data attribute
+        // This is crucial for preserving formatting
+        const originalMarkdown = task.getAttribute('data-original-markdown');
+
         const checkbox = task.querySelector('.task-checkbox');
         const isChecked = checkbox && checkbox.checked;
         const indentLevel = parseInt(task.getAttribute('data-indent-level') || '0');
         const indent = '  '.repeat(indentLevel);
 
-        // Try to find original formatting
+        // Try to find original formatting from the markdown file
         const plainTextKey = taskText.replace(/\s+/g, ' ').trim();
         const originalFormat = originalTaskFormatting.get(plainTextKey);
 
@@ -911,7 +1005,14 @@
           console.log(`Task ${index + 1}/${tasks.length}: "${taskText}" (indent: ${indentLevel}, checked: ${isChecked})`);
         }
 
-        if (originalFormat) {
+        // Priority for saving:
+        // 1. Use data-original-markdown if available (user edited or created)
+        // 2. Use original formatting from the markdown file
+        // 3. Fallback to plain text
+        if (originalMarkdown) {
+          // Use the stored original markdown - this preserves user edits
+          updatedLines.push(`${indent}- [${isChecked ? 'x' : ' '}] ${originalMarkdown}`);
+        } else if (originalFormat) {
           // Use original formatting but update check status and indentation
           updatedLines.push(`${indent}${originalFormat.listMarker} [${isChecked ? 'x' : ' '}] ${originalFormat.taskContent}`);
         } else {
@@ -951,9 +1052,19 @@
               const indent = taskMatch[1];
               const listMarker = taskMatch[2];
               const checkStatus = taskMatch[3];
-              const taskContent = taskMatch[4];
+              const taskContent = taskMatch[4]; // This is the raw markdown
 
-              // Create key based on plain text content
+              // Store the raw markdown content with its formatting intact
+              taskFormatting.set(taskContent, {
+                indent,
+                listMarker,
+                checkStatus,
+                taskContent,
+                raw: taskMatch[4] // Store the raw markdown
+              });
+
+              // Also store a plain text version for better matching
+              // This helps match the rendered HTML text back to the original markdown
               const plainTextKey = taskContent
                 .replace(/\*\*([^*]+)\*\*/g, '$1') // Remove bold
                 .replace(/__([^_]+)__/g, '$1')     // Remove bold with underscore
@@ -963,12 +1074,15 @@
                 .replace(/`([^`]+)`/g, '$1')       // Remove code
                 .trim();
 
-              taskFormatting.set(plainTextKey, {
-                indent,
-                listMarker,
-                checkStatus,
-                taskContent
-              });
+              if (plainTextKey !== taskContent) {
+                taskFormatting.set(plainTextKey, {
+                  indent,
+                  listMarker,
+                  checkStatus,
+                  taskContent,
+                  raw: taskMatch[4] // Store the raw markdown
+                });
+              }
             }
             j++;
           }
@@ -1103,6 +1217,9 @@
       taskContainer.setAttribute('data-indent-level', '0');
       taskContainer.style.listStyleType = 'none';
       taskContainer.setAttribute('draggable', 'true');
+
+      // Store the original markdown text as a data attribute
+      taskContainer.setAttribute('data-original-markdown', taskText);
 
       // Process markdown in task text
       const processedText = processMarkdown(taskText);

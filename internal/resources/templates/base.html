@@ -34,7 +34,9 @@
     <link rel="stylesheet" href="/static/css/markdown-extensions.css?={{getVersion}}">
     <link rel="stylesheet" href="/static/css/stats.css?={{getVersion}}">
     <link rel="stylesheet" href="/static/css/comments.css?={{getVersion}}">
+    {{if eq .DocumentLayout "kanban"}}
     <link rel="stylesheet" href="/static/css/kanban.css?={{getVersion}}">
+    {{end}}
     <!-- External libraries -->
     <link id="prism-theme" rel="stylesheet" href="/static/libs/prism-1.30.0/prism-tomorrow.min.css">
     <link rel="stylesheet" href="/static/libs/codemirror-5.65.18/codemirror.min.css">
@@ -254,6 +256,8 @@
     <!-- Clipboard paste handling -->
     <script src="/static/js/clipboard.js?={{getVersion}}"></script>
     <script src="/static/js/tasklist-live.js?={{getVersion}}" defer></script>
+    {{if eq .DocumentLayout "kanban"}}
     <script src="/static/js/kanban-live.js?={{getVersion}}" defer></script>
+    {{end}}
 </body>
 </html>

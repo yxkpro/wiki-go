@@ -87,6 +87,26 @@
     <!-- Include settings dialog template -->
     {{template "settings-dialog" .}}
 
+    <!-- Add Board Dialog -->
+    <div class="add-board-dialog" dir="auto">
+        <div class="dialog-container">
+            <button class="close-dialog" aria-label="Close add board dialog">
+                <i class="fa fa-times"></i>
+            </button>
+            <h2 class="dialog-title">Add Board</h2>
+            <form class="add-board-form">
+                <div class="form-group">
+                    <label for="boardName">Board Name</label>
+                    <input type="text" id="boardName" name="boardName" placeholder="Enter board name" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="dialog-button primary">Add</button>
+                    <button type="button" class="dialog-button cancel-dialog">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Include sidebar template -->
     {{template "sidebar" .}}
 

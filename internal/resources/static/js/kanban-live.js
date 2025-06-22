@@ -887,6 +887,9 @@
       // Track renamed columns to avoid duplicates
       const renamedColumns = new Map();
 
+      // Track board names to handle duplicates
+      const boardNameCounts = new Map();
+
       // First pass: collect original section headers and task formatting
       collectOriginalFormatting(lines, frontmatterEndIndex, originalSectionHeaders, originalTaskFormatting);
 
@@ -937,18 +940,32 @@
             processedHeaders.add(originalTitle.toLowerCase());
           }
 
-          // Skip if already processed
+          // Handle duplicate board names
           const headerKey = headerText.toLowerCase();
-          if (processedHeaders.has(headerKey)) {
+
+          // Count occurrences of this board name
+          boardNameCounts.set(headerKey, (boardNameCounts.get(headerKey) || 0) + 1);
+
+          // If this is a duplicate, add a suffix to the markdown header (but not the displayed name)
+          let markdownHeaderText = headerText;
+          if (boardNameCounts.get(headerKey) > 1) {
+            // Add a unique identifier for the markdown only
+            markdownHeaderText = `${headerText} (${boardNameCounts.get(headerKey)})`;
+            console.log(`Handling duplicate board name: "${headerText}" -> "${markdownHeaderText}"`);
+          }
+
+          // Skip if already processed (except for duplicates with different identifiers)
+          const processedKey = `${headerKey}-${boardNameCounts.get(headerKey)}`;
+          if (processedHeaders.has(processedKey)) {
             console.log(`Column ${headerText} already processed, skipping`);
             return;
           }
 
-          // Mark as processed
-          processedHeaders.add(headerKey);
+          // Mark as processed with the unique key
+          processedHeaders.add(processedKey);
 
-          // Use original header if available
-          const originalHeader = originalSectionHeaders.get(headerKey) || headerText;
+          // Use original header format if available, otherwise use our generated one
+          const originalHeader = originalSectionHeaders.get(headerKey) || markdownHeaderText;
           updatedLines.push(`## ${originalHeader}`);
 
           // Process each task in this column
@@ -1122,6 +1139,8 @@
      */
     function addRemainingOriginalSections(lines, startIndex, updatedLines, processedHeaders, renamedColumns) {
       let skipSection = false;
+      // Track original board names to handle duplicates
+      const originalBoardNameCounts = new Map();
 
       for (let i = startIndex; i < lines.length; i++) {
         const line = lines[i];
@@ -1132,15 +1151,23 @@
         if (headerMatch) {
           // Get clean header text
           const headerText = headerMatch[1].trim();
-          const cleanHeader = headerText.replace(/\s*\(Saving\.\.\.\)\s*/g, '')
-                                       .replace(/\s*\(Saved\)\s*/g, '')
-                                       .replace(/\s*\(Error saving\)\s*/g, '')
-                                       .replace(/\+/g, ''); // Remove + signs
+          const cleanHeader = headerText
+            .replace(/\s*\(Saving\.\.\.\)\s*/g, '')
+            .replace(/\s*\(Saved\)\s*/g, '')
+            .replace(/\s*\(Error saving\)\s*/g, '')
+            .replace(/\+/g, '') // Remove + signs
+            .replace(/\s*\(\d+\)\s*$/, ''); // Remove any trailing (number) from duplicate boards
 
           const headerKey = cleanHeader.toLowerCase();
 
+          // Count occurrences of this board name in the original markdown
+          originalBoardNameCounts.set(headerKey, (originalBoardNameCounts.get(headerKey) || 0) + 1);
+
+          // Create a unique key for this board instance
+          const originalKey = `${headerKey}-${originalBoardNameCounts.get(headerKey)}`;
+
           // Check if already processed
-          if (processedHeaders.has(headerKey)) {
+          if (processedHeaders.has(originalKey)) {
             skipSection = true;
             continue;
           }
@@ -1362,6 +1389,24 @@
               const newTitle = input.value.trim();
 
               if (newTitle && newTitle !== originalTitle) {
+                // Check if the new name already exists
+                const existingColumns = document.querySelectorAll('.kanban-column-header .column-title');
+                let isDuplicate = false;
+
+                existingColumns.forEach(col => {
+                  if (col !== columnTitle && col.textContent.trim().toLowerCase() === newTitle.toLowerCase()) {
+                    isDuplicate = true;
+                    console.log(`Board name "${newTitle}" already exists, but will be allowed as duplicate`);
+                  }
+                });
+
+                // If this is a duplicate, mark it as such for internal tracking
+                if (isDuplicate) {
+                  columnHeader.setAttribute('data-is-duplicate', 'true');
+                } else {
+                  columnHeader.removeAttribute('data-is-duplicate');
+                }
+
                 // Update the column title
                 columnTitle.textContent = newTitle;
 
@@ -1402,72 +1447,60 @@
 
       console.log('Add board button found');
 
+      // Get the add board dialog elements
+      const addBoardDialog = document.querySelector('.add-board-dialog');
+      const addBoardForm = document.querySelector('.add-board-form');
+      const boardNameInput = document.querySelector('#boardName');
+      const closeDialogBtn = addBoardDialog.querySelector('.close-dialog');
+      const cancelBtn = addBoardDialog.querySelector('.cancel-dialog');
+
+      // Show dialog when add board button is clicked
       addBoardBtn.addEventListener('click', e => {
         e.preventDefault();
 
-        // Find the kanban board container
-        const kanbanBoard = document.querySelector('.kanban-board');
-        if (!kanbanBoard) return;
+        // Reset and show the dialog
+        boardNameInput.value = '';
+        addBoardDialog.classList.add('active');
 
-        // Remove any existing input containers first
-        document.querySelectorAll('.new-board-input-container').forEach(container => {
-          container.remove();
+        // Focus the input field
+        setTimeout(() => {
+          boardNameInput.focus();
+        }, 100);
+      });
+
+      // Handle form submission
+      addBoardForm.addEventListener('submit', async e => {
+        e.preventDefault();
+
+        const boardName = boardNameInput.value.trim();
+        if (boardName) {
+          // Hide dialog
+          addBoardDialog.classList.remove('active');
+
+          // Create new board
+          await addNewBoard(boardName, docPath);
+        }
+      });
+
+      // Close dialog when close button is clicked
+      if (closeDialogBtn) {
+        closeDialogBtn.addEventListener('click', () => {
+          addBoardDialog.classList.remove('active');
         });
+      }
 
-        // Create input container
-        const inputContainer = document.createElement('div');
-        inputContainer.className = 'new-board-input-container';
-        inputContainer.style.margin = '10px 0';
-
-        // Create input field
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.className = 'new-board-input';
-        input.placeholder = 'Enter board name and press Enter';
-        input.style.padding = '8px';
-        input.style.borderRadius = '4px';
-        input.style.border = '1px solid var(--border-color)';
-        input.style.backgroundColor = 'var(--bg-color)';
-        input.style.color = 'var(--text-color)';
-        input.style.width = '200px';
-
-        // Add input to container
-        inputContainer.appendChild(input);
-
-        // Add container after the add board button
-        addBoardBtn.parentNode.insertBefore(inputContainer, addBoardBtn.nextSibling);
-
-        // Focus the input
-        input.focus();
-
-        // Handle input events
-        input.addEventListener('keydown', async e => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            const boardName = input.value.trim();
-
-            if (boardName) {
-              // Create new board
-              await addNewBoard(boardName, docPath);
-
-              // Remove input
-              inputContainer.remove();
-            }
-          } else if (e.key === 'Escape') {
-            // Cancel on escape
-            inputContainer.remove();
-          }
+      // Close dialog when cancel button is clicked
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+          addBoardDialog.classList.remove('active');
         });
+      }
 
-        // Also handle blur event to cancel
-        input.addEventListener('blur', () => {
-          // Small delay to allow for Enter key processing
-          setTimeout(() => {
-            if (inputContainer.parentNode) {
-              inputContainer.remove();
-            }
-          }, 200);
-        });
+      // Close dialog when Escape key is pressed
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && addBoardDialog.classList.contains('active')) {
+          addBoardDialog.classList.remove('active');
+        }
       });
     }
 
@@ -1475,6 +1508,17 @@
      * Add a new board to the kanban
      */
     async function addNewBoard(boardName, docPath) {
+      // Check if the board name already exists
+      const existingColumns = document.querySelectorAll('.kanban-column-header .column-title');
+      let isDuplicate = false;
+
+      existingColumns.forEach(column => {
+        if (column.textContent.trim().toLowerCase() === boardName.toLowerCase()) {
+          isDuplicate = true;
+          console.log(`Board name "${boardName}" already exists, but will be allowed as duplicate`);
+        }
+      });
+
       // Create the new column
       const newColumn = document.createElement('div');
       newColumn.className = 'kanban-column';
@@ -1487,6 +1531,11 @@
       const columnTitle = document.createElement('span');
       columnTitle.className = 'column-title';
       columnTitle.textContent = boardName;
+
+      // If this is a duplicate, mark it as such for internal tracking
+      if (isDuplicate) {
+        columnHeader.setAttribute('data-is-duplicate', 'true');
+      }
 
       // Create status container
       const statusContainer = document.createElement('span');

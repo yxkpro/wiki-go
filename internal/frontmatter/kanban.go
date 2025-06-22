@@ -163,7 +163,6 @@ func kanbanAwarePreprocess(content string) string {
 
 	// Regular expressions
 	h2Regex := regexp.MustCompile(`^#{2}\s+(.+)$`)
-	h3Regex := regexp.MustCompile(`^#{3}\s+(.+)$`)
 	taskRegex := regexp.MustCompile(`^\s*[-*+]\s+\[([ xX])\]\s+(.+)$`)
 
 	// State tracking
@@ -172,7 +171,7 @@ func kanbanAwarePreprocess(content string) string {
 	nonKanbanLines := []string{}
 
 	for _, line := range lines {
-		// Check for H2 heading (kanban column)
+		// Check for H2 heading (kanban column) - only H2, not H3
 		if h2Match := h2Regex.FindStringSubmatch(line); h2Match != nil {
 			// Save any accumulated non-kanban content
 			if len(nonKanbanLines) > 0 {
@@ -189,28 +188,6 @@ func kanbanAwarePreprocess(content string) string {
 			inKanbanSection = true
 			currentSection = KanbanSection{
 				Title: h2Match[1],
-				Tasks: []KanbanTask{},
-			}
-			continue
-		}
-
-		// Check for H3 heading (also kanban column)
-		if h3Match := h3Regex.FindStringSubmatch(line); h3Match != nil {
-			// Save any accumulated non-kanban content
-			if len(nonKanbanLines) > 0 {
-				result = append(result, nonKanbanLines...)
-				nonKanbanLines = []string{}
-			}
-
-			// End previous kanban section if any
-			if inKanbanSection {
-				saveKanbanSection(currentSection, &result)
-			}
-
-			// Start new kanban section
-			inKanbanSection = true
-			currentSection = KanbanSection{
-				Title: h3Match[1],
 				Tasks: []KanbanTask{},
 			}
 			continue
@@ -318,9 +295,11 @@ func restoreKanbanSections(htmlContent string, preprocessors []PreprocessorFunc)
 	// Process the HTML content to find placeholders and build kanban structure
 	lines := strings.Split(htmlContent, "\n")
 	var headerContent []string
+	var footerContent []string
 	var foundFirstKanban bool
+	var foundLastKanban bool
 
-	for _, line := range lines {
+	for i, line := range lines {
 		// Check if this line contains a kanban placeholder
 		if strings.Contains(line, "<!-- KANBAN_SECTION_") {
 			// Extract the placeholder ID
@@ -329,7 +308,9 @@ func restoreKanbanSections(htmlContent string, preprocessors []PreprocessorFunc)
 			if len(matches) > 1 {
 				id := matches[1]
 				if section, exists := kanbanSections[id]; exists {
-					foundFirstKanban = true
+					if !foundFirstKanban {
+						foundFirstKanban = true
+					}
 
 					// Process task text with full goldext support
 					var processedTasks []KanbanTask
@@ -348,11 +329,26 @@ func restoreKanbanSections(htmlContent string, preprocessors []PreprocessorFunc)
 						Title: section.Title,
 						Tasks: processedTasks,
 					})
+
+					// Check if this is the last kanban section
+					hasMoreKanbanSections := false
+					for j := i + 1; j < len(lines); j++ {
+						if strings.Contains(lines[j], "<!-- KANBAN_SECTION_") {
+							hasMoreKanbanSections = true
+							break
+						}
+					}
+					if !hasMoreKanbanSections {
+						foundLastKanban = true
+					}
 				}
 			}
 		} else if !foundFirstKanban {
 			// This is header content (before first kanban section)
 			headerContent = append(headerContent, line)
+		} else if foundLastKanban {
+			// This is footer content (after last kanban section)
+			footerContent = append(footerContent, line)
 		}
 	}
 
@@ -410,6 +406,12 @@ func restoreKanbanSections(htmlContent string, preprocessors []PreprocessorFunc)
 		</button>
 	</div>`)
 
+	// Add footer content (content after kanban sections)
+	if len(footerContent) > 0 {
+		finalHTML.WriteString("\n")
+		finalHTML.WriteString(strings.Join(footerContent, "\n"))
+	}
+
 	return finalHTML.String()
 }
 
@@ -454,8 +456,8 @@ func parseKanbanContentBasic(content string) (string, []KanbanColumn) {
 	// Split content by lines
 	lines := strings.Split(content, "\n")
 
-	// Regular expressions for headings and tasks
-	headingRegex := regexp.MustCompile(`^#{2,3}\s+(.+)$`)
+	// Regular expressions for headings and tasks - only H2 headers for kanban columns
+	headingRegex := regexp.MustCompile(`^#{2}\s+(.+)$`)
 	taskRegex := regexp.MustCompile(`^\s*[-*+]\s+\[([ xX])\]\s+(.+)$`)
 
 	var columns []KanbanColumn
@@ -464,7 +466,7 @@ func parseKanbanContentBasic(content string) (string, []KanbanColumn) {
 	var foundFirstColumn bool
 
 	for _, line := range lines {
-		// Check if this line is a heading (column title) - level 2 or 3 only
+		// Check if this line is a H2 heading (column title) - only H2, not H3
 		if headingMatch := headingRegex.FindStringSubmatch(line); headingMatch != nil {
 			// We found a column heading
 			foundFirstColumn = true

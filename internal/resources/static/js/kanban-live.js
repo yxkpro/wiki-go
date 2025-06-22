@@ -1858,6 +1858,19 @@
           } else {
             skipSection = false;
           }
+        } else {
+          // This is not a header line
+          // If we're currently skipping a section, check if this line indicates the end of that section
+          if (skipSection) {
+            // Check if this line is a task line (part of the kanban section we're skipping)
+            const isTaskLine = line.match(/^\s*[-*+]\s+\[([ xX])\]\s+/);
+            const isEmpty = line.trim() === '';
+
+            // If it's not a task line and not empty, this is regular content after the kanban section
+            if (!isTaskLine && !isEmpty) {
+              skipSection = false; // Stop skipping, this is regular content
+            }
+          }
         }
 
         // Add line if not skipping

@@ -49,6 +49,12 @@
     let originalNextSibling = null;
     let originalIndentLevel = 0;
 
+    // Create a task checkbox handler similar to tasklist-live.js
+    const taskCheckboxHandler = createTaskCheckboxHandler(docPath);
+
+    // Map to store task IDs and their corresponding tasks
+    const taskIdMap = new Map();
+
     // Setup all task items for drag and drop
     setupTaskItems();
 
@@ -67,6 +73,445 @@
     // Setup global dragend event
     document.addEventListener('dragend', cleanupDragVisuals);
 
+    // Override tasklist-live.js for kanban tasks
+    overrideTasklistLive();
+
+    /**
+     * Override tasklist-live.js for kanban tasks
+     */
+    function overrideTasklistLive() {
+      // Add a mutation observer to watch for changes to checkboxes
+      // This ensures our handler is used even if tasklist-live.js tries to take over
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if (mutation.type === 'attributes' &&
+              mutation.attributeName === 'data-cb-index' &&
+              mutation.target.closest('.kanban-column-content')) {
+            // Remove the data-cb-index attribute
+            mutation.target.removeAttribute('data-cb-index');
+
+            // Ensure our handler is attached
+            const taskContainer = mutation.target.closest('.task-list-item-container');
+            if (taskContainer) {
+              setupCheckboxForTask(taskContainer);
+            }
+          }
+        });
+      });
+
+      // Observe all checkboxes in kanban columns
+      const kanbanCheckboxes = document.querySelectorAll('.kanban-column-content input[type="checkbox"]');
+      kanbanCheckboxes.forEach(checkbox => {
+        observer.observe(checkbox, { attributes: true });
+      });
+
+      // Also periodically check for new checkboxes that might have been added
+      setInterval(() => {
+        disableTasklistLiveForKanban();
+      }, 2000);
+    }
+
+    /**
+     * Generate a unique ID for a task
+     */
+    function generateTaskId() {
+      return 'task_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    /**
+     * Create a handler for task checkboxes that works like tasklist-live.js
+     */
+    function createTaskCheckboxHandler(docPath) {
+      // This function creates a checkbox handler similar to tasklist-live.js
+      // but specifically for kanban tasks
+
+      // Helper to show state in the save-state span
+      const showState = (li, text, cssClass) => {
+        const s = li.querySelector('.save-state');
+        if (!s) return;
+        s.textContent = text;
+        s.classList.remove('saved','error');
+        if(cssClass) s.classList.add(cssClass); else s.classList.remove('saved','error');
+      };
+
+      // Helper to hide state after a delay
+      const hideStateAfter = (li, delay=3000) => {
+        const s = li.querySelector('.save-state');
+        if (!s) return;
+        setTimeout(()=>{ s.textContent=''; }, delay);
+      };
+
+      // Return the handler function
+      return async function(e) {
+        const target = e.target;
+        if (!(target instanceof HTMLInputElement) || target.type !== 'checkbox') return;
+
+        // Always prevent default to ensure we handle it ourselves
+        e.preventDefault();
+        e.stopPropagation();
+
+        const li = target.closest('li');
+        if (!li) return;
+
+        // Get the task ID
+        const taskId = li.getAttribute('data-task-id');
+        if (!taskId) {
+          console.error('Task has no ID, cannot toggle');
+          return;
+        }
+
+        // Get the indentation level
+        const indentLevel = parseInt(li.getAttribute('data-indent-level') || '0');
+        console.log(`Handling checkbox click for task ID ${taskId} at indent level ${indentLevel}`);
+
+        showState(li, 'saving…');
+
+        // Disable all checkboxes during save
+        const allCheckboxes = document.querySelectorAll('.task-checkbox');
+        allCheckboxes.forEach(cb => cb.disabled = true);
+
+        try {
+          // 1. Fetch current markdown
+          const srcResp = await fetch(`/api/source/${docPath}`);
+          if (!srcResp.ok) throw new Error('source fetch failed');
+          const markdown = await srcResp.text();
+
+          // 2. Build updated markdown
+          const updatedMarkdown = toggleTaskInMarkdown(markdown, li, taskId);
+
+          // 3. Save updated markdown
+          const saveResp = await fetch(`/api/save/${docPath}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/markdown' },
+            body: updatedMarkdown,
+          });
+
+          if (!saveResp.ok) throw new Error('save failed');
+
+          // 4. Update UI checkbox state
+          target.checked = !target.checked;
+          showState(li, 'saved', 'saved');
+          hideStateAfter(li, 3000);
+
+          // 5. Clear the moved flag since we've successfully saved the task
+          if (li.hasAttribute('data-was-moved')) {
+            li.removeAttribute('data-was-moved');
+            console.log(`Cleared 'was-moved' flag for task ${taskId}`);
+          }
+
+          // 6. If this was a new task, clear the new flag
+          if (li.hasAttribute('data-is-new')) {
+            li.removeAttribute('data-is-new');
+            console.log(`Cleared 'is-new' flag for task ${taskId}`);
+          }
+        } catch (err) {
+          console.error('Error toggling task checkbox:', err);
+          showState(li, 'error', 'error');
+        } finally {
+          // Re-enable all checkboxes
+          allCheckboxes.forEach(cb => cb.disabled = false);
+        }
+      };
+    }
+
+    /**
+     * Toggle a task checkbox in the markdown content using task ID
+     */
+    function toggleTaskInMarkdown(markdown, taskItem, taskId) {
+      const lines = markdown.split(/\r?\n/);
+      const desiredChecked = !taskItem.querySelector('.task-checkbox').checked;
+
+      // Get the task text and indentation level
+      const taskText = taskItem.querySelector('.task-text').textContent.trim();
+      const indentLevel = parseInt(taskItem.getAttribute('data-indent-level') || '0');
+
+      console.log(`Toggling task: "${taskText}" (ID: ${taskId}, indent: ${indentLevel}, desired state: ${desiredChecked ? 'checked' : 'unchecked'})`);
+
+      // Check if this is a newly created task that hasn't been saved yet
+      const isNewTask = taskItem.hasAttribute('data-is-new') && taskItem.getAttribute('data-is-new') === 'true';
+
+      // For new tasks, we need to find them by content since they don't have IDs in the markdown yet
+      if (isNewTask) {
+        console.log('This is a new task, finding by content');
+
+        // Find and toggle the task by content
+        let found = false;
+        const updatedLines = lines.map(line => {
+          if (found) return line;
+
+          const match = line.match(/^(\s*)([-*+])\s+\[(.| )\]\s+(.*)$/);
+          if (!match) return line;
+
+          const [, indent, listMarker, currentCheck, content] = match;
+          const lineIndentLevel = Math.floor(indent.length / 2);
+
+          // Extract content without comments
+          const contentWithoutComments = content.split('<!--')[0].trim();
+
+          // Normalize content for comparison
+          const normalizedContent = contentWithoutComments
+            .replace(/\*\*([^*]+)\*\*/g, '$1')
+            .replace(/__([^_]+)__/g, '$1')
+            .replace(/\*([^*]+)\*/g, '$1')
+            .replace(/_([^_]+)_/g, '$1')
+            .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+            .replace(/`([^`]+)`/g, '$1')
+            .trim();
+
+          const normalizedTaskText = taskText
+            .replace(/\*\*([^*]+)\*\*/g, '$1')
+            .replace(/__([^_]+)__/g, '$1')
+            .replace(/\*([^*]+)\*/g, '$1')
+            .replace(/_([^_]+)_/g, '$1')
+            .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+            .replace(/`([^`]+)`/g, '$1')
+            .trim();
+
+          // For new tasks, we need to match both content and indentation level
+          if (normalizedContent === normalizedTaskText && lineIndentLevel === indentLevel) {
+            found = true;
+            const newMark = desiredChecked ? 'x' : ' ';
+
+            console.log(`Found new task to toggle at indent level ${lineIndentLevel}`);
+
+            // Add task ID comment for future reference
+            return `${indent}${listMarker} [${newMark}] ${contentWithoutComments} <!-- task-id: ${taskId} -->`;
+          }
+
+          return line;
+        });
+
+        if (!found) {
+          console.warn('Could not find new task to toggle');
+        }
+
+        return updatedLines.join('\n');
+      }
+
+      // For existing tasks, try to find them by ID comment
+      console.log('Looking for task by ID in markdown');
+
+      // Check if this task was recently moved
+      const wasTaskMoved = taskItem.hasAttribute('data-was-moved') && taskItem.getAttribute('data-was-moved') === 'true';
+
+      // If the task was moved, we need to be more careful
+      if (wasTaskMoved) {
+        console.log('Task was moved, using extra care when toggling');
+      }
+
+      // Try different patterns for finding the task ID in the markdown
+      const idPatterns = [
+        `<!-- task-id: ${taskId} -->`,
+        `<!--task-id: ${taskId}-->`,
+        `<!-- task-id:${taskId} -->`,
+        `<!--task-id:${taskId}-->`
+      ];
+
+      // First, try to find the exact task by ID and indentation level
+      let foundExact = false;
+      let foundAny = false;
+      let exactMatchLine = -1;
+      let anyMatchLine = -1;
+
+      // First pass: find all potential matches
+      lines.forEach((line, index) => {
+        if (foundExact) return;
+
+        // Check if this line contains our task ID in any format
+        const hasTaskId = idPatterns.some(pattern => line.includes(pattern));
+
+        if (hasTaskId) {
+          foundAny = true;
+          anyMatchLine = index;
+
+          // Extract the task parts
+          const match = line.match(/^(\s*)([-*+])\s+\[(.| )\]\s+(.*)$/);
+          if (!match) return;
+
+          const [, indent, listMarker, currentCheck, content] = match;
+
+          // Calculate the line's indentation level
+          const lineIndentLevel = Math.floor(indent.length / 2);
+
+          // If indentation level matches, this is our exact match
+          if (lineIndentLevel === indentLevel) {
+            foundExact = true;
+            exactMatchLine = index;
+            console.log(`Found exact match for task ID ${taskId} at line ${index} with indent level ${lineIndentLevel}`);
+          }
+        }
+      });
+
+      // Now update the appropriate line
+      if (foundExact || foundAny) {
+        const lineIndex = foundExact ? exactMatchLine : anyMatchLine;
+        const line = lines[lineIndex];
+
+        // Extract the task parts
+        const match = line.match(/^(\s*)([-*+])\s+\[(.| )\]\s+(.*)$/);
+        if (!match) {
+          console.warn('Found task ID but line format is unexpected:', line);
+          return lines.join('\n');
+        }
+
+        const [, indent, listMarker, currentCheck, content] = match;
+
+        // Calculate the line's indentation level
+        const lineIndentLevel = Math.floor(indent.length / 2);
+
+        // Split content and comment
+        const parts = content.split('<!--');
+        const mainContent = parts[0].trim();
+        const comment = parts.length > 1 ? '<!--' + parts.slice(1).join('<!--') : '';
+
+        // Toggle the checkbox
+        const newMark = desiredChecked ? 'x' : ' ';
+
+        // Log the change with indentation info
+        console.log(`Toggling task by ID at line ${lineIndex}, indent level ${lineIndentLevel}, from [${currentCheck}] to [${newMark}]`);
+
+        // Update the line
+        lines[lineIndex] = `${indent}${listMarker} [${newMark}] ${mainContent} ${comment}`;
+
+        return lines.join('\n');
+      }
+
+      console.warn('Could not find task by ID, falling back to content matching');
+
+      // Fall back to content matching with indentation level
+      return fallbackToggleByContent(lines, taskText, indentLevel, desiredChecked, taskId, wasTaskMoved);
+    }
+
+    /**
+     * Fallback method to toggle a task by content and indentation level
+     */
+    function fallbackToggleByContent(lines, taskText, indentLevel, desiredChecked, taskId, wasTaskMoved) {
+      console.log(`Fallback: toggling task by content: "${taskText}" at indent level ${indentLevel}, desired state: ${desiredChecked ? 'checked' : 'unchecked'}`);
+
+      // Normalize the task text
+      const normalizedTaskText = taskText
+        .replace(/\*\*([^*]+)\*\*/g, '$1')
+        .replace(/__([^_]+)__/g, '$1')
+        .replace(/\*([^*]+)\*/g, '$1')
+        .replace(/_([^_]+)_/g, '$1')
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        .replace(/`([^`]+)`/g, '$1')
+        .trim();
+
+      // Collect all potential matches
+      const potentialMatches = [];
+
+      lines.forEach((line, index) => {
+        const match = line.match(/^(\s*)([-*+])\s+\[(.| )\]\s+(.*)$/);
+        if (!match) return;
+
+        const [, indent, listMarker, currentCheck, content] = match;
+        const lineIndentLevel = Math.floor(indent.length / 2);
+
+        // Extract content without comments
+        const contentWithoutComments = content.split('<!--')[0].trim();
+
+        // Normalize content
+        const normalizedContent = contentWithoutComments
+          .replace(/\*\*([^*]+)\*\*/g, '$1')
+          .replace(/__([^_]+)__/g, '$1')
+          .replace(/\*([^*]+)\*/g, '$1')
+          .replace(/_([^_]+)_/g, '$1')
+          .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+          .replace(/`([^`]+)`/g, '$1')
+          .trim();
+
+        // If the task was moved, we need to be more strict about matching
+        let isMatch;
+
+        if (wasTaskMoved) {
+          // For moved tasks, require exact text match and correct indentation
+          isMatch = normalizedContent === normalizedTaskText && lineIndentLevel === indentLevel;
+        } else {
+          // For non-moved tasks, be more flexible with content but strict with indentation
+          isMatch = (normalizedContent === normalizedTaskText ||
+                    normalizedContent.includes(normalizedTaskText) ||
+                    normalizedTaskText.includes(normalizedContent)) &&
+                    lineIndentLevel === indentLevel;
+        }
+
+        if (isMatch) {
+          potentialMatches.push({
+            index,
+            line,
+            indentLevel: lineIndentLevel,
+            content,
+            contentWithoutComments,
+            indent,
+            listMarker,
+            exactMatch: normalizedContent === normalizedTaskText && lineIndentLevel === indentLevel,
+            currentCheck
+          });
+        }
+      });
+
+      // Log all potential matches for debugging
+      console.log(`Found ${potentialMatches.length} potential matches`);
+      potentialMatches.forEach((match, i) => {
+        console.log(`Match ${i+1}: "${match.contentWithoutComments}" (indent: ${match.indentLevel}, exact: ${match.exactMatch}, current: [${match.currentCheck}])`);
+      });
+
+      // If we have matches, use the one with the correct indentation level
+      if (potentialMatches.length > 0) {
+        // First try exact match with both content and indent level
+        const exactMatches = potentialMatches.filter(match => match.exactMatch);
+
+        let matchToUse;
+
+        if (exactMatches.length > 0) {
+          console.log('Using exact content and indent match');
+          matchToUse = exactMatches[0];
+        } else {
+          // Next try to find a match with the correct indent level
+          const indentMatches = potentialMatches.filter(match => match.indentLevel === indentLevel);
+
+          if (indentMatches.length > 0) {
+            console.log('Using indent-level match');
+            matchToUse = indentMatches[0];
+          } else {
+            // Use closest match by indentation
+            console.log('No exact matches, using closest match by indent');
+            potentialMatches.sort((a, b) =>
+              Math.abs(a.indentLevel - indentLevel) - Math.abs(b.indentLevel - indentLevel)
+            );
+            matchToUse = potentialMatches[0];
+          }
+        }
+
+        // Create updated lines
+        const updatedLines = [...lines];
+        const index = matchToUse.index;
+
+        // Extract content and comments
+        const parts = matchToUse.content.split('<!--');
+        const mainContent = parts[0].trim();
+        const comment = parts.length > 1 ? '<!--' + parts.slice(1).join('<!--') : '';
+
+        // Toggle the checkbox and add task ID if not present
+        const newMark = desiredChecked ? 'x' : ' ';
+        const hasTaskId = comment.includes('task-id:');
+
+        console.log(`Toggling checkbox from [${matchToUse.currentCheck}] to [${newMark}] at indent level ${matchToUse.indentLevel}`);
+
+        if (hasTaskId) {
+          updatedLines[index] = `${matchToUse.indent}${matchToUse.listMarker} [${newMark}] ${mainContent} ${comment}`;
+        } else {
+          updatedLines[index] = `${matchToUse.indent}${matchToUse.listMarker} [${newMark}] ${mainContent} <!-- task-id: ${taskId} -->`;
+        }
+
+        console.log(`Updated line ${index}: ${updatedLines[index]}`);
+        return updatedLines.join('\n');
+      }
+
+      console.warn('Could not find any matching task');
+      return lines.join('\n');
+    }
+
     /**
      * Set up all task items to be draggable
      */
@@ -78,8 +523,8 @@
       fetch(`/api/source/${docPath}`)
         .then(response => response.text())
         .then(markdown => {
-          // Extract task content from the markdown
-          const taskMap = extractTasksFromMarkdown(markdown);
+          // Extract task content and IDs from the markdown
+          const taskInfo = extractTasksFromMarkdown(markdown);
 
           // Set up each task item
           allTaskItems.forEach((item, index) => {
@@ -95,15 +540,32 @@
             // Make item draggable
             item.setAttribute('draggable', 'true');
 
-            // Try to match with original markdown
+            // Try to match with original markdown and assign task ID
             const taskTextElement = item.querySelector('.task-text');
             if (taskTextElement) {
               const displayedText = taskTextElement.textContent.trim();
-              const originalMarkdown = taskMap.get(displayedText);
 
-              if (originalMarkdown) {
-                // Store the original markdown for later use
-                item.setAttribute('data-original-markdown', originalMarkdown);
+              // Try to find a matching task in the markdown
+              const matchingTask = findMatchingTask(taskInfo, displayedText, indentLevel);
+
+              if (matchingTask) {
+                // Use existing task ID if found
+                item.setAttribute('data-task-id', matchingTask.id);
+                item.setAttribute('data-original-markdown', matchingTask.content);
+
+                // Store in the task ID map
+                taskIdMap.set(matchingTask.id, item);
+
+                console.log(`Assigned existing ID ${matchingTask.id} to task "${displayedText.substring(0, 20)}${displayedText.length > 20 ? '...' : ''}"`);
+              } else {
+                // Generate a new ID for this task
+                const newId = generateTaskId();
+                item.setAttribute('data-task-id', newId);
+
+                // Store in the task ID map
+                taskIdMap.set(newId, item);
+
+                console.log(`Generated new ID ${newId} for task "${displayedText.substring(0, 20)}${displayedText.length > 20 ? '...' : ''}"`);
               }
             }
 
@@ -113,10 +575,16 @@
             // Add drag events
             setupDragEvents(item);
 
+            // Setup checkbox click handler
+            setupCheckboxForTask(item);
+
             if (index === 0) {
               console.log('First task setup complete:', item.outerHTML);
             }
           });
+
+          // Disable tasklist-live.js for kanban tasks by removing data-cb-index from all checkboxes
+          disableTasklistLiveForKanban();
         })
         .catch(error => {
           console.error('Error fetching original markdown:', error);
@@ -135,32 +603,142 @@
             // Make item draggable
             item.setAttribute('draggable', 'true');
 
+            // Generate a new ID for this task
+            const newId = generateTaskId();
+            item.setAttribute('data-task-id', newId);
+
+            // Store in the task ID map
+            taskIdMap.set(newId, item);
+
             // Add drag handle
             addDragHandle(item);
 
             // Add drag events
             setupDragEvents(item);
+
+            // Setup checkbox click handler
+            setupCheckboxForTask(item);
           });
+
+          // Disable tasklist-live.js for kanban tasks
+          disableTasklistLiveForKanban();
         });
     }
 
     /**
-     * Extract tasks from markdown content
+     * Disable tasklist-live.js for kanban tasks
+     */
+    function disableTasklistLiveForKanban() {
+      // Remove data-cb-index from all checkboxes in kanban columns
+      const kanbanCheckboxes = document.querySelectorAll('.kanban-column-content input[type="checkbox"]');
+      console.log(`Disabling tasklist-live.js for ${kanbanCheckboxes.length} kanban checkboxes`);
+
+      kanbanCheckboxes.forEach(checkbox => {
+        if (checkbox.hasAttribute('data-cb-index')) {
+          checkbox.removeAttribute('data-cb-index');
+        }
+      });
+    }
+
+    /**
+     * Find a matching task from the extracted task info
+     */
+    function findMatchingTask(taskInfo, displayedText, indentLevel) {
+      // Normalize the displayed text
+      const normalizedText = displayedText
+        .replace(/\*\*([^*]+)\*\*/g, '$1')
+        .replace(/__([^_]+)__/g, '$1')
+        .replace(/\*([^*]+)\*/g, '$1')
+        .replace(/_([^_]+)_/g, '$1')
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        .replace(/`([^`]+)`/g, '$1')
+        .trim();
+
+      // First try to find an exact match with the same indentation level
+      const exactMatches = taskInfo.filter(task => {
+        const normalizedTaskContent = task.normalizedContent;
+        return normalizedTaskContent === normalizedText && task.indentLevel === indentLevel;
+      });
+
+      if (exactMatches.length > 0) {
+        return exactMatches[0];
+      }
+
+      // If no exact match, try a more flexible match
+      const flexibleMatches = taskInfo.filter(task => {
+        const normalizedTaskContent = task.normalizedContent;
+        return (normalizedTaskContent.includes(normalizedText) ||
+                normalizedText.includes(normalizedTaskContent)) &&
+               task.indentLevel === indentLevel;
+      });
+
+      if (flexibleMatches.length > 0) {
+        return flexibleMatches[0];
+      }
+
+      // If still no match, try ignoring indentation
+      const contentMatches = taskInfo.filter(task => {
+        const normalizedTaskContent = task.normalizedContent;
+        return normalizedTaskContent === normalizedText ||
+               normalizedTaskContent.includes(normalizedText) ||
+               normalizedText.includes(normalizedTaskContent);
+      });
+
+      if (contentMatches.length > 0) {
+        // Sort by closest indentation level
+        contentMatches.sort((a, b) =>
+          Math.abs(a.indentLevel - indentLevel) - Math.abs(b.indentLevel - indentLevel)
+        );
+        return contentMatches[0];
+      }
+
+      return null;
+    }
+
+    /**
+     * Extract tasks from markdown content with their IDs
      */
     function extractTasksFromMarkdown(markdown) {
-      const taskMap = new Map();
+      const tasks = [];
       const lines = markdown.split(/\r?\n/);
 
-      // Regular expression to match task items
-      const taskRegex = /^\s*([-*+])\s+\[([ xX])\]\s+(.+)$/;
+      // Regular expression to match task items with optional task ID comment
+      // This regex is more robust to handle various comment formats
+      const taskRegex = /^(\s*)([-*+])\s+\[([ xX])\]\s+(.+?)(?:\s+<!--\s*task-id:\s*([a-zA-Z0-9_]+)\s*-->)?$/;
 
-      lines.forEach(line => {
+      lines.forEach((line, index) => {
         const match = line.match(taskRegex);
         if (match) {
-          const taskContent = match[3]; // Original markdown content
+          const indent = match[1];
+          const listMarker = match[2];
+          const isChecked = match[3] !== ' ';
+          const content = match[4];
 
-          // Create a plain text version for matching with rendered HTML
-          const plainText = taskContent
+          // Extract task ID if present, or generate a new one
+          let taskId;
+
+          // Check if there's a task ID in the comment
+          if (match[5]) {
+            taskId = match[5];
+          } else {
+            // Check if there's a task ID in a different format
+            const idMatch = line.match(/<!--\s*task-id:\s*([a-zA-Z0-9_]+)\s*-->/);
+            if (idMatch) {
+              taskId = idMatch[1];
+            } else {
+              // Generate a new ID
+              taskId = generateTaskId();
+            }
+          }
+
+          // Calculate indentation level
+          const indentLevel = Math.floor(indent.length / 2);
+
+          // Create a normalized version of the content for comparison
+          // Remove any HTML comments first
+          const contentWithoutComments = content.split('<!--')[0].trim();
+
+          const normalizedContent = contentWithoutComments
             .replace(/\*\*([^*]+)\*\*/g, '$1') // Remove bold
             .replace(/__([^_]+)__/g, '$1')     // Remove bold with underscore
             .replace(/\*([^*]+)\*/g, '$1')     // Remove italic
@@ -169,12 +747,28 @@
             .replace(/`([^`]+)`/g, '$1')       // Remove code
             .trim();
 
-          // Store the mapping between plain text and original markdown
-          taskMap.set(plainText, taskContent);
+          tasks.push({
+            index,
+            indent,
+            listMarker,
+            isChecked,
+            content: contentWithoutComments,
+            rawContent: content,
+            normalizedContent,
+            id: taskId,
+            indentLevel,
+            line
+          });
+
+          // Log for debugging
+          if (index < 5 || index > lines.length - 5) {
+            console.log(`Extracted task: "${contentWithoutComments.substring(0, 30)}${contentWithoutComments.length > 30 ? '...' : ''}" (ID: ${taskId}, indent: ${indentLevel})`);
+          }
         }
       });
 
-      return taskMap;
+      console.log(`Extracted ${tasks.length} tasks from markdown`);
+      return tasks;
     }
 
     /**
@@ -574,6 +1168,11 @@
         const parentIndentLevel = parseInt(dropTarget.getAttribute('data-indent-level') || '0');
         const childIndentLevel = parentIndentLevel + 1;
 
+        // Get the parent task ID for debugging
+        const parentTaskId = dropTarget.getAttribute('data-task-id');
+        console.log(`Parent task ID: ${parentTaskId}, indent level: ${parentIndentLevel}`);
+        console.log(`Child will have indent level: ${childIndentLevel}`);
+
         // Insert after the drop target
         const insertPosition = dropTarget.nextElementSibling;
 
@@ -613,6 +1212,8 @@
       const originalParent = item.parentNode;
       const originalNextSibling = item.nextElementSibling;
       const originalIndentLevel = parseInt(item.getAttribute('data-indent-level') || '0');
+      const taskId = item.getAttribute('data-task-id');
+      const taskText = item.querySelector('.task-text')?.textContent || '';
 
       // Find all descendants before modifying the DOM
       const descendants = findAllDescendants(item);
@@ -623,6 +1224,22 @@
 
       // Update the dragged item's indent level
       updateIndentLevel(item, newIndentLevel);
+
+      // Mark the item as moved
+      item.setAttribute('data-was-moved', 'true');
+      item.setAttribute('data-move-time', Date.now().toString());
+
+      // Log the task ID for debugging
+      if (taskId) {
+        console.log(`Moving task "${taskText}" with ID: ${taskId} from level ${originalIndentLevel} to ${newIndentLevel}`);
+      } else {
+        console.warn('Moving task without an ID');
+        // Generate a new ID if needed
+        const newId = generateTaskId();
+        item.setAttribute('data-task-id', newId);
+        taskIdMap.set(newId, item);
+        console.log(`Generated new ID ${newId} for moved task "${taskText}"`);
+      }
 
       // Insert the dragged item at the target position
       if (insertBefore) {
@@ -639,11 +1256,29 @@
         // Calculate new indent level for this descendant
         const descendantOriginalLevel = parseInt(descendant.getAttribute('data-indent-level') || '0');
         const newDescendantLevel = Math.max(1, descendantOriginalLevel + levelDifference);
+        const descendantTaskId = descendant.getAttribute('data-task-id');
+        const descendantText = descendant.querySelector('.task-text')?.textContent || '';
 
-        console.log(`Moving descendant ${index + 1}/${descendants.length} from level ${descendantOriginalLevel} to ${newDescendantLevel}`);
+        console.log(`Moving descendant ${index + 1}/${descendants.length} "${descendantText}" from level ${descendantOriginalLevel} to ${newDescendantLevel}`);
 
         // Update the indent level
         updateIndentLevel(descendant, newDescendantLevel);
+
+        // Mark the descendant as moved
+        descendant.setAttribute('data-was-moved', 'true');
+        descendant.setAttribute('data-move-time', Date.now().toString());
+
+        // Log the descendant task ID for debugging
+        if (descendantTaskId) {
+          console.log(`Moving descendant with ID: ${descendantTaskId}`);
+        } else {
+          console.warn('Moving descendant without an ID');
+          // Generate a new ID if needed
+          const newId = generateTaskId();
+          descendant.setAttribute('data-task-id', newId);
+          taskIdMap.set(newId, descendant);
+          console.log(`Generated new ID ${newId} for moved descendant "${descendantText}"`);
+        }
 
         // Insert after the last inserted element
         if (lastInserted.nextElementSibling) {
@@ -662,8 +1297,18 @@
         newNextSibling: item.nextElementSibling,
         originalIndentLevel,
         newIndentLevel,
-        descendantsMoved: descendants.length
+        descendantsMoved: descendants.length,
+        taskId
       });
+
+      // Ensure all checkboxes are properly set up after moving
+      setupCheckboxForTask(item);
+      descendants.forEach(descendant => {
+        setupCheckboxForTask(descendant);
+      });
+
+      // Force immediate save after moving to ensure task IDs are preserved
+      saveKanbanChanges(docPath);
     }
 
     /**
@@ -816,6 +1461,12 @@
 
         if (!saveResp.ok) throw new Error('save failed');
 
+        // 4. After successful save, update task tracking
+        updateTaskTrackingAfterSave();
+
+        // 5. Ensure all checkboxes are properly set up after save
+        disableTasklistLiveForKanban();
+
         // Show success indicator
         showColumnStatus('saved', '(Saved)', 2000);
       } catch (err) {
@@ -824,6 +1475,23 @@
         // Show error indicator
         showColumnStatus('error', '(Error saving)', 3000);
       }
+    }
+
+    /**
+     * Update task tracking after a successful save
+     */
+    function updateTaskTrackingAfterSave() {
+      // Clear the "new" and "moved" flags from all tasks
+      document.querySelectorAll('.task-list-item-container').forEach(task => {
+        if (task.hasAttribute('data-is-new')) {
+          task.removeAttribute('data-is-new');
+        }
+        if (task.hasAttribute('data-was-moved')) {
+          task.removeAttribute('data-was-moved');
+        }
+      });
+
+      console.log('Task tracking updated after save');
     }
 
     /**
@@ -994,28 +1662,6 @@
 
       if (tasks.length === 0) return;
 
-      // Create a map to track task hierarchy
-      const taskHierarchy = new Map();
-
-      // First pass: build hierarchy map
-      tasks.forEach((task, index) => {
-        const indentLevel = parseInt(task.getAttribute('data-indent-level') || '0');
-        if (!taskHierarchy.has(indentLevel)) {
-          taskHierarchy.set(indentLevel, []);
-        }
-        taskHierarchy.get(indentLevel).push({
-          task,
-          index,
-          processed: false
-        });
-      });
-
-      // Log the hierarchy for debugging
-      console.log('Task hierarchy:');
-      taskHierarchy.forEach((tasks, level) => {
-        console.log(`  Level ${level}: ${tasks.length} tasks`);
-      });
-
       // Simply process tasks in the exact DOM order they appear
       // This preserves the hierarchy and ordering after drag and drop
       tasks.forEach((task, index) => {
@@ -1024,6 +1670,9 @@
 
         // Get the displayed text content
         const taskText = taskTextElement.textContent.trim();
+
+        // Get the task ID
+        const taskId = task.getAttribute('data-task-id');
 
         // Check if we have the original markdown stored as a data attribute
         // This is crucial for preserving formatting
@@ -1039,24 +1688,36 @@
         const originalFormat = originalTaskFormatting.get(plainTextKey);
 
         // Log task info for debugging
-        if (index === 0 || index === tasks.length - 1 || indentLevel > 1) {
-          console.log(`Task ${index + 1}/${tasks.length}: "${taskText}" (indent: ${indentLevel}, checked: ${isChecked})`);
+        if (index === 0 || index === tasks.length - 1 || indentLevel > 0) {
+          console.log(`Task ${index + 1}/${tasks.length}: "${taskText}" (indent: ${indentLevel}, checked: ${isChecked}, id: ${taskId || 'none'})`);
         }
 
         // Priority for saving:
         // 1. Use data-original-markdown if available (user edited or created)
         // 2. Use original formatting from the markdown file
         // 3. Fallback to plain text
+        let taskLine;
+
         if (originalMarkdown) {
           // Use the stored original markdown - this preserves user edits
-          updatedLines.push(`${indent}- [${isChecked ? 'x' : ' '}] ${originalMarkdown}`);
+          taskLine = `${indent}- [${isChecked ? 'x' : ' '}] ${originalMarkdown}`;
         } else if (originalFormat) {
           // Use original formatting but update check status and indentation
-          updatedLines.push(`${indent}${originalFormat.listMarker} [${isChecked ? 'x' : ' '}] ${originalFormat.taskContent}`);
+          taskLine = `${indent}${originalFormat.listMarker} [${isChecked ? 'x' : ' '}] ${originalFormat.taskContent}`;
         } else {
           // Fallback to basic formatting
-          updatedLines.push(`${indent}- [${isChecked ? 'x' : ' '}] ${taskText}`);
+          taskLine = `${indent}- [${isChecked ? 'x' : ' '}] ${taskText}`;
         }
+
+        // Add task ID as a comment if available
+        if (taskId) {
+          // Check if the line already has a task ID comment
+          if (!taskLine.includes('<!-- task-id:')) {
+            taskLine += ` <!-- task-id: ${taskId} -->`;
+          }
+        }
+
+        updatedLines.push(taskLine);
 
         if (index === tasks.length - 1) {
           console.log(`Processed all ${tasks.length} tasks in column`);
@@ -1092,18 +1753,29 @@
               const checkStatus = taskMatch[3];
               const taskContent = taskMatch[4]; // This is the raw markdown
 
+              // Check if there's a task ID in the content
+              let taskId = null;
+              const idMatch = taskContent.match(/<!--\s*task-id:\s*([a-zA-Z0-9_]+)\s*-->/);
+              if (idMatch) {
+                taskId = idMatch[1];
+              }
+
+              // Get content without comments
+              const contentWithoutComments = taskContent.split('<!--')[0].trim();
+
               // Store the raw markdown content with its formatting intact
-              taskFormatting.set(taskContent, {
+              taskFormatting.set(contentWithoutComments, {
                 indent,
                 listMarker,
                 checkStatus,
-                taskContent,
-                raw: taskMatch[4] // Store the raw markdown
+                taskContent: contentWithoutComments,
+                raw: taskContent, // Store the raw markdown
+                taskId // Store the task ID if found
               });
 
               // Also store a plain text version for better matching
               // This helps match the rendered HTML text back to the original markdown
-              const plainTextKey = taskContent
+              const plainTextKey = contentWithoutComments
                 .replace(/\*\*([^*]+)\*\*/g, '$1') // Remove bold
                 .replace(/__([^_]+)__/g, '$1')     // Remove bold with underscore
                 .replace(/\*([^*]+)\*/g, '$1')     // Remove italic
@@ -1112,14 +1784,20 @@
                 .replace(/`([^`]+)`/g, '$1')       // Remove code
                 .trim();
 
-              if (plainTextKey !== taskContent) {
+              if (plainTextKey !== contentWithoutComments) {
                 taskFormatting.set(plainTextKey, {
                   indent,
                   listMarker,
                   checkStatus,
-                  taskContent,
-                  raw: taskMatch[4] // Store the raw markdown
+                  taskContent: contentWithoutComments,
+                  raw: taskContent, // Store the raw markdown
+                  taskId // Store the task ID if found
                 });
+              }
+
+              // Log task IDs for debugging
+              if (taskId && j < i + 5) {
+                console.log(`Found task with ID: ${taskId}, content: "${contentWithoutComments.substring(0, 30)}${contentWithoutComments.length > 30 ? '...' : ''}", indent: ${indent.length / 2}`);
               }
             }
             j++;
@@ -1268,10 +1946,15 @@
      * Create a new task with the given text
      */
     function createNewTask(taskText, taskList) {
+      // Generate a unique ID for this task
+      const taskId = generateTaskId();
+
       // Create task container
       const taskContainer = document.createElement('li');
       taskContainer.className = 'task-list-item-container indent-0';
       taskContainer.setAttribute('data-indent-level', '0');
+      taskContainer.setAttribute('data-task-id', taskId);
+      taskContainer.setAttribute('data-is-new', 'true');
       taskContainer.style.listStyleType = 'none';
       taskContainer.setAttribute('draggable', 'true');
 
@@ -1284,17 +1967,23 @@
       // Create task content
       taskContainer.innerHTML = `
         <span class="task-list-item">
-          <input type="checkbox" class="task-checkbox" disabled>
+          <input type="checkbox" class="task-checkbox">
           <span class="task-text">${processedText}</span>
           <span class="save-state"></span>
         </span>
       `;
+
+      // Store in the task ID map
+      taskIdMap.set(taskId, taskContainer);
 
       // Add drag handle and action buttons
       addDragHandle(taskContainer);
 
       // Add drag events
       setupDragEvents(taskContainer);
+
+      // Setup checkbox for newly created task
+      setupCheckboxForTask(taskContainer);
 
       // Add to the beginning of the list
       if (taskList.firstChild) {
@@ -1303,7 +1992,34 @@
         taskList.appendChild(taskContainer);
       }
 
-      console.log('New task created:', taskText);
+      console.log('New task created:', taskText, 'with ID:', taskId);
+    }
+
+    /**
+     * Update checkbox indexes to integrate with tasklist-live.js
+     */
+    function updateCheckboxIndexes() {
+      // We no longer need to update checkbox indexes since we're handling all kanban checkboxes ourselves
+      console.log('Skipping checkbox index update - using custom handler for all kanban tasks');
+
+      // Instead, make sure all kanban checkboxes don't have data-cb-index
+      disableTasklistLiveForKanban();
+    }
+
+    /**
+     * Setup checkbox for a task
+     */
+    function setupCheckboxForTask(taskContainer) {
+      const checkbox = taskContainer.querySelector('input[type="checkbox"]');
+      if (!checkbox) return;
+
+      // Remove any existing data-cb-index to prevent tasklist-live.js from handling it
+      if (checkbox.hasAttribute('data-cb-index')) {
+        checkbox.removeAttribute('data-cb-index');
+      }
+
+      // Add click handler for the checkbox
+      checkbox.addEventListener('click', taskCheckboxHandler);
     }
 
     /**

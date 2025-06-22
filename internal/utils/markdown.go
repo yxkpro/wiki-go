@@ -49,9 +49,27 @@ func RenderMarkdownWithPath(md string, docPath string) []byte {
 	// Check for frontmatter
 	metadata, contentWithoutFrontmatter, hasFrontmatter := frontmatter.Parse(md)
 
-	// If this has kanban layout, render as kanban
+	// If this has kanban layout, render as kanban with full goldext support
 	if hasFrontmatter && metadata.Layout == "kanban" {
-		kanbanHTML := frontmatter.RenderKanban(contentWithoutFrontmatter)
+		// Create preprocessor functions (excluding frontmatter since it's already processed)
+		var preprocessors []frontmatter.PreprocessorFunc
+		var postProcessors []frontmatter.PostProcessorFunc
+
+		// Add all goldext preprocessors (frontmatter will be a no-op since it's already processed)
+		for _, preprocessor := range goldext.RegisteredPreprocessors {
+			if preprocessor != nil {
+				preprocessors = append(preprocessors, frontmatter.PreprocessorFunc(preprocessor))
+			}
+		}
+
+		// Add post-processors for mermaid and direction blocks
+		postProcessors = append(postProcessors, func(html string) string {
+			result := goldext.RestoreMermaidBlocks(html)
+			result = goldext.RestoreDirectionBlocks(result)
+			return result
+		})
+
+		kanbanHTML := frontmatter.RenderKanbanWithProcessors(contentWithoutFrontmatter, preprocessors, postProcessors)
 		return []byte(kanbanHTML)
 	}
 

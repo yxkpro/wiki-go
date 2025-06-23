@@ -838,6 +838,10 @@
 
       const taskListItem = taskItem.querySelector('.task-list-item');
 
+      // Disable dragging while editing
+      taskItem.setAttribute('draggable', 'false');
+      taskItem.classList.add('editing');
+
       // Create input field
       const input = document.createElement('input');
       input.type = 'text';
@@ -851,6 +855,19 @@
       // Focus the input
       input.focus();
       input.select();
+
+      // Function to finish editing and restore dragging
+      const finishEditing = () => {
+        // Re-enable dragging
+        taskItem.setAttribute('draggable', 'true');
+        taskItem.classList.remove('editing');
+
+        // Restore display
+        taskTextElement.style.display = '';
+        if (input.parentNode) {
+          input.remove();
+        }
+      };
 
       // Handle input events
       input.addEventListener('keydown', e => {
@@ -869,13 +886,10 @@
             saveKanbanChanges(docPath);
           }
 
-          // Restore display
-          taskTextElement.style.display = '';
-          input.remove();
+          finishEditing();
         } else if (e.key === 'Escape') {
           // Cancel on escape
-          taskTextElement.style.display = '';
-          input.remove();
+          finishEditing();
         }
       });
 
@@ -883,11 +897,18 @@
       input.addEventListener('blur', () => {
         // Small delay to allow for Enter key processing
         setTimeout(() => {
-          if (input.parentNode) {
-            taskTextElement.style.display = '';
-            input.remove();
-          }
+          finishEditing();
         }, 200);
+      });
+
+      // Prevent drag events from bubbling up from the input
+      input.addEventListener('mousedown', e => {
+        e.stopPropagation();
+      });
+
+      input.addEventListener('dragstart', e => {
+        e.preventDefault();
+        e.stopPropagation();
       });
     }
 

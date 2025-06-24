@@ -44,6 +44,9 @@ class KanbanTaskManager {
     const allTaskItems = document.querySelectorAll('.kanban-column-content .task-list-item-container');
     console.log('Task items found:', allTaskItems.length);
 
+    // Track which task IDs have already been assigned to prevent duplicates
+    const assignedTaskIds = new Set();
+
     // Fetch the original markdown to preserve formatting
     fetch(`/api/source/${this.core.getDocPath()}`)
       .then(response => response.text())
@@ -70,8 +73,8 @@ class KanbanTaskManager {
           if (taskTextElement) {
             const displayedText = taskTextElement.textContent.trim();
 
-            // Try to find a matching task in the markdown
-            const matchingTask = this.findMatchingTask(taskInfo, displayedText, indentLevel);
+            // Try to find a matching task in the markdown that hasn't been assigned yet
+            const matchingTask = this.findMatchingTask(taskInfo, displayedText, indentLevel, assignedTaskIds);
 
             if (matchingTask) {
               // Use existing task ID if found
@@ -80,6 +83,9 @@ class KanbanTaskManager {
 
               // Store in the task ID map
               this.taskIdMap.set(matchingTask.id, item);
+
+              // Mark this task ID as assigned
+              assignedTaskIds.add(matchingTask.id);
 
               console.log(`Assigned existing ID ${matchingTask.id} to task "${displayedText.substring(0, 20)}${displayedText.length > 20 ? '...' : ''}"`);
             } else {
@@ -535,38 +541,42 @@ class KanbanTaskManager {
   /**
    * Find a matching task from the extracted task info
    */
-  findMatchingTask(taskInfo, displayedText, indentLevel) {
+  findMatchingTask(taskInfo, displayedText, indentLevel, assignedTaskIds) {
     // Normalize the displayed text
     const normalizedText = this.normalizeTaskContent(displayedText);
 
-    // First try to find an exact match with the same indentation level
+    // First try to find an exact match with the same indentation level that hasn't been assigned yet
     const exactMatches = taskInfo.filter(task => {
       const normalizedTaskContent = task.normalizedContent;
-      return normalizedTaskContent === normalizedText && task.indentLevel === indentLevel;
+      return normalizedTaskContent === normalizedText &&
+             task.indentLevel === indentLevel &&
+             !assignedTaskIds.has(task.id);
     });
 
     if (exactMatches.length > 0) {
       return exactMatches[0];
     }
 
-    // If no exact match, try a more flexible match
+    // If no exact match, try a more flexible match that hasn't been assigned yet
     const flexibleMatches = taskInfo.filter(task => {
       const normalizedTaskContent = task.normalizedContent;
       return (normalizedTaskContent.includes(normalizedText) ||
               normalizedText.includes(normalizedTaskContent)) &&
-             task.indentLevel === indentLevel;
+             task.indentLevel === indentLevel &&
+             !assignedTaskIds.has(task.id);
     });
 
     if (flexibleMatches.length > 0) {
       return flexibleMatches[0];
     }
 
-    // If still no match, try ignoring indentation
+    // If still no match, try ignoring indentation but still check if not assigned
     const contentMatches = taskInfo.filter(task => {
       const normalizedTaskContent = task.normalizedContent;
-      return normalizedTaskContent === normalizedText ||
+      return (normalizedTaskContent === normalizedText ||
              normalizedTaskContent.includes(normalizedText) ||
-             normalizedText.includes(normalizedTaskContent);
+             normalizedText.includes(normalizedTaskContent)) &&
+             !assignedTaskIds.has(task.id);
     });
 
     if (contentMatches.length > 0) {

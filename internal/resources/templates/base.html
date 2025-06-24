@@ -275,6 +275,8 @@
 
     <!-- Clipboard paste handling -->
     <script src="/static/js/clipboard.js?={{getVersion}}"></script>
+    <!-- Task list permissions (shared by tasklist-live.js and kanban-tasks.js) -->
+    <script src="/static/js/tasklist-permissions.js?={{getVersion}}"></script>
     <script src="/static/js/tasklist-live.js?={{getVersion}}" defer></script>
     {{if eq .DocumentLayout "kanban"}}
     <!-- Kanban system - modular architecture -->

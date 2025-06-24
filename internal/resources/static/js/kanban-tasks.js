@@ -16,6 +16,12 @@ class KanbanTaskManager {
       return;
     }
 
+    // Check permissions using shared module
+    if (!window.TaskListPermissions || !window.TaskListPermissions.isTaskEditingAllowed()) {
+      console.log('KanbanTaskManager: Task editing not allowed, aborting initialization');
+      return;
+    }
+
     console.log('Initializing task manager');
 
     // Create task checkbox handler
@@ -26,9 +32,6 @@ class KanbanTaskManager {
 
     // Setup add task buttons
     this.setupAddTaskButtons();
-
-    // Override tasklist-live.js for kanban tasks
-    this.overrideTasklistLive();
 
     this.initialized = true;
     console.log('Task manager initialized');
@@ -101,9 +104,6 @@ class KanbanTaskManager {
             console.log('First task setup complete:', item.outerHTML);
           }
         });
-
-        // Disable tasklist-live.js for kanban tasks by removing data-cb-index from all checkboxes
-        this.disableTasklistLiveForKanban();
       })
       .catch(error => {
         console.error('Error fetching original markdown:', error);
@@ -135,9 +135,6 @@ class KanbanTaskManager {
           // Setup checkbox click handler
           this.setupCheckboxForTask(item);
         });
-
-        // Disable tasklist-live.js for kanban tasks
-        this.disableTasklistLiveForKanban();
       });
   }
 
@@ -962,63 +959,8 @@ class KanbanTaskManager {
     const checkbox = taskContainer.querySelector('input[type="checkbox"]');
     if (!checkbox) return;
 
-    // Remove any existing data-cb-index to prevent tasklist-live.js from handling it
-    if (checkbox.hasAttribute('data-cb-index')) {
-      checkbox.removeAttribute('data-cb-index');
-    }
-
     // Add click handler for the checkbox
     checkbox.addEventListener('click', this.taskCheckboxHandler);
-  }
-
-  /**
-   * Disable tasklist-live.js for kanban tasks
-   */
-  disableTasklistLiveForKanban() {
-    // Remove data-cb-index from all checkboxes in kanban columns
-    const kanbanCheckboxes = document.querySelectorAll('.kanban-column-content input[type="checkbox"]');
-    console.log(`Disabling tasklist-live.js for ${kanbanCheckboxes.length} kanban checkboxes`);
-
-    kanbanCheckboxes.forEach(checkbox => {
-      if (checkbox.hasAttribute('data-cb-index')) {
-        checkbox.removeAttribute('data-cb-index');
-      }
-    });
-  }
-
-  /**
-   * Override tasklist-live.js for kanban tasks
-   */
-  overrideTasklistLive() {
-    // Add a mutation observer to watch for changes to checkboxes
-    // This ensures our handler is used even if tasklist-live.js tries to take over
-    const observer = new MutationObserver(mutations => {
-      mutations.forEach(mutation => {
-        if (mutation.type === 'attributes' &&
-            mutation.attributeName === 'data-cb-index' &&
-            mutation.target.closest('.kanban-column-content')) {
-          // Remove the data-cb-index attribute
-          mutation.target.removeAttribute('data-cb-index');
-
-          // Ensure our handler is attached
-          const taskContainer = mutation.target.closest('.task-list-item-container');
-          if (taskContainer) {
-            this.setupCheckboxForTask(taskContainer);
-          }
-        }
-      });
-    });
-
-    // Observe all checkboxes in kanban columns
-    const kanbanCheckboxes = document.querySelectorAll('.kanban-column-content input[type="checkbox"]');
-    kanbanCheckboxes.forEach(checkbox => {
-      observer.observe(checkbox, { attributes: true });
-    });
-
-    // Also periodically check for new checkboxes that might have been added
-    setInterval(() => {
-      this.disableTasklistLiveForKanban();
-    }, 2000);
   }
 
   /**

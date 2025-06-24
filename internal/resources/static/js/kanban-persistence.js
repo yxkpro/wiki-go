@@ -99,11 +99,6 @@ class KanbanPersistenceManager {
       // 4. After successful save, update task tracking
       this.updateTaskTrackingAfterSave();
 
-      // 5. Ensure all checkboxes are properly set up after save
-      if (this.core.taskManager) {
-        this.core.taskManager.disableTasklistLiveForKanban();
-      }
-
       // Show success indicator
       if (this.core.columnManager) {
         this.core.columnManager.showColumnStatus('saved', '(Saved)', 2000);

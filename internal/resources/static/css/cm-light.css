@@ -28,3 +28,5 @@
 .cm-s-default .cm-link { color: #555; }
 .cm-s-default .cm-error { color: #777; }
 .cm-s-default .cm-highlight { background-color: #fff3cd; padding: 0.1em 0.2em; border-radius: 2px; }
+.cm-s-default .cm-frontmatter-delimiter { color: #b58900; font-weight: bold; }
+.cm-s-default .cm-frontmatter { color: #586e75; }

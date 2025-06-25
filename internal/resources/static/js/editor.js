@@ -39,6 +39,105 @@ if (typeof CodeMirror !== 'undefined') {
             }
         };
     });
+
+    // Create a custom markdown mode that properly handles frontmatter
+    CodeMirror.defineMode("markdown-with-frontmatter", function(config) {
+        // Create the base markdown mode
+        const markdownMode = CodeMirror.getMode(config, {
+            name: "markdown",
+            highlightFormatting: true,
+            strikethrough: true,
+            fencedCodeBlockHighlighting: true,
+            taskLists: true
+        });
+
+        return {
+            startState: function() {
+                return {
+                    markdownState: CodeMirror.startState(markdownMode),
+                    inFrontmatter: false,
+                    firstLine: true
+                };
+            },
+
+            copyState: function(state) {
+                return {
+                    markdownState: CodeMirror.copyState(markdownMode, state.markdownState),
+                    inFrontmatter: state.inFrontmatter,
+                    firstLine: state.firstLine
+                };
+            },
+
+            token: function(stream, state) {
+                // Handle frontmatter start
+                if (state.firstLine && stream.sol() && stream.match(/---/)) {
+                    state.inFrontmatter = true;
+                    state.firstLine = false;
+                    return "frontmatter-delimiter";
+                }
+
+                // No longer on first line
+                if (state.firstLine && stream.sol()) {
+                    state.firstLine = false;
+                }
+
+                // Handle frontmatter end
+                if (state.inFrontmatter && stream.sol() && stream.match(/---/)) {
+                    state.inFrontmatter = false;
+                    return "frontmatter-delimiter";
+                }
+
+                // Inside frontmatter
+                if (state.inFrontmatter) {
+                    // Skip to end of line for frontmatter content
+                    stream.skipToEnd();
+                    return "frontmatter";
+                }
+
+                // Default to markdown mode outside frontmatter
+                return markdownMode.token(stream, state.markdownState);
+            },
+
+            blankLine: function(state) {
+                if (state.inFrontmatter) {
+                    return "frontmatter";
+                }
+                if (markdownMode.blankLine) {
+                    return markdownMode.blankLine(state.markdownState);
+                }
+                return null;
+            },
+
+            indent: function(state, textAfter) {
+                if (state.inFrontmatter) return 0;
+                if (markdownMode.indent) {
+                    return markdownMode.indent(state.markdownState, textAfter);
+                }
+                return CodeMirror.Pass;
+            },
+
+            innerMode: function(state) {
+                if (state.inFrontmatter) return {state: state, mode: this};
+                return {state: state.markdownState, mode: markdownMode};
+            }
+        };
+    });
+
+    // Create a simple frontmatter detector overlay that doesn't use state
+    CodeMirror.defineMode("frontmatter-detector", function() {
+        return {
+            token: function(stream, state) {
+                // Check for frontmatter delimiters at the beginning of lines
+                if (stream.sol() && stream.match(/---/)) {
+                    return "frontmatter-delimiter";
+                }
+
+                // Skip to next position
+                stream.next();
+                return null;
+            }
+        };
+    });
 }
 
 // Emoji data for picker
@@ -1141,14 +1240,8 @@ async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar
                 gutters: ["CodeMirror-linenumbers"]
             });
 
-            // Apply our highlight overlay mode
-            editor.setOption("mode", {
-                name: "markdown",
-                highlightFormatting: true,
-                strikethrough: true,
-                fencedCodeBlockHighlighting: true,
-                taskLists: true
-            });
+            // Apply our custom markdown mode with frontmatter support
+            editor.setOption("mode", "markdown-with-frontmatter");
             editor.addOverlay("markdown-highlight-overlay");
 
             // Apply custom subtle styling to the editor

@@ -8,6 +8,39 @@ let docPickerElement = null;
 // Anchor picker element
 let anchorPickerElement = null;
 
+// Define a custom overlay mode for highlight syntax (==text==)
+if (typeof CodeMirror !== 'undefined') {
+    CodeMirror.defineMode("markdown-highlight-overlay", function(config, parserConfig) {
+        // Improved regex that handles edge cases better
+        const highlightRegex = /==(?:[^=]|=(?!=))+?==/;
+
+        return {
+            token: function(stream, state) {
+                // Look for the start of a highlight marker
+                if (stream.match(/==/)) {
+                    // Check if we have a complete highlight pattern
+                    const line = stream.string.slice(stream.pos - 2);
+                    const match = line.match(highlightRegex);
+
+                    if (match && match.index === 0) {
+                        // We found a complete highlight pattern
+                        // Move the stream position to the end of the match
+                        stream.pos += match[0].length - 2;
+                        return "highlight";
+                    }
+
+                    // If not a complete highlight, just return null
+                    return null;
+                }
+
+                // Skip until we find a potential highlight marker
+                while (stream.next() != null && !stream.match(/==/, false)) {}
+                return null;
+            }
+        };
+    });
+}
+
 // Emoji data for picker
 let emojiData = [];
 // Document data for picker
@@ -1108,6 +1141,16 @@ async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar
                 gutters: ["CodeMirror-linenumbers"]
             });
 
+            // Apply our highlight overlay mode
+            editor.setOption("mode", {
+                name: "markdown",
+                highlightFormatting: true,
+                strikethrough: true,
+                fencedCodeBlockHighlighting: true,
+                taskLists: true
+            });
+            editor.addOverlay("markdown-highlight-overlay");
+
             // Apply custom subtle styling to the editor
             const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
 
@@ -1577,7 +1620,12 @@ document.documentElement.addEventListener('data-theme-change', e =>
 const themeObserver = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
         if (mutation.attributeName === 'data-theme') {
-            updateCodeMirrorTheme(mutation.newValue);
+            updateCodeMirrorTheme(mutation.target.getAttribute('data-theme'));
+
+            // Refresh editor to apply new theme styles
+            if (editor) {
+                editor.refresh();
+            }
         }
     });
 });

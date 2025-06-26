@@ -708,6 +708,29 @@ class KanbanTaskManager {
   }
 
   /**
+   * Convert processed HTML back to markdown for editing
+   */
+  convertHtmlToMarkdown(html) {
+    // Create a temporary div to work with the HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+
+    // Convert HTML elements back to markdown
+    let markdown = tempDiv.innerHTML;
+
+    // Convert HTML tags back to markdown syntax
+    markdown = markdown.replace(/<strong>(.*?)<\/strong>/g, '**$1**');
+    markdown = markdown.replace(/<em>(.*?)<\/em>/g, '*$1*');
+    markdown = markdown.replace(/<mark>(.*?)<\/mark>/g, '==$1==');
+    markdown = markdown.replace(/<code>(.*?)<\/code>/g, '`$1`');
+    markdown = markdown.replace(/<a href="([^"]*)">(.*?)<\/a>/g, '[$2]($1)');
+
+    // Get the text content and clean up any remaining HTML
+    tempDiv.innerHTML = markdown;
+    return tempDiv.textContent || tempDiv.innerText || '';
+  }
+
+  /**
    * Rename a task
    */
   renameTask(taskItem) {
@@ -717,9 +740,15 @@ class KanbanTaskManager {
     // Check if we have the original markdown stored as a data attribute
     let originalMarkdown = taskItem.getAttribute('data-original-markdown');
 
-    // If no stored original markdown, fall back to the displayed text
+    // If no stored original markdown, try to convert the displayed HTML back to markdown
     if (!originalMarkdown) {
-      originalMarkdown = taskTextElement.textContent;
+      const htmlContent = taskTextElement.innerHTML;
+      originalMarkdown = this.convertHtmlToMarkdown(htmlContent);
+
+      // If that still doesn't work, fall back to plain text
+      if (!originalMarkdown) {
+        originalMarkdown = taskTextElement.textContent;
+      }
     }
 
     const taskListItem = taskItem.querySelector('.task-list-item');
@@ -987,6 +1016,9 @@ class KanbanTaskManager {
     // Process italic text (*text* or _text_)
     processed = processed.replace(/\*([^*]+)\*/g, '<em>$1</em>');
     processed = processed.replace(/_([^_]+)_/g, '<em>$1</em>');
+
+    // Process highlight text (==text==)
+    processed = processed.replace(/==([^=]+)==/g, '<mark>$1</mark>');
 
     // Process links [text](url)
     processed = processed.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');

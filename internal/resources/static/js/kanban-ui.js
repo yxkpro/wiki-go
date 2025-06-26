@@ -34,6 +34,9 @@ class KanbanUIManager {
     processed = processed.replace(/\*([^*]+)\*/g, '<em>$1</em>');
     processed = processed.replace(/_([^_]+)_/g, '<em>$1</em>');
 
+    // Process highlight text (==text==)
+    processed = processed.replace(/==([^=]+)==/g, '<mark>$1</mark>');
+
     // Process links [text](url)
     processed = processed.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 

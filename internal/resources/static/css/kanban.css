@@ -138,15 +138,17 @@ body.role-editor .editor-admin-only {
     color: var(--text-color);
     border: 1px solid var(--accent-color, #3498db);
     border-radius: 4px;
-    padding: 4px;
+    padding: 4px 8px;
     font-size: 14px;
     width: 100%;
     box-sizing: border-box;
+    margin-right: 0;
 }
 
 .task-rename-input:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    border-color: var(--accent-color, #3498db);
 }
 
 /* Task action buttons */
@@ -160,6 +162,21 @@ body.role-editor .editor-admin-only {
     gap: 8px;
     opacity: 0;
     transition: opacity 0.2s;
+}
+
+/* Hide task action buttons when task is being edited */
+.task-list-item-container.editing .task-action-buttons {
+    display: none !important;
+}
+
+/* Show task action buttons on hover (when not editing) */
+.task-list-item-container:hover .task-action-buttons {
+    opacity: 1;
+}
+
+/* Don't show buttons on hover when editing */
+.task-list-item-container.editing:hover .task-action-buttons {
+    opacity: 0;
 }
 
 .task-action-btn {
@@ -211,7 +228,7 @@ body.role-editor .editor-admin-only {
     height: 24px;
 }
 
-.task-list-item-container:hover .task-action-buttons {
+.kanban-column .task-list-item-container:hover .task-action-buttons {
     opacity: 1;
 }
 
@@ -385,4 +402,14 @@ body.role-editor .editor-admin-only {
 .column-rename-input:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Ensure the task container has proper spacing when editing */
+.task-list-item-container.editing {
+    padding-right: 12px;
+}
+
+/* Ensure the task item has proper layout when editing */
+.task-list-item-container.editing .task-list-item {
+    padding-right: 0;
 }

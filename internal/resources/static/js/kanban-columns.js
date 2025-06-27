@@ -14,6 +14,9 @@ class KanbanColumnManager {
     this.addBoardDialog = null;
     this.addBoardForm = null;
     this.boardNameInput = null;
+
+    // Track which kanban container we're adding a board to
+    this.targetKanbanContainer = null;
   }
 
   init() {
@@ -182,20 +185,29 @@ class KanbanColumnManager {
    * Setup add board button functionality
    */
   setupAddBoardButton() {
-    const addBoardBtn = document.querySelector('.add-board-btn');
-    if (!addBoardBtn) {
-      console.log('Add board button not found');
+    const addBoardButtons = document.querySelectorAll('.add-board-btn');
+    if (addBoardButtons.length === 0) {
+      console.log('No add board buttons found');
       return;
     }
 
-    console.log('Add board button found');
+    console.log('Add board buttons found:', addBoardButtons.length);
 
-    // Remove any existing event listeners to prevent duplicates
-    const newButton = addBoardBtn.cloneNode(true);
-    addBoardBtn.parentNode.replaceChild(newButton, addBoardBtn);
+    addBoardButtons.forEach((addBoardBtn, index) => {
+      // Remove any existing event listeners to prevent duplicates
+      const newButton = addBoardBtn.cloneNode(true);
+      addBoardBtn.parentNode.replaceChild(newButton, addBoardBtn);
 
-    // Show dialog when add board button is clicked
-    newButton.addEventListener('click', (e) => this.handleAddBoardClick(e));
+      // Store reference to the kanban container this button belongs to
+      const kanbanContainer = newButton.closest('.kanban-container');
+      if (kanbanContainer) {
+        newButton.setAttribute('data-kanban-container-index', index);
+        console.log(`Add board button ${index + 1} associated with kanban container`);
+      }
+
+      // Show dialog when add board button is clicked
+      newButton.addEventListener('click', (e) => this.handleAddBoardClick(e));
+    });
   }
 
   /**
@@ -206,6 +218,19 @@ class KanbanColumnManager {
 
     if (!this.addBoardDialog) {
       console.error('Add board dialog not found');
+      return;
+    }
+
+    // Store reference to which kanban container this button belongs to
+    const clickedButton = e.target.closest('.add-board-btn');
+    const kanbanContainer = clickedButton.closest('.kanban-container');
+
+    if (kanbanContainer) {
+      // Store the target container for when we create the new board
+      this.targetKanbanContainer = kanbanContainer;
+      console.log('Target kanban container stored for new board creation');
+    } else {
+      console.error('Could not find kanban container for add board button');
       return;
     }
 
@@ -303,8 +328,19 @@ class KanbanColumnManager {
     // Create the new column
     const newColumn = this.createNewColumnElement(boardName, isDuplicate);
 
-    // Add column to board
-    const kanbanBoard = document.querySelector('.kanban-board');
+    // Add column to the correct kanban board
+    let kanbanBoard = null;
+
+    if (this.targetKanbanContainer) {
+      // Use the specific kanban container that was clicked
+      kanbanBoard = this.targetKanbanContainer.querySelector('.kanban-board');
+      console.log('Using target kanban container for new board');
+    } else {
+      // Fallback to first kanban board (for backwards compatibility)
+      kanbanBoard = document.querySelector('.kanban-board');
+      console.log('Using fallback kanban board selection');
+    }
+
     if (kanbanBoard) {
       kanbanBoard.appendChild(newColumn);
 
@@ -322,6 +358,9 @@ class KanbanColumnManager {
       }
 
       console.log('New board added:', boardName);
+
+      // Clear the target container reference
+      this.targetKanbanContainer = null;
     } else {
       console.error('Kanban board container not found');
     }

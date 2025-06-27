@@ -157,6 +157,31 @@ class KanbanDragHandler {
   }
 
   /**
+   * Setup drop target for a single new column
+   */
+  setupColumnDropTarget(newColumn) {
+    console.log('Setting up drop target for new column');
+
+    // Find the task list (ul) within the new column
+    const columnUl = newColumn.querySelector('.kanban-column-content ul');
+    if (!columnUl) {
+      console.error('Could not find task list in new column');
+      return;
+    }
+
+    // Setup drop events for the column
+    this.setupColumnDropEvents(columnUl);
+
+    // Setup empty column drop target
+    const columnContentDiv = columnUl.parentNode;
+    if (columnContentDiv && columnContentDiv.classList.contains('kanban-column-content')) {
+      this.setupEmptyColumnDropTarget(columnContentDiv, columnUl);
+    }
+
+    console.log('Drop target setup complete for new column');
+  }
+
+  /**
    * Setup drop events for a column
    */
   setupColumnDropEvents(column) {

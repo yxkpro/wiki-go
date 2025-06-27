@@ -6,9 +6,11 @@ class KanbanPersistenceManager {
 
     // Track processed headers to avoid duplicates
     this.processedHeaders = new Set();
+    this.processedBoards = new Set();
 
     // Maps to store original formatting
     this.originalSectionHeaders = new Map();
+    this.originalBoardHeaders = new Map();
     this.originalTaskFormatting = new Map();
 
     // Save state tracking
@@ -53,7 +55,7 @@ class KanbanPersistenceManager {
     );
 
     if (frontmatterEndIndex > 0) {
-      this.collectOriginalFormatting(lines, frontmatterEndIndex, this.originalSectionHeaders, this.originalTaskFormatting);
+      this.collectOriginalFormatting(lines, frontmatterEndIndex, this.originalBoardHeaders, this.originalSectionHeaders, this.originalTaskFormatting);
     }
   }
 
@@ -175,6 +177,7 @@ class KanbanPersistenceManager {
 
     // Reset processed headers for this save operation
     this.processedHeaders.clear();
+    this.processedBoards.clear();
 
     // Get column information from the column manager
     const renamedColumns = this.core.columnManager ? this.core.columnManager.getRenamedColumns() : new Map();
@@ -182,14 +185,14 @@ class KanbanPersistenceManager {
 
     // Collect original formatting if not already cached
     if (this.originalSectionHeaders.size === 0) {
-      this.collectOriginalFormatting(lines, frontmatterEndIndex, this.originalSectionHeaders, this.originalTaskFormatting);
+      this.collectOriginalFormatting(lines, frontmatterEndIndex, this.originalBoardHeaders, this.originalSectionHeaders, this.originalTaskFormatting);
     }
 
     // Now build the updated markdown
     let currentIndex = frontmatterEndIndex + 1;
 
     // Skip non-kanban content at the beginning
-    while (currentIndex < lines.length && !lines[currentIndex].match(/^##\s+/)) {
+    while (currentIndex < lines.length && !lines[currentIndex].match(/^####\s+/)) {
       currentIndex++;
     }
 
@@ -216,11 +219,40 @@ class KanbanPersistenceManager {
    * Process a single kanban container
    */
   processKanbanContainer(container, updatedLines, renamedColumns, boardNameCounts) {
+    // Reset processed headers for each kanban container to allow duplicate column names across boards
+    this.processedHeaders.clear();
+
+    // Get board title if it exists
+    const boardTitleElement = container.querySelector('.kanban-board-title');
+    let boardTitle = boardTitleElement ? boardTitleElement.textContent.trim() : '';
+
+    // Add board title if it exists
+    if (boardTitle) {
+      const boardKey = boardTitle.toLowerCase();
+
+      // Skip if already processed
+      if (this.processedBoards.has(boardKey)) {
+        console.log(`Board ${boardTitle} already processed, skipping`);
+        return;
+      }
+
+      // Mark as processed
+      this.processedBoards.add(boardKey);
+
+      // Use original board header format if available
+      const originalBoardHeader = this.originalBoardHeaders.get(boardKey) || boardTitle;
+      updatedLines.push(`#### ${originalBoardHeader}`);
+      updatedLines.push(''); // Add empty line after board title
+    }
+
     // Process each column in this container
     const columns = container.querySelectorAll('.kanban-column');
     columns.forEach((column, columnIndex) => {
       this.processKanbanColumn(column, updatedLines, renamedColumns, boardNameCounts);
     });
+
+    // Add empty line after each board
+    updatedLines.push('');
   }
 
   /**
@@ -248,7 +280,7 @@ class KanbanPersistenceManager {
       this.processedHeaders.add(originalTitle.toLowerCase());
     }
 
-    // Handle duplicate board names
+    // Handle duplicate column names
     const headerKey = headerText.toLowerCase();
     const currentCount = boardNameCounts.get(headerKey) || 1;
 
@@ -256,7 +288,7 @@ class KanbanPersistenceManager {
     let markdownHeaderText = headerText;
     if (currentCount > 1) {
       markdownHeaderText = `${headerText} (${currentCount})`;
-      console.log(`Handling duplicate board name: "${headerText}" -> "${markdownHeaderText}"`);
+      console.log(`Handling duplicate column name: "${headerText}" -> "${markdownHeaderText}"`);
     }
 
     // Skip if already processed
@@ -271,7 +303,7 @@ class KanbanPersistenceManager {
 
     // Use original header format if available, otherwise use our generated one
     const originalHeader = this.originalSectionHeaders.get(headerKey) || markdownHeaderText;
-    updatedLines.push(`## ${originalHeader}`);
+    updatedLines.push(`##### ${originalHeader}`);
 
     // Process each task in this column
     this.processColumnTasks(column, updatedLines);
@@ -372,10 +404,24 @@ class KanbanPersistenceManager {
   /**
    * Collect original formatting from the markdown
    */
-  collectOriginalFormatting(lines, startIndex, sectionHeaders, taskFormatting) {
+  collectOriginalFormatting(lines, startIndex, boardHeaders, sectionHeaders, taskFormatting) {
     let i = startIndex + 1;
+    let currentBoard = null;
+
     while (i < lines.length) {
-      const headerMatch = lines[i].match(/^##\s+(.+)$/);
+      // Check for H4 board headers
+      const boardMatch = lines[i].match(/^####\s+(.+)$/);
+      if (boardMatch) {
+        const boardTitle = boardMatch[1].trim();
+        const cleanBoardTitle = this.cleanHeaderText(boardTitle);
+        currentBoard = cleanBoardTitle.toLowerCase();
+        boardHeaders.set(currentBoard, boardTitle);
+        i++;
+        continue;
+      }
+
+      // Check for H5 column headers
+      const headerMatch = lines[i].match(/^#####\s+(.+)$/);
       if (headerMatch) {
         const sectionTitle = headerMatch[1].trim();
         // Clean the title of any status indicators and + signs
@@ -384,7 +430,7 @@ class KanbanPersistenceManager {
         // Check if the next lines contain task items
         let hasTaskItems = false;
         let j = i + 1;
-        while (j < lines.length && !lines[j].match(/^##\s+/)) {
+        while (j < lines.length && !lines[j].match(/^#{4,5}\s+/)) {
           const taskMatch = lines[j].match(/^(\s*)([-*+])\s+\[([ xX])\]\s+(.+)$/);
           if (taskMatch) {
             hasTaskItems = true;
@@ -470,28 +516,50 @@ class KanbanPersistenceManager {
    */
   addRemainingOriginalSections(lines, startIndex, updatedLines, renamedColumns) {
     let skipSection = false;
+    let skipBoard = false;
     // Track original board names to handle duplicates
     const originalBoardNameCounts = new Map();
+    const originalColumnNameCounts = new Map();
 
     for (let i = startIndex; i < lines.length; i++) {
       const line = lines[i];
 
-      // Check if this is a header
-      const headerMatch = line.match(/^##\s+(.+)$/);
+      // Check if this is a board header (H4)
+      const boardMatch = line.match(/^####\s+(.+)$/);
+      if (boardMatch) {
+        const boardText = boardMatch[1].trim();
+        const cleanBoard = this.cleanHeaderText(boardText);
+        const boardKey = cleanBoard.toLowerCase();
 
+        // Count occurrences of this board name in the original markdown
+        originalBoardNameCounts.set(boardKey, (originalBoardNameCounts.get(boardKey) || 0) + 1);
+
+        // Check if already processed
+        if (this.processedBoards.has(boardKey)) {
+          skipBoard = true;
+          skipSection = true;
+          continue;
+        } else {
+          skipBoard = false;
+          skipSection = false;
+        }
+      }
+
+      // Check if this is a column header (H5)
+      const headerMatch = line.match(/^#####\s+(.+)$/);
       if (headerMatch) {
         // Get clean header text
         const headerText = headerMatch[1].trim();
         const cleanHeader = this.cleanHeaderText(headerText)
-          .replace(/\s*\(\d+\)\s*$/, ''); // Remove any trailing (number) from duplicate boards
+          .replace(/\s*\(\d+\)\s*$/, ''); // Remove any trailing (number) from duplicate columns
 
         const headerKey = cleanHeader.toLowerCase();
 
-        // Count occurrences of this board name in the original markdown
-        originalBoardNameCounts.set(headerKey, (originalBoardNameCounts.get(headerKey) || 0) + 1);
+        // Count occurrences of this column name in the original markdown
+        originalColumnNameCounts.set(headerKey, (originalColumnNameCounts.get(headerKey) || 0) + 1);
 
-        // Create a unique key for this board instance
-        const originalKey = `${headerKey}-${originalBoardNameCounts.get(headerKey)}`;
+        // Create a unique key for this column instance
+        const originalKey = `${headerKey}-${originalColumnNameCounts.get(headerKey)}`;
 
         // Check if already processed
         if (this.processedHeaders.has(originalKey)) {
@@ -510,20 +578,21 @@ class KanbanPersistenceManager {
       } else {
         // This is not a header line
         // If we're currently skipping a section, check if this line indicates the end of that section
-        if (skipSection) {
+        if (skipSection || skipBoard) {
           // Check if this line is a task line (part of the kanban section we're skipping)
           const isTaskLine = line.match(/^\s*[-*+]\s+\[([ xX])\]\s+/);
           const isEmpty = line.trim() === '';
 
           // If it's not a task line and not empty, this is regular content after the kanban section
-          if (!isTaskLine && !isEmpty) {
+          if (!isTaskLine && !isEmpty && !line.match(/^#{4,5}\s+/)) {
             skipSection = false; // Stop skipping, this is regular content
+            skipBoard = false;
           }
         }
       }
 
       // Add line if not skipping
-      if (!skipSection) {
+      if (!skipSection && !skipBoard) {
         updatedLines.push(line);
       }
     }
@@ -552,6 +621,7 @@ class KanbanPersistenceManager {
     this.originalSectionHeaders.clear();
     this.originalTaskFormatting.clear();
     this.processedHeaders.clear();
+    this.processedBoards.clear();
     console.log('Persistence cache cleared');
   }
 

@@ -1,5 +1,17 @@
 /* Kanban Board Styles */
 
+/* Kanban board title styling - clean and consistent with wiki-go theme */
+.kanban-board-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 24px 0 16px 0;
+    padding: 0;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 8px;
+    position: relative;
+}
+
 /* Full-width layout */
 .kanban-layout {
     width: 100vw;

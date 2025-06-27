@@ -2374,34 +2374,83 @@ function insertTOC() {
     editor.focus();
 }
 
-// Function to insert kanban frontmatter template
+// Function to insert kanban frontmatter and board template
 function insertKanbanFrontmatter(cm) {
-    // Check if the document already has frontmatter
     const content = cm.getValue();
-    if (content.startsWith('---\n')) {
-        // Document already has frontmatter, show a message or modify existing
-        alert('Document already has frontmatter. Please edit it manually.');
-        return;
-    }
+    let needsFrontmatter = false;
+    let frontmatterToAdd = '';
 
-    // Create the kanban frontmatter template
-    const kanbanTemplate = `---
+    // Check if the document needs frontmatter
+    if (!content.startsWith('---\n')) {
+        needsFrontmatter = true;
+        frontmatterToAdd = `---
 layout: kanban
 ---
 
-# Kanban Board Title
+`;
+    } else {
+        // Check if existing frontmatter has kanban layout
+        const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+        if (frontmatterMatch) {
+            const frontmatterContent = frontmatterMatch[1];
+            if (!frontmatterContent.includes('layout: kanban')) {
+                // Alert user that they need to manually add layout: kanban
+                alert('Please add "layout: kanban" to your existing frontmatter to enable kanban functionality.');
+                return;
+            }
+        }
+    }
 
-## To Do
+    // Determine the next kanban board number
+    let boardNumber = 1;
+    const kanbanMatches = content.match(/^#### Kanban \d+/gm);
+    if (kanbanMatches && kanbanMatches.length > 0) {
+        // Find the highest existing kanban number
+        const numbers = kanbanMatches.map(match => {
+            const num = match.match(/#### Kanban (\d+)/);
+            return num ? parseInt(num[1]) : 0;
+        });
+        boardNumber = Math.max(...numbers) + 1;
+    }
+
+    // Create the kanban board template
+    const kanbanBoardTemplate = `#### Kanban ${boardNumber}
+
+##### To Do
 - [ ] Task 1
 
-## In Progress
+##### In Progress
 
-## Done
+##### Done
 
 `;
 
-    // Insert at the beginning of the document
-    cm.replaceRange(kanbanTemplate, {line: 0, ch: 0});
+    // Get cursor position
+    const cursor = cm.getCursor();
+
+    // If we need to add frontmatter, add it at the beginning
+    if (needsFrontmatter) {
+        cm.replaceRange(frontmatterToAdd, {line: 0, ch: 0});
+
+        // Adjust cursor position to account for added frontmatter
+        const frontmatterLines = frontmatterToAdd.split('\n').length - 1;
+        const newCursorLine = cursor.line + frontmatterLines;
+        const newCursor = {line: newCursorLine, ch: cursor.ch};
+
+        // Insert kanban board at the adjusted cursor position
+        cm.replaceRange(kanbanBoardTemplate, newCursor);
+
+        // Position cursor after the inserted content
+        const templateLines = kanbanBoardTemplate.split('\n').length - 1;
+        cm.setCursor({line: newCursorLine + templateLines, ch: 0});
+    } else {
+        // Just insert the kanban board at cursor position
+        cm.replaceRange(kanbanBoardTemplate, cursor);
+
+        // Position cursor after the inserted content
+        const templateLines = kanbanBoardTemplate.split('\n').length - 1;
+        cm.setCursor({line: cursor.line + templateLines, ch: 0});
+    }
 
     // Focus the editor
     cm.focus();

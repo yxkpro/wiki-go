@@ -196,5 +196,16 @@
   "import.importing": "आयात हो रहा है...",
   "import.results_title": "आयात परिणाम",
   "import.success": "आयात सफलतापूर्वक पूरा हुआ।",
-  "import.error": "आयात विफल: {0}"
+  "import.error": "आयात विफल: {0}",
+
+  "kanban.enter_task_name": "कार्य का नाम दर्ज करें",
+  "kanban.delete_task_title": "कार्य हटाएं",
+  "kanban.delete_task_confirm": "क्या आप वाकई इस कार्य को हटाना चाहते हैं?",
+  "kanban.add_board_title": "बोर्ड जोड़ें",
+  "kanban.board_name": "बोर्ड का नाम",
+  "kanban.enter_board_name": "बोर्ड का नाम दर्ज करें",
+  "kanban.rename_task": "कार्य का नाम बदलें",
+  "kanban.delete_task": "कार्य हटाएं",
+  "kanban.rename_column": "कॉलम का नाम बदलें",
+  "kanban.add_task": "कार्य जोड़ें"
 }

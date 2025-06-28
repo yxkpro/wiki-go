@@ -196,5 +196,16 @@
   "import.importing": "가져오는 중...",
   "import.results_title": "가져오기 결과",
   "import.success": "가져오기가 성공적으로 완료되었습니다.",
-  "import.error": "가져오기 실패: {0}"
+  "import.error": "가져오기 실패: {0}",
+
+  "kanban.enter_task_name": "작업 이름 입력",
+  "kanban.delete_task_title": "작업 삭제",
+  "kanban.delete_task_confirm": "이 작업을 삭제하시겠습니까?",
+  "kanban.add_board_title": "보드 추가",
+  "kanban.board_name": "보드 이름",
+  "kanban.enter_board_name": "보드 이름 입력",
+  "kanban.rename_task": "작업 이름 변경",
+  "kanban.delete_task": "작업 삭제",
+  "kanban.rename_column": "열 이름 변경",
+  "kanban.add_task": "작업 추가"
 }

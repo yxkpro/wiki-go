@@ -196,5 +196,16 @@
   "import.importing": "Импортирование...",
   "import.results_title": "Результаты импорта",
   "import.success": "Импорт успешно завершен.",
-  "import.error": "Ошибка импорта: {0}"
+  "import.error": "Ошибка импорта: {0}",
+
+  "kanban.enter_task_name": "Введите название задачи",
+  "kanban.delete_task_title": "Удалить задачу",
+  "kanban.delete_task_confirm": "Вы уверены, что хотите удалить эту задачу?",
+  "kanban.add_board_title": "Добавить доску",
+  "kanban.board_name": "Название доски",
+  "kanban.enter_board_name": "Введите название доски",
+  "kanban.rename_task": "Переименовать задачу",
+  "kanban.delete_task": "Удалить задачу",
+  "kanban.rename_column": "Переименовать колонку",
+  "kanban.add_task": "Добавить задачу"
 }

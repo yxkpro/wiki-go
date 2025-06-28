@@ -196,5 +196,16 @@
   "import.importing": "Importování...",
   "import.results_title": "Výsledky importu",
   "import.success": "Import byl úspěšně dokončen.",
-  "import.error": "Import selhal: {0}"
+  "import.error": "Import selhal: {0}",
+
+  "kanban.enter_task_name": "Zadejte název úkolu",
+  "kanban.delete_task_title": "Smazat úkol",
+  "kanban.delete_task_confirm": "Opravdu chcete smazat tento úkol?",
+  "kanban.add_board_title": "Přidat tabuli",
+  "kanban.board_name": "Název tabule",
+  "kanban.enter_board_name": "Zadejte název tabule",
+  "kanban.rename_task": "Přejmenovat úkol",
+  "kanban.delete_task": "Smazat úkol",
+  "kanban.rename_column": "Přejmenovat sloupec",
+  "kanban.add_task": "Přidat úkol"
 }

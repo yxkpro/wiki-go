@@ -196,5 +196,16 @@
   "import.importing": "Importeren...",
   "import.results_title": "Importeerresultaten",
   "import.success": "Importeren succesvol voltooid.",
-  "import.error": "Importeren mislukt: {0}"
+  "import.error": "Importeren mislukt: {0}",
+
+  "kanban.enter_task_name": "Taaknaam invoeren",
+  "kanban.delete_task_title": "Taak verwijderen",
+  "kanban.delete_task_confirm": "Weet je zeker dat je deze taak wilt verwijderen?",
+  "kanban.add_board_title": "Bord toevoegen",
+  "kanban.board_name": "Bordnaam",
+  "kanban.enter_board_name": "Bordnaam invoeren",
+  "kanban.rename_task": "Taak hernoemen",
+  "kanban.delete_task": "Taak verwijderen",
+  "kanban.rename_column": "Kolom hernoemen",
+  "kanban.add_task": "Taak toevoegen"
 }

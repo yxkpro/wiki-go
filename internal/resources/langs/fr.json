@@ -196,5 +196,16 @@
   "import.importing": "Importation en cours...",
   "import.results_title": "Résultats de l'importation",
   "import.success": "Importation terminée avec succès.",
-  "import.error": "Échec de l'importation : {0}"
+  "import.error": "L'importation a échoué : {0}",
+
+  "kanban.enter_task_name": "Entrez le nom de la tâche",
+  "kanban.delete_task_title": "Supprimer la tâche",
+  "kanban.delete_task_confirm": "Êtes-vous sûr de vouloir supprimer cette tâche ?",
+  "kanban.add_board_title": "Ajouter un tableau",
+  "kanban.board_name": "Nom du tableau",
+  "kanban.enter_board_name": "Entrez le nom du tableau",
+  "kanban.rename_task": "Renommer la tâche",
+  "kanban.delete_task": "Supprimer la tâche",
+  "kanban.rename_column": "Renommer la colonne",
+  "kanban.add_task": "Ajouter une tâche"
 }

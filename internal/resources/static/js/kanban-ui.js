@@ -129,7 +129,7 @@ class KanbanUIManager {
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'new-task-input';
-    input.placeholder = 'Enter task name';
+    input.placeholder = window.i18n ? window.i18n.t('kanban.enter_task_name') : 'Enter task name';
 
     // Add input to container
     inputContainer.appendChild(input);

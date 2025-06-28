@@ -675,7 +675,7 @@ class KanbanTaskManager {
       // Add rename button
       const renameBtn = document.createElement('button');
       renameBtn.className = 'task-action-btn task-rename-btn';
-      renameBtn.title = 'Rename task';
+      renameBtn.title = window.i18n ? window.i18n.t('kanban.rename_task') : 'Rename task';
       renameBtn.innerHTML = '<i class="fa fa-pencil"></i>'; // Edit/pencil icon
       renameBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -685,7 +685,7 @@ class KanbanTaskManager {
       // Add delete button
       const deleteBtn = document.createElement('button');
       deleteBtn.className = 'task-action-btn task-delete-btn';
-      deleteBtn.title = 'Delete task';
+      deleteBtn.title = window.i18n ? window.i18n.t('kanban.delete_task') : 'Delete task';
       deleteBtn.innerHTML = '<i class="fa fa-times"></i>'; // Times/cross icon
       deleteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -833,8 +833,8 @@ class KanbanTaskManager {
   deleteTask(taskItem) {
     // Ask for confirmation using the DialogSystem
     window.DialogSystem.showConfirmDialog(
-      "Delete Task",
-      "Are you sure you want to delete this task?",
+      window.i18n ? window.i18n.t('kanban.delete_task_title') : "Delete Task",
+      window.i18n ? window.i18n.t('kanban.delete_task_confirm') : "Are you sure you want to delete this task?",
       (confirmed) => {
         if (!confirmed) return;
 
@@ -947,7 +947,7 @@ class KanbanTaskManager {
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'new-task-input';
-    input.placeholder = 'Enter task name';
+    input.placeholder = window.i18n ? window.i18n.t('kanban.enter_task_name') : 'Enter task name';
 
     // Add input to container
     inputContainer.appendChild(input);

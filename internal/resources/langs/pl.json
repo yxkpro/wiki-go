@@ -196,5 +196,16 @@
   "import.importing": "Importowanie...",
   "import.results_title": "Wyniki importu",
   "import.success": "Import zakończony pomyślnie.",
-  "import.error": "Import nie powiódł się: {0}"
+  "import.error": "Import nie powiódł się: {0}",
+
+  "kanban.enter_task_name": "Wprowadź nazwę zadania",
+  "kanban.delete_task_title": "Usuń zadanie",
+  "kanban.delete_task_confirm": "Czy na pewno chcesz usunąć to zadanie?",
+  "kanban.add_board_title": "Dodaj tablicę",
+  "kanban.board_name": "Nazwa tablicy",
+  "kanban.enter_board_name": "Wprowadź nazwę tablicy",
+  "kanban.rename_task": "Zmień nazwę zadania",
+  "kanban.delete_task": "Usuń zadanie",
+  "kanban.rename_column": "Zmień nazwę kolumny",
+  "kanban.add_task": "Dodaj zadanie"
 }

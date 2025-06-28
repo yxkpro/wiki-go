@@ -196,5 +196,16 @@
   "import.importing": "در حال وارد کردن...",
   "import.results_title": "نتایج وارد کردن",
   "import.success": "وارد کردن با موفقیت انجام شد.",
-  "import.error": "وارد کردن با شکست مواجه شد: {0}"
+  "import.error": "وارد کردن ناموفق بود: {0}",
+
+  "kanban.enter_task_name": "نام وظیفه را وارد کنید",
+  "kanban.delete_task_title": "حذف وظیفه",
+  "kanban.delete_task_confirm": "آیا مطمئن هستید که می‌خواهید این وظیفه را حذف کنید؟",
+  "kanban.add_board_title": "افزودن تابلو",
+  "kanban.board_name": "نام تابلو",
+  "kanban.enter_board_name": "نام تابلو را وارد کنید",
+  "kanban.rename_task": "تغییر نام وظیفه",
+  "kanban.delete_task": "حذف وظیفه",
+  "kanban.rename_column": "تغییر نام ستون",
+  "kanban.add_task": "افزودن وظیفه"
 }

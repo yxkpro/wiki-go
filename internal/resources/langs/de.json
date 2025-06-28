@@ -196,5 +196,16 @@
   "import.importing": "Importiere...",
   "import.results_title": "Importergebnisse",
   "import.success": "Import erfolgreich abgeschlossen.",
-  "import.error": "Import fehlgeschlagen: {0}"
+  "import.error": "Import fehlgeschlagen: {0}",
+
+  "kanban.enter_task_name": "Aufgabenname eingeben",
+  "kanban.delete_task_title": "Aufgabe löschen",
+  "kanban.delete_task_confirm": "Sind Sie sicher, dass Sie diese Aufgabe löschen möchten?",
+  "kanban.add_board_title": "Board hinzufügen",
+  "kanban.board_name": "Board-Name",
+  "kanban.enter_board_name": "Board-Namen eingeben",
+  "kanban.rename_task": "Aufgabe umbenennen",
+  "kanban.delete_task": "Aufgabe löschen",
+  "kanban.rename_column": "Spalte umbenennen",
+  "kanban.add_task": "Aufgabe hinzufügen"
 }

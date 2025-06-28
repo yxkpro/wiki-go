@@ -196,5 +196,16 @@
   "import.importing": "İçe Aktarılıyor...",
   "import.results_title": "İçe Aktarma Sonuçları",
   "import.success": "İçe aktarma başarıyla tamamlandı.",
-  "import.error": "İçe aktarma başarısız oldu: {0}"
+  "import.error": "İçe aktarma başarısız oldu: {0}",
+
+  "kanban.enter_task_name": "Görev adını girin",
+  "kanban.delete_task_title": "Görevi Sil",
+  "kanban.delete_task_confirm": "Bu görevi silmek istediğinizden emin misiniz?",
+  "kanban.add_board_title": "Pano Ekle",
+  "kanban.board_name": "Pano Adı",
+  "kanban.enter_board_name": "Pano adını girin",
+  "kanban.rename_task": "Görevi yeniden adlandır",
+  "kanban.delete_task": "Görevi sil",
+  "kanban.rename_column": "Sütunu yeniden adlandır",
+  "kanban.add_task": "Görev ekle"
 }

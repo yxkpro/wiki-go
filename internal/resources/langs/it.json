@@ -196,5 +196,16 @@
   "import.importing": "Importazione in corso...",
   "import.results_title": "Risultati dell'importazione",
   "import.success": "Importazione completata con successo.",
-  "import.error": "Importazione fallita: {0}"
+  "import.error": "Importazione fallita: {0}",
+
+  "kanban.enter_task_name": "Inserisci il nome dell'attività",
+  "kanban.delete_task_title": "Elimina Attività",
+  "kanban.delete_task_confirm": "Sei sicuro di voler eliminare questa attività?",
+  "kanban.add_board_title": "Aggiungi Bacheca",
+  "kanban.board_name": "Nome Bacheca",
+  "kanban.enter_board_name": "Inserisci il nome della bacheca",
+  "kanban.rename_task": "Rinomina attività",
+  "kanban.delete_task": "Elimina attività",
+  "kanban.rename_column": "Rinomina colonna",
+  "kanban.add_task": "Aggiungi attività"
 }

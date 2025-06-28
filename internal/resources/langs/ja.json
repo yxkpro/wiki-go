@@ -196,5 +196,16 @@
   "import.importing": "インポート中...",
   "import.results_title": "インポート結果",
   "import.success": "インポートが正常に完了しました。",
-  "import.error": "インポートに失敗しました: {0}"
+  "import.error": "インポートに失敗しました: {0}",
+
+  "kanban.enter_task_name": "タスク名を入力してください",
+  "kanban.delete_task_title": "タスクを削除",
+  "kanban.delete_task_confirm": "このタスクを削除してもよろしいですか？",
+  "kanban.add_board_title": "ボードを追加",
+  "kanban.board_name": "ボード名",
+  "kanban.enter_board_name": "ボード名を入力してください",
+  "kanban.rename_task": "タスク名を変更",
+  "kanban.delete_task": "タスクを削除",
+  "kanban.rename_column": "列名を変更",
+  "kanban.add_task": "タスクを追加"
 }

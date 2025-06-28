@@ -429,8 +429,8 @@ class KanbanColumnManager {
    */
   createRenameButton() {
     const renameBtn = document.createElement('button');
-    renameBtn.className = 'rename-column-btn editor-admin-only';
-    renameBtn.title = 'Rename column';
+    renameBtn.className = 'column-action-btn column-rename-btn';
+    renameBtn.title = window.i18n ? window.i18n.t('kanban.rename_column') : 'Rename column';
     renameBtn.innerHTML = '<i class="fa fa-pencil"></i>';
 
     renameBtn.addEventListener('click', (e) => this.handleRenameColumnClick(e));
@@ -443,8 +443,8 @@ class KanbanColumnManager {
    */
   createAddTaskButton() {
     const addTaskBtn = document.createElement('button');
-    addTaskBtn.className = 'add-task-btn editor-admin-only';
-    addTaskBtn.title = 'Add task';
+    addTaskBtn.className = 'add-task-btn';
+    addTaskBtn.title = window.i18n ? window.i18n.t('kanban.add_task') : 'Add task';
     addTaskBtn.innerHTML = '<i class="fa fa-plus"></i>';
 
     addTaskBtn.addEventListener('click', (e) => this.handleAddTaskClick(e));

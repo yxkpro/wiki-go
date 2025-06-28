@@ -196,5 +196,16 @@
   "import.importing": "匯入中...",
   "import.results_title": "匯入結果",
   "import.success": "匯入成功完成。",
-  "import.error": "匯入失敗：{0}"
+  "import.error": "匯入失敗：{0}",
+
+  "kanban.enter_task_name": "輸入任務名稱",
+  "kanban.delete_task_title": "刪除任務",
+  "kanban.delete_task_confirm": "您確定要刪除此任務嗎？",
+  "kanban.add_board_title": "新增看板",
+  "kanban.board_name": "看板名稱",
+  "kanban.enter_board_name": "輸入看板名稱",
+  "kanban.rename_task": "重新命名任務",
+  "kanban.delete_task": "刪除任務",
+  "kanban.rename_column": "重新命名欄位",
+  "kanban.add_task": "新增任務"
 }

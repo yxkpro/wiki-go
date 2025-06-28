@@ -196,5 +196,16 @@
   "import.importing": "جارٍ الاستيراد...",
   "import.results_title": "نتائج الاستيراد",
   "import.success": "تم الاستيراد بنجاح.",
-  "import.error": "فشل الاستيراد: {0}"
+  "import.error": "فشل الاستيراد: {0}",
+
+  "kanban.enter_task_name": "أدخل اسم المهمة",
+  "kanban.delete_task_title": "حذف المهمة",
+  "kanban.delete_task_confirm": "هل أنت متأكد من رغبتك في حذف هذه المهمة؟",
+  "kanban.add_board_title": "إضافة لوحة",
+  "kanban.board_name": "اسم اللوحة",
+  "kanban.enter_board_name": "أدخل اسم اللوحة",
+  "kanban.rename_task": "إعادة تسمية المهمة",
+  "kanban.delete_task": "حذف المهمة",
+  "kanban.rename_column": "إعادة تسمية العمود",
+  "kanban.add_task": "إضافة مهمة"
 }

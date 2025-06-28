@@ -195,6 +195,17 @@
   "import.start_button": "Tuo",
   "import.importing": "Tuodaan...",
   "import.results_title": "Tuonnin tulokset",
-  "import.success": "Tuonti onnistui.",
-  "import.error": "Tuonti epäonnistui: {0}"
+  "import.success": "Tuonti suoritettu onnistuneesti.",
+  "import.error": "Tuonti epäonnistui: {0}",
+
+  "kanban.enter_task_name": "Syötä tehtävän nimi",
+  "kanban.delete_task_title": "Poista tehtävä",
+  "kanban.delete_task_confirm": "Oletko varma, että haluat poistaa tämän tehtävän?",
+  "kanban.add_board_title": "Lisää taulu",
+  "kanban.board_name": "Taulun nimi",
+  "kanban.enter_board_name": "Syötä taulun nimi",
+  "kanban.rename_task": "Nimeä tehtävä uudelleen",
+  "kanban.delete_task": "Poista tehtävä",
+  "kanban.rename_column": "Nimeä sarake uudelleen",
+  "kanban.add_task": "Lisää tehtävä"
 }

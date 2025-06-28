@@ -196,5 +196,16 @@
   "import.importing": "导入中...",
   "import.results_title": "导入结果",
   "import.success": "导入成功完成。",
-  "import.error": "导入失败：{0}"
+  "import.error": "导入失败：{0}",
+
+  "kanban.enter_task_name": "输入任务名称",
+  "kanban.delete_task_title": "删除任务",
+  "kanban.delete_task_confirm": "您确定要删除此任务吗？",
+  "kanban.add_board_title": "添加看板",
+  "kanban.board_name": "看板名称",
+  "kanban.enter_board_name": "输入看板名称",
+  "kanban.rename_task": "重命名任务",
+  "kanban.delete_task": "删除任务",
+  "kanban.rename_column": "重命名列",
+  "kanban.add_task": "添加任务"
 }

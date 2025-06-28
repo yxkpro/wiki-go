@@ -188,31 +188,123 @@ class KanbanPersistenceManager {
       this.collectOriginalFormatting(lines, frontmatterEndIndex, this.originalBoardHeaders, this.originalSectionHeaders, this.originalTaskFormatting);
     }
 
-    // Now build the updated markdown
-    let currentIndex = frontmatterEndIndex + 1;
+    // NEW APPROACH: Iterate through original markdown and replace kanban sections as we encounter them
+    const updatedLines = [];
+    const kanbanContainers = document.querySelectorAll('.kanban-container');
+    let containerIndex = 0;
 
-    // Skip non-kanban content at the beginning
-    while (currentIndex < lines.length && !lines[currentIndex].match(/^####\s+/)) {
-      currentIndex++;
+    let i = 0;
+
+    while (i < lines.length) {
+      const line = lines[i];
+
+      // Check if this is a board header (H4)
+      const boardMatch = line.match(/^####\s+(.+)$/);
+      if (boardMatch) {
+        const boardTitle = boardMatch[1].trim();
+
+        // Check if we have a corresponding kanban container in the DOM
+        const matchingContainer = this.findMatchingKanbanContainer(kanbanContainers, boardTitle, containerIndex);
+
+        if (matchingContainer) {
+          // Replace this kanban section with the updated version from the DOM
+          console.log(`Replacing kanban board: ${boardTitle}`);
+
+          // Process this kanban container and add its content
+          this.processKanbanContainer(matchingContainer.container, updatedLines, renamedColumns, boardNameCounts);
+
+          // Skip the original kanban content in the markdown
+          i = this.skipOriginalKanbanContent(lines, i);
+          containerIndex = matchingContainer.index + 1;
+        } else {
+          // This is a kanban board that no longer exists in the DOM, skip it
+          console.log(`Skipping removed kanban board: ${boardTitle}`);
+          i = this.skipOriginalKanbanContent(lines, i);
+        }
+      } else {
+        // This is not a kanban board header, preserve the line as-is
+        updatedLines.push(line);
+        i++;
+      }
     }
 
-    // Prepare the updated markdown
-    const updatedLines = lines.slice(0, currentIndex);
-
-    // Process each kanban container
-    const kanbanContainers = document.querySelectorAll('.kanban-container');
-    kanbanContainers.forEach((container, containerIndex) => {
-      console.log(`Processing kanban container ${containerIndex + 1}`);
-      this.processKanbanContainer(container, updatedLines, renamedColumns, boardNameCounts);
-    });
-
-    // Add any sections from the original that weren't processed
-    this.addRemainingOriginalSections(lines, currentIndex, updatedLines, renamedColumns);
+    // Add any remaining kanban containers that weren't found in the original markdown
+    // (these would be newly created boards)
+    for (let j = containerIndex; j < kanbanContainers.length; j++) {
+      console.log(`Adding new kanban container ${j + 1}`);
+      updatedLines.push(''); // Add empty line before new board
+      this.processKanbanContainer(kanbanContainers[j], updatedLines, renamedColumns, boardNameCounts);
+    }
 
     // Log the first few lines of the updated markdown for debugging
     console.log('Updated markdown first few lines:', updatedLines.slice(0, Math.min(10, updatedLines.length)).join('\n'));
 
     return updatedLines.join('\n');
+  }
+
+  /**
+   * Find a matching kanban container in the DOM for a given board title
+   */
+  findMatchingKanbanContainer(containers, boardTitle, startIndex) {
+    // First, try to find an exact match by title
+    for (let i = startIndex; i < containers.length; i++) {
+      const container = containers[i];
+      const boardTitleElement = container.querySelector('.kanban-board-title');
+      const containerBoardTitle = boardTitleElement ? boardTitleElement.textContent.trim() : '';
+
+      if (containerBoardTitle === boardTitle) {
+        return { container, index: i };
+      }
+    }
+
+    // If no exact match found and we're looking for a non-empty title, return null
+    if (boardTitle.trim() !== '') {
+      return null;
+    }
+
+    // If we're looking for an empty title (first board might not have a title),
+    // return the next available container without a title
+    for (let i = startIndex; i < containers.length; i++) {
+      const container = containers[i];
+      const boardTitleElement = container.querySelector('.kanban-board-title');
+      const containerBoardTitle = boardTitleElement ? boardTitleElement.textContent.trim() : '';
+
+      if (containerBoardTitle === '') {
+        return { container, index: i };
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Skip the original kanban content in the markdown starting from the board header
+   */
+  skipOriginalKanbanContent(lines, startIndex) {
+    let i = startIndex + 1; // Start after the board header
+
+    while (i < lines.length) {
+      const line = lines[i];
+
+      // If we encounter another H4 header, we've reached the next board or section
+      if (line.match(/^####\s+/)) {
+        break;
+      }
+
+      // If we encounter non-kanban content (not H5 header, not task, not empty line)
+      const isH5Header = line.match(/^#####\s+/);
+      const isTaskLine = line.match(/^\s*[-*+]\s+\[([ xX])\]\s+/);
+      const isEmpty = line.trim() === '';
+
+      if (!isH5Header && !isTaskLine && !isEmpty) {
+        // This is regular content after the kanban section, don't skip it
+        break;
+      }
+
+      i++;
+    }
+
+    return i;
   }
 
   /**
@@ -509,93 +601,6 @@ class KanbanPersistenceManager {
       .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links
       .replace(/`([^`]+)`/g, '$1')       // Remove code
       .trim();
-  }
-
-  /**
-   * Add remaining original sections that weren't processed
-   */
-  addRemainingOriginalSections(lines, startIndex, updatedLines, renamedColumns) {
-    let skipSection = false;
-    let skipBoard = false;
-    // Track original board names to handle duplicates
-    const originalBoardNameCounts = new Map();
-    const originalColumnNameCounts = new Map();
-
-    for (let i = startIndex; i < lines.length; i++) {
-      const line = lines[i];
-
-      // Check if this is a board header (H4)
-      const boardMatch = line.match(/^####\s+(.+)$/);
-      if (boardMatch) {
-        const boardText = boardMatch[1].trim();
-        const cleanBoard = this.cleanHeaderText(boardText);
-        const boardKey = cleanBoard.toLowerCase();
-
-        // Count occurrences of this board name in the original markdown
-        originalBoardNameCounts.set(boardKey, (originalBoardNameCounts.get(boardKey) || 0) + 1);
-
-        // Check if already processed
-        if (this.processedBoards.has(boardKey)) {
-          skipBoard = true;
-          skipSection = true;
-          continue;
-        } else {
-          skipBoard = false;
-          skipSection = false;
-        }
-      }
-
-      // Check if this is a column header (H5)
-      const headerMatch = line.match(/^#####\s+(.+)$/);
-      if (headerMatch) {
-        // Get clean header text
-        const headerText = headerMatch[1].trim();
-        const cleanHeader = this.cleanHeaderText(headerText)
-          .replace(/\s*\(\d+\)\s*$/, ''); // Remove any trailing (number) from duplicate columns
-
-        const headerKey = cleanHeader.toLowerCase();
-
-        // Count occurrences of this column name in the original markdown
-        originalColumnNameCounts.set(headerKey, (originalColumnNameCounts.get(headerKey) || 0) + 1);
-
-        // Create a unique key for this column instance
-        const originalKey = `${headerKey}-${originalColumnNameCounts.get(headerKey)}`;
-
-        // Check if already processed
-        if (this.processedHeaders.has(originalKey)) {
-          skipSection = true;
-          continue;
-        }
-
-        // Check if this column was renamed
-        if (renamedColumns.has(headerKey)) {
-          console.log(`Skipping original column "${cleanHeader}" because it was renamed to "${renamedColumns.get(headerKey)}"`);
-          skipSection = true;
-          continue;
-        } else {
-          skipSection = false;
-        }
-      } else {
-        // This is not a header line
-        // If we're currently skipping a section, check if this line indicates the end of that section
-        if (skipSection || skipBoard) {
-          // Check if this line is a task line (part of the kanban section we're skipping)
-          const isTaskLine = line.match(/^\s*[-*+]\s+\[([ xX])\]\s+/);
-          const isEmpty = line.trim() === '';
-
-          // If it's not a task line and not empty, this is regular content after the kanban section
-          if (!isTaskLine && !isEmpty && !line.match(/^#{4,5}\s+/)) {
-            skipSection = false; // Stop skipping, this is regular content
-            skipBoard = false;
-          }
-        }
-      }
-
-      // Add line if not skipping
-      if (!skipSection && !skipBoard) {
-        updatedLines.push(line);
-      }
-    }
   }
 
   /**

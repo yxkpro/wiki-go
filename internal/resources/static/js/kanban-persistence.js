@@ -175,20 +175,19 @@ class KanbanPersistenceManager {
       index > 0 && line.trim() === '---' && lines[0].trim() === '---'
     );
 
-    // Reset processed headers for this save operation
-    this.processedHeaders.clear();
+    // Reset processed boards for this save operation
     this.processedBoards.clear();
 
     // Get column information from the column manager
     const renamedColumns = this.core.columnManager ? this.core.columnManager.getRenamedColumns() : new Map();
-    const boardNameCounts = this.core.columnManager ? this.core.columnManager.getBoardNameCounts() : new Map();
+    const allBoardColumnCounts = this.core.columnManager ? this.core.columnManager.getAllBoardColumnCounts() : new Map();
 
     // Collect original formatting if not already cached
     if (this.originalSectionHeaders.size === 0) {
       this.collectOriginalFormatting(lines, frontmatterEndIndex, this.originalBoardHeaders, this.originalSectionHeaders, this.originalTaskFormatting);
     }
 
-    // NEW APPROACH: Iterate through original markdown and replace kanban sections as we encounter them
+    // Iterate through original markdown and replace kanban sections as we encounter them
     const updatedLines = [];
     const kanbanContainers = document.querySelectorAll('.kanban-container');
     let containerIndex = 0;
@@ -211,7 +210,7 @@ class KanbanPersistenceManager {
           console.log(`Replacing kanban board: ${boardTitle}`);
 
           // Process this kanban container and add its content
-          this.processKanbanContainer(matchingContainer.container, updatedLines, renamedColumns, boardNameCounts);
+          this.processKanbanContainer(matchingContainer.container, updatedLines, renamedColumns, allBoardColumnCounts);
 
           // Skip the original kanban content in the markdown
           i = this.skipOriginalKanbanContent(lines, i);
@@ -233,7 +232,7 @@ class KanbanPersistenceManager {
     for (let j = containerIndex; j < kanbanContainers.length; j++) {
       console.log(`Adding new kanban container ${j + 1}`);
       updatedLines.push(''); // Add empty line before new board
-      this.processKanbanContainer(kanbanContainers[j], updatedLines, renamedColumns, boardNameCounts);
+      this.processKanbanContainer(kanbanContainers[j], updatedLines, renamedColumns, allBoardColumnCounts);
     }
 
     // Log the first few lines of the updated markdown for debugging
@@ -310,9 +309,12 @@ class KanbanPersistenceManager {
   /**
    * Process a single kanban container
    */
-  processKanbanContainer(container, updatedLines, renamedColumns, boardNameCounts) {
-    // Reset processed headers for each kanban container to allow duplicate column names across boards
-    this.processedHeaders.clear();
+  processKanbanContainer(container, updatedLines, renamedColumns, allBoardColumnCounts) {
+    // Get or create board ID
+    const boardId = this.getBoardId(container);
+
+    // Reset processed headers for this specific board
+    const boardProcessedHeaders = new Set();
 
     // Get board title if it exists
     const boardTitleElement = container.querySelector('.kanban-board-title');
@@ -337,10 +339,13 @@ class KanbanPersistenceManager {
       updatedLines.push(''); // Add empty line after board title
     }
 
+    // Get board-specific column counts
+    const boardColumnCounts = allBoardColumnCounts.get(boardId) || new Map();
+
     // Process each column in this container
     const columns = container.querySelectorAll('.kanban-column');
     columns.forEach((column, columnIndex) => {
-      this.processKanbanColumn(column, updatedLines, renamedColumns, boardNameCounts);
+      this.processKanbanColumn(column, updatedLines, renamedColumns, boardColumnCounts, boardProcessedHeaders, boardId);
     });
 
     // Add empty line after each board
@@ -348,9 +353,23 @@ class KanbanPersistenceManager {
   }
 
   /**
+   * Get or create board ID for a kanban container
+   */
+  getBoardId(container) {
+    let boardId = container.getAttribute('data-board-id');
+    if (!boardId) {
+      const boardTitle = container.querySelector('.kanban-board-title');
+      const title = boardTitle ? boardTitle.textContent.trim() : '';
+      boardId = title || `board-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      container.setAttribute('data-board-id', boardId);
+    }
+    return boardId;
+  }
+
+  /**
    * Process a single kanban column
    */
-  processKanbanColumn(column, updatedLines, renamedColumns, boardNameCounts) {
+  processKanbanColumn(column, updatedLines, renamedColumns, boardColumnCounts, boardProcessedHeaders, boardId) {
     // Get the column header text without status indicators
     const header = column.querySelector('.kanban-column-header');
     if (!header) return;
@@ -362,36 +381,56 @@ class KanbanPersistenceManager {
     // Clean up any status indicators
     headerText = this.cleanHeaderText(headerText);
 
-    console.log(`Processing column: ${headerText}`);
+    console.log(`Processing column: ${headerText} in board: ${boardId}`);
 
     // Check if this column was renamed
     const originalTitle = header.getAttribute('data-original-title');
     if (originalTitle && originalTitle !== headerText) {
       console.log(`Column was renamed from "${originalTitle}" to "${headerText}"`);
-      // Mark the original title as processed to avoid duplication
-      this.processedHeaders.add(originalTitle.toLowerCase());
+      // Mark the original title as processed for this board only
+      boardProcessedHeaders.add(`${originalTitle.toLowerCase()}-1`);
     }
 
-    // Handle duplicate column names
+    // Handle duplicate column names within this board
     const headerKey = headerText.toLowerCase();
-    const currentCount = boardNameCounts.get(headerKey) || 1;
 
-    // Create unique markdown header for duplicates
+    // Count how many times this column name appears in this board
+    let currentCount = 1;
+    const allColumnsInBoard = column.closest('.kanban-container').querySelectorAll('.kanban-column');
+    let foundSelf = false;
+
+    allColumnsInBoard.forEach(col => {
+      const colHeader = col.querySelector('.column-title');
+      if (colHeader) {
+        const colText = this.cleanHeaderText(colHeader.textContent.trim()).toLowerCase();
+        if (colText === headerKey) {
+          if (col === column) {
+            foundSelf = true;
+          } else if (!foundSelf) {
+            currentCount++;
+          }
+        }
+      }
+    });
+
+    // Create unique markdown header for duplicates within this board
     let markdownHeaderText = headerText;
     if (currentCount > 1) {
       markdownHeaderText = `${headerText} (${currentCount})`;
-      console.log(`Handling duplicate column name: "${headerText}" -> "${markdownHeaderText}"`);
+      console.log(`Handling duplicate column name in board ${boardId}: "${headerText}" -> "${markdownHeaderText}"`);
     }
 
-    // Skip if already processed
+    // Create board-specific processed key
     const processedKey = `${headerKey}-${currentCount}`;
-    if (this.processedHeaders.has(processedKey)) {
-      console.log(`Column ${headerText} already processed, skipping`);
+
+    // Skip if already processed in this board
+    if (boardProcessedHeaders.has(processedKey)) {
+      console.log(`Column ${headerText} (${currentCount}) already processed in board ${boardId}, skipping`);
       return;
     }
 
-    // Mark as processed
-    this.processedHeaders.add(processedKey);
+    // Mark as processed for this board
+    boardProcessedHeaders.add(processedKey);
 
     // Use original header format if available, otherwise use our generated one
     const originalHeader = this.originalSectionHeaders.get(headerKey) || markdownHeaderText;

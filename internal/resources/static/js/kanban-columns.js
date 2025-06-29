@@ -7,8 +7,9 @@ class KanbanColumnManager {
     // Track renamed columns to avoid duplicates
     this.renamedColumns = new Map();
 
-    // Track board names to handle duplicates
-    this.boardNameCounts = new Map();
+    // Track board names per board (not globally)
+    // Structure: Map<boardId, Map<columnName, count>>
+    this.boardColumnCounts = new Map();
 
     // Dialog elements for adding new boards
     this.addBoardDialog = null;
@@ -428,8 +429,11 @@ class KanbanColumnManager {
       kanbanBoard.appendChild(newColumn);
 
       // Update board name counts for tracking
+      const container = kanbanBoard.closest('.kanban-container');
+      const boardId = this.getBoardId(container);
+      const boardCounts = this.getBoardColumnCounts(boardId);
       const headerKey = boardName.toLowerCase();
-      this.boardNameCounts.set(headerKey, (this.boardNameCounts.get(headerKey) || 0) + 1);
+      boardCounts.set(headerKey, (boardCounts.get(headerKey) || 0) + 1);
 
       // Setup the new column's functionality
       this.setupNewColumnFunctionality(newColumn);
@@ -684,15 +688,42 @@ class KanbanColumnManager {
   /**
    * Get board name counts for duplicate handling
    */
-  getBoardNameCounts() {
-    return new Map(this.boardNameCounts);
+  getBoardColumnCounts(boardId) {
+    if (!this.boardColumnCounts.has(boardId)) {
+      this.boardColumnCounts.set(boardId, new Map());
+    }
+    return this.boardColumnCounts.get(boardId);
   }
 
   /**
-   * Update board name counts
+   * Update column count for a specific board
    */
-  updateBoardNameCounts(counts) {
-    this.boardNameCounts = new Map(counts);
+  updateColumnCount(boardId, columnName) {
+    const boardCounts = this.getBoardColumnCounts(boardId);
+    const currentCount = boardCounts.get(columnName.toLowerCase()) || 0;
+    boardCounts.set(columnName.toLowerCase(), currentCount + 1);
+    return currentCount + 1;
+  }
+
+  /**
+   * Get all board column counts (for persistence manager)
+   */
+  getAllBoardColumnCounts() {
+    return new Map(this.boardColumnCounts);
+  }
+
+  /**
+   * Get or create board ID for a kanban container
+   */
+  getBoardId(container) {
+    let boardId = container.getAttribute('data-board-id');
+    if (!boardId) {
+      const boardTitle = container.querySelector('.kanban-board-title');
+      const title = boardTitle ? boardTitle.textContent.trim() : '';
+      boardId = title || `board-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      container.setAttribute('data-board-id', boardId);
+    }
+    return boardId;
   }
 
   /**
@@ -719,7 +750,7 @@ class KanbanColumnManager {
 
     // Clear tracking maps
     this.renamedColumns.clear();
-    this.boardNameCounts.clear();
+    this.boardColumnCounts.clear();
 
     // Remove dialog references
     this.addBoardDialog = null;

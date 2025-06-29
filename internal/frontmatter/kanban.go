@@ -101,9 +101,15 @@ func RenderKanbanBasic(content string) string {
 	}
 
 	// Render each kanban board
-	for _, board := range boards {
-		// Add kanban-container class to make it selectable by the drag-and-drop script
-		html.WriteString(`<div class="kanban-container">`)
+	for boardIndex, board := range boards {
+		// Generate a unique board ID
+		boardId := fmt.Sprintf("board-%d", boardIndex)
+		if board.Title != "" {
+			boardId = fmt.Sprintf("board-%s-%d", strings.ToLower(strings.ReplaceAll(board.Title, " ", "-")), boardIndex)
+		}
+
+		// Add kanban-container class with board ID
+		html.WriteString(fmt.Sprintf(`<div class="kanban-container" data-board-id="%s">`, boardId))
 
 		// Add board title if it exists
 		if board.Title != "" {
@@ -357,6 +363,7 @@ func restoreKanbanBoards(htmlContent string, preprocessors []PreprocessorFunc) s
 	// Process the HTML content to find placeholders and build kanban structure
 	lines := strings.Split(htmlContent, "\n")
 	var finalHTML strings.Builder
+	boardIndex := 0
 
 	for _, line := range lines {
 		// Check if this line contains a kanban board placeholder
@@ -367,6 +374,13 @@ func restoreKanbanBoards(htmlContent string, preprocessors []PreprocessorFunc) s
 			if len(matches) > 1 {
 				id := matches[1]
 				if board, exists := kanbanBoards[id]; exists {
+					// Generate a unique board ID
+					boardId := fmt.Sprintf("board-%d", boardIndex)
+					if board.Title != "" {
+						boardId = fmt.Sprintf("board-%s-%d", strings.ToLower(strings.ReplaceAll(board.Title, " ", "-")), boardIndex)
+					}
+					boardIndex++
+
 					// Process task text with full goldext support for all columns
 					var processedColumns []KanbanColumn
 					for _, column := range board.Columns {
@@ -386,8 +400,8 @@ func restoreKanbanBoards(htmlContent string, preprocessors []PreprocessorFunc) s
 						})
 					}
 
-					// Build kanban board HTML
-					finalHTML.WriteString(`<div class="kanban-container">`)
+					// Build kanban board HTML with board ID
+					finalHTML.WriteString(fmt.Sprintf(`<div class="kanban-container" data-board-id="%s">`, boardId))
 
 					// Add board title if it exists
 					if board.Title != "" {

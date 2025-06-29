@@ -25,6 +25,9 @@ class KanbanColumnManager {
     // Setup rename column buttons
     this.setupRenameColumnButtons();
 
+    // Setup delete column buttons
+    this.setupDeleteColumnButtons();
+
     // Setup add board functionality
     this.setupAddBoardButton();
 
@@ -51,6 +54,22 @@ class KanbanColumnManager {
   }
 
   /**
+   * Setup delete column buttons for all columns
+   */
+  setupDeleteColumnButtons() {
+    const deleteButtons = document.querySelectorAll('.delete-column-btn');
+    console.log('Delete column buttons found:', deleteButtons.length);
+
+    deleteButtons.forEach(button => {
+      // Remove any existing event listeners to prevent duplicates
+      const newButton = button.cloneNode(true);
+      button.parentNode.replaceChild(newButton, button);
+
+      newButton.addEventListener('click', (e) => this.handleDeleteColumnClick(e));
+    });
+  }
+
+  /**
    * Handle rename column button click
    */
   handleRenameColumnClick(e) {
@@ -63,6 +82,70 @@ class KanbanColumnManager {
     if (!columnTitle) return;
 
     this.startColumnRename(columnHeader, columnTitle);
+  }
+
+  /**
+   * Handle delete column button click
+   */
+  handleDeleteColumnClick(e) {
+    e.preventDefault();
+
+    // Find the column and its title
+    const column = e.target.closest('.kanban-column');
+    const columnHeader = column.querySelector('.kanban-column-header');
+    const columnTitle = columnHeader.querySelector('.column-title');
+
+    if (!column || !columnTitle) return;
+
+    const columnName = columnTitle.textContent.trim();
+    this.showDeleteColumnConfirmation(column, columnName);
+  }
+
+  /**
+   * Show confirmation dialog for column deletion
+   */
+  showDeleteColumnConfirmation(column, columnName) {
+    const taskCount = column.querySelectorAll('.task-list-item-container').length;
+    let title = window.i18n ? window.i18n.t('kanban.delete_column_title') : 'Delete Column';
+    let message = window.i18n ?
+      window.i18n.t('kanban.delete_column_confirm').replace('{0}', columnName) :
+      `Are you sure you want to delete the column "${columnName}"?`;
+
+    if (taskCount > 0) {
+      message += `\n\nThis column contains ${taskCount} task${taskCount === 1 ? '' : 's'} that will be permanently deleted.`;
+    }
+
+    // Use the DialogSystem for consistent UI
+    if (window.DialogSystem && window.DialogSystem.showConfirmDialog) {
+      window.DialogSystem.showConfirmDialog(title, message, (confirmed) => {
+        if (confirmed) {
+          this.deleteColumn(column, columnName);
+        }
+      });
+    } else {
+      // Fallback to browser confirm if DialogSystem is not available
+      if (confirm(`${title}\n\n${message}`)) {
+        this.deleteColumn(column, columnName);
+      }
+    }
+  }
+
+  /**
+   * Delete the specified column
+   */
+  deleteColumn(column, columnName) {
+    console.log(`Deleting column: ${columnName}`);
+
+    // Remove the column from the DOM
+    column.remove();
+
+    // Save changes through the core
+    const persistenceManager = this.core.getPersistenceManager();
+    if (persistenceManager) {
+      persistenceManager.saveKanbanChanges();
+    }
+
+    console.log(`Column "${columnName}" deleted successfully`);
   }
 
   /**
@@ -415,11 +498,15 @@ class KanbanColumnManager {
     // Create add task button
     const addTaskBtn = this.createAddTaskButton();
 
+    // Create delete button
+    const deleteBtn = this.createDeleteButton();
+
     // Assemble column header
     columnHeader.appendChild(columnTitle);
     columnHeader.appendChild(statusContainer);
     columnHeader.appendChild(renameBtn);
     columnHeader.appendChild(addTaskBtn);
+    columnHeader.appendChild(deleteBtn);
 
     return columnHeader;
   }
@@ -450,6 +537,20 @@ class KanbanColumnManager {
     addTaskBtn.addEventListener('click', (e) => this.handleAddTaskClick(e));
 
     return addTaskBtn;
+  }
+
+  /**
+   * Create delete button for a column
+   */
+  createDeleteButton() {
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-column-btn editor-admin-only';
+    deleteBtn.title = window.i18n ? window.i18n.t('kanban.delete_column') : 'Delete column';
+    deleteBtn.innerHTML = '<i class="fa fa-trash"></i>';
+
+    deleteBtn.addEventListener('click', (e) => this.handleDeleteColumnClick(e));
+
+    return deleteBtn;
   }
 
   /**
@@ -602,6 +703,9 @@ class KanbanColumnManager {
 
     // Re-setup rename buttons for any new columns
     this.setupRenameColumnButtons();
+
+    // Re-setup delete buttons for any new columns
+    this.setupDeleteColumnButtons();
 
     // Re-setup add board button
     this.setupAddBoardButton();

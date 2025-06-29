@@ -207,5 +207,7 @@
   "kanban.rename_task": "Rename task",
   "kanban.delete_task": "Delete task",
   "kanban.rename_column": "Rename column",
-  "kanban.add_task": "Add task"
+  "kanban.add_task": "Add task",
+  "kanban.delete_column_title": "Delete Column",
+  "kanban.delete_column_confirm": "Are you sure you want to delete the column \"{0}\"?"
 }

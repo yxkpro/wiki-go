@@ -119,6 +119,7 @@ func RenderKanbanBasic(content string) string {
 					<span class="kanban-status-container"></span>
 					<button class="rename-column-btn editor-admin-only" title="Rename column"><i class="fa fa-pencil"></i></button>
 					<button class="add-task-btn editor-admin-only" title="Add task"><i class="fa fa-plus"></i></button>
+					<button class="delete-column-btn editor-admin-only" title="Delete column"><i class="fa fa-trash"></i></button>
 				</div>
 				<div class="kanban-column-content">`, column.Title))
 
@@ -402,6 +403,7 @@ func restoreKanbanBoards(htmlContent string, preprocessors []PreprocessorFunc) s
 								<span class="kanban-status-container"></span>
 								<button class="rename-column-btn editor-admin-only" title="Rename column"><i class="fa fa-pencil"></i></button>
 								<button class="add-task-btn editor-admin-only" title="Add task"><i class="fa fa-plus"></i></button>
+								<button class="delete-column-btn editor-admin-only" title="Delete column"><i class="fa fa-trash"></i></button>
 							</div>
 							<div class="kanban-column-content">`, column.Title))
 

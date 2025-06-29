@@ -429,7 +429,7 @@ class KanbanColumnManager {
    */
   createRenameButton() {
     const renameBtn = document.createElement('button');
-    renameBtn.className = 'column-action-btn column-rename-btn';
+    renameBtn.className = 'rename-column-btn editor-admin-only';
     renameBtn.title = window.i18n ? window.i18n.t('kanban.rename_column') : 'Rename column';
     renameBtn.innerHTML = '<i class="fa fa-pencil"></i>';
 

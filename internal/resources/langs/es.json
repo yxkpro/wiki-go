@@ -207,5 +207,7 @@
   "kanban.rename_task": "Renombrar tarea",
   "kanban.delete_task": "Eliminar tarea",
   "kanban.rename_column": "Renombrar columna",
-  "kanban.add_task": "Agregar tarea"
+  "kanban.add_task": "Agregar tarea",
+  "kanban.delete_column_title": "Eliminar Columna",
+  "kanban.delete_column_confirm": "¿Está seguro de que desea eliminar la columna \"{0}\"?"
 }

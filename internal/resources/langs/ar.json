@@ -207,5 +207,7 @@
   "kanban.rename_task": "إعادة تسمية المهمة",
   "kanban.delete_task": "حذف المهمة",
   "kanban.rename_column": "إعادة تسمية العمود",
-  "kanban.add_task": "إضافة مهمة"
+  "kanban.add_task": "إضافة مهمة",
+  "kanban.delete_column_title": "حذف العمود",
+  "kanban.delete_column_confirm": "هل أنت متأكد من رغبتك في حذف العمود \"{0}\"؟"
 }

@@ -207,5 +207,7 @@
   "kanban.rename_task": "تغییر نام وظیفه",
   "kanban.delete_task": "حذف وظیفه",
   "kanban.rename_column": "تغییر نام ستون",
-  "kanban.add_task": "افزودن وظیفه"
+  "kanban.add_task": "افزودن وظیفه",
+  "kanban.delete_column_title": "حذف ستون",
+  "kanban.delete_column_confirm": "آیا مطمئن هستید که می‌خواهید ستون \"{0}\" را حذف کنید؟"
 }

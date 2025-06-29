@@ -207,5 +207,7 @@
   "kanban.rename_task": "Görevi yeniden adlandır",
   "kanban.delete_task": "Görevi sil",
   "kanban.rename_column": "Sütunu yeniden adlandır",
-  "kanban.add_task": "Görev ekle"
+  "kanban.add_task": "Görev ekle",
+  "kanban.delete_column_title": "Sütunu Sil",
+  "kanban.delete_column_confirm": "Sütun \"{0}\" silmek istediğinizden emin misiniz?"
 }

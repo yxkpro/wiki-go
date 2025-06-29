@@ -207,5 +207,7 @@
   "kanban.rename_task": "Переименовать задачу",
   "kanban.delete_task": "Удалить задачу",
   "kanban.rename_column": "Переименовать колонку",
-  "kanban.add_task": "Добавить задачу"
+  "kanban.add_task": "Добавить задачу",
+  "kanban.delete_column_title": "Удалить колонку",
+  "kanban.delete_column_confirm": "Вы уверены, что хотите удалить колонку \"{0}\"?"
 }

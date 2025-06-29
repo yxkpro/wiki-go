@@ -207,5 +207,7 @@
   "kanban.rename_task": "重命名任务",
   "kanban.delete_task": "删除任务",
   "kanban.rename_column": "重命名列",
-  "kanban.add_task": "添加任务"
+  "kanban.add_task": "添加任务",
+  "kanban.delete_column_title": "删除列",
+  "kanban.delete_column_confirm": "您确定要删除列 \"{0}\" 吗？"
 }

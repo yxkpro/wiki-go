@@ -207,5 +207,7 @@
   "kanban.rename_task": "שנה שם משימה",
   "kanban.delete_task": "מחק משימה",
   "kanban.rename_column": "שנה שם עמודה",
-  "kanban.add_task": "הוסף משימה"
+  "kanban.add_task": "הוסף משימה",
+  "kanban.delete_column_title": "מחק עמודה",
+  "kanban.delete_column_confirm": "האם אתה בטוח שברצונך למחוק את העמודה \"{0}\"?"
 }

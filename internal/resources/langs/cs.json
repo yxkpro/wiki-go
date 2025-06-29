@@ -207,5 +207,7 @@
   "kanban.rename_task": "Přejmenovat úkol",
   "kanban.delete_task": "Smazat úkol",
   "kanban.rename_column": "Přejmenovat sloupec",
-  "kanban.add_task": "Přidat úkol"
+  "kanban.add_task": "Přidat úkol",
+  "kanban.delete_column_title": "Smazat sloupec",
+  "kanban.delete_column_confirm": "Opravdu chcete smazat sloupec \"{0}\"?"
 }

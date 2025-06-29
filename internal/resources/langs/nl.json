@@ -207,5 +207,7 @@
   "kanban.rename_task": "Taak hernoemen",
   "kanban.delete_task": "Taak verwijderen",
   "kanban.rename_column": "Kolom hernoemen",
-  "kanban.add_task": "Taak toevoegen"
+  "kanban.add_task": "Taak toevoegen",
+  "kanban.delete_column_title": "Kolom verwijderen",
+  "kanban.delete_column_confirm": "Weet je zeker dat je de kolom \"{0}\" wilt verwijderen?"
 }

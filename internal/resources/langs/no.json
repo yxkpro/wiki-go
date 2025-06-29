@@ -207,5 +207,7 @@
   "kanban.rename_task": "Gi nytt navn til oppgave",
   "kanban.delete_task": "Slett oppgave",
   "kanban.rename_column": "Gi nytt navn til kolonne",
-  "kanban.add_task": "Legg til oppgave"
+  "kanban.add_task": "Legg til oppgave",
+  "kanban.delete_column_title": "Slett kolonne",
+  "kanban.delete_column_confirm": "Er du sikker på at du vil slette kolonnen \"{0}\"?"
 }

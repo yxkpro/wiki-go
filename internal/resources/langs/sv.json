@@ -207,5 +207,7 @@
   "kanban.rename_task": "Byt namn på uppgift",
   "kanban.delete_task": "Ta bort uppgift",
   "kanban.rename_column": "Byt namn på kolumn",
-  "kanban.add_task": "Lägg till uppgift"
+  "kanban.add_task": "Lägg till uppgift",
+  "kanban.delete_column_title": "Ta bort kolumn",
+  "kanban.delete_column_confirm": "Är du säker på att du vill ta bort kolumnen \"{0}\"?"
 }

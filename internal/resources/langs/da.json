@@ -146,6 +146,9 @@
   "new_doc.create_button": "Opret",
   "new_doc.cancel_button": "Annuller",
   "new_doc.already_exists": "Dokumentet findes allerede",
+  "new_doc.document_type": "Dokumenttype",
+  "new_doc.type_markdown": "Markdown: Traditionelle tekstdokumenter",
+  "new_doc.type_kanban": "Kanban: Visuelle opgave boards",
 
   "dialog.confirm_delete": "Er du sikker på, at du vil slette dette?",
   "dialog.confirm_action": "Er du sikker på, at du vil fortsætte?",

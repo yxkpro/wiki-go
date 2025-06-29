@@ -146,6 +146,9 @@
   "new_doc.create_button": "创建",
   "new_doc.cancel_button": "取消",
   "new_doc.already_exists": "文档已存在",
+  "new_doc.document_type": "文档类型",
+  "new_doc.type_markdown": "Markdown: 传统文本文档",
+  "new_doc.type_kanban": "Kanban: 可视化任务看板",
 
   "dialog.confirm_delete": "您确定要删除这个吗？",
   "dialog.confirm_action": "您确定要继续吗？",

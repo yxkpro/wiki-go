@@ -78,19 +78,19 @@ func SourceHandler(w http.ResponseWriter, r *http.Request) {
 				if dirName == "" || dirName == "." {
 					dirName = "Home"
 				}
-				
+
 				// Format the directory name for display (replace dashes with spaces, capitalize)
 				formattedName := utils.FormatDirName(dirName)
-				
+
 				// Create default content
 				defaultContent := fmt.Sprintf("# %s\n\nEnter content here", formattedName)
-				
+
 				// Set content type and write response
 				w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 				w.Write([]byte(defaultContent))
 				return
 			}
-			
+
 			w.WriteHeader(http.StatusNotFound)
 			json.NewEncoder(w).Encode(map[string]interface{}{
 				"success": false,
@@ -114,7 +114,7 @@ func SourceHandler(w http.ResponseWriter, r *http.Request) {
 // SaveHandler handles requests to save the markdown content of a page
 func SaveHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	
+
 	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		json.NewEncoder(w).Encode(map[string]interface{}{
@@ -232,6 +232,7 @@ func SaveHandler(w http.ResponseWriter, r *http.Request) {
 type CreateDocumentRequest struct {
 	Title string `json:"title"`
 	Path  string `json:"path"`
+	Type  string `json:"type"`
 }
 
 // CreateDocumentResponse represents the JSON response after creating a document
@@ -324,7 +325,13 @@ func CreateDocumentHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create the file content with the title as H1
-	content := fmt.Sprintf("# %s\n\nEnter content here", req.Title)
+	var content string
+	if req.Type == "kanban" {
+		content = fmt.Sprintf("---\nlayout: kanban\n---\n\n# %s\n\nEnter content here.\n\n#### Kanban Title\n\n##### Todo\n- [ ] Task 1\n\n##### In Progress\n\n##### Done", req.Title)
+	} else {
+		// Default to markdown
+		content = fmt.Sprintf("# %s\n\nEnter content here.", req.Title)
+	}
 
 	// Write to the file
 	err = os.WriteFile(docFile, []byte(content), 0644)

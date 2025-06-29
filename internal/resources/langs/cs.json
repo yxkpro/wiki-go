@@ -146,6 +146,9 @@
   "new_doc.create_button": "Vytvořit",
   "new_doc.cancel_button": "Zrušit",
   "new_doc.already_exists": "Dokument již existuje",
+  "new_doc.document_type": "Typ dokumentu",
+  "new_doc.type_markdown": "Markdown: Tradiční textové dokumenty",
+  "new_doc.type_kanban": "Kanban: Vizuální tabule úkolů",
 
   "dialog.confirm_delete": "Opravdu chcete toto smazat?",
   "dialog.confirm_action": "Opravdu chcete pokračovat?",

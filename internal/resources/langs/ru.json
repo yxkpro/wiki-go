@@ -146,6 +146,9 @@
   "new_doc.create_button": "Создать",
   "new_doc.cancel_button": "Отмена",
   "new_doc.already_exists": "Документ уже существует",
+  "new_doc.document_type": "Тип документа",
+  "new_doc.type_markdown": "Markdown: Традиционные текстовые документы",
+  "new_doc.type_kanban": "Kanban: Визуальные доски задач",
 
   "dialog.confirm_delete": "Вы уверены, что хотите удалить это?",
   "dialog.confirm_action": "Вы уверены, что хотите продолжить?",

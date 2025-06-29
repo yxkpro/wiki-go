@@ -146,6 +146,9 @@
   "new_doc.create_button": "Skapa",
   "new_doc.cancel_button": "Avbryt",
   "new_doc.already_exists": "Dokumentet finns redan",
+  "new_doc.document_type": "Dokumenttyp",
+  "new_doc.type_markdown": "Markdown: Traditionella textdokument",
+  "new_doc.type_kanban": "Kanban: Visuella uppgiftstavlor",
 
   "dialog.confirm_delete": "Är du säker på att du vill ta bort detta?",
   "dialog.confirm_action": "Är du säker på att du vill fortsätta?",

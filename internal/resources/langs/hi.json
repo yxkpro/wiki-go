@@ -146,6 +146,9 @@
   "new_doc.create_button": "बनाएं",
   "new_doc.cancel_button": "रद्द करें",
   "new_doc.already_exists": "दस्तावेज़ पहले से मौजूद है",
+  "new_doc.document_type": "दस्तावेज़ प्रकार",
+  "new_doc.type_markdown": "Markdown: पारंपरिक पाठ दस्तावेज़",
+  "new_doc.type_kanban": "Kanban: दृश्य कार्य बोर्ड",
 
   "dialog.confirm_delete": "क्या आप वाकई इसे हटाना चाहते हैं?",
   "dialog.confirm_action": "क्या आप वाकई आगे बढ़ना चाहते हैं?",

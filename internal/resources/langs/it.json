@@ -146,6 +146,9 @@
   "new_doc.create_button": "Crea",
   "new_doc.cancel_button": "Annulla",
   "new_doc.already_exists": "Il documento esiste già",
+  "new_doc.document_type": "Tipo di documento",
+  "new_doc.type_markdown": "Markdown: Documenti di testo tradizionali",
+  "new_doc.type_kanban": "Kanban: Bacheche di attività visive",
 
   "dialog.confirm_delete": "Sei sicuro di voler eliminare questo?",
   "dialog.confirm_action": "Sei sicuro di voler procedere?",

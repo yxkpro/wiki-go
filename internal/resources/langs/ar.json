@@ -146,6 +146,9 @@
   "new_doc.create_button": "إنشاء",
   "new_doc.cancel_button": "إلغاء",
   "new_doc.already_exists": "المستند موجود بالفعل",
+  "new_doc.document_type": "نوع المستند",
+  "new_doc.type_markdown": "Markdown: مستندات نصية تقليدية",
+  "new_doc.type_kanban": "Kanban: لوحات مهام مرئية",
 
   "dialog.confirm_delete": "هل أنت متأكد من رغبتك في حذف هذا؟",
   "dialog.confirm_action": "هل أنت متأكد من رغبتك في المتابعة؟",

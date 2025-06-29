@@ -12,6 +12,7 @@
     let docTitleInput;
     let docPathInput;
     let docSlugInput;
+    let docTypeInput;
     let newDocErrorMessage;
 
     let deleteButton;
@@ -30,6 +31,7 @@
         docTitleInput = document.getElementById('docTitle');
         docPathInput = document.getElementById('docPath');
         docSlugInput = document.getElementById('docSlug');
+        docTypeInput = document.getElementById('docType');
         newDocErrorMessage = newDocDialog?.querySelector('.error-message');
 
         // Delete Document functionality
@@ -101,6 +103,7 @@
                 const title = docTitleInput.value.trim();
                 let path = docPathInput.value.trim();
                 let slug = docSlugInput.value.trim();
+                const type = docTypeInput.value;
 
                 // Validate - only title is required
                 if (!title) {
@@ -131,7 +134,8 @@
                         },
                         body: JSON.stringify({
                             title: title,
-                            path: fullPath
+                            path: fullPath,
+                            type: type
                         })
                     });
 

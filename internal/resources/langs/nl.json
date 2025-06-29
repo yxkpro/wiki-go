@@ -146,6 +146,9 @@
   "new_doc.create_button": "Aanmaken",
   "new_doc.cancel_button": "Annuleren",
   "new_doc.already_exists": "Document bestaat al",
+  "new_doc.document_type": "Documenttype",
+  "new_doc.type_markdown": "Markdown: Traditionele tekstdocumenten",
+  "new_doc.type_kanban": "Kanban: Visuele taakborden",
 
   "dialog.confirm_delete": "Weet je zeker dat je dit wilt verwijderen?",
   "dialog.confirm_action": "Weet je zeker dat je wilt doorgaan?",

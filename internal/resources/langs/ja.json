@@ -146,6 +146,9 @@
   "new_doc.create_button": "作成",
   "new_doc.cancel_button": "キャンセル",
   "new_doc.already_exists": "文書は既に存在します",
+  "new_doc.document_type": "ドキュメントタイプ",
+  "new_doc.type_markdown": "Markdown: 従来のテキストドキュメント",
+  "new_doc.type_kanban": "Kanban: ビジュアルタスクボード",
 
   "dialog.confirm_delete": "これを削除してもよろしいですか？",
   "dialog.confirm_action": "続行してもよろしいですか？",

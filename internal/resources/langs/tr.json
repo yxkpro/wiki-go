@@ -146,6 +146,9 @@
   "new_doc.create_button": "Oluştur",
   "new_doc.cancel_button": "İptal",
   "new_doc.already_exists": "Belge zaten mevcut",
+  "new_doc.document_type": "Belge türü",
+  "new_doc.type_markdown": "Markdown: Geleneksel metin belgeleri",
+  "new_doc.type_kanban": "Kanban: Görsel görev panoları",
 
   "dialog.confirm_delete": "Bunu silmek istediğinizden emin misiniz?",
   "dialog.confirm_action": "Devam etmek istediğinizden emin misiniz?",

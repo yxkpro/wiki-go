@@ -146,6 +146,9 @@
   "new_doc.create_button": "Luo",
   "new_doc.cancel_button": "Peruuta",
   "new_doc.already_exists": "Dokumentti on jo olemassa",
+  "new_doc.document_type": "Dokumentin tyyppi",
+  "new_doc.type_markdown": "Markdown: Perinteiset tekstidokumentit",
+  "new_doc.type_kanban": "Kanban: Visuaaliset tehtävätaulut",
 
   "dialog.confirm_delete": "Haluatko varmasti poistaa tämän?",
   "dialog.confirm_action": "Haluatko varmasti jatkaa?",

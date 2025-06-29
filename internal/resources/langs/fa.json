@@ -146,6 +146,9 @@
   "new_doc.create_button": "ایجاد",
   "new_doc.cancel_button": "لغو",
   "new_doc.already_exists": "سند از قبل وجود دارد",
+  "new_doc.document_type": "نوع سند",
+  "new_doc.type_markdown": "Markdown: اسناد متنی سنتی",
+  "new_doc.type_kanban": "Kanban: تابلوهای بصری وظایف",
 
   "dialog.confirm_delete": "آیا مطمئن هستید که می‌خواهید این را حذف کنید؟",
   "dialog.confirm_action": "آیا مطمئن هستید که می‌خواهید ادامه دهید؟",

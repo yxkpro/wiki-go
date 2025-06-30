@@ -1,0 +1,21 @@
+{{define "add-board-dialog"}}
+<!-- Add Board Dialog -->
+<div class="add-board-dialog" dir="auto">
+    <div class="dialog-container">
+        <button class="close-dialog" aria-label="Close add board dialog">
+            <i class="fa fa-times"></i>
+        </button>
+        <h2 class="dialog-title">{{t "kanban.add_board_title"}}</h2>
+        <form class="add-board-form">
+            <div class="form-group">
+                <label for="boardName">{{t "kanban.board_name"}}</label>
+                <input type="text" id="boardName" name="boardName" placeholder="{{t "kanban.enter_board_name"}}" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="dialog-button primary">{{t "common.create"}}</button>
+                <button type="button" class="dialog-button cancel-dialog">{{t "common.cancel"}}</button>
+            </div>
+        </form>
+    </div>
+</div>
+{{end}}

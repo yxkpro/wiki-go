@@ -208,6 +208,7 @@
   "kanban.delete_task": "Görevi sil",
   "kanban.rename_column": "Sütunu yeniden adlandır",
   "kanban.add_task": "Görev ekle",
+  "kanban.delete_column": "Sütunu Sil",
   "kanban.delete_column_title": "Sütunu Sil",
   "kanban.delete_column_confirm": "Sütun \"{0}\" silmek istediğinizden emin misiniz?",
   "kanban.add_column_title": "Sütun ekle",

@@ -208,6 +208,7 @@
   "kanban.delete_task": "Aufgabe löschen",
   "kanban.rename_column": "Spalte umbenennen",
   "kanban.add_task": "Aufgabe hinzufügen",
+  "kanban.delete_column": "Spalte löschen",
   "kanban.delete_column_title": "Spalte löschen",
   "kanban.delete_column_confirm": "Sind Sie sicher, dass Sie die Spalte \"{0}\" löschen möchten?",
   "kanban.add_column_title": "Spalte hinzufügen",

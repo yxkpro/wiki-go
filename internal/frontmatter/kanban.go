@@ -8,6 +8,8 @@ import (
 	"strings"
 	"sync"
 
+	"wiki-go/internal/i18n"
+
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
@@ -123,11 +125,11 @@ func RenderKanbanBasic(content string) string {
 				<div class="kanban-column-header">
 					<span class="column-title">%s</span>
 					<span class="kanban-status-container"></span>
-					<button class="rename-column-btn editor-admin-only" title="Rename column"><i class="fa fa-pencil"></i></button>
-					<button class="add-task-btn editor-admin-only" title="Add task"><i class="fa fa-plus"></i></button>
-					<button class="delete-column-btn editor-admin-only" title="Delete column"><i class="fa fa-trash"></i></button>
+					<button class="rename-column-btn editor-admin-only" title="%s"><i class="fa fa-pencil"></i></button>
+					<button class="add-task-btn editor-admin-only" title="%s"><i class="fa fa-plus"></i></button>
+					<button class="delete-column-btn editor-admin-only" title="%s"><i class="fa fa-trash"></i></button>
 				</div>
-				<div class="kanban-column-content">`, column.Title))
+				<div class="kanban-column-content">`, column.Title, i18n.Translate("kanban.rename_column"), i18n.Translate("kanban.add_task"), i18n.Translate("kanban.delete_column")))
 
 			// Add a task list for each column
 			html.WriteString(`<ul class="task-list">`)
@@ -161,11 +163,11 @@ func RenderKanbanBasic(content string) string {
 		html.WriteString(`</div>`) // Close kanban-board
 
 		// Add the "Add Column" button for each board
-		html.WriteString(`<div class="add-column-container">
-			<button class="add-column-btn editor-admin-only" title="Add new column">
-				<i class="fa fa-plus"></i> Add Column
+		html.WriteString(fmt.Sprintf(`<div class="add-column-container">
+			<button class="add-column-btn editor-admin-only" title="%s">
+				<i class="fa fa-plus"></i> %s
 			</button>
-		</div>`)
+		</div>`, i18n.Translate("kanban.add_column_title"), i18n.Translate("kanban.add_column_title")))
 
 		html.WriteString(`</div>`) // Close kanban-container
 	}
@@ -415,11 +417,11 @@ func restoreKanbanBoards(htmlContent string, preprocessors []PreprocessorFunc) s
 							<div class="kanban-column-header">
 								<span class="column-title">%s</span>
 								<span class="kanban-status-container"></span>
-								<button class="rename-column-btn editor-admin-only" title="Rename column"><i class="fa fa-pencil"></i></button>
-								<button class="add-task-btn editor-admin-only" title="Add task"><i class="fa fa-plus"></i></button>
-								<button class="delete-column-btn editor-admin-only" title="Delete column"><i class="fa fa-trash"></i></button>
+								<button class="rename-column-btn editor-admin-only" title="%s"><i class="fa fa-pencil"></i></button>
+								<button class="add-task-btn editor-admin-only" title="%s"><i class="fa fa-plus"></i></button>
+								<button class="delete-column-btn editor-admin-only" title="%s"><i class="fa fa-trash"></i></button>
 							</div>
-							<div class="kanban-column-content">`, column.Title))
+							<div class="kanban-column-content">`, column.Title, i18n.Translate("kanban.rename_column"), i18n.Translate("kanban.add_task"), i18n.Translate("kanban.delete_column_title")))
 
 						finalHTML.WriteString(`<ul class="task-list">`)
 
@@ -449,11 +451,11 @@ func restoreKanbanBoards(htmlContent string, preprocessors []PreprocessorFunc) s
 					finalHTML.WriteString(`</div>`) // Close kanban-board
 
 					// Add the "Add Column" button for each board
-					finalHTML.WriteString(`<div class="add-column-container">
-						<button class="add-column-btn editor-admin-only" title="Add new column">
-							<i class="fa fa-plus"></i> Add Column
+					finalHTML.WriteString(fmt.Sprintf(`<div class="add-column-container">
+						<button class="add-column-btn editor-admin-only" title="%s">
+							<i class="fa fa-plus"></i> %s
 						</button>
-					</div>`)
+					</div>`, i18n.Translate("kanban.add_column_title"), i18n.Translate("kanban.add_column_title")))
 
 					finalHTML.WriteString(`</div>`) // Close kanban-container
 				}

@@ -208,6 +208,7 @@
   "kanban.delete_task": "Poista tehtävä",
   "kanban.rename_column": "Nimeä sarake uudelleen",
   "kanban.add_task": "Lisää tehtävä",
+  "kanban.delete_column": "Poista sarake",
   "kanban.delete_column_title": "Poista sarake",
   "kanban.delete_column_confirm": "Oletko varma, että haluat poistaa sarakkeen \"{0}\"?",
   "kanban.add_column_title": "Lisää sarake",

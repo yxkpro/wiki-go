@@ -208,6 +208,7 @@
   "kanban.delete_task": "タスクを削除",
   "kanban.rename_column": "列名を変更",
   "kanban.add_task": "タスクを追加",
+  "kanban.delete_column": "列を削除",
   "kanban.delete_column_title": "列を削除",
   "kanban.delete_column_confirm": "列 \"{0}\" を削除してもよろしいですか？",
   "kanban.add_column_title": "列を追加",

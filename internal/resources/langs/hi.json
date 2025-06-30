@@ -208,6 +208,7 @@
   "kanban.delete_task": "कार्य हटाएं",
   "kanban.rename_column": "कॉलम का नाम बदलें",
   "kanban.add_task": "कार्य जोड़ें",
+  "kanban.delete_column": "कॉलम हटाएं",
   "kanban.delete_column_title": "कॉलम हटाएं",
   "kanban.delete_column_confirm": "क्या आप वाकई कॉलम \"{0}\" को हटाना चाहते हैं?",
   "kanban.add_column_title": "कॉलम जोड़ें",

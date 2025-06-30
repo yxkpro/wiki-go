@@ -208,6 +208,7 @@
   "kanban.delete_task": "Slet opgave",
   "kanban.rename_column": "Omdøb kolonne",
   "kanban.add_task": "Tilføj opgave",
+  "kanban.delete_column": "Slet kolonne",
   "kanban.delete_column_title": "Slet kolonne",
   "kanban.delete_column_confirm": "Er du sikker på, at du vil slette kolonnen \"{0}\"?",
   "kanban.add_column_title": "Tilføj kolonne",

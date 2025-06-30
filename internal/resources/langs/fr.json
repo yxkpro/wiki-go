@@ -208,6 +208,7 @@
   "kanban.delete_task": "Supprimer la tâche",
   "kanban.rename_column": "Renommer la colonne",
   "kanban.add_task": "Ajouter une tâche",
+  "kanban.delete_column": "Supprimer la colonne",
   "kanban.delete_column_title": "Supprimer la colonne",
   "kanban.delete_column_confirm": "Êtes-vous sûr de vouloir supprimer la colonne \"{0}\" ?",
   "kanban.add_column_title": "Ajouter une colonne",

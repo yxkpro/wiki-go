@@ -208,6 +208,7 @@
   "kanban.delete_task": "Usuń zadanie",
   "kanban.rename_column": "Zmień nazwę kolumny",
   "kanban.add_task": "Dodaj zadanie",
+  "kanban.delete_column": "Usuń kolumnę",
   "kanban.delete_column_title": "Usuń kolumnę",
   "kanban.delete_column_confirm": "Czy na pewno chcesz usunąć kolumnę \"{0}\"?",
   "kanban.add_column_title": "Dodaj kolumnę",

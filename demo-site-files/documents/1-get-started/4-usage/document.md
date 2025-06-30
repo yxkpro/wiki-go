@@ -15,6 +15,80 @@ LeoMoon Wiki-Go allows you to organize content in a hierarchical structure:
 2. Use the move/rename feature to reorganize content when in edit mode
 3. Navigate through your content using the sidebar or breadcrumbs
 
+## Using Kanban Boards
+
+LeoMoon Wiki-Go supports interactive Kanban boards for project management and task tracking. You can transform any document into a visual project board.
+
+### Creating a Kanban Board
+
+There are two ways to create a kanban board:
+
+#### Method 1: Create New Kanban Document
+1. Click the "New" button to create a new document
+2. In the document creation dialog, select "Kanban Board" as the document type
+3. Enter your document name and location
+4. The document will be automatically created with kanban layout and basic structure
+
+#### Method 2: Convert Existing Document
+1. Open an existing document and enter edit mode
+2. Position your cursor where you want the kanban board to be inserted
+3. Click the "Add Kanban" button in the editor toolbar
+4. The kanban frontmatter and basic board structure will be added at the cursor position
+5. Save the document to apply the kanban layout
+
+#### Method 3: Manual Setup
+1. Create a new document or edit an existing one
+2. Add the following frontmatter at the top of your document:
+   ```yaml
+   ---
+   layout: kanban
+   ---
+   ```
+3. Structure your content using the following format:
+   ```markdown
+   # Your Project Title
+
+   #### Project Board Name (optional)
+
+   ##### To Do
+   - [ ] Task 1
+   - [ ] Task 2 with **formatting**
+   - [ ] Task with [links](https://example.com)
+
+   ##### In Progress
+   - [ ] Current task
+   - [ ] Another active task
+     - [ ] Sub-task 1
+     - [ ] Sub-task 2
+
+   ##### Done
+   - [x] Completed task
+   - [x] Another finished task
+   ```
+
+### Working with Kanban Boards
+
+- **Drag and Drop**: Click and drag tasks between columns to update their status
+- **Edit Tasks**: Click on any task to edit its content inline
+- **Add Tasks**: Use the "+" button in column headers to add new tasks
+- **Nested Tasks**: Indent tasks with spaces to create sub-tasks
+- **Markdown Support**: Tasks support full markdown formatting (bold, italic, links, code, etc.)
+- **Multiple Boards**: Add multiple kanban boards in one document by repeating the H4/H5 structure
+
+### Managing Columns
+
+- **Rename Columns**: Click the pencil icon in column headers to rename
+- **Add Columns**: Create new columns by adding H5 headers in your markdown or using the interface
+- **Delete Columns**: Use the trash icon to remove empty columns
+- **Duplicate Names**: Column names can be duplicated without data loss
+
+### Best Practices
+
+- Use descriptive column names that reflect your workflow (e.g., "Backlog", "In Review", "Testing")
+- Keep task descriptions concise but informative
+- Use sub-tasks for breaking down complex work
+- Regularly review and update task status by moving them between columns
+
 ## Attaching Files
 
 You can attach files to any document:

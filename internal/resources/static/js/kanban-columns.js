@@ -7,35 +7,38 @@ class KanbanColumnManager {
     // Track renamed columns to avoid duplicates
     this.renamedColumns = new Map();
 
-    // Track board names per board (not globally)
+    // Track column names per board (not globally)
     // Structure: Map<boardId, Map<columnName, count>>
     this.boardColumnCounts = new Map();
 
-    // Dialog elements for adding new boards
-    this.addBoardDialog = null;
-    this.addBoardForm = null;
-    this.boardNameInput = null;
+    // Dialog elements for adding new columns
+    this.addColumnDialog = null;
+    this.addColumnForm = null;
+    this.columnNameInput = null;
 
-    // Track which kanban container we're adding a board to
+    // Track which kanban container we're adding a column to
     this.targetKanbanContainer = null;
   }
 
+  /**
+   * Initialize column management
+   */
   init() {
-    console.log('Initializing KanbanColumnManager');
+    console.log('Column manager initializing...');
 
-    // Setup rename column buttons
+    // Setup column rename functionality
     this.setupRenameColumnButtons();
 
-    // Setup delete column buttons
+    // Setup column delete functionality
     this.setupDeleteColumnButtons();
 
-    // Setup add board functionality
-    this.setupAddBoardButton();
+    // Setup add column functionality
+    this.setupAddColumnButton();
 
     // Initialize dialog elements
     this.initializeDialogElements();
 
-    console.log('KanbanColumnManager initialized');
+    console.log('Column manager initialized');
   }
 
   /**
@@ -222,7 +225,7 @@ class KanbanColumnManager {
       // If this is a duplicate, mark it as such for internal tracking
       if (isDuplicate) {
         columnHeader.setAttribute('data-is-duplicate', 'true');
-        console.log(`Board name "${newTitle}" already exists, but will be allowed as duplicate`);
+        console.log(`Column name "${newTitle}" already exists, but will be allowed as duplicate`);
       } else {
         columnHeader.removeAttribute('data-is-duplicate');
       }
@@ -266,69 +269,69 @@ class KanbanColumnManager {
   }
 
   /**
-   * Setup add board button functionality
+   * Setup add column button functionality
    */
-  setupAddBoardButton() {
-    const addBoardButtons = document.querySelectorAll('.add-board-btn');
-    if (addBoardButtons.length === 0) {
-      console.log('No add board buttons found');
+  setupAddColumnButton() {
+    const addColumnButtons = document.querySelectorAll('.add-column-btn');
+    if (addColumnButtons.length === 0) {
+      console.log('No add column buttons found');
       return;
     }
 
-    console.log('Add board buttons found:', addBoardButtons.length);
+    console.log('Add column buttons found:', addColumnButtons.length);
 
-    addBoardButtons.forEach((addBoardBtn, index) => {
+    addColumnButtons.forEach((addColumnBtn, index) => {
       // Remove any existing event listeners to prevent duplicates
-      const newButton = addBoardBtn.cloneNode(true);
-      addBoardBtn.parentNode.replaceChild(newButton, addBoardBtn);
+      const newButton = addColumnBtn.cloneNode(true);
+      addColumnBtn.parentNode.replaceChild(newButton, addColumnBtn);
 
       // Store reference to the kanban container this button belongs to
       const kanbanContainer = newButton.closest('.kanban-container');
       if (kanbanContainer) {
         newButton.setAttribute('data-kanban-container-index', index);
-        console.log(`Add board button ${index + 1} associated with kanban container`);
+        console.log(`Add column button ${index + 1} associated with kanban container`);
       }
 
-      // Show dialog when add board button is clicked
-      newButton.addEventListener('click', (e) => this.handleAddBoardClick(e));
+      // Show dialog when add column button is clicked
+      newButton.addEventListener('click', (e) => this.handleAddColumnClick(e));
     });
   }
 
   /**
-   * Handle add board button click
+   * Handle add column button click
    */
-  handleAddBoardClick(e) {
+  handleAddColumnClick(e) {
     e.preventDefault();
 
-    if (!this.addBoardDialog) {
-      console.error('Add board dialog not found');
+    if (!this.addColumnDialog) {
+      console.error('Add column dialog not found');
       return;
     }
 
     // Store reference to which kanban container this button belongs to
-    const clickedButton = e.target.closest('.add-board-btn');
+    const clickedButton = e.target.closest('.add-column-btn');
     const kanbanContainer = clickedButton.closest('.kanban-container');
 
     if (kanbanContainer) {
-      // Store the target container for when we create the new board
+      // Store the target container for when we create the new column
       this.targetKanbanContainer = kanbanContainer;
-      console.log('Target kanban container stored for new board creation');
+      console.log('Target kanban container stored for new column creation');
     } else {
-      console.error('Could not find kanban container for add board button');
+      console.error('Could not find kanban container for add column button');
       return;
     }
 
     // Reset and show the dialog
-    if (this.boardNameInput) {
-      this.boardNameInput.value = '';
+    if (this.columnNameInput) {
+      this.columnNameInput.value = '';
     }
 
-    this.addBoardDialog.classList.add('active');
+    this.addColumnDialog.classList.add('active');
 
     // Focus the input field
     setTimeout(() => {
-      if (this.boardNameInput) {
-        this.boardNameInput.focus();
+      if (this.columnNameInput) {
+        this.columnNameInput.focus();
       }
     }, 100);
   }
@@ -337,80 +340,80 @@ class KanbanColumnManager {
    * Initialize dialog elements and their event handlers
    */
   initializeDialogElements() {
-    // Get the add board dialog elements
-    this.addBoardDialog = document.querySelector('.add-board-dialog');
-    this.addBoardForm = document.querySelector('.add-board-form');
-    this.boardNameInput = document.querySelector('#boardName');
+    // Get the add column dialog elements
+    this.addColumnDialog = document.querySelector('.add-column-dialog');
+    this.addColumnForm = document.querySelector('.add-column-form');
+    this.columnNameInput = document.querySelector('#columnName');
 
-    if (!this.addBoardDialog) {
-      console.log('Add board dialog not found in DOM');
+    if (!this.addColumnDialog) {
+      console.log('Add column dialog not found in DOM');
       return;
     }
 
-    const closeDialogBtn = this.addBoardDialog.querySelector('.close-dialog');
-    const cancelBtn = this.addBoardDialog.querySelector('.cancel-dialog');
+    const closeDialogBtn = this.addColumnDialog.querySelector('.close-dialog');
+    const cancelBtn = this.addColumnDialog.querySelector('.cancel-dialog');
 
     // Handle form submission
-    if (this.addBoardForm) {
-      this.addBoardForm.addEventListener('submit', (e) => this.handleAddBoardFormSubmit(e));
+    if (this.addColumnForm) {
+      this.addColumnForm.addEventListener('submit', (e) => this.handleAddColumnFormSubmit(e));
     }
 
     // Close dialog when close button is clicked
     if (closeDialogBtn) {
-      closeDialogBtn.addEventListener('click', () => this.closeAddBoardDialog());
+      closeDialogBtn.addEventListener('click', () => this.closeAddColumnDialog());
     }
 
     // Close dialog when cancel button is clicked
     if (cancelBtn) {
-      cancelBtn.addEventListener('click', () => this.closeAddBoardDialog());
+      cancelBtn.addEventListener('click', () => this.closeAddColumnDialog());
     }
 
     // Close dialog when Escape key is pressed
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.addBoardDialog.classList.contains('active')) {
-        this.closeAddBoardDialog();
+      if (e.key === 'Escape' && this.addColumnDialog.classList.contains('active')) {
+        this.closeAddColumnDialog();
       }
     });
   }
 
   /**
-   * Handle add board form submission
+   * Handle add column form submission
    */
-  async handleAddBoardFormSubmit(e) {
+  async handleAddColumnFormSubmit(e) {
     e.preventDefault();
 
-    if (!this.boardNameInput) return;
+    if (!this.columnNameInput) return;
 
-    const boardName = this.boardNameInput.value.trim();
-    if (boardName) {
+    const columnName = this.columnNameInput.value.trim();
+    if (columnName) {
       // Hide dialog
-      this.closeAddBoardDialog();
+      this.closeAddColumnDialog();
 
-      // Create new board
-      await this.addNewBoard(boardName);
+      // Create new column
+      await this.addNewColumn(columnName);
     }
   }
 
   /**
-   * Close the add board dialog
+   * Close the add column dialog
    */
-  closeAddBoardDialog() {
-    if (this.addBoardDialog) {
-      this.addBoardDialog.classList.remove('active');
+  closeAddColumnDialog() {
+    if (this.addColumnDialog) {
+      this.addColumnDialog.classList.remove('active');
     }
   }
 
   /**
-   * Add a new board to the kanban
+   * Add a new column to the kanban
    */
-  async addNewBoard(boardName) {
-    console.log(`Adding new board: ${boardName}`);
+  async addNewColumn(columnName) {
+    console.log(`Adding new column: ${columnName}`);
 
-    // Check if the board name already exists
-    const isDuplicate = this.checkForDuplicateColumnName(boardName, null);
+    // Check if the column name already exists
+    const isDuplicate = this.checkForDuplicateColumnName(columnName, null);
 
     // Create the new column
-    const newColumn = this.createNewColumnElement(boardName, isDuplicate);
+    const newColumn = this.createNewColumnElement(columnName, isDuplicate);
 
     // Add column to the correct kanban board
     let kanbanBoard = null;
@@ -418,7 +421,7 @@ class KanbanColumnManager {
     if (this.targetKanbanContainer) {
       // Use the specific kanban container that was clicked
       kanbanBoard = this.targetKanbanContainer.querySelector('.kanban-board');
-      console.log('Using target kanban container for new board');
+      console.log('Using target kanban container for new column');
     } else {
       // Fallback to first kanban board (for backwards compatibility)
       kanbanBoard = document.querySelector('.kanban-board');
@@ -432,7 +435,7 @@ class KanbanColumnManager {
       const container = kanbanBoard.closest('.kanban-container');
       const boardId = this.getBoardId(container);
       const boardCounts = this.getBoardColumnCounts(boardId);
-      const headerKey = boardName.toLowerCase();
+      const headerKey = columnName.toLowerCase();
       boardCounts.set(headerKey, (boardCounts.get(headerKey) || 0) + 1);
 
       // Setup the new column's functionality
@@ -444,7 +447,7 @@ class KanbanColumnManager {
         await persistenceManager.saveKanbanChanges();
       }
 
-      console.log('New board added:', boardName);
+      console.log('New column added:', columnName);
 
       // Clear the target container reference
       this.targetKanbanContainer = null;
@@ -456,13 +459,13 @@ class KanbanColumnManager {
   /**
    * Create a new column element
    */
-  createNewColumnElement(boardName, isDuplicate) {
+  createNewColumnElement(columnName, isDuplicate) {
     // Create the new column
     const newColumn = document.createElement('div');
     newColumn.className = 'kanban-column';
 
     // Create column header
-    const columnHeader = this.createColumnHeader(boardName, isDuplicate);
+    const columnHeader = this.createColumnHeader(columnName, isDuplicate);
 
     // Create column content
     const columnContent = this.createColumnContent();
@@ -477,20 +480,20 @@ class KanbanColumnManager {
   /**
    * Create column header with all necessary elements
    */
-  createColumnHeader(boardName, isDuplicate) {
+  createColumnHeader(columnName, isDuplicate) {
     const columnHeader = document.createElement('div');
     columnHeader.className = 'kanban-column-header';
 
     // If this is a duplicate, mark it as such for internal tracking
     if (isDuplicate) {
       columnHeader.setAttribute('data-is-duplicate', 'true');
-      console.log(`Board name "${boardName}" already exists, but will be allowed as duplicate`);
+      console.log(`Column name "${columnName}" already exists, but will be allowed as duplicate`);
     }
 
     // Create column title
     const columnTitle = document.createElement('span');
     columnTitle.className = 'column-title';
-    columnTitle.textContent = boardName;
+    columnTitle.textContent = columnName;
 
     // Create status container
     const statusContainer = document.createElement('span');
@@ -738,8 +741,8 @@ class KanbanColumnManager {
     // Re-setup delete buttons for any new columns
     this.setupDeleteColumnButtons();
 
-    // Re-setup add board button
-    this.setupAddBoardButton();
+    // Re-setup add column button
+    this.setupAddColumnButton();
   }
 
   /**
@@ -753,9 +756,9 @@ class KanbanColumnManager {
     this.boardColumnCounts.clear();
 
     // Remove dialog references
-    this.addBoardDialog = null;
-    this.addBoardForm = null;
-    this.boardNameInput = null;
+    this.addColumnDialog = null;
+    this.addColumnForm = null;
+    this.columnNameInput = null;
 
     // Clear core reference
     this.core = null;

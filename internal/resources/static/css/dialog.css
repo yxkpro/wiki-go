@@ -11,7 +11,7 @@
 .file-upload-dialog,
 .version-history-dialog,
 .settings-dialog,
-.add-board-dialog {
+.add-column-dialog {
     display: none;
     position: fixed;
     top: 0;
@@ -36,7 +36,7 @@
 .file-upload-dialog.active,
 .version-history-dialog.active,
 .settings-dialog.active,
-.add-board-dialog.active {
+.add-column-dialog.active {
     display: flex;
     opacity: 1;
     visibility: visible;

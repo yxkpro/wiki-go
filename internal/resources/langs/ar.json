@@ -204,13 +204,13 @@
   "kanban.enter_task_name": "أدخل اسم المهمة",
   "kanban.delete_task_title": "حذف المهمة",
   "kanban.delete_task_confirm": "هل أنت متأكد من رغبتك في حذف هذه المهمة؟",
-  "kanban.add_board_title": "إضافة لوحة",
-  "kanban.board_name": "اسم اللوحة",
-  "kanban.enter_board_name": "أدخل اسم اللوحة",
   "kanban.rename_task": "إعادة تسمية المهمة",
   "kanban.delete_task": "حذف المهمة",
   "kanban.rename_column": "إعادة تسمية العمود",
   "kanban.add_task": "إضافة مهمة",
   "kanban.delete_column_title": "حذف العمود",
-  "kanban.delete_column_confirm": "هل أنت متأكد من رغبتك في حذف العمود \"{0}\"؟"
+  "kanban.delete_column_confirm": "هل أنت متأكد من رغبتك في حذف العمود \"{0}\"?",
+  "kanban.add_column_title": "إضافة عمود",
+  "kanban.column_name": "اسم العمود",
+  "kanban.enter_column_name": "أدخل اسم العمود"
 }

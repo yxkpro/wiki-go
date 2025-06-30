@@ -204,13 +204,13 @@
   "kanban.enter_task_name": "Ange uppgiftsnamn",
   "kanban.delete_task_title": "Ta bort uppgift",
   "kanban.delete_task_confirm": "Är du säker på att du vill ta bort denna uppgift?",
-  "kanban.add_board_title": "Lägg till tavla",
-  "kanban.board_name": "Tavlans namn",
-  "kanban.enter_board_name": "Ange tavlans namn",
   "kanban.rename_task": "Byt namn på uppgift",
   "kanban.delete_task": "Ta bort uppgift",
   "kanban.rename_column": "Byt namn på kolumn",
   "kanban.add_task": "Lägg till uppgift",
   "kanban.delete_column_title": "Ta bort kolumn",
-  "kanban.delete_column_confirm": "Är du säker på att du vill ta bort kolumnen \"{0}\"?"
+  "kanban.delete_column_confirm": "Är du säker på att du vill ta bort kolumnen \"{0}\"?",
+  "kanban.add_column_title": "Lägg till kolumn",
+  "kanban.column_name": "Kolumnnamn",
+  "kanban.enter_column_name": "Ange kolumnnamn"
 }

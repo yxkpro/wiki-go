@@ -204,13 +204,13 @@
   "kanban.enter_task_name": "Syötä tehtävän nimi",
   "kanban.delete_task_title": "Poista tehtävä",
   "kanban.delete_task_confirm": "Oletko varma, että haluat poistaa tämän tehtävän?",
-  "kanban.add_board_title": "Lisää taulu",
-  "kanban.board_name": "Taulun nimi",
-  "kanban.enter_board_name": "Syötä taulun nimi",
   "kanban.rename_task": "Nimeä tehtävä uudelleen",
   "kanban.delete_task": "Poista tehtävä",
   "kanban.rename_column": "Nimeä sarake uudelleen",
   "kanban.add_task": "Lisää tehtävä",
   "kanban.delete_column_title": "Poista sarake",
-  "kanban.delete_column_confirm": "Oletko varma, että haluat poistaa sarakkeen \"{0}\"?"
+  "kanban.delete_column_confirm": "Oletko varma, että haluat poistaa sarakkeen \"{0}\"?",
+  "kanban.add_column_title": "Lisää sarake",
+  "kanban.column_name": "Sarakkeen nimi",
+  "kanban.enter_column_name": "Syötä sarakkeen nimi"
 }

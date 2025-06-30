@@ -204,13 +204,13 @@
   "kanban.enter_task_name": "Inserisci il nome dell'attività",
   "kanban.delete_task_title": "Elimina Attività",
   "kanban.delete_task_confirm": "Sei sicuro di voler eliminare questa attività?",
-  "kanban.add_board_title": "Aggiungi Bacheca",
-  "kanban.board_name": "Nome Bacheca",
-  "kanban.enter_board_name": "Inserisci il nome della bacheca",
   "kanban.rename_task": "Rinomina attività",
   "kanban.delete_task": "Elimina attività",
   "kanban.rename_column": "Rinomina colonna",
   "kanban.add_task": "Aggiungi attività",
   "kanban.delete_column_title": "Elimina Colonna",
-  "kanban.delete_column_confirm": "Sei sicuro di voler eliminare la colonna \"{0}\"?"
+  "kanban.delete_column_confirm": "Sei sicuro di voler eliminare la colonna \"{0}\"?",
+  "kanban.add_column_title": "Aggiungi colonna",
+  "kanban.column_name": "Nome colonna",
+  "kanban.enter_column_name": "Inserisci il nome della colonna"
 }

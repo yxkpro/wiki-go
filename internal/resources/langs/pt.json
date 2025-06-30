@@ -204,13 +204,13 @@
   "kanban.enter_task_name": "Digite o nome da tarefa",
   "kanban.delete_task_title": "Excluir Tarefa",
   "kanban.delete_task_confirm": "Tem certeza de que deseja excluir esta tarefa?",
-  "kanban.add_board_title": "Adicionar Quadro",
-  "kanban.board_name": "Nome do Quadro",
-  "kanban.enter_board_name": "Digite o nome do quadro",
   "kanban.rename_task": "Renomear tarefa",
   "kanban.delete_task": "Excluir tarefa",
   "kanban.rename_column": "Renomear coluna",
   "kanban.add_task": "Adicionar tarefa",
   "kanban.delete_column_title": "Excluir Coluna",
-  "kanban.delete_column_confirm": "Tem certeza de que deseja excluir a coluna \"{0}\"?"
+  "kanban.delete_column_confirm": "Tem certeza de que deseja excluir a coluna \"{0}\"?",
+  "kanban.add_column_title": "Adicionar coluna",
+  "kanban.column_name": "Nome da coluna",
+  "kanban.enter_column_name": "Digite o nome da coluna"
 }

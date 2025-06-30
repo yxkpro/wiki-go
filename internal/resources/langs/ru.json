@@ -204,13 +204,13 @@
   "kanban.enter_task_name": "Введите название задачи",
   "kanban.delete_task_title": "Удалить задачу",
   "kanban.delete_task_confirm": "Вы уверены, что хотите удалить эту задачу?",
-  "kanban.add_board_title": "Добавить доску",
-  "kanban.board_name": "Название доски",
-  "kanban.enter_board_name": "Введите название доски",
   "kanban.rename_task": "Переименовать задачу",
   "kanban.delete_task": "Удалить задачу",
   "kanban.rename_column": "Переименовать колонку",
   "kanban.add_task": "Добавить задачу",
   "kanban.delete_column_title": "Удалить колонку",
-  "kanban.delete_column_confirm": "Вы уверены, что хотите удалить колонку \"{0}\"?"
+  "kanban.delete_column_confirm": "Вы уверены, что хотите удалить колонку \"{0}\"?",
+  "kanban.add_column_title": "Добавить колонку",
+  "kanban.column_name": "Название колонки",
+  "kanban.enter_column_name": "Введите название колонки"
 }

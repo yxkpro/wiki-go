@@ -204,13 +204,13 @@
   "kanban.enter_task_name": "הזן שם משימה",
   "kanban.delete_task_title": "מחק משימה",
   "kanban.delete_task_confirm": "האם אתה בטוח שברצונך למחוק משימה זו?",
-  "kanban.add_board_title": "הוסף לוח",
-  "kanban.board_name": "שם הלוח",
-  "kanban.enter_board_name": "הזן שם הלוח",
   "kanban.rename_task": "שנה שם משימה",
   "kanban.delete_task": "מחק משימה",
   "kanban.rename_column": "שנה שם עמודה",
   "kanban.add_task": "הוסף משימה",
   "kanban.delete_column_title": "מחק עמודה",
-  "kanban.delete_column_confirm": "האם אתה בטוח שברצונך למחוק את העמודה \"{0}\"?"
+  "kanban.delete_column_confirm": "האם אתה בטוח שברצונך למחוק את העמודה \"{0}\"?",
+  "kanban.add_column_title": "הוסף עמודה",
+  "kanban.column_name": "שם העמודה",
+  "kanban.enter_column_name": "הזן שם עמודה"
 }

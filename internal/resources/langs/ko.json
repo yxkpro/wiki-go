@@ -204,13 +204,13 @@
   "kanban.enter_task_name": "작업 이름 입력",
   "kanban.delete_task_title": "작업 삭제",
   "kanban.delete_task_confirm": "이 작업을 삭제하시겠습니까?",
-  "kanban.add_board_title": "보드 추가",
-  "kanban.board_name": "보드 이름",
-  "kanban.enter_board_name": "보드 이름 입력",
   "kanban.rename_task": "작업 이름 변경",
   "kanban.delete_task": "작업 삭제",
   "kanban.rename_column": "열 이름 변경",
   "kanban.add_task": "작업 추가",
   "kanban.delete_column_title": "열 삭제",
-  "kanban.delete_column_confirm": "열 \"{0}\"을(를) 삭제하시겠습니까?"
+  "kanban.delete_column_confirm": "열 \"{0}\"을(를) 삭제하시겠습니까?",
+  "kanban.add_column_title": "열 추가",
+  "kanban.column_name": "열 이름",
+  "kanban.enter_column_name": "열 이름을 입력하세요"
 }

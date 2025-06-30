@@ -204,13 +204,13 @@
   "kanban.enter_task_name": "Indtast opgavenavn",
   "kanban.delete_task_title": "Slet opgave",
   "kanban.delete_task_confirm": "Er du sikker på, at du vil slette denne opgave?",
-  "kanban.add_board_title": "Tilføj tavle",
-  "kanban.board_name": "Tavlenavn",
-  "kanban.enter_board_name": "Indtast tavlenavn",
   "kanban.rename_task": "Omdøb opgave",
   "kanban.delete_task": "Slet opgave",
   "kanban.rename_column": "Omdøb kolonne",
   "kanban.add_task": "Tilføj opgave",
   "kanban.delete_column_title": "Slet kolonne",
-  "kanban.delete_column_confirm": "Er du sikker på, at du vil slette kolonnen \"{0}\"?"
+  "kanban.delete_column_confirm": "Er du sikker på, at du vil slette kolonnen \"{0}\"?",
+  "kanban.add_column_title": "Tilføj kolonne",
+  "kanban.column_name": "Kolonnenavn",
+  "kanban.enter_column_name": "Indtast kolonnenavn"
 }

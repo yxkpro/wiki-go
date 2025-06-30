@@ -229,7 +229,7 @@ class KanbanUIManager {
           // If this is a duplicate, mark it as such for internal tracking
           if (isDuplicate) {
             columnHeader.setAttribute('data-is-duplicate', 'true');
-            console.log(`Board name "${newTitle}" already exists, but will be allowed as duplicate`);
+            console.log(`Column name "${newTitle}" already exists, but will be allowed as duplicate`);
           } else {
             columnHeader.removeAttribute('data-is-duplicate');
           }
@@ -436,29 +436,34 @@ class KanbanUIManager {
   }
 
   /**
-   * Show/hide the add board dialog
+   * Show/hide the add column dialog
+   * @param {boolean} show - Whether to show or hide the dialog
    */
-  showAddBoardDialog(show = true) {
-    const addBoardDialog = document.querySelector('.add-board-dialog');
-    const boardNameInput = document.querySelector('#boardName');
+  showAddColumnDialog(show = true) {
+    const addColumnDialog = document.querySelector('.add-column-dialog');
+    const columnNameInput = document.querySelector('#columnName');
 
-    if (!addBoardDialog) return;
+    if (!addColumnDialog) {
+      console.error('Add column dialog not found');
+      return;
+    }
 
     if (show) {
-      // Reset and show the dialog
-      if (boardNameInput) {
-        boardNameInput.value = '';
+      // Reset input
+      if (columnNameInput) {
+        columnNameInput.value = '';
       }
-      addBoardDialog.classList.add('active');
 
-      // Focus the input field
+      addColumnDialog.classList.add('active');
+
+      // Focus input after a short delay
       setTimeout(() => {
-        if (boardNameInput) {
-          boardNameInput.focus();
+        if (columnNameInput) {
+          columnNameInput.focus();
         }
       }, 100);
     } else {
-      addBoardDialog.classList.remove('active');
+      addColumnDialog.classList.remove('active');
     }
   }
 

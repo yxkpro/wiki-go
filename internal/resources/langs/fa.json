@@ -204,13 +204,13 @@
   "kanban.enter_task_name": "نام وظیفه را وارد کنید",
   "kanban.delete_task_title": "حذف وظیفه",
   "kanban.delete_task_confirm": "آیا مطمئن هستید که می‌خواهید این وظیفه را حذف کنید؟",
-  "kanban.add_board_title": "افزودن تابلو",
-  "kanban.board_name": "نام تابلو",
-  "kanban.enter_board_name": "نام تابلو را وارد کنید",
   "kanban.rename_task": "تغییر نام وظیفه",
   "kanban.delete_task": "حذف وظیفه",
   "kanban.rename_column": "تغییر نام ستون",
   "kanban.add_task": "افزودن وظیفه",
   "kanban.delete_column_title": "حذف ستون",
-  "kanban.delete_column_confirm": "آیا مطمئن هستید که می‌خواهید ستون \"{0}\" را حذف کنید؟"
+  "kanban.delete_column_confirm": "آیا مطمئن هستید که می‌خواهید ستون \"{0}\" را حذف کنید؟",
+  "kanban.add_column_title": "افزودن ستون",
+  "kanban.column_name": "نام ستون",
+  "kanban.enter_column_name": "نام ستون را وارد کنید"
 }

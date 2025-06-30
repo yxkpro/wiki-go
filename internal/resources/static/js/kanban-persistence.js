@@ -320,7 +320,7 @@ class KanbanPersistenceManager {
     const boardTitleElement = container.querySelector('.kanban-board-title');
     let boardTitle = boardTitleElement ? boardTitleElement.textContent.trim() : '';
 
-    // Add board title if it exists
+    // Add the board title if it exists
     if (boardTitle) {
       const boardKey = boardTitle.toLowerCase();
 

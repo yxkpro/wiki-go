@@ -160,10 +160,10 @@ func RenderKanbanBasic(content string) string {
 
 		html.WriteString(`</div>`) // Close kanban-board
 
-		// Add the "Add Board" button for each board
-		html.WriteString(`<div class="add-board-container">
-			<button class="add-board-btn editor-admin-only" title="Add new board">
-				<i class="fa fa-plus"></i> Add Board
+		// Add the "Add Column" button for each board
+		html.WriteString(`<div class="add-column-container">
+			<button class="add-column-btn editor-admin-only" title="Add new column">
+				<i class="fa fa-plus"></i> Add Column
 			</button>
 		</div>`)
 
@@ -448,10 +448,10 @@ func restoreKanbanBoards(htmlContent string, preprocessors []PreprocessorFunc) s
 
 					finalHTML.WriteString(`</div>`) // Close kanban-board
 
-					// Add the "Add Board" button for each board
-					finalHTML.WriteString(`<div class="add-board-container">
-						<button class="add-board-btn editor-admin-only" title="Add new board">
-							<i class="fa fa-plus"></i> Add Board
+					// Add the "Add Column" button for each board
+					finalHTML.WriteString(`<div class="add-column-container">
+						<button class="add-column-btn editor-admin-only" title="Add new column">
+							<i class="fa fa-plus"></i> Add Column
 						</button>
 					</div>`)
 

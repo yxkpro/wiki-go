@@ -204,13 +204,13 @@
   "kanban.enter_task_name": "Görev adını girin",
   "kanban.delete_task_title": "Görevi Sil",
   "kanban.delete_task_confirm": "Bu görevi silmek istediğinizden emin misiniz?",
-  "kanban.add_board_title": "Pano Ekle",
-  "kanban.board_name": "Pano Adı",
-  "kanban.enter_board_name": "Pano adını girin",
   "kanban.rename_task": "Görevi yeniden adlandır",
   "kanban.delete_task": "Görevi sil",
   "kanban.rename_column": "Sütunu yeniden adlandır",
   "kanban.add_task": "Görev ekle",
   "kanban.delete_column_title": "Sütunu Sil",
-  "kanban.delete_column_confirm": "Sütun \"{0}\" silmek istediğinizden emin misiniz?"
+  "kanban.delete_column_confirm": "Sütun \"{0}\" silmek istediğinizden emin misiniz?",
+  "kanban.add_column_title": "Sütun ekle",
+  "kanban.column_name": "Sütun adı",
+  "kanban.enter_column_name": "Sütun adını girin"
 }

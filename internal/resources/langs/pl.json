@@ -204,13 +204,13 @@
   "kanban.enter_task_name": "Wprowadź nazwę zadania",
   "kanban.delete_task_title": "Usuń zadanie",
   "kanban.delete_task_confirm": "Czy na pewno chcesz usunąć to zadanie?",
-  "kanban.add_board_title": "Dodaj tablicę",
-  "kanban.board_name": "Nazwa tablicy",
-  "kanban.enter_board_name": "Wprowadź nazwę tablicy",
   "kanban.rename_task": "Zmień nazwę zadania",
   "kanban.delete_task": "Usuń zadanie",
   "kanban.rename_column": "Zmień nazwę kolumny",
   "kanban.add_task": "Dodaj zadanie",
   "kanban.delete_column_title": "Usuń kolumnę",
-  "kanban.delete_column_confirm": "Czy na pewno chcesz usunąć kolumnę \"{0}\"?"
+  "kanban.delete_column_confirm": "Czy na pewno chcesz usunąć kolumnę \"{0}\"?",
+  "kanban.add_column_title": "Dodaj kolumnę",
+  "kanban.column_name": "Nazwa kolumny",
+  "kanban.enter_column_name": "Wprowadź nazwę kolumny"
 }

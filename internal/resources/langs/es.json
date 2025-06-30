@@ -204,13 +204,13 @@
   "kanban.enter_task_name": "Ingrese el nombre de la tarea",
   "kanban.delete_task_title": "Eliminar Tarea",
   "kanban.delete_task_confirm": "¿Está seguro de que desea eliminar esta tarea?",
-  "kanban.add_board_title": "Agregar Tablero",
-  "kanban.board_name": "Nombre del Tablero",
-  "kanban.enter_board_name": "Ingrese el nombre del tablero",
   "kanban.rename_task": "Renombrar tarea",
   "kanban.delete_task": "Eliminar tarea",
   "kanban.rename_column": "Renombrar columna",
   "kanban.add_task": "Agregar tarea",
   "kanban.delete_column_title": "Eliminar Columna",
-  "kanban.delete_column_confirm": "¿Está seguro de que desea eliminar la columna \"{0}\"?"
+  "kanban.delete_column_confirm": "¿Está seguro de que desea eliminar la columna \"{0}\"?",
+  "kanban.add_column_title": "Agregar columna",
+  "kanban.column_name": "Nombre de columna",
+  "kanban.enter_column_name": "Ingrese el nombre de la columna"
 }

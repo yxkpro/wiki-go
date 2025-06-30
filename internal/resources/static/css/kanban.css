@@ -374,15 +374,15 @@ body.role-editor .editor-admin-only {
     box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
-/* Add board button container */
-.add-board-container {
+/* Add column button container */
+.add-column-container {
     display: flex;
     justify-content: center;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.add-board-btn {
+.add-column-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -396,11 +396,11 @@ body.role-editor .editor-admin-only {
     transition: background-color 0.2s;
 }
 
-.add-board-btn:hover {
+.add-column-btn:hover {
     background-color: var(--accent-hover-color, #2980b9);
 }
 
-.add-board-btn i {
+.add-column-btn i {
     margin-right: 8px;
 }
 

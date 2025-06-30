@@ -1,0 +1,21 @@
+{{define "add-column-dialog"}}
+<!-- Add Column Dialog -->
+<div class="add-column-dialog" dir="auto">
+    <div class="dialog-container">
+        <button class="close-dialog" aria-label="Close add column dialog">
+            <i class="fa fa-times"></i>
+        </button>
+        <h2 class="dialog-title">{{t "kanban.add_column_title"}}</h2>
+        <form class="add-column-form">
+            <div class="form-group">
+                <label for="columnName">{{t "kanban.column_name"}}</label>
+                <input type="text" id="columnName" name="columnName" placeholder="{{t "kanban.enter_column_name"}}" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="dialog-button primary">{{t "common.create"}}</button>
+                <button type="button" class="dialog-button cancel-dialog">{{t "common.cancel"}}</button>
+            </div>
+        </form>
+    </div>
+</div>
+{{end}}

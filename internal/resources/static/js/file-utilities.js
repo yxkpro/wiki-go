@@ -143,7 +143,7 @@ function renderFilesList(files, mentionedFiles) {
                         <i class="fa fa-plus"></i>
                         <span data-i18n="common.insert">${window.i18n ? window.i18n.t('common.insert') : 'Insert'}</span>
                     </button>
-                    <button class="rename-file-btn" title="${window.i18n ? window.i18n.t('common.view') : 'View file'}" data-url="${safeFile.URL}" data-i18n-title="common.view">
+                    <button class="view-file-btn" title="${window.i18n ? window.i18n.t('common.view') : 'View file'}" data-url="${safeFile.URL}" data-i18n-title="common.view">
                         <i class="fa fa-eye"></i>
                         <span data-i18n="common.view">${window.i18n ? window.i18n.t('common.view') : 'View'}</span>
                     </button>

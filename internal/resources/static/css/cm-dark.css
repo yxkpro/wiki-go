@@ -27,6 +27,6 @@
 .cm-s-default .cm-hr { color: #9a9a9a; }
 .cm-s-default .cm-link { color: #9a9a9a; }
 .cm-s-default .cm-error { color: #999; }
-.cm-s-default .cm-highlight { background-color: #665500; color: #ffffff; padding: 0.1em 0.2em; border-radius: 2px; }
+.cm-s-default .cm-highlight { background-color: #665500; color: #ffffff; border-radius: 2px; }
 .cm-s-default .cm-frontmatter-delimiter { color: #b58900; font-weight: bold; }
 .cm-s-default .cm-frontmatter { color: #839496; }

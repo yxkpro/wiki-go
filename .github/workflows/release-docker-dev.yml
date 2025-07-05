@@ -99,17 +99,3 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             VERSION=${{ steps.get_version.outputs.VERSION }}
-
-      - name: Create GitHub Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          name: Development Docker Build ${{ steps.get_version.outputs.VERSION }}
-          body: |
-            ⚠️ **This is a development Docker build and may contain bugs or incomplete features**
-
-            Docker tags pushed:
-            - `${{ secrets.DOCKERHUB_USERNAME }}/wiki-go:${{ steps.get_version.outputs.VERSION_NUM }}`
-            - `${{ secrets.DOCKERHUB_USERNAME }}/wiki-go:latest-${{ steps.get_version.outputs.TAG_TYPE }}`
-          draft: false
-          prerelease: true

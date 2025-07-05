@@ -58,7 +58,13 @@ func RenderMarkdownWithPath(md string, docPath string) []byte {
 		// Add all goldext preprocessors (frontmatter will be a no-op since it's already processed)
 		for _, preprocessor := range goldext.RegisteredPreprocessors {
 			if preprocessor != nil {
-				preprocessors = append(preprocessors, frontmatter.PreprocessorFunc(preprocessor))
+				// Create a closure that captures the docPath for kanban rendering
+				capturedPreprocessor := preprocessor
+				capturedDocPath := docPath
+				wrappedPreprocessor := func(md string, _ string) string {
+					return capturedPreprocessor(md, capturedDocPath)
+				}
+				preprocessors = append(preprocessors, wrappedPreprocessor)
 			}
 		}
 

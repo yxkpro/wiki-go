@@ -146,6 +146,9 @@
   "new_doc.create_button": "Skapa",
   "new_doc.cancel_button": "Avbryt",
   "new_doc.already_exists": "Dokumentet finns redan",
+  "new_doc.document_type": "Dokumenttyp",
+  "new_doc.type_markdown": "Markdown: Traditionella textdokument",
+  "new_doc.type_kanban": "Kanban: Visuella uppgiftstavlor",
 
   "dialog.confirm_delete": "Är du säker på att du vill ta bort detta?",
   "dialog.confirm_action": "Är du säker på att du vill fortsätta?",
@@ -196,5 +199,19 @@
   "import.importing": "Importerar...",
   "import.results_title": "Importresultat",
   "import.success": "Importen slutfördes framgångsrikt.",
-  "import.error": "Importen misslyckades: {0}"
+  "import.error": "Importen misslyckades: {0}",
+
+  "kanban.enter_task_name": "Ange uppgiftsnamn",
+  "kanban.delete_task_title": "Ta bort uppgift",
+  "kanban.delete_task_confirm": "Är du säker på att du vill ta bort denna uppgift?",
+  "kanban.rename_task": "Byt namn på uppgift",
+  "kanban.delete_task": "Ta bort uppgift",
+  "kanban.rename_column": "Byt namn på kolumn",
+  "kanban.add_task": "Lägg till uppgift",
+  "kanban.delete_column": "Ta bort kolumn",
+  "kanban.delete_column_title": "Ta bort kolumn",
+  "kanban.delete_column_confirm": "Är du säker på att du vill ta bort kolumnen \"{0}\"?",
+  "kanban.add_column_title": "Lägg till kolumn",
+  "kanban.column_name": "Kolumnnamn",
+  "kanban.enter_column_name": "Ange kolumnnamn"
 }

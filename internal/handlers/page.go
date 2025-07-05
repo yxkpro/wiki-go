@@ -16,6 +16,7 @@ import (
 	"wiki-go/internal/i18n"
 	"wiki-go/internal/types"
 	"wiki-go/internal/utils"
+	"wiki-go/internal/frontmatter"
 )
 
 // PageHandler handles requests for pages
@@ -90,9 +91,19 @@ func PageHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config) {
 			return
 		}
 
+		// Parse frontmatter to get document layout
+		metadata, _, hasFrontmatter := frontmatter.Parse(string(mdContent))
+		documentLayout := ""
+		if hasFrontmatter {
+			documentLayout = metadata.Layout
+		}
+
 		// Use the document path for rendering to handle local file references
 		content = template.HTML(utils.RenderMarkdownWithPath(string(mdContent), decodedPath))
 		lastModified = docInfo.ModTime()
+
+		// Update the document layout in the page data
+		navItem.DocumentLayout = documentLayout
 	}
 
 	// List directory contents
@@ -196,6 +207,7 @@ func PageHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config) {
 		IsAuthenticated:    isAuthenticated,
 		UserRole:           userRole,
 		DocPath:            decodedPath,
+		DocumentLayout:     navItem.DocumentLayout,
 	}
 
 	renderTemplate(w, data)

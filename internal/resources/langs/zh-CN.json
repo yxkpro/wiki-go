@@ -146,6 +146,9 @@
   "new_doc.create_button": "创建",
   "new_doc.cancel_button": "取消",
   "new_doc.already_exists": "文档已存在",
+  "new_doc.document_type": "文档类型",
+  "new_doc.type_markdown": "Markdown: 传统文本文档",
+  "new_doc.type_kanban": "Kanban: 可视化任务看板",
 
   "dialog.confirm_delete": "您确定要删除这个吗？",
   "dialog.confirm_action": "您确定要继续吗？",
@@ -196,5 +199,19 @@
   "import.importing": "导入中...",
   "import.results_title": "导入结果",
   "import.success": "导入成功完成。",
-  "import.error": "导入失败：{0}"
+  "import.error": "导入失败：{0}",
+
+  "kanban.enter_task_name": "输入任务名称",
+  "kanban.delete_task_title": "删除任务",
+  "kanban.delete_task_confirm": "您确定要删除此任务吗？",
+  "kanban.rename_task": "重命名任务",
+  "kanban.delete_task": "删除任务",
+  "kanban.rename_column": "重命名列",
+  "kanban.add_task": "添加任务",
+  "kanban.delete_column": "删除列",
+  "kanban.delete_column_title": "删除列",
+  "kanban.delete_column_confirm": "您确定要删除列 \"{0}\" 吗？",
+  "kanban.add_column_title": "添加列",
+  "kanban.column_name": "列名",
+  "kanban.enter_column_name": "请输入列名"
 }

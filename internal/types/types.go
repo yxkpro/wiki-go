@@ -11,11 +11,12 @@ import (
 
 // NavItem represents a navigation item (directory)
 type NavItem struct {
-	Title    string
-	Path     string
-	IsDir    bool
-	Children []*NavItem
-	IsActive bool
+	Title          string
+	Path           string
+	IsDir          bool
+	Children       []*NavItem
+	IsActive       bool
+	DocumentLayout string // Layout type from frontmatter
 }
 
 // BreadcrumbItem represents an item in the breadcrumb trail
@@ -42,4 +43,5 @@ type PageData struct {
 	IsAuthenticated    bool               // Whether the user is authenticated
 	UserRole           string             // User role: "admin", "editor", or "viewer"
 	DocPath            string             // Document path for API calls
+	DocumentLayout     string             // Document layout type from frontmatter (e.g., "kanban")
 }

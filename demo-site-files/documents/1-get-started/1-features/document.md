@@ -7,10 +7,11 @@
 - 📁 Hierarchical page structure with version history
 - 👥 User management, access control, and private wiki mode
 - 💬 Comments with moderation and markdown support
+- 📋 Interactive Kanban boards for project management
 - ⚡ Instant setup via Docker or prebuilt binaries
 - 🧩 Custom logos, banners, shortcodes, and more
 
-> Perfect for internal documentation, personal knowledge bases, or team wikis.
+> Perfect for internal documentation, personal knowledge bases, team wikis, or project management.
 
 ## Content Management
 - **Markdown Support**: Write content using Markdown syntax for rich formatting
@@ -57,3 +58,13 @@
 - **Media Embedding**: Embed images, videos, and other media in your documents
 - **Print Friendly**: Optimized printing support for documentation
 - **API Access**: RESTful API for programmatic access to wiki content
+
+## Project Management
+- **Interactive Kanban Boards**: Transform any document into a visual project management board
+- **Drag & Drop Tasks**: Move tasks between columns with intuitive drag-and-drop functionality
+- **Multiple Boards**: Support for multiple kanban boards within a single document
+- **Task Management**: Create, edit, and organize tasks with full markdown formatting support
+- **Duplicate Column Support**: Allows duplicate column names to prevent data loss during editing
+- **Real-time Updates**: Changes are automatically saved and synchronized
+- **Nested Tasks**: Support for sub-tasks and hierarchical task organization
+- **Task Status Tracking**: Visual indicators for task completion and progress

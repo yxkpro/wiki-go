@@ -1,0 +1,115 @@
+name: Development Docker Builds
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*-dev*"
+      - "v*-rc*"
+      - "v*-beta*"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  docker:
+    name: Build and Push Development Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history for proper versioning
+
+      # Keep DEBUG_MODE enabled for development builds
+      # (no debug disable step)
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Set up Node.js (for minifying CSS and JS)
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install minifiers
+        run: |
+          npm install -g clean-css-cli uglify-js
+
+      - name: Minify all CSS and JS
+        run: |
+          find internal/resources/static/css -name '*.css' -type f -print -exec cleancss -o {} {} \;
+          find internal/resources/static/js -name '*.js' -type f -print -exec uglifyjs {} -o {} \;
+
+      - name: Get tag version
+        id: get_version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+          if [[ $VERSION == v* ]]; then
+            VERSION=${VERSION:1}
+          fi
+          echo "VERSION_NUM=${VERSION}" >> $GITHUB_OUTPUT
+          # For development versions, keep the full tag as version
+          echo "DEV_VERSION=true" >> $GITHUB_OUTPUT
+
+          # Determine tag type for latest tagging
+          if [[ $VERSION == *-rc* ]]; then
+            echo "TAG_TYPE=rc" >> $GITHUB_OUTPUT
+          elif [[ $VERSION == *-beta* ]]; then
+            echo "TAG_TYPE=beta" >> $GITHUB_OUTPUT
+          elif [[ $VERSION == *-dev* ]]; then
+            echo "TAG_TYPE=dev" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/wiki-go
+          tags: |
+            type=raw,value=${{ steps.get_version.outputs.VERSION_NUM }}
+            type=raw,value=latest-${{ steps.get_version.outputs.TAG_TYPE }}
+          labels: |
+            org.opencontainers.image.title=Wiki-Go (Development)
+            org.opencontainers.image.description=Fast flat-file wiki written in Go (Development Build - May contain bugs)
+            org.opencontainers.image.version=${{ steps.get_version.outputs.VERSION_NUM }}
+            org.opencontainers.image.documentation=https://github.com/leomoon-studios/wiki-go#readme
+            org.opencontainers.image.authors=LeoMoon Studios <info@leomoon.com>
+            org.opencontainers.image.licenses=GPL-3.0
+            org.opencontainers.image.url=https://wikigo.leomoon.com
+            org.opencontainers.image.pre-release=true
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VERSION=${{ steps.get_version.outputs.VERSION }}
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Development Docker Build ${{ steps.get_version.outputs.VERSION }}
+          body: |
+            ⚠️ **This is a development Docker build and may contain bugs or incomplete features**
+
+            Docker tags pushed:
+            - `${{ secrets.DOCKERHUB_USERNAME }}/wiki-go:${{ steps.get_version.outputs.VERSION_NUM }}`
+            - `${{ secrets.DOCKERHUB_USERNAME }}/wiki-go:latest-${{ steps.get_version.outputs.TAG_TYPE }}`
+          draft: false
+          prerelease: true

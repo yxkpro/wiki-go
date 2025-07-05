@@ -146,6 +146,9 @@
   "new_doc.create_button": "צור",
   "new_doc.cancel_button": "ביטול",
   "new_doc.already_exists": "המסמך כבר קיים",
+  "new_doc.document_type": "סוג מסמך",
+  "new_doc.type_markdown": "Markdown: מסמכי טקסט מסורתיים",
+  "new_doc.type_kanban": "Kanban: לוחות משימות ויזואליים",
 
   "dialog.confirm_delete": "האם אתה בטוח שברצונך למחוק זאת?",
   "dialog.confirm_action": "האם אתה בטוח שברצונך להמשיך?",
@@ -196,5 +199,19 @@
   "import.importing": "מייבא...",
   "import.results_title": "תוצאות ייבוא",
   "import.success": "הייבוא הושלם בהצלחה.",
-  "import.error": "הייבוא נכשל: {0}"
+  "import.error": "הייבוא נכשל: {0}",
+
+  "kanban.enter_task_name": "הזן שם משימה",
+  "kanban.delete_task_title": "מחק משימה",
+  "kanban.delete_task_confirm": "האם אתה בטוח שברצונך למחוק משימה זו?",
+  "kanban.rename_task": "שנה שם משימה",
+  "kanban.delete_task": "מחק משימה",
+  "kanban.rename_column": "שנה שם עמודה",
+  "kanban.add_task": "הוסף משימה",
+  "kanban.delete_column": "מחק עמודה",
+  "kanban.delete_column_title": "מחק עמודה",
+  "kanban.delete_column_confirm": "האם אתה בטוח שברצונך למחוק את העמודה \"{0}\"?",
+  "kanban.add_column_title": "הוסף עמודה",
+  "kanban.column_name": "שם העמודה",
+  "kanban.enter_column_name": "הזן שם עמודה"
 }

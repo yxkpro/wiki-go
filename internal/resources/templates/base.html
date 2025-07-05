@@ -34,6 +34,9 @@
     <link rel="stylesheet" href="/static/css/markdown-extensions.css?={{getVersion}}">
     <link rel="stylesheet" href="/static/css/stats.css?={{getVersion}}">
     <link rel="stylesheet" href="/static/css/comments.css?={{getVersion}}">
+    {{if eq .DocumentLayout "kanban"}}
+    <link rel="stylesheet" href="/static/css/kanban.css?={{getVersion}}">
+    {{end}}
     <!-- External libraries -->
     <link id="prism-theme" rel="stylesheet" href="/static/libs/prism-1.30.0/prism-tomorrow.min.css">
     <link rel="stylesheet" href="/static/libs/codemirror-5.65.18/codemirror.min.css">
@@ -83,6 +86,9 @@
 
     <!-- Include settings dialog template -->
     {{template "settings-dialog" .}}
+
+    <!-- Include add column dialog template -->
+    {{template "add-column-dialog" .}}
 
     <!-- Include sidebar template -->
     {{template "sidebar" .}}
@@ -228,7 +234,15 @@
     <!-- Markdown table editor dependencies -->
     <script src="/static/js/mte-meaw.js?={{getVersion}}"></script>
     <script src="/static/js/mte-kernel-2.1.1.js?={{getVersion}}"></script>
+
+    <!-- Editor modules - loaded in dependency order -->
+    <script src="/static/js/editor-themes.js?={{getVersion}}"></script>
+    <script src="/static/js/editor-core.js?={{getVersion}}"></script>
+    <script src="/static/js/editor-preview.js?={{getVersion}}"></script>
+    <script src="/static/js/editor-pickers.js?={{getVersion}}"></script>
+    <script src="/static/js/editor-toolbar.js?={{getVersion}}"></script>
     <script src="/static/js/editor.js?={{getVersion}}"></script>
+
     <script src="/static/js/markdown-table-editor.js?={{getVersion}}"></script>
     <script src="/static/js/search.js?={{getVersion}}"></script>
     <script src="/static/js/move-document.js?={{getVersion}}"></script>
@@ -252,6 +266,17 @@
 
     <!-- Clipboard paste handling -->
     <script src="/static/js/clipboard.js?={{getVersion}}"></script>
+    <!-- Task list permissions (shared by tasklist-live.js and kanban-tasks.js) -->
+    <script src="/static/js/tasklist-permissions.js?={{getVersion}}"></script>
     <script src="/static/js/tasklist-live.js?={{getVersion}}" defer></script>
+    {{if eq .DocumentLayout "kanban"}}
+    <!-- Kanban system - modular architecture -->
+    <script src="/static/js/kanban-ui.js?={{getVersion}}" defer></script>
+    <script src="/static/js/kanban-drag.js?={{getVersion}}" defer></script>
+    <script src="/static/js/kanban-tasks.js?={{getVersion}}" defer></script>
+    <script src="/static/js/kanban-columns.js?={{getVersion}}" defer></script>
+    <script src="/static/js/kanban-persistence.js?={{getVersion}}" defer></script>
+    <script src="/static/js/kanban-core.js?={{getVersion}}" defer></script>
+    {{end}}
 </body>
 </html>

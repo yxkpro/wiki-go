@@ -146,6 +146,9 @@
   "new_doc.create_button": "Создать",
   "new_doc.cancel_button": "Отмена",
   "new_doc.already_exists": "Документ уже существует",
+  "new_doc.document_type": "Тип документа",
+  "new_doc.type_markdown": "Markdown: Традиционные текстовые документы",
+  "new_doc.type_kanban": "Kanban: Визуальные доски задач",
 
   "dialog.confirm_delete": "Вы уверены, что хотите удалить это?",
   "dialog.confirm_action": "Вы уверены, что хотите продолжить?",
@@ -196,5 +199,19 @@
   "import.importing": "Импортирование...",
   "import.results_title": "Результаты импорта",
   "import.success": "Импорт успешно завершен.",
-  "import.error": "Ошибка импорта: {0}"
+  "import.error": "Ошибка импорта: {0}",
+
+  "kanban.enter_task_name": "Введите название задачи",
+  "kanban.delete_task_title": "Удалить задачу",
+  "kanban.delete_task_confirm": "Вы уверены, что хотите удалить эту задачу?",
+  "kanban.rename_task": "Переименовать задачу",
+  "kanban.delete_task": "Удалить задачу",
+  "kanban.rename_column": "Переименовать колонку",
+  "kanban.add_task": "Добавить задачу",
+  "kanban.delete_column": "Удалить колонку",
+  "kanban.delete_column_title": "Удалить колонку",
+  "kanban.delete_column_confirm": "Вы уверены, что хотите удалить колонку \"{0}\"?",
+  "kanban.add_column_title": "Добавить колонку",
+  "kanban.column_name": "Название колонки",
+  "kanban.enter_column_name": "Введите название колонки"
 }

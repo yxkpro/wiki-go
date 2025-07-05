@@ -139,6 +139,9 @@
   "new_doc.title": "Create New Document",
   "new_doc.document_title": "Document Title",
   "new_doc.title_help": "The title of your document (will be displayed as H1)",
+  "new_doc.document_type": "Document Type",
+  "new_doc.type_markdown": "Markdown: Traditional text documents",
+  "new_doc.type_kanban": "Kanban: Visual task boards",
   "new_doc.path": "Document Path",
   "new_doc.path_help": "Path where to create document (optional, use forward slashes to create subdirectories)",
   "new_doc.slug": "Document Slug",
@@ -196,5 +199,19 @@
   "import.importing": "Importing...",
   "import.results_title": "Import Results",
   "import.success": "Import completed successfully.",
-  "import.error": "Import failed: {0}"
+  "import.error": "Import failed: {0}",
+
+  "kanban.enter_task_name": "Enter task name",
+  "kanban.delete_task_title": "Delete Task",
+  "kanban.delete_task_confirm": "Are you sure you want to delete this task?",
+  "kanban.rename_task": "Rename task",
+  "kanban.delete_task": "Delete task",
+  "kanban.rename_column": "Rename column",
+  "kanban.add_task": "Add task",
+  "kanban.delete_column": "Delete column",
+  "kanban.delete_column_title": "Delete Column",
+  "kanban.delete_column_confirm": "Are you sure you want to delete the column \"{0}\"?",
+  "kanban.add_column_title": "Add Column",
+  "kanban.column_name": "Column Name",
+  "kanban.enter_column_name": "Enter column name"
 }

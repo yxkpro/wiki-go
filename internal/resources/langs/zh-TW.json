@@ -146,6 +146,9 @@
   "new_doc.create_button": "建立",
   "new_doc.cancel_button": "取消",
   "new_doc.already_exists": "文件已存在",
+  "new_doc.document_type": "文件類型",
+  "new_doc.type_markdown": "Markdown: 傳統文字文件",
+  "new_doc.type_kanban": "Kanban: 視覺化任務看板",
 
   "dialog.confirm_delete": "您確定要刪除這個嗎？",
   "dialog.confirm_action": "您確定要繼續嗎？",
@@ -196,5 +199,19 @@
   "import.importing": "匯入中...",
   "import.results_title": "匯入結果",
   "import.success": "匯入成功完成。",
-  "import.error": "匯入失敗：{0}"
+  "import.error": "匯入失敗：{0}",
+
+  "kanban.enter_task_name": "輸入任務名稱",
+  "kanban.delete_task_title": "刪除任務",
+  "kanban.delete_task_confirm": "您確定要刪除此任務嗎？",
+  "kanban.rename_task": "重新命名任務",
+  "kanban.delete_task": "刪除任務",
+  "kanban.rename_column": "重新命名欄位",
+  "kanban.add_task": "新增任務",
+  "kanban.delete_column": "刪除欄位",
+  "kanban.delete_column_title": "刪除欄位",
+  "kanban.delete_column_confirm": "您確定要刪除欄位 \"{0}\" 嗎？",
+  "kanban.add_column_title": "新增欄位",
+  "kanban.column_name": "欄位名稱",
+  "kanban.enter_column_name": "請輸入欄位名稱"
 }

@@ -1,29 +1,44 @@
 // Task List Live Editing
 // This script enables live checkbox toggling for admins & editors.
 // It relies on the existing /api/source and /api/save endpoints.
+// Note: Kanban tasks are handled by kanban-tasks.js instead.
+// Permissions and checkbox enabling are handled by tasklist-permissions.js
 (function () {
   document.addEventListener('DOMContentLoaded', () => {
-    const role = document.querySelector('meta[name="user-role"]')?.content || 'viewer';
-    const docPath = (document.querySelector('meta[name="doc-path"]')?.content || '').replace(/^\//, '');
+    // Check permissions using shared module
+    if (!window.TaskListPermissions || !window.TaskListPermissions.isTaskEditingAllowed()) {
+      console.log('tasklist-live.js: Task editing not allowed, aborting');
+      return;
+    }
 
-    // Abort if no permissions or preview contexts
-    if (!(role === 'admin' || role === 'editor')) return;
-    if (document.body.classList.contains('editing')) return; // edit mode
-    if (document.querySelector('.version-content')) return;  // version preview
-
+    const docPath = window.TaskListPermissions.getDocPath();
     const container = document.querySelector('.markdown-content');
     if (!container) return;
 
-    // Enable checkboxes (Goldmark renders them disabled by default) and cache list
-    const allCheckboxes = [...container.querySelectorAll('input[type="checkbox"]')];
-    allCheckboxes.forEach((cb, idx) => { cb.disabled = false; cb.dataset.cbIndex = idx; });
+    // Helper function to check if a checkbox is in a kanban context
+    const isKanbanCheckbox = (checkbox) => {
+      return checkbox.closest('.kanban-column-content') !== null;
+    };
 
-    // Helper to enable / disable all list checkboxes
+    // Index only non-kanban checkboxes for sequential task matching
+    // Note: Checkbox enabling is handled by tasklist-permissions.js
+    const allCheckboxes = [...container.querySelectorAll('input[type="checkbox"]')]
+      .filter(cb => !isKanbanCheckbox(cb));
+
+    allCheckboxes.forEach((cb, idx) => {
+      cb.dataset.cbIndex = idx;
+    });
+
+    console.log(`tasklist-live.js: Managing ${allCheckboxes.length} regular task checkboxes (excluding kanban)`);
+
+    // Helper to enable / disable all list checkboxes (only regular tasks)
     const toggleAll = (disabled) => { allCheckboxes.forEach(cb => cb.disabled = disabled); };
 
     // Ensure every task-list <li> has a persistent .save-state span
+    // Skip kanban tasks as they have their own save-state management
     container.querySelectorAll('li').forEach(li => {
       if (!li.querySelector('input[type="checkbox"]')) return; // not a task item
+      if (isKanbanCheckbox(li.querySelector('input[type="checkbox"]'))) return; // skip kanban tasks
       if (!li.querySelector('.save-state')) {
         const span = document.createElement('span');
         span.className = 'save-state';
@@ -53,6 +68,13 @@
     container.addEventListener('click', async (e) => {
       const target = e.target;
       if (!(target instanceof HTMLInputElement) || target.type !== 'checkbox') return;
+
+      // Skip kanban checkboxes - they are handled by kanban-tasks.js
+      if (isKanbanCheckbox(target)) {
+        console.log('tasklist-live.js: Skipping kanban checkbox, handled by kanban-tasks.js');
+        return;
+      }
+
       e.preventDefault();
       const li = target.closest('li');
       if (!li) return;

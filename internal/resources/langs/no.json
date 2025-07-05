@@ -146,6 +146,9 @@
   "new_doc.create_button": "Opprett",
   "new_doc.cancel_button": "Avbryt",
   "new_doc.already_exists": "Dokumentet finnes allerede",
+  "new_doc.document_type": "Dokumenttype",
+  "new_doc.type_markdown": "Markdown: Tradisjonelle tekstdokumenter",
+  "new_doc.type_kanban": "Kanban: Visuelle oppgavetavler",
 
   "dialog.confirm_delete": "Er du sikker på at du vil slette dette?",
   "dialog.confirm_action": "Er du sikker på at du vil fortsette?",
@@ -196,5 +199,19 @@
   "import.importing": "Importerer...",
   "import.results_title": "Importresultater",
   "import.success": "Import fullført.",
-  "import.error": "Import mislyktes: {0}"
+  "import.error": "Import mislyktes: {0}",
+
+  "kanban.enter_task_name": "Skriv inn oppgavenavn",
+  "kanban.delete_task_title": "Slett oppgave",
+  "kanban.delete_task_confirm": "Er du sikker på at du vil slette denne oppgaven?",
+  "kanban.rename_task": "Gi nytt navn til oppgave",
+  "kanban.delete_task": "Slett oppgave",
+  "kanban.rename_column": "Gi nytt navn til kolonne",
+  "kanban.add_task": "Legg til oppgave",
+  "kanban.delete_column": "Slett kolonne",
+  "kanban.delete_column_title": "Slett kolonne",
+  "kanban.delete_column_confirm": "Er du sikker på at du vil slette kolonnen \"{0}\"?",
+  "kanban.add_column_title": "Legg til kolonne",
+  "kanban.column_name": "Kolonnenavn",
+  "kanban.enter_column_name": "Skriv inn kolonnenavn"
 }

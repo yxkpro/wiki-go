@@ -146,6 +146,9 @@
   "new_doc.create_button": "Erstellen",
   "new_doc.cancel_button": "Abbrechen",
   "new_doc.already_exists": "Dokument existiert bereits",
+  "new_doc.document_type": "Dokumenttyp",
+  "new_doc.type_markdown": "Markdown: Traditionelle Textdokumente",
+  "new_doc.type_kanban": "Kanban: Visuelle Aufgaben-Boards",
 
   "dialog.confirm_delete": "Sind Sie sicher, dass Sie dies löschen möchten?",
   "dialog.confirm_action": "Sind Sie sicher, dass Sie fortfahren möchten?",
@@ -196,5 +199,19 @@
   "import.importing": "Importiere...",
   "import.results_title": "Importergebnisse",
   "import.success": "Import erfolgreich abgeschlossen.",
-  "import.error": "Import fehlgeschlagen: {0}"
+  "import.error": "Import fehlgeschlagen: {0}",
+
+  "kanban.enter_task_name": "Aufgabenname eingeben",
+  "kanban.delete_task_title": "Aufgabe löschen",
+  "kanban.delete_task_confirm": "Sind Sie sicher, dass Sie diese Aufgabe löschen möchten?",
+  "kanban.rename_task": "Aufgabe umbenennen",
+  "kanban.delete_task": "Aufgabe löschen",
+  "kanban.rename_column": "Spalte umbenennen",
+  "kanban.add_task": "Aufgabe hinzufügen",
+  "kanban.delete_column": "Spalte löschen",
+  "kanban.delete_column_title": "Spalte löschen",
+  "kanban.delete_column_confirm": "Sind Sie sicher, dass Sie die Spalte \"{0}\" löschen möchten?",
+  "kanban.add_column_title": "Spalte hinzufügen",
+  "kanban.column_name": "Spaltenname",
+  "kanban.enter_column_name": "Spaltenname eingeben"
 }

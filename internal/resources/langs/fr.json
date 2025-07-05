@@ -146,6 +146,9 @@
   "new_doc.create_button": "Créer",
   "new_doc.cancel_button": "Annuler",
   "new_doc.already_exists": "Le document existe déjà",
+  "new_doc.document_type": "Type de document",
+  "new_doc.type_markdown": "Markdown: Documents texte traditionnels",
+  "new_doc.type_kanban": "Kanban: Tableaux de tâches visuels",
 
   "dialog.confirm_delete": "Êtes-vous sûr de vouloir supprimer ceci ?",
   "dialog.confirm_action": "Êtes-vous sûr de vouloir continuer ?",
@@ -196,5 +199,19 @@
   "import.importing": "Importation en cours...",
   "import.results_title": "Résultats de l'importation",
   "import.success": "Importation terminée avec succès.",
-  "import.error": "Échec de l'importation : {0}"
+  "import.error": "L'importation a échoué : {0}",
+
+  "kanban.enter_task_name": "Entrez le nom de la tâche",
+  "kanban.delete_task_title": "Supprimer la tâche",
+  "kanban.delete_task_confirm": "Êtes-vous sûr de vouloir supprimer cette tâche ?",
+  "kanban.rename_task": "Renommer la tâche",
+  "kanban.delete_task": "Supprimer la tâche",
+  "kanban.rename_column": "Renommer la colonne",
+  "kanban.add_task": "Ajouter une tâche",
+  "kanban.delete_column": "Supprimer la colonne",
+  "kanban.delete_column_title": "Supprimer la colonne",
+  "kanban.delete_column_confirm": "Êtes-vous sûr de vouloir supprimer la colonne \"{0}\" ?",
+  "kanban.add_column_title": "Ajouter une colonne",
+  "kanban.column_name": "Nom de la colonne",
+  "kanban.enter_column_name": "Entrez le nom de la colonne"
 }

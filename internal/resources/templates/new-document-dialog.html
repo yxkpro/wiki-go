@@ -9,6 +9,15 @@
         <div class="error-message"></div>
         <form class="new-document-form" id="newDocumentForm">
             <div class="form-group">
+                <label for="docType">{{t "new_doc.document_type"}}</label>
+                <div class="language-selector-wrapper">
+                    <select id="docType" name="docType" class="language-selector" required>
+                        <option value="markdown" selected>{{t "new_doc.type_markdown"}}</option>
+                        <option value="kanban">{{t "new_doc.type_kanban"}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="docTitle">{{t "new_doc.document_title"}}</label>
                 <input type="text" id="docTitle" name="docTitle" required>
                 <small class="form-help">{{t "new_doc.title_help"}}</small>

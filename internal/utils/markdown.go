@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"wiki-go/internal/frontmatter"
 	"wiki-go/internal/goldext"
 
 	"github.com/yuin/goldmark"
@@ -45,6 +46,44 @@ func RenderMarkdown(md string) []byte {
 
 // RenderMarkdownWithPath converts markdown text to HTML with the current document path
 func RenderMarkdownWithPath(md string, docPath string) []byte {
+	// Check for frontmatter
+	metadata, contentWithoutFrontmatter, hasFrontmatter := frontmatter.Parse(md)
+
+	// If this has kanban layout, render as kanban with full goldext support
+	if hasFrontmatter && metadata.Layout == "kanban" {
+		// Create preprocessor functions (excluding frontmatter since it's already processed)
+		var preprocessors []frontmatter.PreprocessorFunc
+		var postProcessors []frontmatter.PostProcessorFunc
+
+		// Add all goldext preprocessors (frontmatter will be a no-op since it's already processed)
+		for _, preprocessor := range goldext.RegisteredPreprocessors {
+			if preprocessor != nil {
+				// Create a closure that captures the docPath for kanban rendering
+				capturedPreprocessor := preprocessor
+				capturedDocPath := docPath
+				wrappedPreprocessor := func(md string, _ string) string {
+					return capturedPreprocessor(md, capturedDocPath)
+				}
+				preprocessors = append(preprocessors, wrappedPreprocessor)
+			}
+		}
+
+		// Add post-processors for mermaid and direction blocks
+		postProcessors = append(postProcessors, func(html string) string {
+			result := goldext.RestoreMermaidBlocks(html)
+			result = goldext.RestoreDirectionBlocks(result)
+			return result
+		})
+
+		kanbanHTML := frontmatter.RenderKanbanWithProcessors(contentWithoutFrontmatter, preprocessors, postProcessors)
+		return []byte(kanbanHTML)
+	}
+
+	// If there's frontmatter but not kanban layout, use content without frontmatter
+	if hasFrontmatter {
+		md = contentWithoutFrontmatter
+	}
+
 	// Apply any custom extensions via pre-processing
 	md = goldext.ProcessMarkdown(md, docPath)
 

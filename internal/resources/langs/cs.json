@@ -146,6 +146,9 @@
   "new_doc.create_button": "Vytvořit",
   "new_doc.cancel_button": "Zrušit",
   "new_doc.already_exists": "Dokument již existuje",
+  "new_doc.document_type": "Typ dokumentu",
+  "new_doc.type_markdown": "Markdown: Tradiční textové dokumenty",
+  "new_doc.type_kanban": "Kanban: Vizuální tabule úkolů",
 
   "dialog.confirm_delete": "Opravdu chcete toto smazat?",
   "dialog.confirm_action": "Opravdu chcete pokračovat?",
@@ -196,5 +199,19 @@
   "import.importing": "Importování...",
   "import.results_title": "Výsledky importu",
   "import.success": "Import byl úspěšně dokončen.",
-  "import.error": "Import selhal: {0}"
+  "import.error": "Import selhal: {0}",
+
+  "kanban.enter_task_name": "Zadejte název úkolu",
+  "kanban.delete_task_title": "Smazat úkol",
+  "kanban.delete_task_confirm": "Opravdu chcete smazat tento úkol?",
+  "kanban.rename_task": "Přejmenovat úkol",
+  "kanban.delete_task": "Smazat úkol",
+  "kanban.rename_column": "Přejmenovat sloupec",
+  "kanban.add_task": "Přidat úkol",
+  "kanban.delete_column": "Smazat sloupec",
+  "kanban.delete_column_title": "Smazat sloupec",
+  "kanban.delete_column_confirm": "Opravdu chcete smazat sloupec \"{0}\"?",
+  "kanban.add_column_title": "Přidat sloupec",
+  "kanban.column_name": "Název sloupce",
+  "kanban.enter_column_name": "Zadejte název sloupce"
 }

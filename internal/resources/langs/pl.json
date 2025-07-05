@@ -146,6 +146,9 @@
   "new_doc.create_button": "Utwórz",
   "new_doc.cancel_button": "Anuluj",
   "new_doc.already_exists": "Dokument już istnieje",
+  "new_doc.document_type": "Typ dokumentu",
+  "new_doc.type_markdown": "Markdown: Tradycyjne dokumenty tekstowe",
+  "new_doc.type_kanban": "Kanban: Wizualne tablice zadań",
 
   "dialog.confirm_delete": "Czy na pewno chcesz to usunąć?",
   "dialog.confirm_action": "Czy na pewno chcesz kontynuować?",
@@ -196,5 +199,19 @@
   "import.importing": "Importowanie...",
   "import.results_title": "Wyniki importu",
   "import.success": "Import zakończony pomyślnie.",
-  "import.error": "Import nie powiódł się: {0}"
+  "import.error": "Import nie powiódł się: {0}",
+
+  "kanban.enter_task_name": "Wprowadź nazwę zadania",
+  "kanban.delete_task_title": "Usuń zadanie",
+  "kanban.delete_task_confirm": "Czy na pewno chcesz usunąć to zadanie?",
+  "kanban.rename_task": "Zmień nazwę zadania",
+  "kanban.delete_task": "Usuń zadanie",
+  "kanban.rename_column": "Zmień nazwę kolumny",
+  "kanban.add_task": "Dodaj zadanie",
+  "kanban.delete_column": "Usuń kolumnę",
+  "kanban.delete_column_title": "Usuń kolumnę",
+  "kanban.delete_column_confirm": "Czy na pewno chcesz usunąć kolumnę \"{0}\"?",
+  "kanban.add_column_title": "Dodaj kolumnę",
+  "kanban.column_name": "Nazwa kolumny",
+  "kanban.enter_column_name": "Wprowadź nazwę kolumny"
 }

@@ -146,6 +146,9 @@
   "new_doc.create_button": "ایجاد",
   "new_doc.cancel_button": "لغو",
   "new_doc.already_exists": "سند از قبل وجود دارد",
+  "new_doc.document_type": "نوع سند",
+  "new_doc.type_markdown": "Markdown: اسناد متنی سنتی",
+  "new_doc.type_kanban": "Kanban: تابلوهای بصری وظایف",
 
   "dialog.confirm_delete": "آیا مطمئن هستید که می‌خواهید این را حذف کنید؟",
   "dialog.confirm_action": "آیا مطمئن هستید که می‌خواهید ادامه دهید؟",
@@ -196,5 +199,19 @@
   "import.importing": "در حال وارد کردن...",
   "import.results_title": "نتایج وارد کردن",
   "import.success": "وارد کردن با موفقیت انجام شد.",
-  "import.error": "وارد کردن با شکست مواجه شد: {0}"
+  "import.error": "وارد کردن ناموفق بود: {0}",
+
+  "kanban.enter_task_name": "نام وظیفه را وارد کنید",
+  "kanban.delete_task_title": "حذف وظیفه",
+  "kanban.delete_task_confirm": "آیا مطمئن هستید که می‌خواهید این وظیفه را حذف کنید؟",
+  "kanban.rename_task": "تغییر نام وظیفه",
+  "kanban.delete_task": "حذف وظیفه",
+  "kanban.rename_column": "تغییر نام ستون",
+  "kanban.add_task": "افزودن وظیفه",
+  "kanban.delete_column": "حذف ستون",
+  "kanban.delete_column_title": "حذف ستون",
+  "kanban.delete_column_confirm": "آیا مطمئن هستید که می‌خواهید ستون \"{0}\" را حذف کنید؟",
+  "kanban.add_column_title": "افزودن ستون",
+  "kanban.column_name": "نام ستون",
+  "kanban.enter_column_name": "نام ستون را وارد کنید"
 }

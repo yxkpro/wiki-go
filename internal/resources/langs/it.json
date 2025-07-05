@@ -146,6 +146,9 @@
   "new_doc.create_button": "Crea",
   "new_doc.cancel_button": "Annulla",
   "new_doc.already_exists": "Il documento esiste già",
+  "new_doc.document_type": "Tipo di documento",
+  "new_doc.type_markdown": "Markdown: Documenti di testo tradizionali",
+  "new_doc.type_kanban": "Kanban: Bacheche di attività visive",
 
   "dialog.confirm_delete": "Sei sicuro di voler eliminare questo?",
   "dialog.confirm_action": "Sei sicuro di voler procedere?",
@@ -196,5 +199,19 @@
   "import.importing": "Importazione in corso...",
   "import.results_title": "Risultati dell'importazione",
   "import.success": "Importazione completata con successo.",
-  "import.error": "Importazione fallita: {0}"
+  "import.error": "Importazione fallita: {0}",
+
+  "kanban.enter_task_name": "Inserisci il nome dell'attività",
+  "kanban.delete_task_title": "Elimina Attività",
+  "kanban.delete_task_confirm": "Sei sicuro di voler eliminare questa attività?",
+  "kanban.rename_task": "Rinomina attività",
+  "kanban.delete_task": "Elimina attività",
+  "kanban.rename_column": "Rinomina colonna",
+  "kanban.add_task": "Aggiungi attività",
+  "kanban.delete_column": "Elimina Colonna",
+  "kanban.delete_column_title": "Elimina Colonna",
+  "kanban.delete_column_confirm": "Sei sicuro di voler eliminare la colonna \"{0}\"?",
+  "kanban.add_column_title": "Aggiungi colonna",
+  "kanban.column_name": "Nome colonna",
+  "kanban.enter_column_name": "Inserisci il nome della colonna"
 }

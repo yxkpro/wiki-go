@@ -10,7 +10,8 @@
 .user-confirmation-dialog,
 .file-upload-dialog,
 .version-history-dialog,
-.settings-dialog {
+.settings-dialog,
+.add-column-dialog {
     display: none;
     position: fixed;
     top: 0;
@@ -34,7 +35,8 @@
 .user-confirmation-dialog.active,
 .file-upload-dialog.active,
 .version-history-dialog.active,
-.settings-dialog.active {
+.settings-dialog.active,
+.add-column-dialog.active {
     display: flex;
     opacity: 1;
     visibility: visible;

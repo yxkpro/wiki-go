@@ -146,6 +146,9 @@
   "new_doc.create_button": "생성",
   "new_doc.cancel_button": "취소",
   "new_doc.already_exists": "문서가 이미 존재합니다",
+  "new_doc.document_type": "문서 유형",
+  "new_doc.type_markdown": "Markdown: 전통적인 텍스트 문서",
+  "new_doc.type_kanban": "Kanban: 시각적 작업 보드",
 
   "dialog.confirm_delete": "정말로 삭제하시겠습니까?",
   "dialog.confirm_action": "정말로 진행하시겠습니까?",
@@ -196,5 +199,19 @@
   "import.importing": "가져오는 중...",
   "import.results_title": "가져오기 결과",
   "import.success": "가져오기가 성공적으로 완료되었습니다.",
-  "import.error": "가져오기 실패: {0}"
+  "import.error": "가져오기 실패: {0}",
+
+  "kanban.enter_task_name": "작업 이름 입력",
+  "kanban.delete_task_title": "작업 삭제",
+  "kanban.delete_task_confirm": "이 작업을 삭제하시겠습니까?",
+  "kanban.rename_task": "작업 이름 변경",
+  "kanban.delete_task": "작업 삭제",
+  "kanban.rename_column": "열 이름 변경",
+  "kanban.add_task": "작업 추가",
+  "kanban.delete_column": "열 삭제",
+  "kanban.delete_column_title": "열 삭제",
+  "kanban.delete_column_confirm": "열 \"{0}\"을(를) 삭제하시겠습니까?",
+  "kanban.add_column_title": "열 추가",
+  "kanban.column_name": "열 이름",
+  "kanban.enter_column_name": "열 이름을 입력하세요"
 }

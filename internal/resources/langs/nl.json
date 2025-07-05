@@ -146,6 +146,9 @@
   "new_doc.create_button": "Aanmaken",
   "new_doc.cancel_button": "Annuleren",
   "new_doc.already_exists": "Document bestaat al",
+  "new_doc.document_type": "Documenttype",
+  "new_doc.type_markdown": "Markdown: Traditionele tekstdocumenten",
+  "new_doc.type_kanban": "Kanban: Visuele taakborden",
 
   "dialog.confirm_delete": "Weet je zeker dat je dit wilt verwijderen?",
   "dialog.confirm_action": "Weet je zeker dat je wilt doorgaan?",
@@ -196,5 +199,19 @@
   "import.importing": "Importeren...",
   "import.results_title": "Importeerresultaten",
   "import.success": "Importeren succesvol voltooid.",
-  "import.error": "Importeren mislukt: {0}"
+  "import.error": "Importeren mislukt: {0}",
+
+  "kanban.enter_task_name": "Taaknaam invoeren",
+  "kanban.delete_task_title": "Taak verwijderen",
+  "kanban.delete_task_confirm": "Weet je zeker dat je deze taak wilt verwijderen?",
+  "kanban.rename_task": "Taak hernoemen",
+  "kanban.delete_task": "Taak verwijderen",
+  "kanban.rename_column": "Kolom hernoemen",
+  "kanban.add_task": "Taak toevoegen",
+  "kanban.delete_column": "Kolom verwijderen",
+  "kanban.delete_column_title": "Kolom verwijderen",
+  "kanban.delete_column_confirm": "Weet je zeker dat je de kolom \"{0}\" wilt verwijderen?",
+  "kanban.add_column_title": "Kolom toevoegen",
+  "kanban.column_name": "Kolomnaam",
+  "kanban.enter_column_name": "Voer kolomnaam in"
 }

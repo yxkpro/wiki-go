@@ -146,6 +146,9 @@
   "new_doc.create_button": "Oluştur",
   "new_doc.cancel_button": "İptal",
   "new_doc.already_exists": "Belge zaten mevcut",
+  "new_doc.document_type": "Belge türü",
+  "new_doc.type_markdown": "Markdown: Geleneksel metin belgeleri",
+  "new_doc.type_kanban": "Kanban: Görsel görev panoları",
 
   "dialog.confirm_delete": "Bunu silmek istediğinizden emin misiniz?",
   "dialog.confirm_action": "Devam etmek istediğinizden emin misiniz?",
@@ -196,5 +199,19 @@
   "import.importing": "İçe Aktarılıyor...",
   "import.results_title": "İçe Aktarma Sonuçları",
   "import.success": "İçe aktarma başarıyla tamamlandı.",
-  "import.error": "İçe aktarma başarısız oldu: {0}"
+  "import.error": "İçe aktarma başarısız oldu: {0}",
+
+  "kanban.enter_task_name": "Görev adını girin",
+  "kanban.delete_task_title": "Görevi Sil",
+  "kanban.delete_task_confirm": "Bu görevi silmek istediğinizden emin misiniz?",
+  "kanban.rename_task": "Görevi yeniden adlandır",
+  "kanban.delete_task": "Görevi sil",
+  "kanban.rename_column": "Sütunu yeniden adlandır",
+  "kanban.add_task": "Görev ekle",
+  "kanban.delete_column": "Sütunu Sil",
+  "kanban.delete_column_title": "Sütunu Sil",
+  "kanban.delete_column_confirm": "Sütun \"{0}\" silmek istediğinizden emin misiniz?",
+  "kanban.add_column_title": "Sütun ekle",
+  "kanban.column_name": "Sütun adı",
+  "kanban.enter_column_name": "Sütun adını girin"
 }

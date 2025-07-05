@@ -8,6 +8,7 @@
     overflow: hidden;
     border: 1px solid var(--border-color);
     margin-top: 0;
+    min-height: 300px; /* Ensure minimum height for very small screens */
 }
 
 .editor-area {
@@ -978,4 +979,19 @@
         height: 18px;
         margin: 2px;
     }
+}
+
+/* Kanban preview styles */
+.editor-preview.kanban-preview {
+    padding: 20px;
+    overflow-x: auto;
+}
+
+.editor-preview.kanban-preview .kanban-board {
+    min-height: 400px;
+}
+
+/* Ensure kanban cards are properly displayed in the preview */
+.editor-preview.kanban-preview .kanban-card {
+    margin-bottom: 10px;
 }

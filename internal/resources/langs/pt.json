@@ -146,6 +146,9 @@
   "new_doc.create_button": "Criar",
   "new_doc.cancel_button": "Cancelar",
   "new_doc.already_exists": "O documento já existe",
+  "new_doc.document_type": "Tipo de documento",
+  "new_doc.type_markdown": "Markdown: Documentos de texto tradicionais",
+  "new_doc.type_kanban": "Kanban: Quadros de tarefas visuais",
 
   "dialog.confirm_delete": "Tem certeza de que deseja excluir isso?",
   "dialog.confirm_action": "Tem certeza de que deseja prosseguir?",
@@ -196,5 +199,19 @@
   "import.importing": "Importando...",
   "import.results_title": "Resultados da Importação",
   "import.success": "Importação concluída com sucesso.",
-  "import.error": "Falha na importação: {0}"
+  "import.error": "Falha na importação: {0}",
+
+  "kanban.enter_task_name": "Digite o nome da tarefa",
+  "kanban.delete_task_title": "Excluir Tarefa",
+  "kanban.delete_task_confirm": "Tem certeza de que deseja excluir esta tarefa?",
+  "kanban.rename_task": "Renomear tarefa",
+  "kanban.delete_task": "Excluir tarefa",
+  "kanban.rename_column": "Renomear coluna",
+  "kanban.add_task": "Adicionar tarefa",
+  "kanban.delete_column": "Excluir coluna",
+  "kanban.delete_column_title": "Excluir Coluna",
+  "kanban.delete_column_confirm": "Tem certeza de que deseja excluir a coluna \"{0}\"?",
+  "kanban.add_column_title": "Adicionar coluna",
+  "kanban.column_name": "Nome da coluna",
+  "kanban.enter_column_name": "Digite o nome da coluna"
 }

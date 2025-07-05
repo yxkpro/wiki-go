@@ -22,6 +22,8 @@ wiki:
     disable_comments: false
     disable_file_upload_checking: false
     enable_link_embedding: false
+    hide_attachments: false
+    disable_content_max_width: true
     max_versions: 10
     # Maximum file upload size in MB
     max_upload_size: 1

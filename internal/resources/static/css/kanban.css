@@ -179,6 +179,10 @@ body.role-editor .editor-admin-only {
     gap: 8px;
     opacity: 0;
     transition: opacity 0.2s;
+    background: var(--hover-bg);
+    border-radius: 4px;
+    padding: 2px 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Hide task action buttons when task is being edited */

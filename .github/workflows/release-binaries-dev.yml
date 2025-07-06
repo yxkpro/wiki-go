@@ -1,4 +1,4 @@
-name: Development Binary Builds
+name: Binary Builds - Development
 
 on:
   workflow_dispatch:

@@ -1,4 +1,4 @@
-name: Development Docker Builds
+name: Docker Builds - Development
 
 on:
   workflow_dispatch:

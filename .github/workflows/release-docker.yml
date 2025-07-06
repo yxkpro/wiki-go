@@ -1,4 +1,4 @@
-name: Docker Builds
+name: Docker Builds - Stable
 
 on:
   workflow_dispatch:

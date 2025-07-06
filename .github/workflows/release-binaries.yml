@@ -1,4 +1,4 @@
-name: Binary Builds
+name: Binary Builds - Stable
 
 on:
   workflow_dispatch:

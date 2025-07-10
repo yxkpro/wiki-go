@@ -126,9 +126,24 @@ class KanbanDragHandler {
    */
   createDragImage(e, item) {
     const dragImage = item.cloneNode(true);
+    // Copy computed size from original item
+    const style = window.getComputedStyle(item);
+    dragImage.style.width = style.width;
+    dragImage.style.height = style.height;
+    dragImage.style.maxWidth = style.maxWidth;
+    dragImage.style.maxHeight = style.maxHeight;
+    dragImage.style.boxSizing = style.boxSizing;
+    dragImage.style.overflow = 'hidden';
     dragImage.style.opacity = '0.7';
     dragImage.style.position = 'absolute';
     dragImage.style.top = '-1000px';
+    // Constrain images inside the clone
+    dragImage.querySelectorAll('img').forEach(img => {
+      img.style.maxWidth = '100%';
+      img.style.width = 'auto';
+      img.style.height = 'auto';
+      img.style.display = 'block';
+    });
     document.body.appendChild(dragImage);
     e.dataTransfer.setDragImage(dragImage, 10, 10);
     setTimeout(() => {

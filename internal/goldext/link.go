@@ -190,15 +190,22 @@ func isLocalPath(path string) bool {
 
 // resolveLocalPath resolves a local path relative to the document path
 func resolveLocalPath(path, docPath string) string {
+	// Remove any leading slashes from docPath
+	docPath = strings.TrimLeft(docPath, "/")
+
 	// URL encode the filename to handle spaces and special characters
 	escapedPath := url.PathEscape(path)
 
 	// Handle the homepage special case
 	if docPath == "" || docPath == "/" {
 		// Homepage files are stored in "pages/home"
-		return "/api/files/pages/home/" + escapedPath
+		result := "/api/files/pages/home/" + escapedPath
+		// fmt.Printf("[resolveLocalPath] docPath: '%s', path: '%s', result: '%s' (homepage)\n", docPath, path, result)
+		return result
 	}
 
 	// Regular document files
-	return "/api/files/" + docPath + "/" + escapedPath
+	result := "/api/files/" + docPath + "/" + escapedPath
+	// fmt.Printf("[resolveLocalPath] docPath: '%s', path: '%s', result: '%s'\n", docPath, path, result)
+	return result
 }

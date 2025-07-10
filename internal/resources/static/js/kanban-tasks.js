@@ -1031,6 +1031,16 @@ class KanbanTaskManager {
     // Process strikethrough text (~~text~~)
     processed = processed.replace(/~~([^~]+)~~/g, '<del>$1</del>');
 
+    // Process image markdown ![alt](url)
+    processed = processed.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function(match, alt, url) {
+      // Only rewrite if not absolute or already API path
+      if (!/^([\/]|https?:)/.test(url)) {
+        var docPath = (typeof getCurrentDocPath === 'function') ? getCurrentDocPath() : '';
+        url = '/api/files/' + docPath + '/' + url;
+      }
+      return '<img src="' + url + '" alt="' + alt + '">';
+    });
+
     return processed;
   }
 

@@ -43,6 +43,9 @@ class KanbanUIManager {
     // Process inline code (`code`)
     processed = processed.replace(/`([^`]+)`/g, '<code>$1</code>');
 
+    // Process strikethrough text (~~text~~)
+    processed = processed.replace(/~~([^~]+)~~/g, '<del>$1</del>');
+
     return processed;
   }
 

@@ -535,6 +535,7 @@ class KanbanTaskManager {
       .replace(/_([^_]+)_/g, '$1')       // Remove italic with underscore
       .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links
       .replace(/`([^`]+)`/g, '$1')       // Remove code
+      .replace(/~~([^~]+)~~/g, '$1')     // Remove strikethrough
       .trim();
   }
 
@@ -724,6 +725,7 @@ class KanbanTaskManager {
     markdown = markdown.replace(/<mark>(.*?)<\/mark>/g, '==$1==');
     markdown = markdown.replace(/<code>(.*?)<\/code>/g, '`$1`');
     markdown = markdown.replace(/<a href="([^"]*)">(.*?)<\/a>/g, '[$2]($1)');
+    markdown = markdown.replace(/<del>(.*?)<\/del>/g, '~~$1~~'); // Add strikethrough
 
     // Get the text content and clean up any remaining HTML
     tempDiv.innerHTML = markdown;
@@ -1025,6 +1027,9 @@ class KanbanTaskManager {
 
     // Process inline code (`code`)
     processed = processed.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+    // Process strikethrough text (~~text~~)
+    processed = processed.replace(/~~([^~]+)~~/g, '<del>$1</del>');
 
     return processed;
   }

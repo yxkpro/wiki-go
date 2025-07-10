@@ -644,6 +644,10 @@ func processHeaderContentBasic(content string) string {
 
 // processInlineFormattingBasic handles basic markdown formatting for inline text
 func processInlineFormattingBasic(text string) string {
+	// Process strikethrough text (~~text~~)
+	strikePattern := regexp.MustCompile(`~~([^~]+)~~`)
+	text = strikePattern.ReplaceAllString(text, "<del>$1</del>")
+
 	// Process bold text (**text** or __text__)
 	boldPattern := regexp.MustCompile(`(\*\*|__)([^*_]+)(\*\*|__)`)
 	text = boldPattern.ReplaceAllString(text, "<strong>$2</strong>")

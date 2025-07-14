@@ -141,7 +141,7 @@ function createToolbar(container) {
         { icon: 'fa-superscript', action: 'superscript', title: 'Add Superscript' },
         { type: 'separator' },
         { icon: 'fa-code', action: 'code', title: 'Code (Ctrl+/)' },
-        { icon: 'fa-quote-left', action: 'quote', title: 'Quote (Ctrl+Q)' },
+        { icon: 'fa-quote-left', action: 'quote', title: 'Quote (Ctrl+K)' },
         { icon: 'fa-list-ul', action: 'unordered-list', title: 'Unordered List' },
         { icon: 'fa-list-ol', action: 'ordered-list', title: 'Ordered List' },
         { type: 'separator' },

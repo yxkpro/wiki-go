@@ -3,6 +3,113 @@
  * Centralizes keyboard shortcut handling for the entire application
  */
 
+// Platform detection
+const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.platform);
+const isWindows = /Win/.test(navigator.platform);
+
+// Centralized shortcut definitions
+const SHORTCUT_DEFINITIONS = {
+    // Global shortcuts
+    'enterEditMode': {
+        windows: { ctrl: true, key: 'e' },
+        description: 'Enter edit mode'
+    },
+    'saveDocument': {
+        windows: { ctrl: true, key: 's' },
+        description: 'Save document when in edit mode'
+    },
+    'focusSearch': {
+        windows: { ctrl: true, shift: true, key: 'f' },
+        description: 'Focus the search box'
+    },
+    
+    // Formatting shortcuts
+    'formatBold': {
+        windows: { ctrl: true, key: 'b' },
+        description: 'Toggle bold formatting'
+    },
+    'formatItalic': {
+        windows: { ctrl: true, key: 'i' },
+        description: 'Toggle italic formatting'
+    },
+    'formatHeading': {
+        windows: { ctrl: true, key: 'h' },
+        description: 'Toggle/cycle heading levels'
+    },
+    'formatQuote': {
+        windows: { ctrl: true, key: 'q' },
+        description: 'Toggle block quote'
+    },
+    'formatCode': {
+        windows: { ctrl: true, key: '/' },
+        description: 'Toggle code formatting'
+    },
+    
+    // Editor shortcuts
+    'togglePreview': {
+        windows: { ctrl: true, shift: true, key: 'p' },
+        description: 'Preview Toggle'
+    },
+    'toggleWordWrap': {
+        windows: { alt: true, key: 'z' },
+        description: 'Toggle word wrap'
+    },
+    
+    // Table shortcuts
+    'tableEscape': {
+        windows: { ctrl: true, key: 'Enter' },
+        description: 'Exit table at current position'
+    },
+    'tableMoveLeft': {
+        windows: { ctrl: true, key: 'ArrowLeft' },
+        description: 'Move to cell on the left'
+    },
+    'tableMoveRight': {
+        windows: { ctrl: true, key: 'ArrowRight' },
+        description: 'Move to cell on the right'
+    },
+    'tableMoveUp': {
+        windows: { ctrl: true, key: 'ArrowUp' },
+        description: 'Move to cell above'
+    },
+    'tableMoveDown': {
+        windows: { ctrl: true, key: 'ArrowDown' },
+        description: 'Move to cell below'
+    },
+    'tableAlignLeft': {
+        windows: { ctrl: true, shift: true, key: 'ArrowLeft' },
+        description: 'Align column left'
+    },
+    'tableAlignRight': {
+        windows: { ctrl: true, shift: true, key: 'ArrowRight' },
+        description: 'Align column right'
+    },
+    'tableAlignCenter': {
+        windows: { ctrl: true, shift: true, key: 'ArrowUp' },
+        description: 'Align column center'
+    },
+    'tableAlignNone': {
+        windows: { ctrl: true, shift: true, key: 'ArrowDown' },
+        description: 'Remove column alignment'
+    },
+    'tableMoveRowUp': {
+        windows: { alt: true, key: 'ArrowUp' },
+        description: 'Move row up'
+    },
+    'tableMoveRowDown': {
+        windows: { alt: true, key: 'ArrowDown' },
+        description: 'Move row down'
+    },
+    'tableMoveColumnLeft': {
+        windows: { alt: true, key: 'ArrowLeft' },
+        description: 'Move column left'
+    },
+    'tableMoveColumnRight': {
+        windows: { alt: true, key: 'ArrowRight' },
+        description: 'Move column right'
+    }
+};
+
 // Track editor related elements
 let mainContent;
 let editorContainer;
@@ -10,6 +117,41 @@ let viewToolbar;
 let editToolbar;
 let editPageButton;
 let saveButton;
+
+// Helper function to check if shortcut matches
+function matchesShortcut(event, shortcut) {
+    const platform = isMac ? 'mac' : 'windows';
+    const platformShortcut = shortcut[platform];
+    
+    if (!platformShortcut) return false;
+    
+    // Handle special key mappings
+    let eventKey = event.key;
+    if (eventKey === 'ArrowLeft') eventKey = 'ArrowLeft';
+    else if (eventKey === 'ArrowRight') eventKey = 'ArrowRight';
+    else if (eventKey === 'ArrowUp') eventKey = 'ArrowUp';
+    else if (eventKey === 'ArrowDown') eventKey = 'ArrowDown';
+    else if (event.code === 'Slash') eventKey = '/';
+    else eventKey = eventKey.toLowerCase();
+    
+    const targetKey = platformShortcut.key.toLowerCase();
+    
+    return (!platformShortcut.ctrl || event.ctrlKey) &&
+           (!platformShortcut.meta || event.metaKey) &&
+           (!platformShortcut.alt || event.altKey) &&
+           (!platformShortcut.shift || event.shiftKey) &&
+           (eventKey === targetKey || eventKey === platformShortcut.key);
+}
+
+// Helper function to get shortcut action from event
+function getShortcutAction(event) {
+    for (const [actionName, shortcut] of Object.entries(SHORTCUT_DEFINITIONS)) {
+        if (matchesShortcut(event, shortcut)) {
+            return actionName;
+        }
+    }
+    return null;
+}
 
 // Initialize keyboard shortcuts
 function initKeyboardShortcuts() {
@@ -27,7 +169,42 @@ function initKeyboardShortcuts() {
     // Register formatting commands when CodeMirror is available
     if (window.CodeMirror) {
         registerFormattingCommands();
+        registerAllCodeMirrorShortcuts();
     }
+}
+
+// Register all CodeMirror shortcuts
+function registerAllCodeMirrorShortcuts() {
+    // Make sure we're working with the default keyMap
+    if (!CodeMirror.keyMap.default) {
+        CodeMirror.keyMap.default = {};
+    }
+    
+    // Register formatting shortcuts
+    CodeMirror.keyMap.default['Ctrl-B'] = 'formatBold';
+    CodeMirror.keyMap.default['Ctrl-I'] = 'formatItalic';
+    CodeMirror.keyMap.default['Ctrl-H'] = 'formatHeading';
+    CodeMirror.keyMap.default['Ctrl-Q'] = 'formatQuote';
+    CodeMirror.keyMap.default['Ctrl-/'] = 'formatCode';
+    
+    // Register editor shortcuts
+    CodeMirror.keyMap.default['Ctrl-Shift-P'] = 'togglePreview';
+    CodeMirror.keyMap.default['Alt-Z'] = 'toggleWordWrap';
+    
+    // Register table shortcuts - use the original command names from markdown-table-editor.js
+    CodeMirror.keyMap.default['Ctrl-Enter'] = 'tableEscape';
+    CodeMirror.keyMap.default['Ctrl-Left'] = 'tableMoveLeft';
+    CodeMirror.keyMap.default['Ctrl-Right'] = 'tableMoveRight';
+    CodeMirror.keyMap.default['Ctrl-Up'] = 'tableMoveUp';
+    CodeMirror.keyMap.default['Ctrl-Down'] = 'tableMoveDown';
+    CodeMirror.keyMap.default['Shift-Ctrl-Left'] = 'tableAlignLeft';
+    CodeMirror.keyMap.default['Shift-Ctrl-Right'] = 'tableAlignRight';
+    CodeMirror.keyMap.default['Shift-Ctrl-Up'] = 'tableAlignCenter';
+    CodeMirror.keyMap.default['Shift-Ctrl-Down'] = 'tableAlignNone';
+    CodeMirror.keyMap.default['Alt-Up'] = 'markdownTableMoveRowUp';
+    CodeMirror.keyMap.default['Alt-Down'] = 'markdownTableMoveRowDown';
+    CodeMirror.keyMap.default['Alt-Left'] = 'markdownTableMoveColumnLeft';
+    CodeMirror.keyMap.default['Alt-Right'] = 'markdownTableMoveColumnRight';
 }
 
 // Register text formatting commands and shortcuts with CodeMirror
@@ -221,52 +398,70 @@ function registerFormattingCommands() {
         cm.focus();
     };
 
-    // Register keyboard shortcuts
-    CodeMirror.keyMap.default['Ctrl-B'] = 'formatBold';
-    CodeMirror.keyMap.default['Ctrl-I'] = 'formatItalic';
-    CodeMirror.keyMap.default['Ctrl-H'] = 'formatHeading';
-    CodeMirror.keyMap.default['Ctrl-K'] = 'formatQuote';
-    CodeMirror.keyMap.default['Ctrl-/'] = 'formatCode';
+    // Register toggle preview command
+    CodeMirror.commands.togglePreview = function(cm) {
+        if (window.EditorPreview && typeof window.EditorPreview.togglePreview === 'function') {
+            window.EditorPreview.togglePreview();
+        }
+    };
+
+    // Register toggle word wrap command
+    CodeMirror.commands.toggleWordWrap = function(cm) {
+        if (window.EditorCore && typeof window.EditorCore.toggleWordWrap === 'function') {
+            window.EditorCore.toggleWordWrap();
+        }
+    };
 }
 
 // Handle all keyboard events
 function handleKeyDown(e) {
-    // Ctrl+E to enter edit mode
-    if (e.ctrlKey && e.key.toLowerCase() === 'e') {
-        e.preventDefault(); // Prevent default browser behavior
-        if (editPageButton && !mainContent.classList.contains('editing')) {
-            // Immediately click the edit button without any delay
-            editPageButton.click();
-
-            // Force browser to process this event immediately
-            window.requestAnimationFrame(() => {
-                if (editor && mainContent.classList.contains('editing')) {
-                    editor.refresh();
-                    editor.focus();
-                }
-            });
-        }
-    }
-
-    // Ctrl+S to save changes in edit mode
-    else if (e.ctrlKey && e.key.toLowerCase() === 's') {
-        e.preventDefault(); // Prevent browser's save dialog
-        if (mainContent && mainContent.classList.contains('editing') && saveButton) {
-            saveButton.click();
-        }
-    }
+    // Get the shortcut action for this event
+    const action = getShortcutAction(e);
     
-    // Ctrl+Shift+F to focus search box
-    else if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'f') {
-        e.preventDefault(); // Prevent browser's find dialog
-        const searchBox = document.querySelector('.search-box');
-        if (searchBox) {
-            searchBox.focus();
+    if (action) {
+        // Handle global shortcuts
+        switch (action) {
+            case 'enterEditMode':
+                e.preventDefault();
+                if (editPageButton && !mainContent.classList.contains('editing')) {
+                    editPageButton.click();
+                    window.requestAnimationFrame(() => {
+                        if (editor && mainContent.classList.contains('editing')) {
+                            editor.refresh();
+                            editor.focus();
+                        }
+                    });
+                }
+                return;
+                
+            case 'saveDocument':
+                e.preventDefault();
+                if (mainContent && mainContent.classList.contains('editing') && saveButton) {
+                    saveButton.click();
+                }
+                return;
+                
+            case 'focusSearch':
+                e.preventDefault();
+                const searchBox = document.querySelector('.search-box');
+                if (searchBox) {
+                    searchBox.focus();
+                }
+                return;
+                
+            case 'togglePreview':
+                e.preventDefault();
+                if (mainContent && mainContent.classList.contains('editing')) {
+                    if (window.EditorPreview && typeof window.EditorPreview.togglePreview === 'function') {
+                        window.EditorPreview.togglePreview();
+                    }
+                }
+                return;
         }
     }
 
-    // Escape key for closing dialogs and exiting edit mode
-    else if (e.key === 'Escape') {
+    // Handle non-shortcut keys
+    if (e.key === 'Escape') {
         handleEscapeKey(e);
     }
 }
@@ -411,7 +606,8 @@ window.KeyboardShortcuts = {
     handleKeyDown,
     handleEscapeKey,
     exitEditMode,
-    registerFormattingCommands
+    registerFormattingCommands,
+    registerAllCodeMirrorShortcuts  // Export this so it can be called after table editor loads
 };
 
 // Initialize keyboard shortcuts when DOM is loaded

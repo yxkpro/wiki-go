@@ -1,6 +1,6 @@
 # Shortcuts
 
-Wiki-Go provides several keyboard shortcuts to enhance productivity:
+Wiki-Go provides several keyboard shortcuts to enhance productivity (Windows shortcuts shown):
 
 ## General Shortcuts
 

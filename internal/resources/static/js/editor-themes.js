@@ -139,34 +139,11 @@ function initializeMobileEffects() {
     window.addEventListener('resize', handleResponsiveChanges);
 }
 
-// Add a more aggressive event capture for Ctrl+Shift+P at document level
-function setupPreviewShortcut() {
-    document.addEventListener('keydown', function(e) {
-        // Handle Ctrl+Shift+P for preview toggle (capture it before browser handling)
-        if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'p' || e.key === 'P')) {
-            // Prevent default browser action first
-            e.preventDefault();
-            e.stopPropagation();
-
-            // Only process if we're in edit mode
-            const mainContent = document.querySelector('.content');
-            if (mainContent && mainContent.classList.contains('editing')) {
-                if (window.EditorPreview && typeof window.EditorPreview.togglePreview === 'function') {
-                    window.EditorPreview.togglePreview();
-                }
-            }
-
-            // Return false to ensure the event is completely handled
-            return false;
-        }
-    });
-}
-
 // Initialize all theme and mobile functionality
 function initialize() {
     initializeTheme();
     initializeMobileEffects();
-    setupPreviewShortcut();
+    // Preview shortcut is now handled centrally in keyboard-shortcuts.js
 }
 
 // Auto-initialize when DOM is ready

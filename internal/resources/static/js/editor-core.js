@@ -230,8 +230,7 @@ async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar
                 extraKeys: {
                     // Tab and Enter handling is now done directly in markdown-table-editor.js
                     // by overriding the CodeMirror commands
-                    "Ctrl-Shift-P": () => window.EditorPreview.togglePreview(),
-                    "Alt-Z": toggleWordWrap
+                    // All other shortcuts are handled centrally in keyboard-shortcuts.js
                 },
                 placeholder: 'Write your markdown here...',
                 spellcheck: true,

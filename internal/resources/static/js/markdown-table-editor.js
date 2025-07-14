@@ -395,9 +395,414 @@
     }
   };
 
-  // Make sure Tab key is properly mapped in CodeMirror keymap
+  // Make sure Tab and Enter keys are properly mapped in CodeMirror keymap
   CodeMirror.keyMap.default['Tab'] = 'tab';
   CodeMirror.keyMap.default['Shift-Tab'] = 'shiftTab';
+  CodeMirror.keyMap.default['Enter'] = 'tableAwareEnter';
+
+  // Direct implementation for moving a row up - doesn't rely on mte-kernel
+  CodeMirror.commands.directMoveRowUp = function(cm) {
+    const cursor = cm.getCursor();
+    const currentLine = cursor.line;
+
+    // Only proceed if we're not at the top line
+    if (currentLine <= 0) {
+      return;
+    }
+
+    // Get the current line text and line above text
+    const currentLineText = cm.getLine(currentLine);
+    const aboveLineText = cm.getLine(currentLine - 1);
+
+    // Make sure both lines are table rows
+    if (!currentLineText || !aboveLineText ||
+        !currentLineText.trim().startsWith('|') ||
+        !aboveLineText.trim().startsWith('|')) {
+      return;
+    }
+
+    // Find table boundaries
+    let tableStart = currentLine;
+    while (tableStart > 0) {
+      const prevLine = cm.getLine(tableStart - 1);
+      if (!prevLine || !prevLine.trim().startsWith('|')) break;
+      tableStart--;
+    }
+
+    // Don't move header (row 0) or delimiter row (row 1)
+    if (currentLine === tableStart) {
+      return;
+    }
+
+    if (currentLine === tableStart + 1) {
+      return;
+    }
+
+    // Don't move the row immediately after delimiter (first data row) above the delimiter
+    if (currentLine === tableStart + 2 && currentLine - 1 === tableStart + 1) {
+      return;
+    }
+
+    // Replace the lines
+    cm.replaceRange(
+      currentLineText,
+      {line: currentLine - 1, ch: 0},
+      {line: currentLine - 1, ch: aboveLineText.length}
+    );
+
+    cm.replaceRange(
+      aboveLineText,
+      {line: currentLine, ch: 0},
+      {line: currentLine, ch: currentLineText.length}
+    );
+
+    // Move cursor up to follow the moved row
+    cm.setCursor({line: currentLine - 1, ch: cursor.ch});
+  };
+
+  // Connect markdownTableMoveRowUp to directMoveRowUp
+  CodeMirror.commands.markdownTableMoveRowUp = function(cm) {
+    if (typeof CodeMirror.commands.directMoveRowUp === 'function') {
+      CodeMirror.commands.directMoveRowUp(cm);
+    }
+  };
+
+  // Direct implementation for moving a row down - doesn't rely on mte-kernel
+  CodeMirror.commands.directMoveRowDown = function(cm) {
+    const cursor = cm.getCursor();
+    const currentLine = cursor.line;
+
+    // Get the current line text
+    const currentLineText = cm.getLine(currentLine);
+
+    // Make sure current line is a table row
+    if (!currentLineText || !currentLineText.trim().startsWith('|')) {
+      return;
+    }
+
+    // Check if there's a line below
+    if (currentLine >= cm.lineCount() - 1) {
+      return;
+    }
+
+    // Get the line below text
+    const belowLineText = cm.getLine(currentLine + 1);
+
+    // Make sure the line below is a table row
+    if (!belowLineText || !belowLineText.trim().startsWith('|')) {
+      return;
+    }
+
+    // Find table boundaries
+    let tableStart = currentLine;
+    while (tableStart > 0) {
+      const prevLine = cm.getLine(tableStart - 1);
+      if (!prevLine || !prevLine.trim().startsWith('|')) break;
+      tableStart--;
+    }
+
+    // Find table end
+    let tableEnd = currentLine;
+    while (tableEnd < cm.lineCount() - 1) {
+      const nextLine = cm.getLine(tableEnd + 1);
+      if (!nextLine || !nextLine.trim().startsWith('|')) break;
+      tableEnd++;
+    }
+
+    // Don't move if this is the last row of the table
+    if (currentLine === tableEnd) {
+      return;
+    }
+
+    // Don't move header (row 0) or delimiter row (row 1)
+    if (currentLine === tableStart || currentLine === tableStart + 1) {
+      return;
+    }
+
+    // Don't move a data row below a non-table row
+    if (!belowLineText.trim().startsWith('|')) {
+      return;
+    }
+
+    // Replace the lines
+    cm.replaceRange(
+      belowLineText,
+      {line: currentLine, ch: 0},
+      {line: currentLine, ch: currentLineText.length}
+    );
+
+    cm.replaceRange(
+      currentLineText,
+      {line: currentLine + 1, ch: 0},
+      {line: currentLine + 1, ch: belowLineText.length}
+    );
+
+    // Move cursor down to follow the moved row
+    cm.setCursor({line: currentLine + 1, ch: cursor.ch});
+  };
+
+  // Connect markdownTableMoveRowDown to directMoveRowDown
+  CodeMirror.commands.markdownTableMoveRowDown = function(cm) {
+    if (typeof CodeMirror.commands.directMoveRowDown === 'function') {
+      CodeMirror.commands.directMoveRowDown(cm);
+    }
+  };
+
+  // Direct implementation for moving a column left
+  CodeMirror.commands.directMoveColumnLeft = function(cm) {
+    const cursor = cm.getCursor();
+    const currentLine = cursor.line;
+
+    // Make sure we're in a table row
+    const lineText = cm.getLine(currentLine);
+    if (!lineText || !lineText.trim().startsWith('|')) {
+      return;
+    }
+
+    // Find table boundaries
+    let tableStart = currentLine;
+    while (tableStart > 0) {
+      const prevLine = cm.getLine(tableStart - 1);
+      if (!prevLine || !prevLine.trim().startsWith('|')) break;
+      tableStart--;
+    }
+
+    // Find table end
+    let tableEnd = currentLine;
+    while (tableEnd < cm.lineCount() - 1) {
+      const nextLine = cm.getLine(tableEnd + 1);
+      if (!nextLine || !nextLine.trim().startsWith('|')) break;
+      tableEnd++;
+    }
+
+    // Find which column the cursor is in
+    const cursorCol = findCursorColumn(cm, lineText, cursor.ch);
+
+    // Don't move if cursor is in the first content column (index 1)
+    if (cursorCol <= 1) {
+      return;
+    }
+
+    // Move the column left in each row of the table
+    for (let row = tableStart; row <= tableEnd; row++) {
+      const rowText = cm.getLine(row);
+      const columns = splitTableRow(rowText);
+
+      if (cursorCol < columns.length - 1) { // -1 for the last empty column
+        // Swap columns
+        const temp = columns[cursorCol];
+        columns[cursorCol] = columns[cursorCol - 1];
+        columns[cursorCol - 1] = temp;
+
+        // Reconstruct the row
+        const newRowText = columns.join('|');
+
+        // Replace the row
+        cm.replaceRange(
+          newRowText,
+          {line: row, ch: 0},
+          {line: row, ch: rowText.length}
+        );
+      }
+    }
+
+    // Calculate new cursor position that stays with the moved column (now at cursorCol-1)
+    // Get updated line text after movement
+    const updatedLineText = cm.getLine(cursor.line);
+    const newCursorPos = getCursorPositionForColumn(updatedLineText, cursorCol - 1);
+
+    // Move cursor to follow the moved column
+    cm.setCursor({line: cursor.line, ch: newCursorPos});
+  };
+
+  // Direct implementation for moving a column right
+  CodeMirror.commands.directMoveColumnRight = function(cm) {
+    const cursor = cm.getCursor();
+    const currentLine = cursor.line;
+
+    // Make sure we're in a table row
+    const lineText = cm.getLine(currentLine);
+    if (!lineText || !lineText.trim().startsWith('|')) {
+      return;
+    }
+
+    // Find table boundaries
+    let tableStart = currentLine;
+    while (tableStart > 0) {
+      const prevLine = cm.getLine(tableStart - 1);
+      if (!prevLine || !prevLine.trim().startsWith('|')) break;
+      tableStart--;
+    }
+
+    // Find table end
+    let tableEnd = currentLine;
+    while (tableEnd < cm.lineCount() - 1) {
+      const nextLine = cm.getLine(tableEnd + 1);
+      if (!nextLine || !nextLine.trim().startsWith('|')) break;
+      tableEnd++;
+    }
+
+    // Find which column the cursor is in
+    const cursorCol = findCursorColumn(cm, lineText, cursor.ch);
+
+    // Get the number of columns in the table
+    const columns = splitTableRow(lineText);
+
+    // Don't move if cursor is in the last meaningful column
+    if (cursorCol >= columns.length - 2) { // -2 to account for last empty column
+      return;
+    }
+
+    // Move the column right in each row of the table
+    for (let row = tableStart; row <= tableEnd; row++) {
+      const rowText = cm.getLine(row);
+      const rowColumns = splitTableRow(rowText);
+
+      if (cursorCol < rowColumns.length - 2) { // -2 for last empty column
+        // Swap columns
+        const temp = rowColumns[cursorCol];
+        rowColumns[cursorCol] = rowColumns[cursorCol + 1];
+        rowColumns[cursorCol + 1] = temp;
+
+        // Reconstruct the row
+        const newRowText = rowColumns.join('|');
+
+        // Replace the row
+        cm.replaceRange(
+          newRowText,
+          {line: row, ch: 0},
+          {line: row, ch: rowText.length}
+        );
+      }
+    }
+
+    // Calculate new cursor position that stays with the moved column (now at cursorCol+1)
+    // Get updated line text after movement
+    const updatedLineText = cm.getLine(cursor.line);
+    const newCursorPos = getCursorPositionForColumn(updatedLineText, cursorCol + 1);
+
+    // Move cursor to follow the moved column
+    cm.setCursor({line: cursor.line, ch: newCursorPos});
+  };
+
+  // Helper function to find which column the cursor is in
+  function findCursorColumn(cm, lineText, cursorCh) {
+    // Count pipes before cursor
+    let pipeCount = 0;
+    for (let i = 0; i < cursorCh; i++) {
+      if (lineText[i] === '|') {
+        pipeCount++;
+      }
+    }
+    return pipeCount;
+  }
+
+  // Helper function to split a table row into columns
+  function splitTableRow(rowText) {
+    const trimmed = rowText.trim();
+    // Handle empty or invalid rows
+    if (!trimmed || !trimmed.startsWith('|')) {
+      return [rowText];
+    }
+
+    // Split into columns
+    const parts = [];
+    let currentPart = '';
+    let inPipe = false;
+
+    for (let i = 0; i < rowText.length; i++) {
+      if (rowText[i] === '|') {
+        // End current part and start a new one
+        parts.push(currentPart);
+        currentPart = '';
+        inPipe = true;
+      } else {
+        currentPart += rowText[i];
+      }
+    }
+
+    // Add the last part if we ended with a pipe
+    if (inPipe) {
+      parts.push(currentPart);
+    }
+
+    return parts;
+  }
+
+  // Helper function to get cursor position for a column
+  function getCursorPositionForColumn(lineText, column) {
+    // Find the boundaries of the specified column
+    let pipeCount = 0;
+    let startPos = 0;
+    let endPos = lineText.length;
+
+    for (let i = 0; i < lineText.length; i++) {
+      if (lineText[i] === '|') {
+        pipeCount++;
+        if (pipeCount === column) {
+          startPos = i + 1;  // Start position is after this pipe
+        } else if (pipeCount === column + 1) {
+          endPos = i;  // End position is before the next pipe
+          break;
+        }
+      }
+    }
+
+    // Find a good position within the column content
+    if (startPos < endPos) {
+      // Skip leading whitespace
+      while (startPos < endPos && lineText[startPos] === ' ') {
+        startPos++;
+      }
+
+      // If there's content, position at the start of the content
+      if (startPos < endPos && lineText[startPos] !== ' ') {
+        return startPos;
+      }
+
+      // If it's an empty cell or only whitespace, position just after the pipe + space
+      return startPos <= endPos ? startPos : endPos - 1;
+    }
+
+    // Fallback - position after the pipe
+    return startPos;
+  }
+
+  // Connect markdownTableMoveColumnLeft to directMoveColumnLeft
+  CodeMirror.commands.markdownTableMoveColumnLeft = function(cm) {
+    if (typeof CodeMirror.commands.directMoveColumnLeft === 'function') {
+      CodeMirror.commands.directMoveColumnLeft(cm);
+    }
+  };
+
+  // Connect markdownTableMoveColumnRight to directMoveColumnRight
+  CodeMirror.commands.markdownTableMoveColumnRight = function(cm) {
+    if (typeof CodeMirror.commands.directMoveColumnRight === 'function') {
+      CodeMirror.commands.directMoveColumnRight(cm);
+    }
+  };
+
+  // Toolbar button mappings - add these BEFORE the re-registration
+  CodeMirror.commands.markdownTableAlignColumnLeft = function(cm) {
+    CodeMirror.commands.tableAlignLeft(cm);
+  };
+
+  CodeMirror.commands.markdownTableAlignColumnCenter = function(cm) {
+    CodeMirror.commands.tableAlignCenter(cm);
+  };
+
+  CodeMirror.commands.markdownTableAlignColumnRight = function(cm) {
+    CodeMirror.commands.tableAlignRight(cm);
+  };
+
+  CodeMirror.commands.markdownTableAlignColumnNone = function(cm) {
+    CodeMirror.commands.tableAlignNone(cm);
+  };
+
+  // Re-register all shortcuts after table editor is loaded
+  if (window.KeyboardShortcuts && typeof window.KeyboardShortcuts.registerAllCodeMirrorShortcuts === 'function') {
+    window.KeyboardShortcuts.registerAllCodeMirrorShortcuts();
+  }
 
   // Store the original Enter key behavior
   const originalEnterCommand = CodeMirror.commands.newlineAndIndentContinueMarkdownList;
@@ -1087,426 +1492,5 @@
       // Use Alignment.NONE to remove specific alignment
       tableEditor.alignColumn(MteKernel.Alignment.NONE, defaultOptions);
     }
-  };
-
-  // Make sure all keys are properly mapped in CodeMirror keymap
-  CodeMirror.keyMap.default['Tab'] = 'tab';
-  CodeMirror.keyMap.default['Shift-Tab'] = 'shiftTab';
-  CodeMirror.keyMap.default['Enter'] = 'tableAwareEnter';
-  CodeMirror.keyMap.default['Ctrl-Enter'] = 'tableEscape';
-  CodeMirror.keyMap.default['Ctrl-Left'] = 'tableMoveLeft';
-  CodeMirror.keyMap.default['Ctrl-Right'] = 'tableMoveRight';
-  CodeMirror.keyMap.default['Ctrl-Up'] = 'tableMoveUp';
-  CodeMirror.keyMap.default['Ctrl-Down'] = 'tableMoveDown';
-  CodeMirror.keyMap.default['Shift-Ctrl-Left'] = 'tableAlignLeft';
-  CodeMirror.keyMap.default['Shift-Ctrl-Right'] = 'tableAlignRight';
-  CodeMirror.keyMap.default['Shift-Ctrl-Up'] = 'tableAlignCenter';
-  CodeMirror.keyMap.default['Shift-Ctrl-Down'] = 'tableAlignNone';
-  CodeMirror.keyMap.default['Alt-Up'] = 'markdownTableMoveRowUp';
-  CodeMirror.keyMap.default['Alt-Down'] = 'markdownTableMoveRowDown';
-  CodeMirror.keyMap.default['Alt-Left'] = 'markdownTableMoveColumnLeft';
-  CodeMirror.keyMap.default['Alt-Right'] = 'markdownTableMoveColumnRight';
-
-  // Direct implementation for moving a row up - doesn't rely on mte-kernel
-  CodeMirror.commands.directMoveRowUp = function(cm) {
-    const cursor = cm.getCursor();
-    const currentLine = cursor.line;
-
-    // Only proceed if we're not at the top line
-    if (currentLine <= 0) {
-      return;
-    }
-
-    // Get the current line text and line above text
-    const currentLineText = cm.getLine(currentLine);
-    const aboveLineText = cm.getLine(currentLine - 1);
-
-    // Make sure both lines are table rows
-    if (!currentLineText || !aboveLineText ||
-        !currentLineText.trim().startsWith('|') ||
-        !aboveLineText.trim().startsWith('|')) {
-      return;
-    }
-
-    // Find table boundaries
-    let tableStart = currentLine;
-    while (tableStart > 0) {
-      const prevLine = cm.getLine(tableStart - 1);
-      if (!prevLine || !prevLine.trim().startsWith('|')) break;
-      tableStart--;
-    }
-
-    // Don't move header (row 0) or delimiter row (row 1)
-    if (currentLine === tableStart) {
-      return;
-    }
-
-    if (currentLine === tableStart + 1) {
-      return;
-    }
-
-    // Don't move the row immediately after delimiter (first data row) above the delimiter
-    if (currentLine === tableStart + 2 && currentLine - 1 === tableStart + 1) {
-      return;
-    }
-
-    // Replace the lines
-    cm.replaceRange(
-      currentLineText,
-      {line: currentLine - 1, ch: 0},
-      {line: currentLine - 1, ch: aboveLineText.length}
-    );
-
-    cm.replaceRange(
-      aboveLineText,
-      {line: currentLine, ch: 0},
-      {line: currentLine, ch: currentLineText.length}
-    );
-
-    // Move cursor up to follow the moved row
-    cm.setCursor({line: currentLine - 1, ch: cursor.ch});
-  };
-
-  // Connect markdownTableMoveRowUp to directMoveRowUp
-  CodeMirror.commands.markdownTableMoveRowUp = function(cm) {
-    if (typeof CodeMirror.commands.directMoveRowUp === 'function') {
-      CodeMirror.commands.directMoveRowUp(cm);
-    }
-  };
-
-  // Direct implementation for moving a row down - doesn't rely on mte-kernel
-  CodeMirror.commands.directMoveRowDown = function(cm) {
-    const cursor = cm.getCursor();
-    const currentLine = cursor.line;
-
-    // Get the current line text
-    const currentLineText = cm.getLine(currentLine);
-
-    // Make sure current line is a table row
-    if (!currentLineText || !currentLineText.trim().startsWith('|')) {
-      return;
-    }
-
-    // Check if there's a line below
-    if (currentLine >= cm.lineCount() - 1) {
-      return;
-    }
-
-    // Get the line below text
-    const belowLineText = cm.getLine(currentLine + 1);
-
-    // Make sure the line below is a table row
-    if (!belowLineText || !belowLineText.trim().startsWith('|')) {
-      return;
-    }
-
-    // Find table boundaries
-    let tableStart = currentLine;
-    while (tableStart > 0) {
-      const prevLine = cm.getLine(tableStart - 1);
-      if (!prevLine || !prevLine.trim().startsWith('|')) break;
-      tableStart--;
-    }
-
-    // Find table end
-    let tableEnd = currentLine;
-    while (tableEnd < cm.lineCount() - 1) {
-      const nextLine = cm.getLine(tableEnd + 1);
-      if (!nextLine || !nextLine.trim().startsWith('|')) break;
-      tableEnd++;
-    }
-
-    // Don't move if this is the last row of the table
-    if (currentLine === tableEnd) {
-      return;
-    }
-
-    // Don't move header (row 0) or delimiter row (row 1)
-    if (currentLine === tableStart || currentLine === tableStart + 1) {
-      return;
-    }
-
-    // Don't move a data row below a non-table row
-    if (!belowLineText.trim().startsWith('|')) {
-      return;
-    }
-
-    // Replace the lines
-    cm.replaceRange(
-      belowLineText,
-      {line: currentLine, ch: 0},
-      {line: currentLine, ch: currentLineText.length}
-    );
-
-    cm.replaceRange(
-      currentLineText,
-      {line: currentLine + 1, ch: 0},
-      {line: currentLine + 1, ch: belowLineText.length}
-    );
-
-    // Move cursor down to follow the moved row
-    cm.setCursor({line: currentLine + 1, ch: cursor.ch});
-  };
-
-  // Connect markdownTableMoveRowDown to directMoveRowDown
-  CodeMirror.commands.markdownTableMoveRowDown = function(cm) {
-    if (typeof CodeMirror.commands.directMoveRowDown === 'function') {
-      CodeMirror.commands.directMoveRowDown(cm);
-    }
-  };
-
-  // Direct implementation for moving a column left
-  CodeMirror.commands.directMoveColumnLeft = function(cm) {
-    const cursor = cm.getCursor();
-    const currentLine = cursor.line;
-
-    // Make sure we're in a table row
-    const lineText = cm.getLine(currentLine);
-    if (!lineText || !lineText.trim().startsWith('|')) {
-      return;
-    }
-
-    // Find table boundaries
-    let tableStart = currentLine;
-    while (tableStart > 0) {
-      const prevLine = cm.getLine(tableStart - 1);
-      if (!prevLine || !prevLine.trim().startsWith('|')) break;
-      tableStart--;
-    }
-
-    // Find table end
-    let tableEnd = currentLine;
-    while (tableEnd < cm.lineCount() - 1) {
-      const nextLine = cm.getLine(tableEnd + 1);
-      if (!nextLine || !nextLine.trim().startsWith('|')) break;
-      tableEnd++;
-    }
-
-    // Find which column the cursor is in
-    const cursorCol = findCursorColumn(cm, lineText, cursor.ch);
-
-    // Don't move if cursor is in the first content column (index 1)
-    if (cursorCol <= 1) {
-      return;
-    }
-
-    // Move the column left in each row of the table
-    for (let row = tableStart; row <= tableEnd; row++) {
-      const rowText = cm.getLine(row);
-      const columns = splitTableRow(rowText);
-
-      if (cursorCol < columns.length - 1) { // -1 for the last empty column
-        // Swap columns
-        const temp = columns[cursorCol];
-        columns[cursorCol] = columns[cursorCol - 1];
-        columns[cursorCol - 1] = temp;
-
-        // Reconstruct the row
-        const newRowText = columns.join('|');
-
-        // Replace the row
-        cm.replaceRange(
-          newRowText,
-          {line: row, ch: 0},
-          {line: row, ch: rowText.length}
-        );
-      }
-    }
-
-    // Calculate new cursor position that stays with the moved column (now at cursorCol-1)
-    // Get updated line text after movement
-    const updatedLineText = cm.getLine(cursor.line);
-    const newCursorPos = getCursorPositionForColumn(updatedLineText, cursorCol - 1);
-
-    // Move cursor to follow the moved column
-    cm.setCursor({line: cursor.line, ch: newCursorPos});
-  };
-
-  // Direct implementation for moving a column right
-  CodeMirror.commands.directMoveColumnRight = function(cm) {
-    const cursor = cm.getCursor();
-    const currentLine = cursor.line;
-
-    // Make sure we're in a table row
-    const lineText = cm.getLine(currentLine);
-    if (!lineText || !lineText.trim().startsWith('|')) {
-      return;
-    }
-
-    // Find table boundaries
-    let tableStart = currentLine;
-    while (tableStart > 0) {
-      const prevLine = cm.getLine(tableStart - 1);
-      if (!prevLine || !prevLine.trim().startsWith('|')) break;
-      tableStart--;
-    }
-
-    // Find table end
-    let tableEnd = currentLine;
-    while (tableEnd < cm.lineCount() - 1) {
-      const nextLine = cm.getLine(tableEnd + 1);
-      if (!nextLine || !nextLine.trim().startsWith('|')) break;
-      tableEnd++;
-    }
-
-    // Find which column the cursor is in
-    const cursorCol = findCursorColumn(cm, lineText, cursor.ch);
-
-    // Get the number of columns in the table
-    const columns = splitTableRow(lineText);
-
-    // Don't move if cursor is in the last meaningful column
-    if (cursorCol >= columns.length - 2) { // -2 to account for last empty column
-      return;
-    }
-
-    // Move the column right in each row of the table
-    for (let row = tableStart; row <= tableEnd; row++) {
-      const rowText = cm.getLine(row);
-      const rowColumns = splitTableRow(rowText);
-
-      if (cursorCol < rowColumns.length - 2) { // -2 for last empty column
-        // Swap columns
-        const temp = rowColumns[cursorCol];
-        rowColumns[cursorCol] = rowColumns[cursorCol + 1];
-        rowColumns[cursorCol + 1] = temp;
-
-        // Reconstruct the row
-        const newRowText = rowColumns.join('|');
-
-        // Replace the row
-        cm.replaceRange(
-          newRowText,
-          {line: row, ch: 0},
-          {line: row, ch: rowText.length}
-        );
-      }
-    }
-
-    // Calculate new cursor position that stays with the moved column (now at cursorCol+1)
-    // Get updated line text after movement
-    const updatedLineText = cm.getLine(cursor.line);
-    const newCursorPos = getCursorPositionForColumn(updatedLineText, cursorCol + 1);
-
-    // Move cursor to follow the moved column
-    cm.setCursor({line: cursor.line, ch: newCursorPos});
-  };
-
-  // Helper function to find which column the cursor is in
-  function findCursorColumn(cm, lineText, cursorCh) {
-    // Count pipes before cursor
-    let pipeCount = 0;
-    for (let i = 0; i < cursorCh; i++) {
-      if (lineText[i] === '|') {
-        pipeCount++;
-      }
-    }
-    return pipeCount;
-  }
-
-  // Helper function to split a table row into columns
-  function splitTableRow(rowText) {
-    const trimmed = rowText.trim();
-    // Handle empty or invalid rows
-    if (!trimmed || !trimmed.startsWith('|')) {
-      return [rowText];
-    }
-
-    // Split into columns
-    const parts = [];
-    let currentPart = '';
-    let inPipe = false;
-
-    for (let i = 0; i < rowText.length; i++) {
-      if (rowText[i] === '|') {
-        // End current part and start a new one
-        parts.push(currentPart);
-        currentPart = '';
-        inPipe = true;
-      } else {
-        currentPart += rowText[i];
-      }
-    }
-
-    // Add the last part if we ended with a pipe
-    if (inPipe) {
-      parts.push(currentPart);
-    }
-
-    return parts;
-  }
-
-  // Helper function to get cursor position for a column
-  function getCursorPositionForColumn(lineText, column) {
-    // Find the boundaries of the specified column
-    let pipeCount = 0;
-    let startPos = 0;
-    let endPos = lineText.length;
-
-    for (let i = 0; i < lineText.length; i++) {
-      if (lineText[i] === '|') {
-        pipeCount++;
-        if (pipeCount === column) {
-          startPos = i + 1;  // Start position is after this pipe
-        } else if (pipeCount === column + 1) {
-          endPos = i;  // End position is before the next pipe
-          break;
-        }
-      }
-    }
-
-    // Find a good position within the column content
-    if (startPos < endPos) {
-      // Skip leading whitespace
-      while (startPos < endPos && lineText[startPos] === ' ') {
-        startPos++;
-      }
-
-      // If there's content, position at the start of the content
-      if (startPos < endPos && lineText[startPos] !== ' ') {
-        return startPos;
-      }
-
-      // If it's an empty cell or only whitespace, position just after the pipe + space
-      return startPos <= endPos ? startPos : endPos - 1;
-    }
-
-    // Fallback - position after the pipe
-    return startPos;
-  }
-
-  // Connect markdownTableMoveColumnLeft to directMoveColumnLeft
-  CodeMirror.commands.markdownTableMoveColumnLeft = function(cm) {
-    if (typeof CodeMirror.commands.directMoveColumnLeft === 'function') {
-      CodeMirror.commands.directMoveColumnLeft(cm);
-    }
-  };
-
-  // Connect markdownTableMoveColumnRight to directMoveColumnRight
-  CodeMirror.commands.markdownTableMoveColumnRight = function(cm) {
-    if (typeof CodeMirror.commands.directMoveColumnRight === 'function') {
-      CodeMirror.commands.directMoveColumnRight(cm);
-    }
-  };
-
-  // Mark already implemented alignment functions as reused
-  CodeMirror.commands.markdownTableAlignColumnLeft = function(cm) {
-    // Call the proven working keyboard shortcut implementation
-    CodeMirror.commands.tableAlignLeft(cm);
-  };
-
-  CodeMirror.commands.markdownTableAlignColumnCenter = function(cm) {
-    // Call the proven working keyboard shortcut implementation
-    CodeMirror.commands.tableAlignCenter(cm);
-  };
-
-  CodeMirror.commands.markdownTableAlignColumnRight = function(cm) {
-    // Call the proven working keyboard shortcut implementation
-    CodeMirror.commands.tableAlignRight(cm);
-  };
-
-  CodeMirror.commands.markdownTableAlignColumnNone = function(cm) {
-    // Call the proven working keyboard shortcut implementation
-    CodeMirror.commands.tableAlignNone(cm);
   };
 })();

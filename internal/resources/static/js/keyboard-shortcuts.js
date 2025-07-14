@@ -4,108 +4,137 @@
  */
 
 // Platform detection
-const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.platform);
-const isWindows = /Win/.test(navigator.platform);
+const isMac = (() => {
+    // Modern API with fallback to userAgent
+    if (navigator.userAgentData) {
+        return navigator.userAgentData.platform === 'macOS';
+    }
+    // Fallback for older browsers
+    return /Mac|iPhone|iPad|iPod/.test(navigator.userAgent);
+})();
 
 // Centralized shortcut definitions
 const SHORTCUT_DEFINITIONS = {
     // Global shortcuts
     'enterEditMode': {
-        windows: { ctrl: true, key: 'e' },
+        mac: { cmd: true, key: 'e' },
+        other: { ctrl: true, key: 'e' },
         description: 'Enter edit mode'
     },
     'saveDocument': {
-        windows: { ctrl: true, key: 's' },
+        mac: { cmd: true, key: 's' },
+        other: { ctrl: true, key: 's' },
         description: 'Save document when in edit mode'
     },
     'focusSearch': {
-        windows: { ctrl: true, shift: true, key: 'f' },
+        mac: { cmd: true, shift: true, key: 'f' },
+        other: { ctrl: true, shift: true, key: 'f' },
         description: 'Focus the search box'
     },
     
     // Formatting shortcuts
     'formatBold': {
-        windows: { ctrl: true, key: 'b' },
+        mac: { cmd: true, key: 'b' },
+        other: { ctrl: true, key: 'b' },
         description: 'Toggle bold formatting'
     },
     'formatItalic': {
-        windows: { ctrl: true, key: 'i' },
+        mac: { cmd: true, key: 'i' },
+        other: { ctrl: true, key: 'i' },
         description: 'Toggle italic formatting'
     },
     'formatHeading': {
-        windows: { ctrl: true, key: 'h' },
+        mac: { cmd: true, key: 'h' },
+        other: { ctrl: true, key: 'h' },
         description: 'Toggle/cycle heading levels'
     },
     'formatQuote': {
-        windows: { ctrl: true, key: 'q' },
+        mac: { cmd: true, key: 'k' },
+        other: { ctrl: true, key: 'k' },
         description: 'Toggle block quote'
     },
     'formatCode': {
-        windows: { ctrl: true, key: '/' },
+        mac: { cmd: true, key: '/' },
+        other: { ctrl: true, key: '/' },
         description: 'Toggle code formatting'
     },
     
     // Editor shortcuts
     'togglePreview': {
-        windows: { ctrl: true, shift: true, key: 'p' },
+        mac: { cmd: true, shift: true, key: 'p' },
+        other: { ctrl: true, shift: true, key: 'p' },
         description: 'Preview Toggle'
     },
     'toggleWordWrap': {
-        windows: { alt: true, key: 'z' },
+        mac: { option: true, key: 'z' },
+        other: { alt: true, key: 'z' },
         description: 'Toggle word wrap'
     },
     
     // Table shortcuts
     'tableEscape': {
-        windows: { ctrl: true, key: 'Enter' },
+        mac: { cmd: true, key: 'Enter' },
+        other: { ctrl: true, key: 'Enter' },
         description: 'Exit table at current position'
     },
     'tableMoveLeft': {
-        windows: { ctrl: true, key: 'ArrowLeft' },
+        mac: { cmd: true, key: 'ArrowLeft' },
+        other: { ctrl: true, key: 'ArrowLeft' },
         description: 'Move to cell on the left'
     },
     'tableMoveRight': {
-        windows: { ctrl: true, key: 'ArrowRight' },
+        mac: { cmd: true, key: 'ArrowRight' },
+        other: { ctrl: true, key: 'ArrowRight' },
         description: 'Move to cell on the right'
     },
     'tableMoveUp': {
-        windows: { ctrl: true, key: 'ArrowUp' },
+        mac: { cmd: true, key: 'ArrowUp' },
+        other: { ctrl: true, key: 'ArrowUp' },
         description: 'Move to cell above'
     },
     'tableMoveDown': {
-        windows: { ctrl: true, key: 'ArrowDown' },
+        mac: { cmd: true, key: 'ArrowDown' },
+        other: { ctrl: true, key: 'ArrowDown' },
         description: 'Move to cell below'
     },
     'tableAlignLeft': {
-        windows: { ctrl: true, shift: true, key: 'ArrowLeft' },
+        mac: { cmd: true, shift: true, key: 'ArrowLeft' },
+        other: { ctrl: true, shift: true, key: 'ArrowLeft' },
         description: 'Align column left'
     },
     'tableAlignRight': {
-        windows: { ctrl: true, shift: true, key: 'ArrowRight' },
+        mac: { cmd: true, shift: true, key: 'ArrowRight' },
+        other: { ctrl: true, shift: true, key: 'ArrowRight' },
         description: 'Align column right'
     },
     'tableAlignCenter': {
-        windows: { ctrl: true, shift: true, key: 'ArrowUp' },
+        mac: { cmd: true, shift: true, key: 'ArrowUp' },
+        other: { ctrl: true, shift: true, key: 'ArrowUp' },
         description: 'Align column center'
     },
     'tableAlignNone': {
-        windows: { ctrl: true, shift: true, key: 'ArrowDown' },
+        mac: { cmd: true, shift: true, key: 'ArrowDown' },
+        other: { ctrl: true, shift: true, key: 'ArrowDown' },
         description: 'Remove column alignment'
     },
     'tableMoveRowUp': {
-        windows: { alt: true, key: 'ArrowUp' },
+        mac: { option: true, key: 'ArrowUp' },
+        other: { alt: true, key: 'ArrowUp' },
         description: 'Move row up'
     },
     'tableMoveRowDown': {
-        windows: { alt: true, key: 'ArrowDown' },
+        mac: { option: true, key: 'ArrowDown' },
+        other: { alt: true, key: 'ArrowDown' },
         description: 'Move row down'
     },
     'tableMoveColumnLeft': {
-        windows: { alt: true, key: 'ArrowLeft' },
+        mac: { option: true, key: 'ArrowLeft' },
+        other: { alt: true, key: 'ArrowLeft' },
         description: 'Move column left'
     },
     'tableMoveColumnRight': {
-        windows: { alt: true, key: 'ArrowRight' },
+        mac: { option: true, key: 'ArrowRight' },
+        other: { alt: true, key: 'ArrowRight' },
         description: 'Move column right'
     }
 };
@@ -120,7 +149,7 @@ let saveButton;
 
 // Helper function to check if shortcut matches
 function matchesShortcut(event, shortcut) {
-    const platform = isMac ? 'mac' : 'windows';
+    const platform = isMac ? 'mac' : 'other';
     const platformShortcut = shortcut[platform];
     
     if (!platformShortcut) return false;
@@ -137,8 +166,10 @@ function matchesShortcut(event, shortcut) {
     const targetKey = platformShortcut.key.toLowerCase();
     
     return (!platformShortcut.ctrl || event.ctrlKey) &&
+           (!platformShortcut.cmd || event.metaKey) &&
            (!platformShortcut.meta || event.metaKey) &&
            (!platformShortcut.alt || event.altKey) &&
+           (!platformShortcut.option || event.altKey) &&
            (!platformShortcut.shift || event.shiftKey) &&
            (eventKey === targetKey || eventKey === platformShortcut.key);
 }
@@ -184,7 +215,7 @@ function registerAllCodeMirrorShortcuts() {
     CodeMirror.keyMap.default['Ctrl-B'] = 'formatBold';
     CodeMirror.keyMap.default['Ctrl-I'] = 'formatItalic';
     CodeMirror.keyMap.default['Ctrl-H'] = 'formatHeading';
-    CodeMirror.keyMap.default['Ctrl-Q'] = 'formatQuote';
+    CodeMirror.keyMap.default['Ctrl-K'] = 'formatQuote';
     CodeMirror.keyMap.default['Ctrl-/'] = 'formatCode';
     
     // Register editor shortcuts

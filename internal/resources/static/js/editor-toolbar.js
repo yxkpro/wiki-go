@@ -130,18 +130,22 @@ function createToolbar(container) {
     const toolbar = document.createElement('div');
     toolbar.className = 'editor-toolbar custom-toolbar';
 
-    // Define toolbar buttons
+    // Simple platform detection
+    const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.userAgent);
+    const getShortcut = (mac, other) => isMac ? mac : other;
+
+    // Define toolbar buttons with dynamic shortcuts
     const buttons = [
-        { icon: 'fa-header', action: 'heading', title: 'Heading (Ctrl+H)' },
-        { icon: 'fa-bold', action: 'bold', title: 'Bold (Ctrl+B)' },
-        { icon: 'fa-italic', action: 'italic', title: 'Italic (Ctrl+I)' },
+        { icon: 'fa-header', action: 'heading', title: `Heading (${getShortcut('Cmd+H', 'Ctrl+H')})` },
+        { icon: 'fa-bold', action: 'bold', title: `Bold (${getShortcut('Cmd+B', 'Ctrl+B')})` },
+        { icon: 'fa-italic', action: 'italic', title: `Italic (${getShortcut('Cmd+I', 'Ctrl+I')})` },
         { icon: 'fa-paint-brush', action: 'highlight', title: 'Highlight Text' },
         { icon: 'fa-strikethrough', action: 'strikethrough', title: 'Strikethrough' },
         { icon: 'fa-subscript', action: 'subscript', title: 'Add Subscript' },
         { icon: 'fa-superscript', action: 'superscript', title: 'Add Superscript' },
         { type: 'separator' },
-        { icon: 'fa-code', action: 'code', title: 'Code (Ctrl+/)' },
-        { icon: 'fa-quote-left', action: 'quote', title: 'Quote (Ctrl+K)' },
+        { icon: 'fa-code', action: 'code', title: `Code (${getShortcut('Cmd+/', 'Ctrl+/')})` },
+        { icon: 'fa-quote-left', action: 'quote', title: `Quote (${getShortcut('Cmd+K', 'Ctrl+K')})` },
         { icon: 'fa-list-ul', action: 'unordered-list', title: 'Unordered List' },
         { icon: 'fa-list-ol', action: 'ordered-list', title: 'Ordered List' },
         { type: 'separator' },
@@ -157,18 +161,18 @@ function createToolbar(container) {
         { icon: 'fa-plus-square', action: 'insert-column', title: 'Insert Column', style: 'position: relative;' },
         { icon: 'fa-minus-square', action: 'delete-row', title: 'Delete Row', style: 'position: relative;' },
         { icon: 'fa-minus-square', action: 'delete-column', title: 'Delete Column', style: 'position: relative;' },
-        { icon: 'fa-arrow-up', action: 'move-row-up', title: 'Move Row Up (Alt+Up Arrow)', style: 'position: relative;' },
-        { icon: 'fa-arrow-down', action: 'move-row-down', title: 'Move Row Down (Alt+Down Arrow)', style: 'position: relative;' },
-        { icon: 'fa-arrow-left', action: 'move-column-left', title: 'Move Column Left (Alt+Left Arrow)', style: 'position: relative;' },
-        { icon: 'fa-arrow-right', action: 'move-column-right', title: 'Move Column Right (Alt+Right Arrow)', style: 'position: relative;' },
-        { icon: 'fa-align-left', action: 'align-column-left', title: 'Align Column Left (Ctrl+Shift+Left Arrow)', style: 'position: relative;' },
-        { icon: 'fa-align-center', action: 'align-column-center', title: 'Align Column Center (Ctrl+Shift+Up Arrow)', style: 'position: relative;' },
-        { icon: 'fa-align-right', action: 'align-column-right', title: 'Align Column Right (Ctrl+Shift+Right Arrow)', style: 'position: relative;' },
-        { icon: 'fa-align-justify', action: 'align-column-none', title: 'Remove Column Alignment (Ctrl+Shift+Down Arrow)', style: 'position: relative;' },
+        { icon: 'fa-arrow-up', action: 'move-row-up', title: `Move Row Up (${getShortcut('Option+Up Arrow', 'Alt+Up Arrow')})`, style: 'position: relative;' },
+        { icon: 'fa-arrow-down', action: 'move-row-down', title: `Move Row Down (${getShortcut('Option+Down Arrow', 'Alt+Down Arrow')})`, style: 'position: relative;' },
+        { icon: 'fa-arrow-left', action: 'move-column-left', title: `Move Column Left (${getShortcut('Option+Left Arrow', 'Alt+Left Arrow')})`, style: 'position: relative;' },
+        { icon: 'fa-arrow-right', action: 'move-column-right', title: `Move Column Right (${getShortcut('Option+Right Arrow', 'Alt+Right Arrow')})`, style: 'position: relative;' },
+        { icon: 'fa-align-left', action: 'align-column-left', title: `Align Column Left (${getShortcut('Cmd+Shift+Left Arrow', 'Ctrl+Shift+Left Arrow')})`, style: 'position: relative;' },
+        { icon: 'fa-align-center', action: 'align-column-center', title: `Align Column Center (${getShortcut('Cmd+Shift+Up Arrow', 'Ctrl+Shift+Up Arrow')})`, style: 'position: relative;' },
+        { icon: 'fa-align-right', action: 'align-column-right', title: `Align Column Right (${getShortcut('Cmd+Shift+Right Arrow', 'Ctrl+Shift+Right Arrow')})`, style: 'position: relative;' },
+        { icon: 'fa-align-justify', action: 'align-column-none', title: `Remove Column Alignment (${getShortcut('Cmd+Shift+Down Arrow', 'Ctrl+Shift+Down Arrow')})`, style: 'position: relative;' },
         { type: 'separator' },
         { icon: 'fa-ellipsis-h', action: 'horizontal-rule', title: 'Horizontal Rule' },
         { type: 'separator' },
-        { icon: 'fa-text-width', action: 'toggle-wordwrap', title: 'Toggle Word Wrap (Alt+Z)', id: 'toggle-wordwrap' },
+        { icon: 'fa-text-width', action: 'toggle-wordwrap', title: `Toggle Word Wrap (${getShortcut('Option+Z', 'Alt+Z')})`, id: 'toggle-wordwrap' },
         { type: 'separator' },
         { icon: 'fa-list-alt', action: 'insert-toc', title: 'Insert Table of Contents' },
         { icon: 'fa-clock-o', action: 'recent-edits', title: 'Insert Recent Edits' },
@@ -178,7 +182,7 @@ function createToolbar(container) {
         { icon: 'fa-undo', action: 'undo', title: 'Undo' },
         { icon: 'fa-repeat', action: 'redo', title: 'Redo' },
         { type: 'separator' },
-        { icon: 'fa-eye', action: 'preview', title: 'Toggle Preview (Ctrl+Shift+P)', id: 'toggle-preview' }
+        { icon: 'fa-eye', action: 'preview', title: `Toggle Preview (${getShortcut('Cmd+Shift+P', 'Ctrl+Shift+P')})`, id: 'toggle-preview' }
     ];
 
     buttons.forEach(button => {
@@ -439,6 +443,19 @@ function setupToolbarActions(toolbar) {
                 }
                 break;
             case 'preview':
+                // Update tooltip based on current state
+                const isPreviewActive = document.querySelector('.editor-preview')?.classList.contains('editor-preview-active');
+                const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.userAgent);
+                const shortcut = isMac ? 'Cmd+Shift+P' : 'Ctrl+Shift+P';
+                
+                if (isPreviewActive) {
+                    // Currently in preview, going back to edit
+                    button.title = 'Back to Edit Mode';
+                } else {
+                    // Currently in edit, going to preview
+                    button.title = `Toggle Preview (${shortcut})`;
+                }
+                
                 window.EditorPreview.togglePreview();
                 break;
             case 'emoji':

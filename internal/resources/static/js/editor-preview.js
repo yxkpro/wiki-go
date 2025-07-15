@@ -45,7 +45,6 @@ async function togglePreview() {
         const previewButton = toolbar.querySelector('.preview-button i');
         if (previewButton) {
             previewButton.className = 'fa fa-eye';
-            previewButton.parentElement.title = 'Toggle Preview (Ctrl+Shift+P)';
         }
 
         // Make sure editor gets focus when returning from preview mode

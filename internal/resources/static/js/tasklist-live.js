@@ -57,12 +57,12 @@
       s.textContent = text;
       s.classList.remove('saved','error');
       if(cssClass) s.classList.add(cssClass); else s.classList.remove('saved','error');
-    };
-
-    const hideStateAfter = (li, delay=3000) => {
-      const s = li.querySelector('.save-state');
-      if (!s) return;
-      setTimeout(()=>{ s.textContent=''; }, delay);
+      
+      // Auto-hide after 1 second - CSS handles the 0.3s fade transition
+      setTimeout(() => {
+        s.textContent = '';
+        s.classList.remove('saved','error');
+      }, 1000);
     };
 
     container.addEventListener('click', async (e) => {
@@ -121,7 +121,6 @@
         // 4. Update UI checkbox state
         target.checked = desiredChecked;
         showState(li,'saved','saved');
-        hideStateAfter(li,3000);
       } catch (err) {
         console.error(err);
         showState(li,'error','error');

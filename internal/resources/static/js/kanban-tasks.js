@@ -162,13 +162,12 @@ class KanbanTaskManager {
       s.textContent = text;
       s.classList.remove('saved','error');
       if(cssClass) s.classList.add(cssClass); else s.classList.remove('saved','error');
-    };
-
-    // Helper to hide state after a delay
-    const hideStateAfter = (li, delay=3000) => {
-      const s = li.querySelector('.save-state');
-      if (!s) return;
-      setTimeout(()=>{ s.textContent=''; }, delay);
+      
+      // Auto-hide after 1 second - CSS handles the 0.3s fade transition
+      setTimeout(() => {
+        s.textContent = '';
+        s.classList.remove('saved','error');
+      }, 1000);
     };
 
     // Return the handler function
@@ -221,7 +220,6 @@ class KanbanTaskManager {
         // 4. Update UI checkbox state
         target.checked = !target.checked;
         showState(li, 'saved', 'saved');
-        hideStateAfter(li, 3000);
 
         // 5. Clear the moved flag since we've successfully saved the task
         if (li.hasAttribute('data-was-moved')) {

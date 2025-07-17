@@ -18,6 +18,10 @@
     --theme-toggle-color: #333;
     --danger-color: #dc3545;
     --danger-bg: #f8d7da;
+    --success-color: #28a745;
+    --success-bg: #d4edda;
+    --warning-color: #ffc107;
+    --warning-bg: #fff3cd;
     --content-max-width: 900px;
 }
 
@@ -38,6 +42,10 @@
     --theme-toggle-color: #e0e0e0;
     --danger-color: #ff6b6b;
     --danger-bg: #2c1215;
+    --success-color: #4caf50;
+    --success-bg: #1b2e1f;
+    --warning-color: #ffb74d;
+    --warning-bg: #2e2416;
 }
 
 /* ---------- Base styles ---------- */

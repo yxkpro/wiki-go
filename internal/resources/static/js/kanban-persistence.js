@@ -75,7 +75,7 @@ class KanbanPersistenceManager {
 
     // Show saving indicators on all columns
     if (this.core.columnManager) {
-      this.core.columnManager.showColumnStatus('saving', '(Saving...)');
+      this.core.columnManager.showColumnStatus('saving', 'saving…');
     }
 
     try {
@@ -103,7 +103,7 @@ class KanbanPersistenceManager {
 
       // Show success indicator
       if (this.core.columnManager) {
-        this.core.columnManager.showColumnStatus('saved', '(Saved)', 2000);
+        this.core.columnManager.showColumnStatus('saved', 'saved', 1000);
       }
 
       console.log('Kanban save completed successfully');
@@ -116,7 +116,7 @@ class KanbanPersistenceManager {
 
       // Show error indicator
       if (this.core.columnManager) {
-        this.core.columnManager.showColumnStatus('error', '(Error saving)', 3000);
+        this.core.columnManager.showColumnStatus('error', 'error', 3000);
       }
 
       // Process any queued save requests with error
@@ -448,6 +448,9 @@ class KanbanPersistenceManager {
    */
   cleanHeaderText(headerText) {
     return headerText
+      .replace(/\s*saving…\s*/g, '')
+      .replace(/\s*saved\s*/g, '')
+      .replace(/\s*error\s*/g, '')
       .replace(/\s*\(Saving\.\.\.\)\s*/g, '')
       .replace(/\s*\(Saved\)\s*/g, '')
       .replace(/\s*\(Error saving\)\s*/g, '')

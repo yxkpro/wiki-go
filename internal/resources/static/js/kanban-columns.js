@@ -495,9 +495,9 @@ class KanbanColumnManager {
     columnTitle.className = 'column-title';
     columnTitle.textContent = columnName;
 
-    // Create status container
-    const statusContainer = document.createElement('span');
-    statusContainer.className = 'kanban-status-container';
+    // Create status indicator
+    const statusIndicator = document.createElement('span');
+    statusIndicator.className = 'kanban-status';
 
     // Create rename button
     const renameBtn = this.createRenameButton();
@@ -510,7 +510,7 @@ class KanbanColumnManager {
 
     // Assemble column header
     columnHeader.appendChild(columnTitle);
-    columnHeader.appendChild(statusContainer);
+    columnHeader.appendChild(statusIndicator);
     columnHeader.appendChild(renameBtn);
     columnHeader.appendChild(addTaskBtn);
     columnHeader.appendChild(deleteBtn);
@@ -606,39 +606,21 @@ class KanbanColumnManager {
   }
 
   /**
-   * Show status indicators on all kanban columns
+   * Show status on all kanban columns
    */
-  showColumnStatus(statusClass, statusText, removeAfter = 0) {
-    const columns = document.querySelectorAll('.kanban-column');
-
-    columns.forEach(column => {
-      const header = column.querySelector('.kanban-column-header');
-      if (!header) return;
-
-      // Find the status container
-      const statusContainer = header.querySelector('.kanban-status-container');
-      if (!statusContainer) return;
-
-      // Check if a status indicator already exists
-      let statusIndicator = statusContainer.querySelector('.kanban-status');
-      if (!statusIndicator) {
-        statusIndicator = document.createElement('span');
-        statusIndicator.className = `kanban-status ${statusClass}`;
-        statusIndicator.textContent = statusText;
-        statusContainer.appendChild(statusIndicator);
-      } else {
-        statusIndicator.className = `kanban-status ${statusClass}`;
-        statusIndicator.textContent = statusText;
+  showColumnStatus(cssClass, text, duration = 1000) {
+    document.querySelectorAll('.kanban-status').forEach(statusElement => {
+      statusElement.textContent = text;
+      statusElement.classList.remove('saving', 'saved', 'error');
+      if (cssClass) {
+        statusElement.classList.add(cssClass);
       }
 
-      // Remove the indicator after a delay if specified
-      if (removeAfter > 0) {
-        setTimeout(() => {
-          if (statusIndicator.parentNode) {
-            statusIndicator.parentNode.removeChild(statusIndicator);
-          }
-        }, removeAfter);
-      }
+      // Auto-hide after duration - CSS handles the 0.3s fade transition
+      setTimeout(() => {
+        statusElement.textContent = '';
+        statusElement.classList.remove('saving', 'saved', 'error');
+      }, duration);
     });
   }
 

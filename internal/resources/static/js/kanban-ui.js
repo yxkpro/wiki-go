@@ -69,52 +69,6 @@ class KanbanUIManager {
   }
 
   /**
-   * Show status indicators on all kanban columns
-   */
-  showColumnStatus(statusClass, statusText, removeAfter = 0) {
-    const columns = document.querySelectorAll('.kanban-column');
-
-    columns.forEach(column => {
-      const header = column.querySelector('.kanban-column-header');
-      if (!header) return;
-
-      // Find the status container
-      const statusContainer = header.querySelector('.kanban-status-container');
-      if (!statusContainer) return;
-
-      // Check if a status indicator already exists
-      let statusIndicator = statusContainer.querySelector('.kanban-status');
-      if (!statusIndicator) {
-        statusIndicator = document.createElement('span');
-        statusIndicator.className = `kanban-status ${statusClass}`;
-        statusIndicator.textContent = statusText;
-        statusContainer.appendChild(statusIndicator);
-      } else {
-        statusIndicator.className = `kanban-status ${statusClass}`;
-        statusIndicator.textContent = statusText;
-      }
-
-      // Clear any existing timer for this column
-      const columnId = this.getColumnId(column);
-      if (this.statusTimers.has(columnId)) {
-        clearTimeout(this.statusTimers.get(columnId));
-        this.statusTimers.delete(columnId);
-      }
-
-      // Remove the indicator after a delay if specified
-      if (removeAfter > 0) {
-        const timer = setTimeout(() => {
-          if (statusIndicator.parentNode) {
-            statusIndicator.parentNode.removeChild(statusIndicator);
-          }
-          this.statusTimers.delete(columnId);
-        }, removeAfter);
-        this.statusTimers.set(columnId, timer);
-      }
-    });
-  }
-
-  /**
    * Get a unique ID for a column for timer tracking
    */
   getColumnId(column) {

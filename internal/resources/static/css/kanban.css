@@ -58,32 +58,50 @@
     text-overflow: ellipsis;
 }
 
-.kanban-status-container {
-    display: inline-flex;
-    align-items: center;
-    margin-right: 8px;
-    min-width: 80px;
-    justify-content: flex-end;
-    height: 20px; /* Fixed height to prevent layout shifts */
-}
-
 /* Save state indicator */
 .kanban-status {
-    font-size: 14px;
-    font-weight: normal;
-    color: var(--text-muted);
+    position: absolute;
+    top: 50%;
+    left: 16px;  /* Match the column header padding */
+    transform: translateY(-50%) translateY(-5px);
+    background: var(--success-color);
+    color: white;
+    font-size: 0.75em;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+.kanban-status:not(:empty) {
+    opacity: 1;
+    transform: translateY(-50%) translateY(0);
 }
 
 .kanban-status.saving {
-    color: var(--text-muted);
+    background: var(--warning-color);
+    color: var(--text-color);
 }
 
 .kanban-status.saved {
-    color: var(--success-color, #28a745);
+    background: var(--success-color);
+    color: white;
 }
 
 .kanban-status.error {
-    color: var(--error-color, #dc3545);
+    background: var(--danger-color);
+    color: white;
+}
+
+/* Ensure column header is positioned for absolute children */
+.kanban-column-header {
+    position: relative;
 }
 
 /* Add task button */

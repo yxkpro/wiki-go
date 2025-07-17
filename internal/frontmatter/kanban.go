@@ -124,7 +124,7 @@ func RenderKanbanBasic(content string) string {
 			html.WriteString(fmt.Sprintf(`<div class="kanban-column">
 				<div class="kanban-column-header">
 					<span class="column-title">%s</span>
-					<span class="kanban-status-container"></span>
+					<span class="kanban-status"></span>
 					<button class="rename-column-btn editor-admin-only" title="%s"><i class="fa fa-pencil"></i></button>
 					<button class="add-task-btn editor-admin-only" title="%s"><i class="fa fa-plus"></i></button>
 					<button class="delete-column-btn editor-admin-only" title="%s"><i class="fa fa-trash"></i></button>
@@ -416,7 +416,7 @@ func restoreKanbanBoards(htmlContent string, preprocessors []PreprocessorFunc) s
 						finalHTML.WriteString(fmt.Sprintf(`<div class="kanban-column">
 							<div class="kanban-column-header">
 								<span class="column-title">%s</span>
-								<span class="kanban-status-container"></span>
+								<span class="kanban-status"></span>
 								<button class="rename-column-btn editor-admin-only" title="%s"><i class="fa fa-pencil"></i></button>
 								<button class="add-task-btn editor-admin-only" title="%s"><i class="fa fa-plus"></i></button>
 								<button class="delete-column-btn editor-admin-only" title="%s"><i class="fa fa-trash"></i></button>

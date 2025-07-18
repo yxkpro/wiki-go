@@ -189,12 +189,11 @@ body.role-editor .editor-admin-only {
 /* Task action buttons */
 .task-action-buttons {
     position: absolute;
-    right: 10px;
+    right: 0;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     align-items: center;
-    gap: 8px;
     opacity: 0;
     transition: opacity 0.2s;
     background: var(--hover-bg);
@@ -253,18 +252,6 @@ body.role-editor .editor-admin-only {
 
 .task-delete-btn:hover {
     color: var(--error-color, #dc3545);
-}
-
-/* Drag handle */
-.task-drag-handle {
-    cursor: grab;
-    color: var(--text-muted);
-    opacity: 0.7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
 }
 
 .kanban-column .task-list-item-container:hover .task-action-buttons {

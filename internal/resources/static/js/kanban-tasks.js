@@ -696,7 +696,6 @@ class KanbanTaskManager {
       // Add drag handle
       const dragHandle = document.createElement('span');
       dragHandle.className = 'task-drag-handle';
-      dragHandle.innerHTML = '<i class="fa fa-bars"></i>'; // Triple bar symbol
 
       // Add buttons to container
       actionButtons.appendChild(renameBtn);

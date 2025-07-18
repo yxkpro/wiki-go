@@ -155,19 +155,23 @@ class KanbanTaskManager {
    * Create a handler for task checkboxes
    */
   createTaskCheckboxHandler() {
-    // Helper to show state in the save-state span
+    // Helper to show state in the save-state span - only for errors
     const showState = (li, text, cssClass) => {
       const s = li.querySelector('.save-state');
       if (!s) return;
+      
+      // Only show error states
+      if (cssClass !== 'error') return;
+      
       s.textContent = text;
       s.classList.remove('saved','error');
-      if(cssClass) s.classList.add(cssClass); else s.classList.remove('saved','error');
+      s.classList.add(cssClass);
       
-      // Auto-hide after 1 second - CSS handles the 0.3s fade transition
+      // Auto-hide after 3 seconds for errors
       setTimeout(() => {
         s.textContent = '';
         s.classList.remove('saved','error');
-      }, 1000);
+      }, 3000);
     };
 
     // Return the handler function
@@ -193,8 +197,6 @@ class KanbanTaskManager {
       const indentLevel = parseInt(li.getAttribute('data-indent-level') || '0');
       console.log(`Handling checkbox click for task ID ${taskId} at indent level ${indentLevel}`);
 
-      showState(li, 'saving…');
-
       // Disable all checkboxes during save
       const allCheckboxes = document.querySelectorAll('.task-checkbox');
       allCheckboxes.forEach(cb => cb.disabled = true);
@@ -219,7 +221,7 @@ class KanbanTaskManager {
 
         // 4. Update UI checkbox state
         target.checked = !target.checked;
-        showState(li, 'saved', 'saved');
+        // Success - no visual feedback needed
 
         // 5. Clear the moved flag since we've successfully saved the task
         if (li.hasAttribute('data-was-moved')) {

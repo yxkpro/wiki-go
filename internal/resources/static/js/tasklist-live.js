@@ -56,13 +56,13 @@
       if (!s) return;
       s.textContent = text;
       s.classList.remove('saved','error');
-      if(cssClass) s.classList.add(cssClass); else s.classList.remove('saved','error');
+      if(cssClass) s.classList.add(cssClass);
       
-      // Auto-hide after 1 second - CSS handles the 0.3s fade transition
+      // Auto-hide after 3 seconds for errors
       setTimeout(() => {
         s.textContent = '';
         s.classList.remove('saved','error');
-      }, 1000);
+      }, 3000);
     };
 
     container.addEventListener('click', async (e) => {
@@ -78,8 +78,6 @@
       e.preventDefault();
       const li = target.closest('li');
       if (!li) return;
-
-      showState(li,'saving…');
 
       // Disable all checkboxes during save
       toggleAll(true);
@@ -120,7 +118,7 @@
 
         // 4. Update UI checkbox state
         target.checked = desiredChecked;
-        showState(li,'saved','saved');
+        // Success - no visual feedback needed
       } catch (err) {
         console.error(err);
         showState(li,'error','error');

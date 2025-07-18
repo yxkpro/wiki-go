@@ -606,15 +606,16 @@ class KanbanColumnManager {
   }
 
   /**
-   * Show status on all kanban columns
+   * Show error status on all kanban columns
    */
-  showColumnStatus(cssClass, text, duration = 1000) {
+  showColumnStatus(cssClass, text, duration = 3000) {
+    // Only show error states
+    if (cssClass !== 'error') return;
+    
     document.querySelectorAll('.kanban-status').forEach(statusElement => {
       statusElement.textContent = text;
       statusElement.classList.remove('saving', 'saved', 'error');
-      if (cssClass) {
-        statusElement.classList.add(cssClass);
-      }
+      statusElement.classList.add(cssClass);
 
       // Auto-hide after duration - CSS handles the 0.3s fade transition
       setTimeout(() => {

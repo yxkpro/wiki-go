@@ -73,11 +73,6 @@ class KanbanPersistenceManager {
 
     this.isSaving = true;
 
-    // Show saving indicators on all columns
-    if (this.core.columnManager) {
-      this.core.columnManager.showColumnStatus('saving', 'saving…');
-    }
-
     try {
       console.log('Starting kanban save operation');
 
@@ -101,10 +96,7 @@ class KanbanPersistenceManager {
       // 4. After successful save, update task tracking
       this.updateTaskTrackingAfterSave();
 
-      // Show success indicator
-      if (this.core.columnManager) {
-        this.core.columnManager.showColumnStatus('saved', 'saved', 1000);
-      }
+      // Success - no visual feedback needed for columns
 
       console.log('Kanban save completed successfully');
 

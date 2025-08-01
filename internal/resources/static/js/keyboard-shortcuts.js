@@ -211,31 +211,56 @@ function registerAllCodeMirrorShortcuts() {
         CodeMirror.keyMap.default = {};
     }
     
-    // Register formatting shortcuts
-    CodeMirror.keyMap.default['Ctrl-B'] = 'formatBold';
-    CodeMirror.keyMap.default['Ctrl-I'] = 'formatItalic';
-    CodeMirror.keyMap.default['Ctrl-H'] = 'formatHeading';
-    CodeMirror.keyMap.default['Ctrl-K'] = 'formatQuote';
-    CodeMirror.keyMap.default['Ctrl-/'] = 'formatCode';
-    
-    // Register editor shortcuts
-    CodeMirror.keyMap.default['Ctrl-Shift-P'] = 'togglePreview';
-    CodeMirror.keyMap.default['Alt-Z'] = 'toggleWordWrap';
-    
-    // Register table shortcuts - use the original command names from markdown-table-editor.js
-    CodeMirror.keyMap.default['Ctrl-Enter'] = 'tableEscape';
-    CodeMirror.keyMap.default['Ctrl-Left'] = 'tableMoveLeft';
-    CodeMirror.keyMap.default['Ctrl-Right'] = 'tableMoveRight';
-    CodeMirror.keyMap.default['Ctrl-Up'] = 'tableMoveUp';
-    CodeMirror.keyMap.default['Ctrl-Down'] = 'tableMoveDown';
-    CodeMirror.keyMap.default['Shift-Ctrl-Left'] = 'tableAlignLeft';
-    CodeMirror.keyMap.default['Shift-Ctrl-Right'] = 'tableAlignRight';
-    CodeMirror.keyMap.default['Shift-Ctrl-Up'] = 'tableAlignCenter';
-    CodeMirror.keyMap.default['Shift-Ctrl-Down'] = 'tableAlignNone';
-    CodeMirror.keyMap.default['Alt-Up'] = 'markdownTableMoveRowUp';
-    CodeMirror.keyMap.default['Alt-Down'] = 'markdownTableMoveRowDown';
-    CodeMirror.keyMap.default['Alt-Left'] = 'markdownTableMoveColumnLeft';
-    CodeMirror.keyMap.default['Alt-Right'] = 'markdownTableMoveColumnRight';
+    // Platform-aware key registration
+    if (isMac) {
+        // Mac shortcuts use Cmd
+        CodeMirror.keyMap.default['Cmd-B'] = 'formatBold';
+        CodeMirror.keyMap.default['Cmd-I'] = 'formatItalic';
+        CodeMirror.keyMap.default['Cmd-H'] = 'formatHeading';
+        CodeMirror.keyMap.default['Cmd-K'] = 'formatQuote';
+        CodeMirror.keyMap.default['Cmd-/'] = 'formatCode';
+        CodeMirror.keyMap.default['Cmd-Shift-P'] = 'togglePreview';
+        CodeMirror.keyMap.default['Alt-Z'] = 'toggleWordWrap';
+        
+        // Table shortcuts for Mac
+        CodeMirror.keyMap.default['Cmd-Enter'] = 'tableEscape';
+        CodeMirror.keyMap.default['Cmd-Left'] = 'tableMoveLeft';
+        CodeMirror.keyMap.default['Cmd-Right'] = 'tableMoveRight';
+        CodeMirror.keyMap.default['Cmd-Up'] = 'tableMoveUp';
+        CodeMirror.keyMap.default['Cmd-Down'] = 'tableMoveDown';
+        CodeMirror.keyMap.default['Shift-Cmd-Left'] = 'tableAlignLeft';
+        CodeMirror.keyMap.default['Shift-Cmd-Right'] = 'tableAlignRight';
+        CodeMirror.keyMap.default['Shift-Cmd-Up'] = 'tableAlignCenter';
+        CodeMirror.keyMap.default['Shift-Cmd-Down'] = 'tableAlignNone';
+        CodeMirror.keyMap.default['Alt-Up'] = 'markdownTableMoveRowUp';
+        CodeMirror.keyMap.default['Alt-Down'] = 'markdownTableMoveRowDown';
+        CodeMirror.keyMap.default['Alt-Left'] = 'markdownTableMoveColumnLeft';
+        CodeMirror.keyMap.default['Alt-Right'] = 'markdownTableMoveColumnRight';
+    } else {
+        // Windows/Linux shortcuts use Ctrl
+        CodeMirror.keyMap.default['Ctrl-B'] = 'formatBold';
+        CodeMirror.keyMap.default['Ctrl-I'] = 'formatItalic';
+        CodeMirror.keyMap.default['Ctrl-H'] = 'formatHeading';
+        CodeMirror.keyMap.default['Ctrl-K'] = 'formatQuote';
+        CodeMirror.keyMap.default['Ctrl-/'] = 'formatCode';
+        CodeMirror.keyMap.default['Ctrl-Shift-P'] = 'togglePreview';
+        CodeMirror.keyMap.default['Alt-Z'] = 'toggleWordWrap';
+        
+        // Table shortcuts for Windows/Linux
+        CodeMirror.keyMap.default['Ctrl-Enter'] = 'tableEscape';
+        CodeMirror.keyMap.default['Ctrl-Left'] = 'tableMoveLeft';
+        CodeMirror.keyMap.default['Ctrl-Right'] = 'tableMoveRight';
+        CodeMirror.keyMap.default['Ctrl-Up'] = 'tableMoveUp';
+        CodeMirror.keyMap.default['Ctrl-Down'] = 'tableMoveDown';
+        CodeMirror.keyMap.default['Shift-Ctrl-Left'] = 'tableAlignLeft';
+        CodeMirror.keyMap.default['Shift-Ctrl-Right'] = 'tableAlignRight';
+        CodeMirror.keyMap.default['Shift-Ctrl-Up'] = 'tableAlignCenter';
+        CodeMirror.keyMap.default['Shift-Ctrl-Down'] = 'tableAlignNone';
+        CodeMirror.keyMap.default['Alt-Up'] = 'markdownTableMoveRowUp';
+        CodeMirror.keyMap.default['Alt-Down'] = 'markdownTableMoveRowDown';
+        CodeMirror.keyMap.default['Alt-Left'] = 'markdownTableMoveColumnLeft';
+        CodeMirror.keyMap.default['Alt-Right'] = 'markdownTableMoveColumnRight';
+    }
 }
 
 // Register text formatting commands and shortcuts with CodeMirror

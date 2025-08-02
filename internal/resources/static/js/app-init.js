@@ -47,4 +47,25 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.WikiEditor && typeof window.WikiEditor.initializeEditControls === 'function') {
         window.WikiEditor.initializeEditControls();
     }
+
+    // Add scroll event listener to toggle shadows
+    const breadcrumbs = document.querySelector('.breadcrumbs');
+    const hamburger = document.querySelector('.hamburger');
+
+    // Function to check scroll position and update shadows
+    function updateShadows() {
+        if (window.scrollY > 10) {
+            if (breadcrumbs) breadcrumbs.classList.add('scrolled');
+            if (hamburger) hamburger.classList.add('scrolled');
+        } else {
+            if (breadcrumbs) breadcrumbs.classList.remove('scrolled');
+            if (hamburger) hamburger.classList.remove('scrolled');
+        }
+    }
+
+    // Check on page load
+    updateShadows();
+
+    // Check on scroll
+    window.addEventListener('scroll', updateShadows);
 });

@@ -23,6 +23,7 @@
     --warning-color: #ffc107;
     --warning-bg: #fff3cd;
     --content-max-width: 900px;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 :root[data-theme="dark"] {
@@ -46,6 +47,7 @@
     --success-bg: #1b2e1f;
     --warning-color: #ffb74d;
     --warning-bg: #2e2416;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
 }
 
 /* ---------- Base styles ---------- */

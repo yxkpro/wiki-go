@@ -285,14 +285,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 48px;
-        height: 48px;
+        width: 47px; /* Make it a perfect square */
+        height: 47px;
         padding: 12px;
         position: fixed;
+        top: 0;
+        left: 0;
         z-index: 1001;
         background: var(--bg-color);
         border-bottom: 1px solid var(--border-color);
         border-right: 1px solid var(--border-color);
+        box-sizing: border-box;
     }
 
     /* Override global styles for password warning on mobile */
@@ -349,13 +352,15 @@
 
     /* Mobile breadcrumbs */
     .breadcrumbs {
-        left: 48px;
+        top: 0;
+        left: 47px; /* Match hamburger width for perfect square alignment */
         padding: 0 10px;
         margin: 0;
         height: 47px;
         display: flex;
         align-items: center;
         border-bottom: 1px solid var(--border-color);
+        box-sizing: border-box;
     }
 
     .breadcrumbs-container {

@@ -103,12 +103,13 @@ jobs:
       - name: Build for macOS (arm64)
         run: GOOS=darwin GOARCH=arm64 go build -ldflags "-X 'wiki-go/internal/version.Version=${{ steps.get_version.outputs.VERSION }}'" -o build/wiki-go-mac-arm64 .
 
-      - name: Get commits since last tag
+      - name: Get commits since last stable tag
         id: changelog
         run: |
-          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^)
-          echo "Previous tag: $PREV_TAG"
-          LOG=$(git log "$PREV_TAG"..HEAD --pretty=format:"- %s (%h by %an)")
+          # Find the most recent stable tag (excluding dev/rc/beta/alpha)
+          PREV_STABLE_TAG=$(git tag --sort=-v:refname | grep -v -E '(dev|rc|beta|alpha)' | head -n2 | tail -n1)
+          echo "Previous stable tag: $PREV_STABLE_TAG"
+          LOG=$(git log "$PREV_STABLE_TAG"..HEAD --pretty=format:"- %s (%h by %an)")
           echo "$LOG"
           echo "CHANGELOG<<EOF" >> $GITHUB_ENV
           echo "$LOG" >> $GITHUB_ENV

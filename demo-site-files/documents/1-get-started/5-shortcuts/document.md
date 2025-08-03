@@ -14,7 +14,7 @@ Wiki-Go provides several keyboard shortcuts to enhance productivity (Windows sho
 - `Ctrl+B` - Toggle bold formatting
 - `Ctrl+I` - Toggle italic formatting
 - `Ctrl+H` - Toggle/cycle heading levels (# -> ## -> ### ... -> plain text)
-- `Ctrl+Q` - Toggle block quote
+- `Ctrl+K` - Toggle block quote
 - `Ctrl+/` - Toggle code formatting (inline code for single-line selections, code blocks for multi-line selections or current line when nothing is selected)
 - `Ctrl+Shift+P` - Preview Toggle
 - `Alt+Z` - Toggle word wrap

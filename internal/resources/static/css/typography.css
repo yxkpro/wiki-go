@@ -135,7 +135,7 @@
 /* Remove individual line boxes */
 pre[class*="language-"] > code {
     border: none;
-    padding: 0;
+    padding-bottom: 10px;
     background: none;
 }
 

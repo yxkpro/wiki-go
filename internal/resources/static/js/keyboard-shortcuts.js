@@ -31,7 +31,7 @@ const SHORTCUT_DEFINITIONS = {
         other: { ctrl: true, shift: true, key: 'f' },
         description: 'Focus the search box'
     },
-    
+
     // Formatting shortcuts
     'formatBold': {
         mac: { cmd: true, key: 'b' },
@@ -58,7 +58,7 @@ const SHORTCUT_DEFINITIONS = {
         other: { ctrl: true, key: '/' },
         description: 'Toggle code formatting'
     },
-    
+
     // Editor shortcuts
     'togglePreview': {
         mac: { cmd: true, shift: true, key: 'p' },
@@ -69,6 +69,16 @@ const SHORTCUT_DEFINITIONS = {
         mac: { option: true, key: 'z' },
         other: { alt: true, key: 'z' },
         description: 'Toggle word wrap'
+    },
+    'toggleLineNumbers': {
+        mac: { option: true, key: 'n' },
+        other: { alt: true, key: 'n' },
+        description: 'Toggle line numbers'
+    },
+    'toggleAutocapitalize': {
+        mac: { option: true, key: 'c' },
+        other: { alt: true, key: 'c' },
+        description: 'Toggle auto-capitalize'
     },
     
     // Table shortcuts
@@ -151,9 +161,9 @@ let saveButton;
 function matchesShortcut(event, shortcut) {
     const platform = isMac ? 'mac' : 'other';
     const platformShortcut = shortcut[platform];
-    
+
     if (!platformShortcut) return false;
-    
+
     // Handle special key mappings
     let eventKey = event.key;
     if (eventKey === 'ArrowLeft') eventKey = 'ArrowLeft';
@@ -162,9 +172,9 @@ function matchesShortcut(event, shortcut) {
     else if (eventKey === 'ArrowDown') eventKey = 'ArrowDown';
     else if (event.code === 'Slash') eventKey = '/';
     else eventKey = eventKey.toLowerCase();
-    
+
     const targetKey = platformShortcut.key.toLowerCase();
-    
+
     return (!platformShortcut.ctrl || event.ctrlKey) &&
            (!platformShortcut.cmd || event.metaKey) &&
            (!platformShortcut.meta || event.metaKey) &&
@@ -210,7 +220,7 @@ function registerAllCodeMirrorShortcuts() {
     if (!CodeMirror.keyMap.default) {
         CodeMirror.keyMap.default = {};
     }
-    
+
     // Platform-aware key registration
     if (isMac) {
         // Mac shortcuts use Cmd
@@ -221,7 +231,9 @@ function registerAllCodeMirrorShortcuts() {
         CodeMirror.keyMap.default['Cmd-/'] = 'formatCode';
         CodeMirror.keyMap.default['Cmd-Shift-P'] = 'togglePreview';
         CodeMirror.keyMap.default['Alt-Z'] = 'toggleWordWrap';
-        
+        CodeMirror.keyMap.default['Alt-N'] = 'toggleLineNumbers';
+        CodeMirror.keyMap.default['Alt-C'] = 'toggleAutocapitalize';
+
         // Table shortcuts for Mac
         CodeMirror.keyMap.default['Cmd-Enter'] = 'tableEscape';
         CodeMirror.keyMap.default['Cmd-Left'] = 'tableMoveLeft';
@@ -245,7 +257,9 @@ function registerAllCodeMirrorShortcuts() {
         CodeMirror.keyMap.default['Ctrl-/'] = 'formatCode';
         CodeMirror.keyMap.default['Ctrl-Shift-P'] = 'togglePreview';
         CodeMirror.keyMap.default['Alt-Z'] = 'toggleWordWrap';
-        
+        CodeMirror.keyMap.default['Alt-N'] = 'toggleLineNumbers';
+        CodeMirror.keyMap.default['Alt-C'] = 'toggleAutocapitalize';
+
         // Table shortcuts for Windows/Linux
         CodeMirror.keyMap.default['Ctrl-Enter'] = 'tableEscape';
         CodeMirror.keyMap.default['Ctrl-Left'] = 'tableMoveLeft';
@@ -467,13 +481,27 @@ function registerFormattingCommands() {
             window.EditorCore.toggleWordWrap();
         }
     };
+
+    // Register toggle line numbers command
+    CodeMirror.commands.toggleLineNumbers = function(cm) {
+        if (window.EditorCore && typeof window.EditorCore.toggleLineNumbers === 'function') {
+            window.EditorCore.toggleLineNumbers();
+        }
+    };
+    
+    // Register toggle autocapitalize command
+    CodeMirror.commands.toggleAutocapitalize = function(cm) {
+        if (window.EditorCore && typeof window.EditorCore.toggleAutocapitalize === 'function') {
+            window.EditorCore.toggleAutocapitalize();
+        }
+    };
 }
 
 // Handle all keyboard events
 function handleKeyDown(e) {
     // Get the shortcut action for this event
     const action = getShortcutAction(e);
-    
+
     if (action) {
         // Handle global shortcuts
         switch (action) {
@@ -489,14 +517,14 @@ function handleKeyDown(e) {
                     });
                 }
                 return;
-                
+
             case 'saveDocument':
                 e.preventDefault();
                 if (mainContent && mainContent.classList.contains('editing') && saveButton) {
                     saveButton.click();
                 }
                 return;
-                
+
             case 'focusSearch':
                 e.preventDefault();
                 const searchBox = document.querySelector('.search-box');
@@ -504,7 +532,7 @@ function handleKeyDown(e) {
                     searchBox.focus();
                 }
                 return;
-                
+
             case 'togglePreview':
                 e.preventDefault();
                 if (mainContent && mainContent.classList.contains('editing')) {

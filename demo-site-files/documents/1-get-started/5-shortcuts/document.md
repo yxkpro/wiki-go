@@ -18,6 +18,8 @@ Wiki-Go provides several keyboard shortcuts to enhance productivity (Windows sho
 - `Ctrl+/` - Toggle code formatting (inline code for single-line selections, code blocks for multi-line selections or current line when nothing is selected)
 - `Ctrl+Shift+P` - Preview Toggle
 - `Alt+Z` - Toggle word wrap
+- `Alt+N` - Toggle line numbers
+- `Alt+C` - Toggle auto-capitalize
 
 ## Table Editing
 

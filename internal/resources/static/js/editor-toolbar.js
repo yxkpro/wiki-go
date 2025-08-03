@@ -173,6 +173,8 @@ function createToolbar(container) {
         { icon: 'fa-ellipsis-h', action: 'horizontal-rule', title: 'Horizontal Rule' },
         { type: 'separator' },
         { icon: 'fa-text-width', action: 'toggle-wordwrap', title: `Toggle Word Wrap (${getShortcut('Option+Z', 'Alt+Z')})`, id: 'toggle-wordwrap' },
+        { icon: 'fa-list-ol', action: 'toggle-linenumbers', title: `Show Line Numbers (${getShortcut('Option+N', 'Alt+N')})`, id: 'toggle-linenumbers' },
+        { icon: 'fa-font', action: 'toggle-autocapitalize', title: `Enable Auto-Capitalize (${getShortcut('Option+C', 'Alt+C')})`, id: 'toggle-autocapitalize' },
         { type: 'separator' },
         { icon: 'fa-list-alt', action: 'insert-toc', title: 'Insert Table of Contents' },
         { icon: 'fa-clock-o', action: 'recent-edits', title: 'Insert Recent Edits' },
@@ -447,7 +449,7 @@ function setupToolbarActions(toolbar) {
                 const isPreviewActive = document.querySelector('.editor-preview')?.classList.contains('editor-preview-active');
                 const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.userAgent);
                 const shortcut = isMac ? 'Cmd+Shift+P' : 'Ctrl+Shift+P';
-                
+
                 if (isPreviewActive) {
                     // Currently in preview, going back to edit
                     button.title = 'Back to Edit Mode';
@@ -455,7 +457,7 @@ function setupToolbarActions(toolbar) {
                     // Currently in edit, going to preview
                     button.title = `Toggle Preview (${shortcut})`;
                 }
-                
+
                 window.EditorPreview.togglePreview();
                 break;
             case 'emoji':
@@ -485,6 +487,12 @@ function setupToolbarActions(toolbar) {
                 break;
             case 'toggle-wordwrap':
                 window.EditorCore.toggleWordWrap();
+                break;
+            case 'toggle-linenumbers':
+                window.EditorCore.toggleLineNumbers();
+                break;
+            case 'toggle-autocapitalize':
+                window.EditorCore.toggleAutocapitalize();
                 break;
             case 'insert-toc':
                 insertTOC();
@@ -519,5 +527,11 @@ window.EditorToolbar = {
     addRecentEdits,
     addTotal,
     insertTOC,
-    insertKanbanFrontmatter
+    insertKanbanFrontmatter,
+    
+    // Utility functions
+    getShortcut: (mac, other) => {
+        const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.userAgent);
+        return isMac ? mac : other;
+    }
 };

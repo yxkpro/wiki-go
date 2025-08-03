@@ -218,7 +218,7 @@ async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar
             editor = CodeMirror.fromTextArea(textarea, {
                 mode: 'markdown',
                 theme: 'default', // Always use default theme and customize it
-                lineNumbers: true,
+                lineNumbers: false, // Line numbers off by default
                 lineWrapping: true,
                 autofocus: true,
                 tabSize: 2,
@@ -273,8 +273,14 @@ async function loadEditor(mainContent, editorContainer, viewToolbar, editToolbar
             // Set initial state of the wordwrap button based on editor settings
             const wrapButton = document.querySelector('.toggle-wordwrap-button');
             if (wrapButton && editor.getOption('lineWrapping')) {
+                // Use the shared getShortcut function from EditorToolbar
+                const getShortcut = window.EditorToolbar && window.EditorToolbar.getShortcut ? 
+                    window.EditorToolbar.getShortcut : (mac, other) => mac || other;
+                
+                const shortcut = getShortcut('Option+Z', 'Alt+Z');
+                
                 wrapButton.classList.add('active');
-                wrapButton.title = 'Disable Word Wrap';
+                wrapButton.title = `Disable Word Wrap (${shortcut})`;
             }
         }
 
@@ -501,19 +507,134 @@ function toggleWordWrap() {
     // Update button appearance
     const wrapButton = document.querySelector('.toggle-wordwrap-button');
     if (wrapButton) {
+        // Use the shared getShortcut function from EditorToolbar
+        const getShortcut = window.EditorToolbar && window.EditorToolbar.getShortcut ? 
+            window.EditorToolbar.getShortcut : (mac, other) => mac || other;
+        
+        const shortcut = getShortcut('Option+Z', 'Alt+Z');
+        
         if (!currentWrapping) {
             // Line wrapping was turned on
             wrapButton.classList.add('active');
-            wrapButton.title = 'Disable Word Wrap';
+            wrapButton.title = `Disable Word Wrap (${shortcut})`;
         } else {
             // Line wrapping was turned off
             wrapButton.classList.remove('active');
-            wrapButton.title = 'Enable Word Wrap';
+            wrapButton.title = `Enable Word Wrap (${shortcut})`;
         }
     }
 
     // Refresh editor to apply changes
     editor.refresh();
+}
+
+// Function to toggle line numbers
+function toggleLineNumbers() {
+    if (!editor) return;
+
+    // Get current line numbers state
+    const currentLineNumbers = editor.getOption('lineNumbers');
+
+    // Toggle line numbers
+    editor.setOption('lineNumbers', !currentLineNumbers);
+
+    // Update button appearance
+    const lineNumbersButton = document.querySelector('.toggle-linenumbers-button');
+    if (lineNumbersButton) {
+        // Use the shared getShortcut function from EditorToolbar
+        const getShortcut = window.EditorToolbar && window.EditorToolbar.getShortcut ? 
+            window.EditorToolbar.getShortcut : (mac, other) => mac || other;
+        
+        const shortcut = getShortcut('Option+N', 'Alt+N');
+        
+        if (!currentLineNumbers) {
+            // Line numbers were turned on
+            lineNumbersButton.classList.add('active');
+            lineNumbersButton.title = `Hide Line Numbers (${shortcut})`;
+        } else {
+            // Line numbers were turned off
+            lineNumbersButton.classList.remove('active');
+            lineNumbersButton.title = `Show Line Numbers (${shortcut})`;
+        }
+    }
+
+    // Refresh editor to apply changes
+    editor.refresh();
+}
+
+// Variable to track autocapitalize state
+let autocapitalizeEnabled = false;
+
+// Function to toggle autocapitalize
+function toggleAutocapitalize() {
+    if (!editor) return;
+
+    // Toggle autocapitalize state
+    autocapitalizeEnabled = !autocapitalizeEnabled;
+    
+    // Update button appearance
+    const autocapitalizeButton = document.querySelector('.toggle-autocapitalize-button');
+    if (autocapitalizeButton) {
+        // Use the shared getShortcut function from EditorToolbar
+        const getShortcut = window.EditorToolbar && window.EditorToolbar.getShortcut ? 
+            window.EditorToolbar.getShortcut : (mac, other) => mac || other;
+        
+        const shortcut = getShortcut('Option+C', 'Alt+C');
+        
+        if (autocapitalizeEnabled) {
+            // Autocapitalize was turned on
+            autocapitalizeButton.classList.add('active');
+            autocapitalizeButton.title = `Disable Auto-Capitalize (${shortcut})`;
+        } else {
+            // Autocapitalize was turned off
+            autocapitalizeButton.classList.remove('active');
+            autocapitalizeButton.title = `Enable Auto-Capitalize (${shortcut})`;
+        }
+    }
+    
+    // If enabled, set up the event handler for autocapitalize
+    if (autocapitalizeEnabled) {
+        // Only add if not already added
+        if (!editor._autocapitalizeHandler) {
+            editor._autocapitalizeHandler = function(cm, change) {
+                // Only process if autocapitalize is enabled
+                if (!autocapitalizeEnabled) return;
+                
+                // Only process single character insertions and newlines
+                if (change.origin === '+input' && (change.text.length === 1 || (change.text.length === 2 && change.text[0] === ''))) {
+                    const doc = cm.getDoc();
+                    const cursor = doc.getCursor();
+                    const line = doc.getLine(cursor.line);
+                    
+                    // Check if we're at the beginning of a line or after punctuation followed by space
+                    if (cursor.ch === 1 || 
+                        (cursor.ch >= 2 && 
+                         /[.!?]\s$/.test(line.substring(cursor.ch - 2, cursor.ch)))) {
+                        
+                        // Get the character just inserted
+                        const char = line.charAt(cursor.ch - 1);
+                        
+                        // If it's a lowercase letter, capitalize it
+                        if (/[a-z]/.test(char)) {
+                            const uppercase = char.toUpperCase();
+                            doc.replaceRange(uppercase, 
+                                {line: cursor.line, ch: cursor.ch - 1}, 
+                                {line: cursor.line, ch: cursor.ch});
+                        }
+                    }
+                }
+            };
+            
+            // Add the change event handler
+            editor.on('change', editor._autocapitalizeHandler);
+        }
+    } else {
+        // Remove the event handler if it exists
+        if (editor._autocapitalizeHandler) {
+            editor.off('change', editor._autocapitalizeHandler);
+            editor._autocapitalizeHandler = null;
+        }
+    }
 }
 
 // Export the module
@@ -522,18 +643,20 @@ window.EditorCore = {
     loadEditor,
     exitEditMode,
     refreshEditor,
-    
+
     // Content functions
     getEditorContent,
     insertIntoEditor,
     insertRawContent,
     isEditorActive,
     hasUnsavedChanges,
-    
-    // Utility functions
+
+        // Utility functions
     wrapText,
     toggleWordWrap,
-    
+    toggleLineNumbers,
+    toggleAutocapitalize,
+
     // Getters
     getEditor: () => editor,
     getOriginalContent: () => originalContent,

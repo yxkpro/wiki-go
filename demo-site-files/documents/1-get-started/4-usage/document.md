@@ -45,7 +45,7 @@ There are two ways to create a kanban board:
    ---
    ```
 3. Structure your content using the following format:
-   ```markdown
+   ```
    # Your Project Title
 
    #### Project Board Name (optional)

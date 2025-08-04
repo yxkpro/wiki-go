@@ -198,8 +198,8 @@ server:
   port: 443            # container listens on 443
   allow_insecure_cookies: false
   ssl: true            # enable built-in HTTPS
-  ssl_cert: /path/to/certificate.crt
-  ssl_key:  /path/to/private.key
+  ssl_cert: "/path/to/certificate.crt"
+  ssl_key:  "/path/to/private.key"
 ```
 
 If `ssl: false` (default) the app serves plain HTTP on `port` (8080 by default) and you can run it behind a reverse proxy instead.
@@ -252,15 +252,15 @@ server:
     # Enable native TLS. When true, application will run over HTTPS using the
     # supplied certificate and key paths.
     ssl: false
-    ssl_cert:
-    ssl_key:
+    ssl_cert: ""
+    ssl_key: ""
 wiki:
-    root_dir: data
-    documents_dir: documents
+    root_dir: "data"
+    documents_dir: "documents"
     title: "📚 Wiki-Go"
-    owner: wiki.example.com
-    notice: Copyright 2025 © All rights reserved.
-    timezone: America/Vancouver
+    owner: "wiki.example.com"
+    notice: "Copyright 2025 © All rights reserved."
+    timezone: "America/Vancouver"
     private: false
     disable_comments: false
     disable_file_upload_checking: false
@@ -416,10 +416,12 @@ Wiki-Go provides several keyboard shortcuts to enhance productivity:
 - `Ctrl+B` - Toggle bold formatting
 - `Ctrl+I` - Toggle italic formatting
 - `Ctrl+H` - Toggle/cycle heading levels (# -> ## -> ### ... -> plain text)
-- `Ctrl+Q` - Toggle block quote
+- `Ctrl+K` - Toggle block quote
 - `Ctrl+/` - Toggle code formatting (inline code for single-line selections, code blocks for multi-line selections or current line when nothing is selected)
 - `Ctrl+Shift+P` - Preview Toggle
 - `Alt+Z` - Toggle word wrap
+- `Alt+N` - Toggle line numbers
+- `Alt+C` - Toggle auto-capitalize
 
 ### Table Editing
 

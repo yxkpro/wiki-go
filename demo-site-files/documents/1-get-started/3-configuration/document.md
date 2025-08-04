@@ -16,15 +16,15 @@ server:
     # Enable native TLS. When true, application will run over HTTPS using the
     # supplied certificate and key paths.
     ssl: false
-    ssl_cert:
-    ssl_key:
+    ssl_cert: ""
+    ssl_key: ""
 wiki:
-    root_dir: data
-    documents_dir: documents
+    root_dir: "data"
+    documents_dir: "documents"
     title: "📚 Wiki-Go"
-    owner: wiki.example.com
-    notice: Copyright 2025 © All rights reserved.
-    timezone: America/Vancouver
+    owner: "wiki.example.com"
+    notice: "Copyright 2025 © All rights reserved."
+    timezone: "America/Vancouver"
     private: false
     disable_comments: false
     disable_file_upload_checking: false

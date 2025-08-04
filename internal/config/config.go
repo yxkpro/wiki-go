@@ -206,7 +206,7 @@ func LoadConfig(path string) (*Config, error) {
 // GetConfigTemplate returns the template for the config file with comments
 func GetConfigTemplate() string {
 	return `server:
-    host: %s
+    host: "%s"
     port: %d
     # When set to true, allows cookies to be sent over non-HTTPS connections.
     # WARNING: Only enable this in trusted environments like a homelab
@@ -216,15 +216,15 @@ func GetConfigTemplate() string {
     # Enable native TLS. When true, application will run over HTTPS using the
     # supplied certificate and key paths.
     ssl: %t
-    ssl_cert: %s
-    ssl_key: %s
+    ssl_cert: "%s"
+    ssl_key: "%s"
 wiki:
-    root_dir: %s
-    documents_dir: %s
+    root_dir: "%s"
+    documents_dir: "%s"
     title: "%s"
-    owner: %s
-    notice: %s
-    timezone: %s
+    owner: "%s"
+    notice: "%s"
+    timezone: "%s"
     private: %t
     disable_comments: %t
     disable_file_upload_checking: %t
@@ -235,7 +235,7 @@ wiki:
     # Maximum file upload size in MB
     max_upload_size: %d
     # Default language for the wiki interface (en, es, etc.)
-    language: %s
+    language: "%s"
 security:
     login_ban:
         # Enable protection against brute force login attacks

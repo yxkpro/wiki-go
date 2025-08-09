@@ -4,7 +4,7 @@
 set -e
 
 # Configuration
-REMOTE_HOST="dmzoc1.local"
+REMOTE_HOST="lmoc1.dmz"
 REMOTE_DIR="/opt/docker/wiki-go"
 ZIP_FILE="documents.zip"
 

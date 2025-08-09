@@ -6,7 +6,6 @@
     padding: 32px 48px;
     padding-top: 100px;
     max-width: var(--content-max-width);
-    margin-bottom: 0.2em;
     width: calc(100% - var(--sidebar-width));
     min-height: 100vh;
     position: relative;

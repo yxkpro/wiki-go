@@ -196,15 +196,12 @@
         newDocErrorMessage.style.display = 'none';
         newDocForm.reset();
 
-        // Pre-populate path with current path
+        // Pre-populate path with current path - make new doc a child of current doc
         const currentPath = window.location.pathname;
         if (currentPath && currentPath !== '/') {
             // Remove leading and trailing slashes
             let path = currentPath.replace(/^\/|\/$/g, '');
-            // If current path ends with a filename, get the directory
-            if (!path.endsWith('/')) {
-                path = path.substring(0, path.lastIndexOf('/'));
-            }
+            // Use the full current path as the parent directory for the new document
             docPathInput.value = path;
         }
 

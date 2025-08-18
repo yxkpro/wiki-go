@@ -374,3 +374,40 @@
 .tab-pane.active {
     display: block;
 }
+
+/* ---------- Path Autocomplete ---------- */
+.path-autocomplete {
+    position: absolute;
+    z-index: 3000;
+    max-height: 200px;
+    overflow-y: auto;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.path-autocomplete-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+    font-size: 14px;
+    transition: background-color 0.15s ease;
+}
+
+.path-autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.path-autocomplete-item:hover,
+.path-autocomplete-item.selected {
+    background-color: var(--hover-bg);
+}
+
+.path-autocomplete-item strong {
+    color: var(--primary-color);
+}

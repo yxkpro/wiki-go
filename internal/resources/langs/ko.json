@@ -149,6 +149,7 @@
   "new_doc.document_type": "문서 유형",
   "new_doc.type_markdown": "Markdown: 전통적인 텍스트 문서",
   "new_doc.type_kanban": "Kanban: 시각적 작업 보드",
+  "new_doc.type_links": "Links: 정리된 링크 모음",
 
   "dialog.confirm_delete": "정말로 삭제하시겠습니까?",
   "dialog.confirm_action": "정말로 진행하시겠습니까?",
@@ -213,5 +214,26 @@
   "kanban.delete_column_confirm": "열 \"{0}\"을(를) 삭제하시겠습니까?",
   "kanban.add_column_title": "열 추가",
   "kanban.column_name": "열 이름",
-  "kanban.enter_column_name": "열 이름을 입력하세요"
+  "kanban.enter_column_name": "열 이름을 입력하세요",
+
+  "links.add_link_title": "링크 추가",
+  "links.edit_link_title": "링크 편집",
+  "links.url": "URL",
+  "links.url_help": "링크의 웹 주소 (필수)",
+  "links.title": "제목",
+  "links.title_placeholder": "링크 제목",
+  "links.title_help": "링크의 표시 제목 (비어있으면 URL에서 자동 입력)",
+  "links.description": "설명",
+  "links.description_placeholder": "링크에 대한 간단한 설명",
+  "links.description_help": "제목 아래에 표시되는 선택적 설명",
+  "links.category": "카테고리",
+  "links.select_category": "기존 카테고리 선택",
+  "links.new_category": "새 카테고리 만들기",
+  "links.new_category_placeholder": "새 카테고리 이름",
+  "links.category_help": "이 링크를 카테고리 섹션 아래에 그룹화",
+  "links.add_button": "링크 추가",
+  "links.update_button": "링크 업데이트",
+  "links.fetch_details": "링크 세부정보 가져오기",
+  "links.fetching_metadata": "페이지 정보를 가져오는 중...",
+  "links.invalid_url": "유효한 URL을 입력하세요"
 }

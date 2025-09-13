@@ -149,6 +149,7 @@
   "new_doc.document_type": "סוג מסמך",
   "new_doc.type_markdown": "Markdown: מסמכי טקסט מסורתיים",
   "new_doc.type_kanban": "Kanban: לוחות משימות ויזואליים",
+  "new_doc.type_links": "Links: אוספי קישורים מאורגנים",
 
   "dialog.confirm_delete": "האם אתה בטוח שברצונך למחוק זאת?",
   "dialog.confirm_action": "האם אתה בטוח שברצונך להמשיך?",
@@ -213,5 +214,29 @@
   "kanban.delete_column_confirm": "האם אתה בטוח שברצונך למחוק את העמודה \"{0}\"?",
   "kanban.add_column_title": "הוסף עמודה",
   "kanban.column_name": "שם העמודה",
-  "kanban.enter_column_name": "הזן שם עמודה"
+  "kanban.enter_column_name": "הזן שם עמודה",
+
+  "links.add_link_title": "הוסף קישור",
+  "links.edit_link_title": "ערוך קישור",
+  "links.url": "כתובת",
+  "links.url_help": "כתובת האינטרנט של הקישור (נדרש)",
+  "links.title": "כותרת",
+  "links.title_placeholder": "כותרת הקישור",
+  "links.title_help": "כותרת התצוגה לקישור (ממולאת אוטומטית מהכתובת אם ריקה)",
+  "links.description": "תיאור",
+  "links.description_placeholder": "תיאור קצר של הקישור",
+  "links.description_help": "תיאור אופציונלי המוצג מתחת לכותרת",
+  "links.category": "קטגוריה",
+  "links.select_category": "בחר קטגוריה קיימת",
+  "links.new_category": "צור קטגוריה חדשה",
+  "links.new_category_placeholder": "שם הקטגוריה החדשה",
+  "links.category_help": "קבץ קישור זה תחת קטגוריה",
+  "links.add_button": "הוסף קישור",
+  "links.update_button": "עדכן קישור",
+  "links.fetch_details": "שלוף פרטי קישור",
+  "links.fetching_metadata": "שולף מידע עמוד...",
+  "links.invalid_url": "אנא הזן כתובת תקינה",
+  "links.no_results_title": "לא נמצאו קישורים",
+  "links.no_results_message": "נסה לשנות את קריטריוני החיפוש או המסננים",
+  "links.add_new_link": "הוסף קישור חדש"
 }

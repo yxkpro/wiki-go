@@ -149,6 +149,7 @@
   "new_doc.document_type": "Dokumenttype",
   "new_doc.type_markdown": "Markdown: Traditionelle tekstdokumenter",
   "new_doc.type_kanban": "Kanban: Visuelle opgave boards",
+  "new_doc.type_links": "Links: Organiserede link samlinger",
 
   "dialog.confirm_delete": "Er du sikker på, at du vil slette dette?",
   "dialog.confirm_action": "Er du sikker på, at du vil fortsætte?",
@@ -213,5 +214,29 @@
   "kanban.delete_column_confirm": "Er du sikker på, at du vil slette kolonnen \"{0}\"?",
   "kanban.add_column_title": "Tilføj kolonne",
   "kanban.column_name": "Kolonnenavn",
-  "kanban.enter_column_name": "Indtast kolonnenavn"
+  "kanban.enter_column_name": "Indtast kolonnenavn",
+
+  "links.add_link_title": "Tilføj link",
+  "links.edit_link_title": "Rediger link",
+  "links.url": "URL",
+  "links.url_help": "Webadressen på linket (påkrævet)",
+  "links.title": "Titel",
+  "links.title_placeholder": "Link titel",
+  "links.title_help": "Visningstitel for linket (udfyldes automatisk fra URL hvis tom)",
+  "links.description": "Beskrivelse",
+  "links.description_placeholder": "Kort beskrivelse af linket",
+  "links.description_help": "Valgfri beskrivelse vist under titlen",
+  "links.category": "Kategori",
+  "links.select_category": "Vælg eksisterende kategori",
+  "links.new_category": "Opret ny kategori",
+  "links.new_category_placeholder": "Nyt kategorinavn",
+  "links.category_help": "Grupper dette link under en kategorisektion",
+  "links.add_button": "Tilføj link",
+  "links.update_button": "Opdater link",
+  "links.fetch_details": "Hent linkdetaljer",
+  "links.fetching_metadata": "Henter sideinformation...",
+  "links.invalid_url": "Indtast venligst en gyldig URL",
+  "links.no_results_title": "Ingen links fundet",
+  "links.no_results_message": "Prøv at ændre søgekriterier eller filtre",
+  "links.add_new_link": "Tilføj nyt link"
 }

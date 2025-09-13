@@ -149,6 +149,7 @@
   "new_doc.document_type": "文件類型",
   "new_doc.type_markdown": "Markdown: 傳統文字文件",
   "new_doc.type_kanban": "Kanban: 視覺化任務看板",
+  "new_doc.type_links": "Links: 有序連結集合",
 
   "dialog.confirm_delete": "您確定要刪除這個嗎？",
   "dialog.confirm_action": "您確定要繼續嗎？",
@@ -213,5 +214,26 @@
   "kanban.delete_column_confirm": "您確定要刪除欄位 \"{0}\" 嗎？",
   "kanban.add_column_title": "新增欄位",
   "kanban.column_name": "欄位名稱",
-  "kanban.enter_column_name": "請輸入欄位名稱"
+  "kanban.enter_column_name": "請輸入欄位名稱",
+
+  "links.add_link_title": "新增連結",
+  "links.edit_link_title": "編輯連結",
+  "links.url": "網址",
+  "links.url_help": "連結的網頁地址（必填）",
+  "links.title": "標題",
+  "links.title_placeholder": "連結標題",
+  "links.title_help": "連結的顯示標題（為空時自動填入）",
+  "links.description": "描述",
+  "links.description_placeholder": "連結的簡短描述",
+  "links.description_help": "顯示在標題下方的選用描述",
+  "links.category": "分類",
+  "links.select_category": "選擇現有分類",
+  "links.new_category": "建立新分類",
+  "links.new_category_placeholder": "新分類名稱",
+  "links.category_help": "將此連結歸類到某個分類部分下",
+  "links.add_button": "新增連結",
+  "links.update_button": "更新連結",
+  "links.fetch_details": "取得連結詳情",
+  "links.fetching_metadata": "正在取得頁面資訊...",
+  "links.invalid_url": "請輸入有效的網址"
 }

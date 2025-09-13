@@ -79,6 +79,17 @@ func RenderMarkdownWithPath(md string, docPath string) []byte {
 		return []byte(kanbanHTML)
 	}
 
+	// If this has links layout, render as links document
+	if hasFrontmatter && metadata.Layout == "links" {
+		linksHTML, err := frontmatter.RenderLinks(contentWithoutFrontmatter)
+		if err != nil {
+			// If links rendering fails, fall back to regular markdown
+			md = contentWithoutFrontmatter
+		} else {
+			return []byte(linksHTML)
+		}
+	}
+
 	// If there's frontmatter but not kanban layout, use content without frontmatter
 	if hasFrontmatter {
 		md = contentWithoutFrontmatter

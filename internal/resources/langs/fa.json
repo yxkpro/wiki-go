@@ -149,6 +149,7 @@
   "new_doc.document_type": "نوع سند",
   "new_doc.type_markdown": "Markdown: اسناد متنی سنتی",
   "new_doc.type_kanban": "Kanban: تابلوهای بصری وظایف",
+  "new_doc.type_links": "Links: مجموعه‌های سازمان‌یافته پیوند",
 
   "dialog.confirm_delete": "آیا مطمئن هستید که می‌خواهید این را حذف کنید؟",
   "dialog.confirm_action": "آیا مطمئن هستید که می‌خواهید ادامه دهید؟",
@@ -213,5 +214,29 @@
   "kanban.delete_column_confirm": "آیا مطمئن هستید که می‌خواهید ستون \"{0}\" را حذف کنید؟",
   "kanban.add_column_title": "افزودن ستون",
   "kanban.column_name": "نام ستون",
-  "kanban.enter_column_name": "نام ستون را وارد کنید"
+  "kanban.enter_column_name": "نام ستون را وارد کنید",
+
+  "links.add_link_title": "افزودن لینک",
+  "links.edit_link_title": "ویرایش لینک",
+  "links.url": "آدرس",
+  "links.url_help": "آدرس وب لینک (الزامی)",
+  "links.title": "عنوان",
+  "links.title_placeholder": "عنوان لینک",
+  "links.title_help": "عنوان نمایشی برای لینک (در صورت خالی بودن، به طور خودکار از آدرس پر می‌شود)",
+  "links.description": "توضیحات",
+  "links.description_placeholder": "توضیح مختصر لینک",
+  "links.description_help": "توضیحات اختیاری که زیر عنوان نمایش داده می‌شود",
+  "links.category": "دسته‌بندی",
+  "links.select_category": "انتخاب دسته‌بندی موجود",
+  "links.new_category": "ایجاد دسته‌بندی جدید",
+  "links.new_category_placeholder": "نام دسته‌بندی جدید",
+  "links.category_help": "قرار دادن این لینک تحت بخش دسته‌بندی",
+  "links.add_button": "افزودن لینک",
+  "links.update_button": "به‌روزرسانی لینک",
+  "links.fetch_details": "دریافت جزئیات لینک",
+  "links.fetching_metadata": "در حال دریافت اطلاعات صفحه...",
+  "links.invalid_url": "لطفاً یک آدرس معتبر وارد کنید",
+  "links.no_results_title": "هیچ لینکی یافت نشد",
+  "links.no_results_message": "تلاش کنید معیارهای جستجو یا فیلترها را تغییر دهید",
+  "links.add_new_link": "افزودن لینک جدید"
 }

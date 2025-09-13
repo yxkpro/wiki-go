@@ -149,6 +149,7 @@
   "new_doc.document_type": "Typ dokumentu",
   "new_doc.type_markdown": "Markdown: Tradiční textové dokumenty",
   "new_doc.type_kanban": "Kanban: Vizuální tabule úkolů",
+  "new_doc.type_links": "Links: Organizované kolekce odkazů",
 
   "dialog.confirm_delete": "Opravdu chcete toto smazat?",
   "dialog.confirm_action": "Opravdu chcete pokračovat?",
@@ -213,5 +214,29 @@
   "kanban.delete_column_confirm": "Opravdu chcete smazat sloupec \"{0}\"?",
   "kanban.add_column_title": "Přidat sloupec",
   "kanban.column_name": "Název sloupce",
-  "kanban.enter_column_name": "Zadejte název sloupce"
+  "kanban.enter_column_name": "Zadejte název sloupce",
+
+  "links.add_link_title": "Přidat odkaz",
+  "links.edit_link_title": "Upravit odkaz",
+  "links.url": "URL",
+  "links.url_help": "Webová adresa odkazu (povinné)",
+  "links.title": "Název",
+  "links.title_placeholder": "Název odkazu",
+  "links.title_help": "Zobrazený název odkazu (automaticky vyplněn z URL, pokud je prázdný)",
+  "links.description": "Popis",
+  "links.description_placeholder": "Krátký popis odkazu",
+  "links.description_help": "Volitelný popis zobrazený pod názvem",
+  "links.category": "Kategorie",
+  "links.select_category": "Vyberte existující kategorii",
+  "links.new_category": "Vytvořit novou kategorii",
+  "links.new_category_placeholder": "Název nové kategorie",
+  "links.category_help": "Zařadit tento odkaz pod kategorii",
+  "links.add_button": "Přidat odkaz",
+  "links.update_button": "Aktualizovat odkaz",
+  "links.fetch_details": "Načíst detaily odkazu",
+  "links.fetching_metadata": "Načítání informací o stránce...",
+  "links.invalid_url": "Zadejte prosím platnou URL",
+  "links.no_results_title": "Nenalezeny žádné odkazy",
+  "links.no_results_message": "Zkuste upravit vyhledávací výrazy nebo filtry",
+  "links.add_new_link": "Přidat nový odkaz"
 }

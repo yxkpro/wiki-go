@@ -149,6 +149,7 @@
   "new_doc.document_type": "Dokumenttyp",
   "new_doc.type_markdown": "Markdown: Traditionelle Textdokumente",
   "new_doc.type_kanban": "Kanban: Visuelle Aufgaben-Boards",
+  "new_doc.type_links": "Links: Organisierte Link-Sammlungen",
 
   "dialog.confirm_delete": "Sind Sie sicher, dass Sie dies löschen möchten?",
   "dialog.confirm_action": "Sind Sie sicher, dass Sie fortfahren möchten?",
@@ -213,5 +214,29 @@
   "kanban.delete_column_confirm": "Sind Sie sicher, dass Sie die Spalte \"{0}\" löschen möchten?",
   "kanban.add_column_title": "Spalte hinzufügen",
   "kanban.column_name": "Spaltenname",
-  "kanban.enter_column_name": "Spaltenname eingeben"
+  "kanban.enter_column_name": "Spaltenname eingeben",
+
+  "links.add_link_title": "Link hinzufügen",
+  "links.edit_link_title": "Link bearbeiten",
+  "links.url": "URL",
+  "links.url_help": "Die Webadresse des Links (erforderlich)",
+  "links.title": "Titel",
+  "links.title_placeholder": "Link-Titel",
+  "links.title_help": "Anzeigetitel für den Link (automatisch aus URL gefüllt, wenn leer)",
+  "links.description": "Beschreibung",
+  "links.description_placeholder": "Kurze Beschreibung des Links",
+  "links.description_help": "Optionale Beschreibung unter dem Titel angezeigt",
+  "links.category": "Kategorie",
+  "links.select_category": "Vorhandene Kategorie auswählen",
+  "links.new_category": "Neue Kategorie erstellen",
+  "links.new_category_placeholder": "Name der neuen Kategorie",
+  "links.category_help": "Diesen Link unter einem Kategorieabschnitt gruppieren",
+  "links.add_button": "Link hinzufügen",
+  "links.update_button": "Link aktualisieren",
+  "links.fetch_details": "Link-Details abrufen",
+  "links.fetching_metadata": "Seiteninformationen werden abgerufen...",
+  "links.invalid_url": "Bitte geben Sie eine gültige URL ein",
+  "links.no_results_title": "Keine Links gefunden",
+  "links.no_results_message": "Versuchen Sie, die Suchkriterien oder Filter zu ändern",
+  "links.add_new_link": "Neuen Link hinzufügen"
 }

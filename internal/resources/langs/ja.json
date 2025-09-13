@@ -149,6 +149,7 @@
   "new_doc.document_type": "ドキュメントタイプ",
   "new_doc.type_markdown": "Markdown: 従来のテキストドキュメント",
   "new_doc.type_kanban": "Kanban: ビジュアルタスクボード",
+  "new_doc.type_links": "Links: 整理されたリンク集",
 
   "dialog.confirm_delete": "これを削除してもよろしいですか？",
   "dialog.confirm_action": "続行してもよろしいですか？",
@@ -213,5 +214,29 @@
   "kanban.delete_column_confirm": "列 \"{0}\" を削除してもよろしいですか？",
   "kanban.add_column_title": "列を追加",
   "kanban.column_name": "列名",
-  "kanban.enter_column_name": "列名を入力してください"
+  "kanban.enter_column_name": "列名を入力してください",
+
+  "links.add_link_title": "リンクを追加",
+  "links.edit_link_title": "リンクを編集",
+  "links.url": "URL",
+  "links.url_help": "リンクのウェブアドレス（必須）",
+  "links.title": "タイトル",
+  "links.title_placeholder": "リンクタイトル",
+  "links.title_help": "リンクの表示タイトル（空の場合はURLから自動入力）",
+  "links.description": "説明",
+  "links.description_placeholder": "リンクの簡単な説明",
+  "links.description_help": "タイトルの下に表示されるオプションの説明",
+  "links.category": "カテゴリ",
+  "links.select_category": "既存のカテゴリを選択",
+  "links.new_category": "新しいカテゴリを作成",
+  "links.new_category_placeholder": "新しいカテゴリ名",
+  "links.category_help": "このリンクをカテゴリセクションの下にグループ化",
+  "links.add_button": "リンクを追加",
+  "links.update_button": "リンクを更新",
+  "links.fetch_details": "リンク詳細を取得",
+  "links.fetching_metadata": "ページ情報を取得中...",
+  "links.invalid_url": "有効なURLを入力してください",
+  "links.no_results_title": "リンクが見つかりません",
+  "links.no_results_message": "検索条件やフィルターを変更してください",
+  "links.add_new_link": "新しいリンクを追加"
 }

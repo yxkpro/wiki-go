@@ -149,6 +149,7 @@
   "new_doc.document_type": "نوع المستند",
   "new_doc.type_markdown": "Markdown: مستندات نصية تقليدية",
   "new_doc.type_kanban": "Kanban: لوحات مهام مرئية",
+  "new_doc.type_links": "Links: مجموعات روابط منظمة",
 
   "dialog.confirm_delete": "هل أنت متأكد من رغبتك في حذف هذا؟",
   "dialog.confirm_action": "هل أنت متأكد من رغبتك في المتابعة؟",
@@ -213,5 +214,29 @@
   "kanban.delete_column_confirm": "هل أنت متأكد من رغبتك في حذف العمود \"{0}\"?",
   "kanban.add_column_title": "إضافة عمود",
   "kanban.column_name": "اسم العمود",
-  "kanban.enter_column_name": "أدخل اسم العمود"
+  "kanban.enter_column_name": "أدخل اسم العمود",
+
+  "links.add_link_title": "إضافة رابط",
+  "links.edit_link_title": "تعديل الرابط",
+  "links.url": "الرابط",
+  "links.url_help": "عنوان الويب للرابط (مطلوب)",
+  "links.title": "العنوان",
+  "links.title_placeholder": "عنوان الرابط",
+  "links.title_help": "عنوان العرض للرابط (يتم ملؤه تلقائياً من الرابط إذا كان فارغاً)",
+  "links.description": "الوصف",
+  "links.description_placeholder": "وصف موجز للرابط",
+  "links.description_help": "وصف اختياري يظهر أسفل العنوان",
+  "links.category": "الفئة",
+  "links.select_category": "اختر فئة موجودة",
+  "links.new_category": "إنشاء فئة جديدة",
+  "links.new_category_placeholder": "اسم الفئة الجديدة",
+  "links.category_help": "تجميع هذا الرابط تحت قسم فئة",
+  "links.add_button": "إضافة رابط",
+  "links.update_button": "تحديث الرابط",
+  "links.fetch_details": "جلب تفاصيل الرابط",
+  "links.fetching_metadata": "جارٍ جلب معلومات الصفحة...",
+  "links.invalid_url": "يرجى إدخال رابط صحيح",
+  "links.no_results_title": "لم يتم العثور على روابط",
+  "links.no_results_message": "حاول تعديل مصطلحات البحث أو المرشحات",
+  "links.add_new_link": "إضافة رابط جديد"
 }

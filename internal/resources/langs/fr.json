@@ -149,6 +149,7 @@
   "new_doc.document_type": "Type de document",
   "new_doc.type_markdown": "Markdown: Documents texte traditionnels",
   "new_doc.type_kanban": "Kanban: Tableaux de tâches visuels",
+  "new_doc.type_links": "Links: Collections organisées de liens",
 
   "dialog.confirm_delete": "Êtes-vous sûr de vouloir supprimer ceci ?",
   "dialog.confirm_action": "Êtes-vous sûr de vouloir continuer ?",
@@ -213,5 +214,29 @@
   "kanban.delete_column_confirm": "Êtes-vous sûr de vouloir supprimer la colonne \"{0}\" ?",
   "kanban.add_column_title": "Ajouter une colonne",
   "kanban.column_name": "Nom de la colonne",
-  "kanban.enter_column_name": "Entrez le nom de la colonne"
+  "kanban.enter_column_name": "Entrez le nom de la colonne",
+
+  "links.add_link_title": "Ajouter un lien",
+  "links.edit_link_title": "Modifier le lien",
+  "links.url": "URL",
+  "links.url_help": "L'adresse web du lien (requis)",
+  "links.title": "Titre",
+  "links.title_placeholder": "Titre du lien",
+  "links.title_help": "Titre d'affichage du lien (rempli automatiquement depuis l'URL si vide)",
+  "links.description": "Description",
+  "links.description_placeholder": "Brève description du lien",
+  "links.description_help": "Description optionnelle affichée sous le titre",
+  "links.category": "Catégorie",
+  "links.select_category": "Sélectionner une catégorie existante",
+  "links.new_category": "Créer une nouvelle catégorie",
+  "links.new_category_placeholder": "Nom de la nouvelle catégorie",
+  "links.category_help": "Grouper ce lien sous une section de catégorie",
+  "links.add_button": "Ajouter le lien",
+  "links.update_button": "Mettre à jour le lien",
+  "links.fetch_details": "Récupérer les détails du lien",
+  "links.fetching_metadata": "Récupération des informations de la page...",
+  "links.invalid_url": "Veuillez entrer une URL valide",
+  "links.no_results_title": "Aucun lien trouvé",
+  "links.no_results_message": "Essayez de modifier les critères de recherche ou les filtres",
+  "links.add_new_link": "Ajouter un nouveau lien"
 }

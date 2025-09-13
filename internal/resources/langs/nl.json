@@ -149,6 +149,7 @@
   "new_doc.document_type": "Documenttype",
   "new_doc.type_markdown": "Markdown: Traditionele tekstdocumenten",
   "new_doc.type_kanban": "Kanban: Visuele taakborden",
+  "new_doc.type_links": "Links: Georganiseerde linkverzamelingen",
 
   "dialog.confirm_delete": "Weet je zeker dat je dit wilt verwijderen?",
   "dialog.confirm_action": "Weet je zeker dat je wilt doorgaan?",
@@ -213,5 +214,26 @@
   "kanban.delete_column_confirm": "Weet je zeker dat je de kolom \"{0}\" wilt verwijderen?",
   "kanban.add_column_title": "Kolom toevoegen",
   "kanban.column_name": "Kolomnaam",
-  "kanban.enter_column_name": "Voer kolomnaam in"
+  "kanban.enter_column_name": "Voer kolomnaam in",
+
+  "links.add_link_title": "Link toevoegen",
+  "links.edit_link_title": "Link bewerken",
+  "links.url": "URL",
+  "links.url_help": "Het webadres van de link (verplicht)",
+  "links.title": "Titel",
+  "links.title_placeholder": "Link titel",
+  "links.title_help": "Weergavetitel voor de link (wordt automatisch ingevuld als leeg)",
+  "links.description": "Beschrijving",
+  "links.description_placeholder": "Korte beschrijving van de link",
+  "links.description_help": "Optionele beschrijving die onder de titel wordt weergegeven",
+  "links.category": "Categorie",
+  "links.select_category": "Selecteer bestaande categorie",
+  "links.new_category": "Nieuwe categorie maken",
+  "links.new_category_placeholder": "Nieuwe categorienaam",
+  "links.category_help": "Groepeer deze link onder een categoriesectie",
+  "links.add_button": "Link toevoegen",
+  "links.update_button": "Link bijwerken",
+  "links.fetch_details": "Link details ophalen",
+  "links.fetching_metadata": "Pagina-informatie ophalen...",
+  "links.invalid_url": "Voer een geldige URL in"
 }

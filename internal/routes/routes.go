@@ -391,6 +391,9 @@ func SetupRoutes(cfg *config.Config) {
 	// Utility API endpoints
 	mux.HandleFunc("/api/utils/slugify", handlers.SlugifyHandler)
 
+	// Links Metadata API - Editor or Admin only
+	mux.HandleFunc("/api/links/fetch-metadata", editorMiddleware(handlers.FetchMetadataHandler))
+
 	// Login page
 	mux.HandleFunc("/login", handlers.LoginPageHandler)
 

@@ -149,6 +149,7 @@
   "new_doc.document_type": "दस्तावेज़ प्रकार",
   "new_doc.type_markdown": "Markdown: पारंपरिक पाठ दस्तावेज़",
   "new_doc.type_kanban": "Kanban: दृश्य कार्य बोर्ड",
+  "new_doc.type_links": "Links: व्यवस्थित लिंक संग्रह",
 
   "dialog.confirm_delete": "क्या आप वाकई इसे हटाना चाहते हैं?",
   "dialog.confirm_action": "क्या आप वाकई आगे बढ़ना चाहते हैं?",
@@ -213,5 +214,29 @@
   "kanban.delete_column_confirm": "क्या आप वाकई कॉलम \"{0}\" को हटाना चाहते हैं?",
   "kanban.add_column_title": "कॉलम जोड़ें",
   "kanban.column_name": "कॉलम का नाम",
-  "kanban.enter_column_name": "कॉलम का नाम दर्ज करें"
+  "kanban.enter_column_name": "कॉलम का नाम दर्ज करें",
+
+  "links.add_link_title": "लिंक जोड़ें",
+  "links.edit_link_title": "लिंक संपादित करें",
+  "links.url": "URL",
+  "links.url_help": "लिंक का वेब पता (आवश्यक)",
+  "links.title": "शीर्षक",
+  "links.title_placeholder": "लिंक शीर्षक",
+  "links.title_help": "लिंक के लिए प्रदर्शन शीर्षक (यदि खाली है तो URL से स्वचालित रूप से भरा जाता है)",
+  "links.description": "विवरण",
+  "links.description_placeholder": "लिंक का संक्षिप्त विवरण",
+  "links.description_help": "शीर्षक के नीचे दिखाया गया वैकल्पिक विवरण",
+  "links.category": "श्रेणी",
+  "links.select_category": "मौजूदा श्रेणी चुनें",
+  "links.new_category": "नई श्रेणी बनाएं",
+  "links.new_category_placeholder": "नई श्रेणी का नाम",
+  "links.category_help": "इस लिंक को श्रेणी अनुभाग के तहत समूहीकृत करें",
+  "links.add_button": "लिंक जोड़ें",
+  "links.update_button": "लिंक अपडेट करें",
+  "links.fetch_details": "लिंक विवरण प्राप्त करें",
+  "links.fetching_metadata": "पेज की जानकारी प्राप्त की जा रही है...",
+  "links.invalid_url": "कृपया एक वैध URL दर्ज करें",
+  "links.no_results_title": "कोई लिंक नहीं मिली",
+  "links.no_results_message": "खोज मापदंड या फिल्टर बदलने का प्रयास करें",
+  "links.add_new_link": "नई लिंक जोड़ें"
 }

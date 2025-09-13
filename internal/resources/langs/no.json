@@ -149,6 +149,7 @@
   "new_doc.document_type": "Dokumenttype",
   "new_doc.type_markdown": "Markdown: Tradisjonelle tekstdokumenter",
   "new_doc.type_kanban": "Kanban: Visuelle oppgavetavler",
+  "new_doc.type_links": "Links: Organiserte link-samlinger",
 
   "dialog.confirm_delete": "Er du sikker på at du vil slette dette?",
   "dialog.confirm_action": "Er du sikker på at du vil fortsette?",
@@ -213,5 +214,26 @@
   "kanban.delete_column_confirm": "Er du sikker på at du vil slette kolonnen \"{0}\"?",
   "kanban.add_column_title": "Legg til kolonne",
   "kanban.column_name": "Kolonnenavn",
-  "kanban.enter_column_name": "Skriv inn kolonnenavn"
+  "kanban.enter_column_name": "Skriv inn kolonnenavn",
+
+  "links.add_link_title": "Legg til lenke",
+  "links.edit_link_title": "Rediger lenke",
+  "links.url": "URL",
+  "links.url_help": "Webadressen til lenken (påkrevd)",
+  "links.title": "Tittel",
+  "links.title_placeholder": "Lenketittel",
+  "links.title_help": "Visningstittelen for lenken (fyller automatisk hvis tom)",
+  "links.description": "Beskrivelse",
+  "links.description_placeholder": "Kort beskrivelse av lenken",
+  "links.description_help": "Valgfri beskrivelse som vises under tittelen",
+  "links.category": "Kategori",
+  "links.select_category": "Velg eksisterende kategori",
+  "links.new_category": "Opprett ny kategori",
+  "links.new_category_placeholder": "Nytt kategorinavn",
+  "links.category_help": "Grupper denne lenken under en kategoriseksjon",
+  "links.add_button": "Legg til lenke",
+  "links.update_button": "Oppdater lenke",
+  "links.fetch_details": "Hent lenkedetaljer",
+  "links.fetching_metadata": "Henter sideinformasjon...",
+  "links.invalid_url": "Vennligst skriv inn en gyldig URL"
 }

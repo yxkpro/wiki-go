@@ -11,7 +11,8 @@
 .file-upload-dialog,
 .version-history-dialog,
 .settings-dialog,
-.add-column-dialog {
+.add-column-dialog,
+.add-link-dialog {
     display: none;
     position: fixed;
     top: 0;
@@ -36,7 +37,8 @@
 .file-upload-dialog.active,
 .version-history-dialog.active,
 .settings-dialog.active,
-.add-column-dialog.active {
+.add-column-dialog.active,
+.add-link-dialog.active {
     display: flex;
     opacity: 1;
     visibility: visible;
@@ -410,4 +412,82 @@
 
 .path-autocomplete-item strong {
     color: var(--primary-color);
+}
+
+/* ---------- Add Link Dialog Specific Styles ---------- */
+.add-link-dialog .category-input-wrapper {
+    position: relative;
+}
+
+.add-link-dialog .category-selector {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 14px;
+    transition: border-color 0.15s ease;
+}
+
+.add-link-dialog .category-selector:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.add-link-dialog .new-category-wrapper {
+    margin-top: 8px;
+}
+
+.add-link-dialog .new-category-wrapper input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 14px;
+    transition: border-color 0.15s ease;
+}
+
+.add-link-dialog .new-category-wrapper input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.add-link-dialog textarea {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+.add-link-dialog .form-help-with-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
+}
+
+.add-link-dialog .fetch-details-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    white-space: nowrap;
+}
+
+.add-link-dialog .fetch-details-btn:hover {
+    background-color: var(--bg-hover);
+}
+
+.add-link-dialog .fetch-details-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }

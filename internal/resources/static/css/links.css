@@ -1,0 +1,704 @@
+/* Links Document Styles */
+
+/* Search and Filter Controls */
+.links-controls {
+    background-color: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-filter-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-group {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 40px 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: var(--input-bg, var(--bg-color));
+    color: var(--text-color);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb, 77, 166, 255), 0.1);
+}
+
+.search-clear {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 4px;
+    border-radius: 3px;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.search-clear:hover {
+    color: var(--text-color);
+    background-color: var(--hover-bg);
+}
+
+.filter-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.search-results-info {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.results-count {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.clear-filters {
+    background: none;
+    border: 1px solid var(--border-color);
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.clear-filters:hover {
+    background-color: var(--hover-bg);
+    border-color: var(--primary-color);
+}
+
+/* Mobile responsive fixes */
+@media (max-width: 768px) {
+    .search-filter-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .search-group {
+        min-width: unset;
+        width: 100%;
+        flex: none;
+    }
+    
+    .filter-group {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+    
+    .language-selector-wrapper {
+        width: 100%;
+    }
+    
+    .language-selector {
+        width: 100%;
+        min-width: unset;
+        box-sizing: border-box;
+    }
+    
+    /* Fix action button alignment on mobile */
+    .link-action-buttons {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        opacity: 1 !important;
+        transform: none;
+        padding: 4px;
+        background: var(--hover-bg);
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .link-item {
+        position: relative;
+        padding-right: 80px; /* Make room for action buttons */
+    }
+}
+
+/* No results message */
+.no-results {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-muted);
+}
+
+.no-results-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.6;
+}
+
+.no-results-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-color);
+}
+
+.no-results-message {
+    font-size: 14px;
+}
+
+/* Hide empty categories during filtering */
+.links-category.hidden {
+    display: none;
+}
+
+.link-item.hidden {
+    display: none;
+}
+
+/* Responsive design for search controls */
+@media (max-width: 768px) {
+    .search-filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-group {
+        min-width: auto;
+    }
+    
+    .filter-group {
+        justify-content: space-between;
+    }
+    
+    .language-selector-wrapper {
+        flex: 1;
+    }
+    
+    .search-results-info {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+}
+
+/* Links document title styling - match regular markdown H1 rendering */
+.markdown-content .links-document-title {
+    /* Apply the same styles as .content h1 */
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text-color);
+    border-bottom: none;
+    padding: 0;
+}
+
+/* Full-width layout */
+.links-layout {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+
+/* Stats bar styling */
+.links-stats-bar {
+    background-color: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.links-stats-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+}
+
+.links-stats-number {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    line-height: 1.2;
+}
+
+.links-stats-label {
+    font-size: 0.875rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-top: 4px;
+    text-align: center;
+}
+
+/* Category sections - styled like H1 headings */
+.links-category {
+    margin-bottom: 32px;
+}
+
+.links-category-header {
+    /* Style like H1 - larger, more prominent */
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 1.5rem 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--primary-color);
+    line-height: 1.2;
+    display: block;
+}
+
+.section-count {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 0.9em;
+}
+
+/* Link items - compact layout */
+.link-item {
+    background-color: var(--bg-color);
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 8px;
+    border: 1px solid var(--border-color);
+    position: relative;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+    min-height: 48px;
+}
+
+.link-item:hover {
+    background-color: var(--hover-bg);
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Link favicon */
+.link-favicon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    border-radius: 2px;
+    background-color: var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--text-color);
+}
+
+.link-favicon img {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+}
+
+/* Link content */
+.link-content {
+    flex-grow: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* New layout: favicon + title on same row */
+.link-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.link-title {
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.link-description {
+    font-size: 13px;
+    color: var(--text-color);
+    opacity: 0.7;
+    line-height: 1.3;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Link metadata */
+.link-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+    min-width: 100px;
+}
+
+.link-date {
+    font-size: 11px;
+    color: var(--text-color);
+    opacity: 0.5;
+    white-space: nowrap;
+}
+
+/* Link action buttons - styled like kanban task actions */
+.link-action-buttons {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    background: var(--hover-bg);
+    border-radius: 4px;
+    padding: 2px 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    gap: 2px;
+}
+
+.link-item:hover .link-action-buttons {
+    opacity: 1;
+}
+
+.link-action-btn {
+    cursor: pointer;
+    color: var(--text-muted);
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s, background-color 0.2s;
+    background: none;
+    border: none;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.link-action-btn:hover {
+    opacity: 1;
+}
+
+.link-copy-btn {
+    font-size: 14px;
+}
+
+.link-copy-btn:hover {
+    color: var(--primary-color);
+}
+
+.link-edit-btn {
+    font-size: 14px;
+}
+
+.link-edit-btn:hover {
+    color: var(--primary-color);
+}
+
+.link-delete-btn {
+    font-size: 16px;
+}
+
+.link-delete-btn:hover {
+    color: var(--error-color, #dc3545);
+}
+
+/* Hide editor/admin only elements for viewers */
+body:not(.role-admin):not(.role-editor) .editor-admin-only {
+    display: none !important;
+}
+
+/* Show editor/admin only elements for appropriate roles */
+body.role-admin .editor-admin-only,
+body.role-editor .editor-admin-only {
+    display: flex;
+}
+
+/* Floating Add Link Button - styled like kanban add column button */
+.floating-add-link-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 100;
+}
+
+.floating-add-link-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+.floating-add-link-btn:hover {
+    background-color: var(--primary-hover);
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.floating-add-link-btn:active {
+    transform: scale(1.05);
+}
+
+.floating-add-link-btn i {
+    transition: transform 0.2s ease;
+}
+
+.floating-add-link-btn:hover i {
+    transform: rotate(90deg);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .links-layout {
+        width: 100%;
+        position: static;
+        left: auto;
+        right: auto;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 0 16px;
+    }
+
+    .links-stats-bar {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .links-stats-bar {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .link-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 16px 12px;
+    }
+
+    .link-content {
+        width: 100%;
+    }
+
+    .link-title,
+    .link-description {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: initial;
+    }
+
+    .link-meta {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .link-action-buttons {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        opacity: 1;
+        transform: none;
+        padding: 4px;
+    }
+
+    .floating-add-link-btn {
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
+    }
+
+    .floating-add-link-container {
+        bottom: 16px;
+        right: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .links-stats-bar {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .links-stats-item {
+        min-width: 60px;
+    }
+
+    .links-stats-number {
+        font-size: 1.25rem;
+    }
+
+    .links-stats-label {
+        font-size: 0.75rem;
+    }
+
+    .links-category-header {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .link-item {
+        padding: 12px 8px;
+    }
+}
+
+/* Dark theme adjustments */
+:root[data-theme="dark"] .link-item {
+    border-color: var(--border-color);
+}
+
+:root[data-theme="dark"] .link-item:hover {
+    background-color: var(--hover-bg);
+    border-color: var(--primary-color);
+}
+
+:root[data-theme="dark"] .floating-add-link-btn {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+:root[data-theme="dark"] .floating-add-link-btn:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Animation for smooth transitions */
+.link-item,
+.link-action-buttons,
+.floating-add-link-btn {
+    transition: all 0.2s ease;
+}
+
+/* Focus states for accessibility */
+.floating-add-link-btn:focus,
+.link-action-btn:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    .floating-add-link-container,
+    .link-action-buttons {
+        display: none !important;
+    }
+    
+    .link-item {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+}
+
+/* ---------- Interactive States ---------- */
+
+/* Copy button states */
+.link-copy-btn.copied {
+    background-color: var(--success-color) !important;
+    color: white !important;
+}
+
+.link-copy-btn.copy-failed {
+    background-color: var(--error-color) !important;
+    color: white !important;
+}
+
+/* Toast notifications */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    z-index: 3000;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all 0.3s ease;
+    max-width: 400px;
+    word-wrap: break-word;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast.success {
+    background-color: var(--success-color);
+}
+
+.toast.error {
+    background-color: var(--error-color);
+}
+
+.toast.info {
+    background-color: var(--primary-color);
+}
+
+/* Enhanced action button hover effects */
+.link-action-btn:hover {
+    transform: scale(1.1);
+}

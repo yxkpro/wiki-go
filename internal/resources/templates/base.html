@@ -37,6 +37,9 @@
     {{if eq .DocumentLayout "kanban"}}
     <link rel="stylesheet" href="/static/css/kanban.css?={{getVersion}}">
     {{end}}
+    {{if eq .DocumentLayout "links"}}
+    <link rel="stylesheet" href="/static/css/links.css?={{getVersion}}">
+    {{end}}
     <!-- External libraries -->
     <link id="prism-theme" rel="stylesheet" href="/static/libs/prism-1.30.0/prism-tomorrow.min.css">
     <link rel="stylesheet" href="/static/libs/codemirror-5.65.18/codemirror.min.css">
@@ -89,6 +92,9 @@
 
     <!-- Include add column dialog template -->
     {{template "add-column-dialog" .}}
+
+    <!-- Include add link dialog template -->
+    {{template "add-link-dialog" .}}
 
     <!-- Include sidebar template -->
     {{template "sidebar" .}}
@@ -277,6 +283,10 @@
     <script src="/static/js/kanban-columns.js?={{getVersion}}" defer></script>
     <script src="/static/js/kanban-persistence.js?={{getVersion}}" defer></script>
     <script src="/static/js/kanban-core.js?={{getVersion}}" defer></script>
+    {{end}}
+    {{if eq .DocumentLayout "links"}}
+    <!-- Links document interactivity -->
+    <script src="/static/js/links.js?={{getVersion}}" defer></script>
     {{end}}
 </body>
 </html>

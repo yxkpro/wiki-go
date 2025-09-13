@@ -149,6 +149,7 @@
   "new_doc.document_type": "Dokumentin tyyppi",
   "new_doc.type_markdown": "Markdown: Perinteiset tekstidokumentit",
   "new_doc.type_kanban": "Kanban: Visuaaliset tehtävätaulut",
+  "new_doc.type_links": "Links: Järjestetyt linkki kokoelmat",
 
   "dialog.confirm_delete": "Haluatko varmasti poistaa tämän?",
   "dialog.confirm_action": "Haluatko varmasti jatkaa?",
@@ -213,5 +214,29 @@
   "kanban.delete_column_confirm": "Oletko varma, että haluat poistaa sarakkeen \"{0}\"?",
   "kanban.add_column_title": "Lisää sarake",
   "kanban.column_name": "Sarakkeen nimi",
-  "kanban.enter_column_name": "Syötä sarakkeen nimi"
+  "kanban.enter_column_name": "Syötä sarakkeen nimi",
+
+  "links.add_link_title": "Lisää linkki",
+  "links.edit_link_title": "Muokkaa linkkiä",
+  "links.url": "URL",
+  "links.url_help": "Linkin verkko-osoite (pakollinen)",
+  "links.title": "Otsikko",
+  "links.title_placeholder": "Linkin otsikko",
+  "links.title_help": "Näyttöotsikko linkille (täytetään automaattisesti URL:stä jos tyhjä)",
+  "links.description": "Kuvaus",
+  "links.description_placeholder": "Lyhyt kuvaus linkistä",
+  "links.description_help": "Valinnainen kuvaus näytetään otsikon alla",
+  "links.category": "Kategoria",
+  "links.select_category": "Valitse olemassa oleva kategoria",
+  "links.new_category": "Luo uusi kategoria",
+  "links.new_category_placeholder": "Uuden kategorian nimi",
+  "links.category_help": "Ryhmittele tämä linkki kategoriaosioon",
+  "links.add_button": "Lisää linkki",
+  "links.update_button": "Päivitä linkki",
+  "links.fetch_details": "Hae linkin tiedot",
+  "links.fetching_metadata": "Haetaan sivun tietoja...",
+  "links.invalid_url": "Anna kelvollinen URL",
+  "links.no_results_title": "Linkkejä ei löytynyt",
+  "links.no_results_message": "Kokeile muuttaa hakuehtoja tai suodattimia",
+  "links.add_new_link": "Lisää uusi linkki"
 }

@@ -149,6 +149,7 @@
   "new_doc.document_type": "Тип документа",
   "new_doc.type_markdown": "Markdown: Традиционные текстовые документы",
   "new_doc.type_kanban": "Kanban: Визуальные доски задач",
+  "new_doc.type_links": "Links: Организованные коллекции ссылок",
 
   "dialog.confirm_delete": "Вы уверены, что хотите удалить это?",
   "dialog.confirm_action": "Вы уверены, что хотите продолжить?",
@@ -213,5 +214,26 @@
   "kanban.delete_column_confirm": "Вы уверены, что хотите удалить колонку \"{0}\"?",
   "kanban.add_column_title": "Добавить колонку",
   "kanban.column_name": "Название колонки",
-  "kanban.enter_column_name": "Введите название колонки"
+  "kanban.enter_column_name": "Введите название колонки",
+
+  "links.add_link_title": "Добавить ссылку",
+  "links.edit_link_title": "Редактировать ссылку",
+  "links.url": "URL",
+  "links.url_help": "Веб-адрес ссылки (обязательно)",
+  "links.title": "Заголовок",
+  "links.title_placeholder": "Заголовок ссылки",
+  "links.title_help": "Отображаемый заголовок для ссылки (заполняется автоматически, если пусто)",
+  "links.description": "Описание",
+  "links.description_placeholder": "Краткое описание ссылки",
+  "links.description_help": "Дополнительное описание, отображаемое под заголовком",
+  "links.category": "Категория",
+  "links.select_category": "Выбрать существующую категорию",
+  "links.new_category": "Создать новую категорию",
+  "links.new_category_placeholder": "Название новой категории",
+  "links.category_help": "Группировать эту ссылку в разделе категории",
+  "links.add_button": "Добавить ссылку",
+  "links.update_button": "Обновить ссылку",
+  "links.fetch_details": "Получить данные ссылки",
+  "links.fetching_metadata": "Получение информации о странице...",
+  "links.invalid_url": "Пожалуйста, введите корректный URL"
 }

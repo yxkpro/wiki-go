@@ -563,6 +563,7 @@ function handleEscapeKey(e) {
     const isNewDocDialogOpen = document.querySelector('.new-document-dialog')?.classList.contains('active');
     const isSettingsDialogOpen = document.querySelector('.settings-dialog')?.classList.contains('active');
     const isMoveDocDialogOpen = document.querySelector('.move-document-dialog')?.classList.contains('active');
+    const isAddLinkDialogOpen = document.querySelector('.add-link-dialog')?.classList.contains('active');
     const isSearchResultsOpen = document.querySelector('.search-results')?.classList.contains('active');
     const isActionsMenuOpen = document.querySelector('.page-actions-menu')?.classList.contains('active');
     const isEditing = mainContent && mainContent.classList.contains('editing');
@@ -604,6 +605,18 @@ function handleEscapeKey(e) {
     } else if (isSettingsDialogOpen) {
         // Close settings dialog
         window.SettingsManager.hideSettingsDialog();
+        e.preventDefault();
+    } else if (isAddLinkDialogOpen) {
+        // Close add link dialog
+        if (window.LinksInteractivity && window.LinksInteractivity.hideAddLinkDialog) {
+            window.LinksInteractivity.hideAddLinkDialog();
+        } else {
+            // Fallback to direct DOM manipulation
+            const dialog = document.querySelector('.add-link-dialog');
+            if (dialog) {
+                dialog.classList.remove('active');
+            }
+        }
         e.preventDefault();
     } else if (isSearchResultsOpen) {
         // Close search results

@@ -149,6 +149,7 @@
   "new_doc.document_type": "Tipo de documento",
   "new_doc.type_markdown": "Markdown: Documentos de texto tradicionales",
   "new_doc.type_kanban": "Kanban: Tableros de tareas visuales",
+  "new_doc.type_links": "Links: Colecciones organizadas de enlaces",
 
   "dialog.confirm_delete": "¿Está seguro de que desea eliminar esto?",
   "dialog.confirm_action": "¿Está seguro de que desea continuar?",
@@ -213,5 +214,29 @@
   "kanban.delete_column_confirm": "¿Está seguro de que desea eliminar la columna \"{0}\"?",
   "kanban.add_column_title": "Agregar columna",
   "kanban.column_name": "Nombre de columna",
-  "kanban.enter_column_name": "Ingrese el nombre de la columna"
+  "kanban.enter_column_name": "Ingrese el nombre de la columna",
+
+  "links.add_link_title": "Agregar enlace",
+  "links.edit_link_title": "Editar enlace",
+  "links.url": "URL",
+  "links.url_help": "La dirección web del enlace (requerido)",
+  "links.title": "Título",
+  "links.title_placeholder": "Título del enlace",
+  "links.title_help": "Título de visualización para el enlace (se completa automáticamente desde la URL si está vacío)",
+  "links.description": "Descripción",
+  "links.description_placeholder": "Breve descripción del enlace",
+  "links.description_help": "Descripción opcional mostrada debajo del título",
+  "links.category": "Categoría",
+  "links.select_category": "Seleccionar categoría existente",
+  "links.new_category": "Crear nueva categoría",
+  "links.new_category_placeholder": "Nombre de la nueva categoría",
+  "links.category_help": "Agrupar este enlace bajo una sección de categoría",
+  "links.add_button": "Agregar enlace",
+  "links.update_button": "Actualizar enlace",
+  "links.fetch_details": "Obtener detalles del enlace",
+  "links.fetching_metadata": "Obteniendo información de la página...",
+  "links.invalid_url": "Por favor ingrese una URL válida",
+  "links.no_results_title": "No se encontraron enlaces",
+  "links.no_results_message": "Intente modificar los criterios de búsqueda o filtros",
+  "links.add_new_link": "Agregar nuevo enlace"
 }

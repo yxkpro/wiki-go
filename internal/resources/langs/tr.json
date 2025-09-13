@@ -149,6 +149,7 @@
   "new_doc.document_type": "Belge türü",
   "new_doc.type_markdown": "Markdown: Geleneksel metin belgeleri",
   "new_doc.type_kanban": "Kanban: Görsel görev panoları",
+  "new_doc.type_links": "Links: Düzenlenmiş link koleksiyonları",
 
   "dialog.confirm_delete": "Bunu silmek istediğinizden emin misiniz?",
   "dialog.confirm_action": "Devam etmek istediğinizden emin misiniz?",
@@ -213,5 +214,26 @@
   "kanban.delete_column_confirm": "Sütun \"{0}\" silmek istediğinizden emin misiniz?",
   "kanban.add_column_title": "Sütun ekle",
   "kanban.column_name": "Sütun adı",
-  "kanban.enter_column_name": "Sütun adını girin"
+  "kanban.enter_column_name": "Sütun adını girin",
+
+  "links.add_link_title": "Bağlantı Ekle",
+  "links.edit_link_title": "Bağlantıyı Düzenle",
+  "links.url": "URL",
+  "links.url_help": "Bağlantının web adresi (gerekli)",
+  "links.title": "Başlık",
+  "links.title_placeholder": "Bağlantı başlığı",
+  "links.title_help": "Bağlantı için görüntülenecek başlık (boşsa otomatik doldurulur)",
+  "links.description": "Açıklama",
+  "links.description_placeholder": "Bağlantının kısa açıklaması",
+  "links.description_help": "Başlık altında gösterilen isteğe bağlı açıklama",
+  "links.category": "Kategori",
+  "links.select_category": "Mevcut kategoriyi seç",
+  "links.new_category": "Yeni kategori oluştur",
+  "links.new_category_placeholder": "Yeni kategori adı",
+  "links.category_help": "Bu bağlantıyı bir kategori bölümü altında gruplandır",
+  "links.add_button": "Bağlantı Ekle",
+  "links.update_button": "Bağlantıyı Güncelle",
+  "links.fetch_details": "Bağlantı Detaylarını Getir",
+  "links.fetching_metadata": "Sayfa bilgileri getiriliyor...",
+  "links.invalid_url": "Lütfen geçerli bir URL girin"
 }

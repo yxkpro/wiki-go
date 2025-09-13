@@ -239,3 +239,52 @@ Content-Type: application/json
 DELETE {{ base_url }}/api/users?username=newuser
 Cookie: session={{ session }}
 Content-Type: application/json
+
+### Links API
+
+#### Add a new link to links document
+POST {{ base_url }}/api/links/add/links
+Cookie: session={{ session }}
+Content-Type: application/json
+
+{
+  "url": "https://stackoverflow.com",
+  "title": "Stack Overflow",
+  "description": "Programming Q&A community",
+  "category": "Learning Resources",
+  "date": "2025-09-03"
+}
+
+#### Edit an existing link (update GitHub link)
+PUT {{ base_url }}/api/links/edit/links
+Cookie: session={{ session }}
+Content-Type: application/json
+
+{
+  "oldUrl": "https://github.com",
+  "newLink": {
+    "url": "https://github.com",
+    "title": "GitHub - Updated",
+    "description": "World's leading development platform - Updated!",
+    "category": "Work Tools",
+    "date": "2025-09-03"
+  }
+}
+
+#### Delete a link (remove Figma)
+DELETE {{ base_url }}/api/links/delete/links
+Cookie: session={{ session }}
+Content-Type: application/json
+
+{
+  "url": "https://figma.com"
+}
+
+#### Fetch metadata
+POST {{ base_url }}/api/links/fetch-metadata
+Cookie: session={{ session }}
+Content-Type: application/json
+
+{
+  "url": "https://www.kingorama.com/rostam-pop-up-book"
+}

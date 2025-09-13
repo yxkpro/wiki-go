@@ -1,0 +1,51 @@
+{{define "add-link-dialog"}}
+<!-- Add Link Dialog -->
+<div class="add-link-dialog" dir="auto">
+    <div class="dialog-container">
+        <button class="close-dialog" aria-label="Close add link dialog">
+            <i class="fa fa-times"></i>
+        </button>
+        <h2 class="dialog-title">{{t "links.add_link_title"}}</h2>
+        <div class="error-message"></div>
+        <form class="add-link-form" id="addLinkForm">
+            <div class="form-group">
+                <label for="linkUrl">{{t "links.url"}}</label>
+                <input type="url" id="linkUrl" name="linkUrl" placeholder="https://example.com" required>
+                <div class="form-help-with-action">
+                    <small class="form-help">{{t "links.url_help"}}</small>
+                    <button type="button" class="fetch-details-btn">
+                        <i class="fa fa-download"></i> {{t "links.fetch_details"}}
+                    </button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="linkTitle">{{t "links.title"}}</label>
+                <input type="text" id="linkTitle" name="linkTitle" placeholder="{{t "links.title_placeholder"}}">
+                <small class="form-help">{{t "links.title_help"}}</small>
+            </div>
+            <div class="form-group">
+                <label for="linkDescription">{{t "links.description"}}</label>
+                <textarea id="linkDescription" name="linkDescription" placeholder="{{t "links.description_placeholder"}}" rows="3"></textarea>
+                <small class="form-help">{{t "links.description_help"}}</small>
+            </div>
+            <div class="form-group">
+                <label for="linkCategory">{{t "links.category"}}</label>
+                <div class="category-input-wrapper">
+                    <select id="linkCategory" name="linkCategory" class="category-selector">
+                        <option value="">{{t "links.select_category"}}</option>
+                        <!-- Categories will be populated dynamically -->
+                    </select>
+                    <div class="new-category-wrapper" style="display: none;">
+                        <input type="text" id="newCategoryInput" name="newCategoryInput" placeholder="{{t "links.new_category_placeholder"}}">
+                    </div>
+                </div>
+                <small class="form-help">{{t "links.category_help"}}</small>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="dialog-button primary">{{t "links.add_button"}}</button>
+                <button type="button" class="dialog-button cancel-dialog">{{t "common.cancel"}}</button>
+            </div>
+        </form>
+    </div>
+</div>
+{{end}}

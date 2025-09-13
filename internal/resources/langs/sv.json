@@ -149,6 +149,7 @@
   "new_doc.document_type": "Dokumenttyp",
   "new_doc.type_markdown": "Markdown: Traditionella textdokument",
   "new_doc.type_kanban": "Kanban: Visuella uppgiftstavlor",
+  "new_doc.type_links": "Links: Organiserade länksamlingar",
 
   "dialog.confirm_delete": "Är du säker på att du vill ta bort detta?",
   "dialog.confirm_action": "Är du säker på att du vill fortsätta?",
@@ -213,5 +214,26 @@
   "kanban.delete_column_confirm": "Är du säker på att du vill ta bort kolumnen \"{0}\"?",
   "kanban.add_column_title": "Lägg till kolumn",
   "kanban.column_name": "Kolumnnamn",
-  "kanban.enter_column_name": "Ange kolumnnamn"
+  "kanban.enter_column_name": "Ange kolumnnamn",
+
+  "links.add_link_title": "Lägg till länk",
+  "links.edit_link_title": "Redigera länk",
+  "links.url": "URL",
+  "links.url_help": "Länkens webbadress (obligatorisk)",
+  "links.title": "Titel",
+  "links.title_placeholder": "Länktitel",
+  "links.title_help": "Visningstitel för länken (fylls i automatiskt om tom)",
+  "links.description": "Beskrivning",
+  "links.description_placeholder": "Kort beskrivning av länken",
+  "links.description_help": "Valfri beskrivning som visas under titeln",
+  "links.category": "Kategori",
+  "links.select_category": "Välj befintlig kategori",
+  "links.new_category": "Skapa ny kategori",
+  "links.new_category_placeholder": "Nytt kategorinamn",
+  "links.category_help": "Gruppera denna länk under en kategorisektion",
+  "links.add_button": "Lägg till länk",
+  "links.update_button": "Uppdatera länk",
+  "links.fetch_details": "Hämta länkdetaljer",
+  "links.fetching_metadata": "Hämtar sidinformation...",
+  "links.invalid_url": "Vänligen ange en giltig URL"
 }

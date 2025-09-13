@@ -149,6 +149,7 @@
   "new_doc.document_type": "Tipo de documento",
   "new_doc.type_markdown": "Markdown: Documentos de texto tradicionais",
   "new_doc.type_kanban": "Kanban: Quadros de tarefas visuais",
+  "new_doc.type_links": "Links: Coleções organizadas de links",
 
   "dialog.confirm_delete": "Tem certeza de que deseja excluir isso?",
   "dialog.confirm_action": "Tem certeza de que deseja prosseguir?",
@@ -213,5 +214,26 @@
   "kanban.delete_column_confirm": "Tem certeza de que deseja excluir a coluna \"{0}\"?",
   "kanban.add_column_title": "Adicionar coluna",
   "kanban.column_name": "Nome da coluna",
-  "kanban.enter_column_name": "Digite o nome da coluna"
+  "kanban.enter_column_name": "Digite o nome da coluna",
+
+  "links.add_link_title": "Adicionar Link",
+  "links.edit_link_title": "Editar Link",
+  "links.url": "URL",
+  "links.url_help": "O endereço web do link (obrigatório)",
+  "links.title": "Título",
+  "links.title_placeholder": "Título do link",
+  "links.title_help": "Título de exibição para o link (preenche automaticamente se vazio)",
+  "links.description": "Descrição",
+  "links.description_placeholder": "Breve descrição do link",
+  "links.description_help": "Descrição opcional exibida abaixo do título",
+  "links.category": "Categoria",
+  "links.select_category": "Selecionar categoria existente",
+  "links.new_category": "Criar nova categoria",
+  "links.new_category_placeholder": "Nome da nova categoria",
+  "links.category_help": "Agrupar este link em uma seção de categoria",
+  "links.add_button": "Adicionar Link",
+  "links.update_button": "Atualizar Link",
+  "links.fetch_details": "Buscar Detalhes do Link",
+  "links.fetching_metadata": "Buscando informações da página...",
+  "links.invalid_url": "Por favor, insira uma URL válida"
 }

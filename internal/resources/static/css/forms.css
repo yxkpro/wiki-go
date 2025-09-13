@@ -16,7 +16,8 @@
     font-weight: 500;
 }
 
-.form-group input {
+.form-group input,
+.form-group textarea {
     padding: 8px 12px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
@@ -25,11 +26,18 @@
     font-size: 14px;
     width: 100%;
     box-sizing: border-box;
+    font-family: inherit;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group textarea:focus {
     border-color: var(--primary-hover);
     outline: none;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
 }
 
 .form-help {

@@ -29,6 +29,7 @@ If you're running Wiki-Go without SSL/HTTPS and experiencing login issues, you n
 - 🔍 Smart full-text search with highlighting and advanced filters
 - 📁 Hierarchical page structure with version history
 - 👥 User management, access control, and private wiki mode
+- 🔗 Link management with automatic metadata fetching and categorization
 - 💬 Comments with moderation and markdown support
 - 📋 Interactive Kanban boards for project management
 - ⚡ Instant setup via Docker or prebuilt binaries
@@ -40,6 +41,7 @@ If you're running Wiki-Go without SSL/HTTPS and experiencing login issues, you n
 - **Markdown Support**: Write content using Markdown syntax for rich formatting
 - **Emoji Shortcodes**: Use emoji shortcodes like `:smile:` in your Markdown content
 - **File Attachments**: Upload and manage images and documents (supports jpg, jpeg, png, gif, svg, txt, log, csv, zip, pdf, docx, xlsx, pptx, mp4)
+- **Link Management**: Create and organize collections of links with automatic metadata fetching, descriptions, and categorization
 - **Hierarchical Organization**: Organize content in nested directories
 - **Version History**: Track changes with full revision history and restore previous versions
 - **Document Management**: Create, edit, and delete documents with a user-friendly interface

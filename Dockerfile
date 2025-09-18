@@ -26,7 +26,7 @@ WORKDIR /wiki
 
 COPY --from=builder /app/wiki-go .
 
-RUN chown -R appuser:appgroup /wiki && chmod -R 755 /wiki
+RUN mkdir /wiki/data && chown -R appuser:appgroup /wiki && chmod -R 755 /wiki
 
 USER appuser
 

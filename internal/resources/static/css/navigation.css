@@ -223,7 +223,7 @@
     color: var(--breadcrumb-color);
     font-size: 14px;
     position: fixed;
-    top: 0;
+    top: 0; /* Desktop default: stick to very top */
     left: var(--sidebar-width);
     right: 0;
     padding: 12px 48px;
@@ -231,6 +231,11 @@
     border-bottom: 1px solid transparent;
     z-index: 90;
     transition: box-shadow 0.3s ease;
+}
+
+/* When the password warning banner is visible, push breadcrumbs below it on desktop */
+body.has-password-warning .breadcrumbs {
+    top: 40px;
 }
 
 .breadcrumbs.scrolled {
@@ -242,8 +247,10 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    max-width: var(--content-max-width);
-    margin: 0 auto;
+    width: 100%;
+    /* Match the inner width of .content (which has 48px left + 48px right padding) */
+    max-width: calc(var(--content-max-width) - 96px);
+    margin: 0; /* left aligned (no centering) */
     height: 48px;
 }
 

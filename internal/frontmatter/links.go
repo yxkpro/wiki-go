@@ -59,12 +59,12 @@ func (ld *LinksData) AddLink(link Link) {
 func (ld *LinksData) updateStats() {
 	totalLinks := 0
 	recentLinks := 0
-	sevenDaysAgo := time.Now().AddDate(0, 0, -7)
+	oneDayAgo := time.Now().AddDate(0, 0, -1)
 	
 	for _, links := range ld.Categories {
 		totalLinks += len(links)
 		for _, link := range links {
-			if link.AddedAt.After(sevenDaysAgo) {
+			if link.AddedAt.After(oneDayAgo) {
 				recentLinks++
 			}
 		}
@@ -299,15 +299,15 @@ func (ld *LinksData) calculateStats() {
 	recentLinks := 0
 	var latestDate time.Time
 	
-	// 30 days ago for "recent" calculation
-	thirtyDaysAgo := time.Now().AddDate(0, 0, -30)
+	// 1 day ago for "recent" calculation
+	oneDayAgo := time.Now().AddDate(0, 0, -1)
 	
 	for _, links := range ld.Categories {
 		totalLinks += len(links)
 		
 		for _, link := range links {
-			// Count recent links (added in last 30 days)
-			if !link.AddedAt.IsZero() && link.AddedAt.After(thirtyDaysAgo) {
+			// Count recent links (added in last 1 day)
+			if !link.AddedAt.IsZero() && link.AddedAt.After(oneDayAgo) {
 				recentLinks++
 			}
 			
@@ -402,7 +402,7 @@ func RenderLinks(content string) (string, error) {
         </div>
         <div class="links-stats-item">
             <div class="links-stats-number">{{.Stats.RecentLinks}}</div>
-            <div class="links-stats-label">Recent</div>
+			<div class="links-stats-label">Recent</div>
         </div>
         {{if not .Stats.LatestAdded.IsZero}}
         <div class="links-stats-item">

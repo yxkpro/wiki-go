@@ -62,6 +62,18 @@
         .login-dialog .close-dialog {
             display: none;
         }
+
+        .login-logo-link {
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-logo {
+            max-width: 100px;
+            width: 100px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -70,7 +82,10 @@
             <button class="close-dialog" aria-label="Close login dialog">
                 <i class="fa fa-times"></i>
             </button>
-            <h2 class="login-title">{{ .Config.Wiki.Title }}</h2>
+            <a href="/" class="login-logo-link">
+            <img src="/static/logo.svg" class="login-logo">
+            </a>
+            <!--<h2 class="login-title">{{ .Config.Wiki.Title }}</h2>-->
             <div class="error-message" id="loginError" style="display: none;" data-error-message="{{t "login.error"}}"></div>
             <form class="login-form" id="loginForm">
                 <div class="form-group">
@@ -85,7 +100,7 @@
                     <input type="checkbox" id="keepLoggedIn" name="keepLoggedIn">
                     <label for="keepLoggedIn">{{t "login.keep_logged_in"}}</label>
                 </div>
-                <p>This wiki is private and requires authentication to view content.</p>
+                <p>This site is private and requires authentication to view content.</p>
                 <button type="submit" class="login-button">{{t "login.button"}}</button>
             </form>
         </div>

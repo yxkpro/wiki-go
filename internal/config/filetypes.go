@@ -31,6 +31,13 @@ var AllowedFileTypes = []FileTypeConfig{
 	{Extension: "xlsx", MimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", DisplayName: "Excel Spreadsheet", VerifyContentType: true},
 	{Extension: "pptx", MimeType: "application/vnd.openxmlformats-officedocument.presentationml.presentation", DisplayName: "PowerPoint Presentation", VerifyContentType: true},
 	{Extension: "mp4", MimeType: "video/mp4", DisplayName: "MP4 Video", VerifyContentType: true},
+	{Extension: "mp3", MimeType: "audio/mpeg", DisplayName: "MP3 Audio", VerifyContentType: true},
+    {Extension: "m4a", MimeType: "audio/mp4", DisplayName: "M4A Audio", VerifyContentType: true},
+    {Extension: "wav", MimeType: "audio/wav", DisplayName: "WAV Audio", VerifyContentType: true},
+    {Extension: "ogg", MimeType: "audio/ogg", DisplayName: "Ogg Vorbis Audio", VerifyContentType: true},
+    {Extension: "flac", MimeType: "audio/flac", DisplayName: "FLAC Audio", VerifyContentType: true},
+    {Extension: "wma", MimeType: "audio/x-ms-wma", DisplayName: "WMA Audio", VerifyContentType: true},
+    {Extension: "aac", MimeType: "audio/aac", DisplayName: "AAC Audio", VerifyContentType: true},
 }
 
 // GetAllowedExtensions returns a slice of all allowed file extensions
